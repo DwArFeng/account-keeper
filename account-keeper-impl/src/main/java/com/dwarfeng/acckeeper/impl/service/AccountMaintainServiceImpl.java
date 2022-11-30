@@ -10,19 +10,25 @@ import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AccountMaintainServiceImpl implements AccountMaintainService {
 
-    @Autowired
-    private GeneralCrudService<StringIdKey, Account> crudService;
-    @Autowired
-    private DaoOnlyEntireLookupService<Account> entireLookupService;
-    @Autowired
-    private DaoOnlyPresetLookupService<Account> presetLookupService;
+    private final GeneralCrudService<StringIdKey, Account> crudService;
+    private final DaoOnlyEntireLookupService<Account> entireLookupService;
+    private final DaoOnlyPresetLookupService<Account> presetLookupService;
+
+    public AccountMaintainServiceImpl(
+            GeneralCrudService<StringIdKey, Account> crudService,
+            DaoOnlyEntireLookupService<Account> entireLookupService,
+            DaoOnlyPresetLookupService<Account> presetLookupService
+    ) {
+        this.crudService = crudService;
+        this.entireLookupService = entireLookupService;
+        this.presetLookupService = presetLookupService;
+    }
 
     @Override
     @BehaviorAnalyse

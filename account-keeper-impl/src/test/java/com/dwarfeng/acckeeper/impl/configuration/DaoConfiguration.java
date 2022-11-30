@@ -10,7 +10,6 @@ import com.dwarfeng.subgrade.impl.dao.HibernateEntireLookupDao;
 import com.dwarfeng.subgrade.impl.dao.HibernatePresetLookupDao;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTemplate;
@@ -18,10 +17,17 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 @Configuration
 public class DaoConfiguration {
 
-    @Autowired
-    private HibernateTemplate template;
-    @Autowired
-    private AccountPresetCriteriaMaker accountPresetCriteriaMaker;
+    private final HibernateTemplate template;
+
+    private final AccountPresetCriteriaMaker accountPresetCriteriaMaker;
+
+    public DaoConfiguration(
+            HibernateTemplate template,
+            AccountPresetCriteriaMaker accountPresetCriteriaMaker
+    ) {
+        this.template = template;
+        this.accountPresetCriteriaMaker = accountPresetCriteriaMaker;
+    }
 
     @Bean
     public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, Account, HibernateAccount>

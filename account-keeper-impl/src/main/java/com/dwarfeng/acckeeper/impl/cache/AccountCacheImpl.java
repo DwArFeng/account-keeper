@@ -7,7 +7,6 @@ import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.CacheException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,8 +15,11 @@ import java.util.List;
 @Repository
 public class AccountCacheImpl implements AccountCache {
 
-    @Autowired
-    private RedisBatchBaseCache<StringIdKey, Account, FastJsonAccount> delegate;
+    private final RedisBatchBaseCache<StringIdKey, Account, FastJsonAccount> delegate;
+
+    public AccountCacheImpl(RedisBatchBaseCache<StringIdKey, Account, FastJsonAccount> delegate) {
+        this.delegate = delegate;
+    }
 
     @Override
     @BehaviorAnalyse

@@ -9,7 +9,6 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -26,12 +25,12 @@ public class StateCommand extends CliCommand {
     private static final String CMD_LINE_SYNTAX = CMD_LINE_SYNTAX_I + System.lineSeparator() +
             CMD_LINE_SYNTAX_N + System.lineSeparator() + CMD_LINE_SYNTAX_A;
 
-    public StateCommand() {
-        super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
-    }
+    private final LoginStateCache loginStateCache;
 
-    @Autowired
-    private LoginStateCache loginStateCache;
+    public StateCommand(LoginStateCache loginStateCache) {
+        super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
+        this.loginStateCache = loginStateCache;
+    }
 
     @Override
     protected List<Option> buildOptions() {

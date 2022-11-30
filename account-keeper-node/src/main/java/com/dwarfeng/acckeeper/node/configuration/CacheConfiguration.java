@@ -11,7 +11,6 @@ import com.dwarfeng.subgrade.sdk.redis.formatter.LongIdStringKeyFormatter;
 import com.dwarfeng.subgrade.sdk.redis.formatter.StringIdStringKeyFormatter;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,13 +19,16 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Configuration
 public class CacheConfiguration {
 
-    @Autowired
-    private RedisTemplate<String, ?> template;
+    private final RedisTemplate<String, ?> template;
 
     @Value("${cache.prefix.entity.account}")
     private String accountPrefix;
     @Value("${cache.prefix.entity.login_state}")
     private String loginStatePrefix;
+
+    public CacheConfiguration(RedisTemplate<String, ?> template) {
+        this.template = template;
+    }
 
     @Bean
     @SuppressWarnings("unchecked")

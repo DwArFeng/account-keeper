@@ -9,7 +9,6 @@ import com.dwarfeng.subgrade.sdk.redis.formatter.StringKeyFormatter;
 import com.dwarfeng.subgrade.stack.bean.BeanTransformer;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.exception.CacheException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +20,11 @@ import java.util.Set;
 @Repository
 public class LoginStateCacheImpl implements LoginStateCache {
 
-    @Autowired
-    private RedisBatchBaseCache<LongIdKey, LoginState, FastJsonLoginState> delegate;
+    private final RedisBatchBaseCache<LongIdKey, LoginState, FastJsonLoginState> delegate;
+
+    public LoginStateCacheImpl(RedisBatchBaseCache<LongIdKey, LoginState, FastJsonLoginState> delegate) {
+        this.delegate = delegate;
+    }
 
     @Override
     @BehaviorAnalyse

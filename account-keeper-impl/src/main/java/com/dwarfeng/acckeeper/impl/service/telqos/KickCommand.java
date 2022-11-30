@@ -11,7 +11,6 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -30,14 +29,15 @@ public class KickCommand extends CliCommand {
     private static final String CMD_LINE_SYNTAX = CMD_LINE_SYNTAX_I + System.lineSeparator() +
             CMD_LINE_SYNTAX_N + System.lineSeparator() + CMD_LINE_SYNTAX_A;
 
-    public KickCommand() {
-        super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
-    }
+    private final LoginService loginService;
 
-    @Autowired
-    private LoginService loginService;
-    @Autowired
-    private LoginStateCache loginStateCache;
+    private final LoginStateCache loginStateCache;
+
+    public KickCommand(LoginService loginService, LoginStateCache loginStateCache) {
+        super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
+        this.loginService = loginService;
+        this.loginStateCache = loginStateCache;
+    }
 
     @Override
     protected List<Option> buildOptions() {
