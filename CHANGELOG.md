@@ -4,6 +4,8 @@
 
 #### 功能构建
 
+- Dubbo 微服务增加分组配置。
+
 - 代码健壮性增强。
   - com.dwarfeng.acckeeper.impl.service.telqos.StateCommand。
   - com.dwarfeng.acckeeper.impl.cache.LoginStateCacheImpl。
