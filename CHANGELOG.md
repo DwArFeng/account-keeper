@@ -4,6 +4,10 @@
 
 #### 功能构建
 
+- 代码健壮性增强。
+  - com.dwarfeng.acckeeper.impl.service.telqos.StateCommand。
+  - com.dwarfeng.acckeeper.impl.cache.LoginStateCacheImpl。
+
 - 将依赖注入方式从注解注入改为构造器注入。
 
 - 使用 `MapStruct` 重构 `BeanTransformer`。

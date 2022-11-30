@@ -13,9 +13,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public class LoginStateCacheImpl implements LoginStateCache {
@@ -105,6 +103,11 @@ public class LoginStateCacheImpl implements LoginStateCache {
             StringKeyFormatter<LongIdKey> formatter = delegate.getFormatter();
             BeanTransformer<LoginState, FastJsonLoginState> transformer = delegate.getTransformer();
             Set<String> keys = template.keys(formatter.generalFormat());
+
+            if (Objects.isNull(keys) || keys.isEmpty()) {
+                return Collections.emptyList();
+            }
+
             List<LoginState> result = new ArrayList<>();
             for (String key : keys) {
                 FastJsonLoginState fastJsonLoginState = template.opsForValue().get(key);

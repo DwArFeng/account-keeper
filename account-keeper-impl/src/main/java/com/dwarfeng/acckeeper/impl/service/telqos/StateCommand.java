@@ -58,10 +58,6 @@ public class StateCommand extends CliCommand {
                     context.sendMessage("-p 选项必须接数字");
                     return;
                 }
-                if (pageSize < 1) {
-                    context.sendMessage("-p 选项后的数组必须大于 0");
-                    return;
-                }
             }
 
             List<LoginState> loginStates = CommandUtils.getLoginStateFromInaCommand(loginStateCache, cmd);
