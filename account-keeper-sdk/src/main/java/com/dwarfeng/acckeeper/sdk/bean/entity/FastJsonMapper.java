@@ -13,7 +13,7 @@ import org.mapstruct.Mapper;
  * FastJson Bean 映射器。
  *
  * @author DwArFeng
- * @since 1.1.1
+ * @since 1.5.0
  */
 @Mapper
 public interface FastJsonMapper {
