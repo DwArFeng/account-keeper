@@ -9,9 +9,9 @@ import org.springframework.lang.NonNull;
 
 public class FastJsonLoginState implements Bean {
 
-    private static final long serialVersionUID = 6905371931123253056L;
+    private static final long serialVersionUID = 6477281604845897174L;
 
-    public FastJsonLoginState of(@NonNull LoginState loginState) {
+    public static FastJsonLoginState of(@NonNull LoginState loginState) {
         return new FastJsonLoginState(
                 FastJsonLongIdKey.of(loginState.getKey()),
                 FastJsonStringIdKey.of(loginState.getAccountKey()),

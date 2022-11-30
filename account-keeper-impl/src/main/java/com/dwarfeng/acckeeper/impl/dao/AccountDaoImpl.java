@@ -11,9 +11,7 @@ import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.DaoException;
-import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,11 +26,6 @@ public class AccountDaoImpl implements AccountDao {
     private HibernateEntireLookupDao<Account, HibernateAccount> entireLookupDelegate;
     @Autowired
     private HibernatePresetLookupDao<Account, HibernateAccount> presetLookupDelegate;
-
-    @Autowired
-    private HibernateTemplate template;
-    @Autowired
-    private Mapper mapper;
 
     @Override
     @BehaviorAnalyse

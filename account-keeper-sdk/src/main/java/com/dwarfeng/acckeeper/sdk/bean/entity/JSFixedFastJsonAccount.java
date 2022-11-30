@@ -9,9 +9,9 @@ import org.springframework.lang.NonNull;
 
 public class JSFixedFastJsonAccount implements Bean {
 
-    private static final long serialVersionUID = 1392632769291839491L;
+    private static final long serialVersionUID = -3145949171672195922L;
 
-    public JSFixedFastJsonAccount of(@NonNull Account account) {
+    public static JSFixedFastJsonAccount of(@NonNull Account account) {
         return new JSFixedFastJsonAccount(
                 FastJsonStringIdKey.of(account.getKey()),
                 account.getPassword(),

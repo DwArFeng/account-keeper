@@ -1,8 +1,10 @@
 package com.dwarfeng.acckeeper.node.configuration;
 
 import com.dwarfeng.acckeeper.impl.bean.entity.HibernateAccount;
+import com.dwarfeng.acckeeper.impl.bean.entity.HibernateMapper;
 import com.dwarfeng.acckeeper.impl.dao.preset.AccountPresetCriteriaMaker;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
+import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
 import com.dwarfeng.subgrade.impl.dao.HibernateBatchBaseDao;
 import com.dwarfeng.subgrade.impl.dao.HibernateEntireLookupDao;
 import com.dwarfeng.subgrade.impl.dao.HibernatePresetLookupDao;
@@ -19,16 +21,15 @@ public class DaoConfiguration {
     @Autowired
     private HibernateTemplate template;
     @Autowired
-    private BeanTransformerConfiguration beanTransformerConfiguration;
-    @Autowired
     private AccountPresetCriteriaMaker accountPresetCriteriaMaker;
 
     @Bean
-    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, Account, HibernateAccount> accountHibernateBatchBaseDao() {
+    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, Account, HibernateAccount>
+    accountHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                beanTransformerConfiguration.stringIdKeyBeanTransformer(),
-                beanTransformerConfiguration.accountBeanTransformer(),
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(Account.class, HibernateAccount.class, HibernateMapper.class),
                 HibernateAccount.class
         );
     }
@@ -37,7 +38,7 @@ public class DaoConfiguration {
     public HibernateEntireLookupDao<Account, HibernateAccount> accountHibernateEntireLookupDao() {
         return new HibernateEntireLookupDao<>(
                 template,
-                beanTransformerConfiguration.accountBeanTransformer(),
+                new MapStructBeanTransformer<>(Account.class, HibernateAccount.class, HibernateMapper.class),
                 HibernateAccount.class
         );
     }
@@ -46,7 +47,7 @@ public class DaoConfiguration {
     public HibernatePresetLookupDao<Account, HibernateAccount> accountHibernatePresetLookupDao() {
         return new HibernatePresetLookupDao<>(
                 template,
-                beanTransformerConfiguration.accountBeanTransformer(),
+                new MapStructBeanTransformer<>(Account.class, HibernateAccount.class, HibernateMapper.class),
                 HibernateAccount.class,
                 accountPresetCriteriaMaker
         );
