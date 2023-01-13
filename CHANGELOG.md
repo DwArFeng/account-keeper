@@ -4,7 +4,7 @@
 
 #### 功能构建
 
-- (无)
+- AccountMaintainService 增加批量增删改查功能。
 
 #### Bug修复
 

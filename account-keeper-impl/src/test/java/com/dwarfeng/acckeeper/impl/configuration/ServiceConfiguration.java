@@ -6,7 +6,7 @@ import com.dwarfeng.acckeeper.stack.dao.AccountDao;
 import com.dwarfeng.subgrade.impl.bean.key.ExceptionKeyFetcher;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
-import com.dwarfeng.subgrade.impl.service.GeneralCrudService;
+import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.log.LogLevel;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,8 +34,8 @@ public class ServiceConfiguration {
     }
 
     @Bean
-    public GeneralCrudService<StringIdKey, Account> accountGeneralCrudService() {
-        return new GeneralCrudService<>(
+    public GeneralBatchCrudService<StringIdKey, Account> accountGeneralBatchCrudService() {
+        return new GeneralBatchCrudService<>(
                 accountDao,
                 accountCache,
                 new ExceptionKeyFetcher<>(),
