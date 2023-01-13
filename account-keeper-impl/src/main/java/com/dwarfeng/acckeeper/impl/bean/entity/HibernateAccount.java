@@ -5,6 +5,7 @@ import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Optional;
 
 @Entity
@@ -12,7 +13,7 @@ import java.util.Optional;
 @Table(name = "tbl_account")
 public class HibernateAccount implements Bean {
 
-    private static final long serialVersionUID = 6069180993822366758L;
+    private static final long serialVersionUID = -1736360424285600767L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -35,9 +36,14 @@ public class HibernateAccount implements Bean {
     @Column(name = "display_name", length = Constraints.LENGTH_LABEL)
     private String displayName;
 
+    @Column(name = "registered_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registeredDate;
+
     public HibernateAccount() {
     }
 
+    // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
     public HibernateStringIdKey getKey() {
         return Optional.ofNullable(stringId).map(HibernateStringIdKey::new).orElse(null);
     }
@@ -46,6 +52,7 @@ public class HibernateAccount implements Bean {
         this.stringId = Optional.ofNullable(uuidKey).map(HibernateStringIdKey::getStringId).orElse(null);
     }
 
+    // -----------------------------------------------------------常规属性区-----------------------------------------------------------
     public String getStringId() {
         return stringId;
     }
@@ -94,6 +101,14 @@ public class HibernateAccount implements Bean {
         this.displayName = displayName;
     }
 
+    public Date getRegisteredDate() {
+        return registeredDate;
+    }
+
+    public void setRegisteredDate(Date registeredDate) {
+        this.registeredDate = registeredDate;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
@@ -102,6 +117,7 @@ public class HibernateAccount implements Bean {
                 "enabled = " + enabled + ", " +
                 "remark = " + remark + ", " +
                 "serialVersion = " + serialVersion + ", " +
-                "displayName = " + displayName + ")";
+                "displayName = " + displayName + ", " +
+                "registeredDate = " + registeredDate + ")";
     }
 }

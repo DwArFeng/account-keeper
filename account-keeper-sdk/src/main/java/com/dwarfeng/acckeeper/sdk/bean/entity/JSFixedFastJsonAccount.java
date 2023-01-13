@@ -7,9 +7,11 @@ import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 import org.springframework.lang.NonNull;
 
+import java.util.Date;
+
 public class JSFixedFastJsonAccount implements Bean {
 
-    private static final long serialVersionUID = -3145949171672195922L;
+    private static final long serialVersionUID = -3394470156008209619L;
 
     public static JSFixedFastJsonAccount of(@NonNull Account account) {
         return new JSFixedFastJsonAccount(
@@ -18,7 +20,8 @@ public class JSFixedFastJsonAccount implements Bean {
                 account.isEnabled(),
                 account.getRemark(),
                 account.getSerialVersion(),
-                account.getDisplayName()
+                account.getDisplayName(),
+                account.getRegisteredDate()
         );
     }
 
@@ -37,18 +40,18 @@ public class JSFixedFastJsonAccount implements Bean {
     @JSONField(name = "serial_version", ordinal = 5, serializeUsing = ToStringSerializer.class)
     private long serialVersion;
 
-    /**
-     * @since 1.3.1
-     */
     @JSONField(name = "display_name", ordinal = 6)
     private String displayName;
+
+    @JSONField(name = "registered_date", ordinal = 7)
+    private Date registeredDate;
 
     public JSFixedFastJsonAccount() {
     }
 
     public JSFixedFastJsonAccount(
             FastJsonStringIdKey key, String password, boolean enabled, String remark, long serialVersion,
-            String displayName
+            String displayName, Date registeredDate
     ) {
         this.key = key;
         this.password = password;
@@ -56,6 +59,7 @@ public class JSFixedFastJsonAccount implements Bean {
         this.remark = remark;
         this.serialVersion = serialVersion;
         this.displayName = displayName;
+        this.registeredDate = registeredDate;
     }
 
     public FastJsonStringIdKey getKey() {
@@ -106,6 +110,14 @@ public class JSFixedFastJsonAccount implements Bean {
         this.displayName = displayName;
     }
 
+    public Date getRegisteredDate() {
+        return registeredDate;
+    }
+
+    public void setRegisteredDate(Date registeredDate) {
+        this.registeredDate = registeredDate;
+    }
+
     @Override
     public String toString() {
         return "JSFixedFastJsonAccount{" +
@@ -115,6 +127,7 @@ public class JSFixedFastJsonAccount implements Bean {
                 ", remark='" + remark + '\'' +
                 ", serialVersion=" + serialVersion +
                 ", displayName='" + displayName + '\'' +
+                ", registeredDate=" + registeredDate +
                 '}';
     }
 }

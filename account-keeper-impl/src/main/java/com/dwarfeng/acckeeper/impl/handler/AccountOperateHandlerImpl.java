@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 public class AccountOperateHandlerImpl implements AccountOperateHandler {
 
@@ -48,7 +50,7 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
             // 4. 构造账户实体。
             Account account = new Account(
                     accountKey, encryptedPassword, accountRegisterInfo.isEnabled(), accountRegisterInfo.getRemark(), 0,
-                    accountRegisterInfo.getDisplayName()
+                    accountRegisterInfo.getDisplayName(), new Date()
             );
 
             // 5. 调用维护服务插入账户实体。

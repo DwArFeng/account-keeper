@@ -4,7 +4,8 @@
 
 #### 功能构建
 
-- (无)
+- 新增字段。
+  - Account.registeredDate。
 
 #### Bug修复
 

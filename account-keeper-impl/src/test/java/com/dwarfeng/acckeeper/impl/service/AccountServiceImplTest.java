@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Date;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,7 +28,7 @@ public class AccountServiceImplTest {
     @Before
     public void setUp() {
         account = new Account(
-                new StringIdKey("test-account"), "password", true, "remark", 0, "测试账号"
+                new StringIdKey("test-account"), "password", true, "remark", 0, "测试账号", new Date()
         );
     }
 
