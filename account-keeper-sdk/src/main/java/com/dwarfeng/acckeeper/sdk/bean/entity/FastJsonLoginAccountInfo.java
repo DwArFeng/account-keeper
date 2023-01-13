@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  */
 public class FastJsonLoginAccountInfo implements Bean {
 
-    private static final long serialVersionUID = 743545365451925456L;
+    private static final long serialVersionUID = -7823870287562039525L;
 
     public static FastJsonLoginAccountInfo of(LoginAccountInfo loginAccountInfo) {
         if (Objects.isNull(loginAccountInfo)) {
@@ -26,8 +26,7 @@ public class FastJsonLoginAccountInfo implements Bean {
         } else {
             return new FastJsonLoginAccountInfo(
                     FastJsonStringIdKey.of(loginAccountInfo.getKey()),
-                    loginAccountInfo.getStateKeys().stream().map(FastJsonLongIdKey::of).collect(Collectors.toList()),
-                    loginAccountInfo.getStateCount()
+                    loginAccountInfo.getStateKeys().stream().map(FastJsonLongIdKey::of).collect(Collectors.toList())
             );
         }
     }
@@ -38,16 +37,12 @@ public class FastJsonLoginAccountInfo implements Bean {
     @JSONField(name = "state_keys", ordinal = 2)
     private List<FastJsonLongIdKey> stateKeys;
 
-    @JSONField(name = "state_count", ordinal = 3)
-    private int stateCount;
-
     public FastJsonLoginAccountInfo() {
     }
 
-    public FastJsonLoginAccountInfo(FastJsonStringIdKey key, List<FastJsonLongIdKey> stateKeys, int stateCount) {
+    public FastJsonLoginAccountInfo(FastJsonStringIdKey key, List<FastJsonLongIdKey> stateKeys) {
         this.key = key;
         this.stateKeys = stateKeys;
-        this.stateCount = stateCount;
     }
 
     public FastJsonStringIdKey getKey() {
@@ -66,20 +61,11 @@ public class FastJsonLoginAccountInfo implements Bean {
         this.stateKeys = stateKeys;
     }
 
-    public int getStateCount() {
-        return stateCount;
-    }
-
-    public void setStateCount(int stateCount) {
-        this.stateCount = stateCount;
-    }
-
     @Override
     public String toString() {
         return "FastJsonLoginAccountInfo{" +
                 "key=" + key +
                 ", stateKeys=" + stateKeys +
-                ", stateCount=" + stateCount +
                 '}';
     }
 }

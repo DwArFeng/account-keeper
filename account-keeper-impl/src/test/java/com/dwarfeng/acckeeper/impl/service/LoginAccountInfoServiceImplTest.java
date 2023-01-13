@@ -30,8 +30,7 @@ public class LoginAccountInfoServiceImplTest {
     public void setUp() {
         loginAccountInfo = new LoginAccountInfo(
                 new StringIdKey("test.login_account_info"),
-                Arrays.asList(new LongIdKey(123L), new LongIdKey(456L), new LongIdKey(789L)),
-                3
+                Arrays.asList(new LongIdKey(123L), new LongIdKey(456L), new LongIdKey(789L))
         );
     }
 
