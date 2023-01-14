@@ -4,9 +4,6 @@
 
 #### 功能构建
 
-- 新增实体及其维护服务。
-  - com.dwarfeng.acckeeper.stack.bean.entity.LoginAccountInfo。
-
 - 优化操作服务验证环节的代码结构。
 
 - AccountMaintainService 增加批量增删改查功能。
