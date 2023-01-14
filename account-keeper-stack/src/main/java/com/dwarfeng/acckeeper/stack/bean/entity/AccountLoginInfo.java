@@ -7,22 +7,22 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import java.util.List;
 
 /**
- * 登陆账户信息。
+ * 账户登陆信息。
  *
  * @author DwArFeng
  * @since 1.6.0
  */
-public class LoginAccountInfo implements Entity<StringIdKey> {
+public class AccountLoginInfo implements Entity<StringIdKey> {
 
-    private static final long serialVersionUID = 4079244778592976456L;
+    private static final long serialVersionUID = -6305074797592266863L;
 
     private StringIdKey key;
     private List<LongIdKey> stateKeys;
 
-    public LoginAccountInfo() {
+    public AccountLoginInfo() {
     }
 
-    public LoginAccountInfo(StringIdKey key, List<LongIdKey> stateKeys) {
+    public AccountLoginInfo(StringIdKey key, List<LongIdKey> stateKeys) {
         this.key = key;
         this.stateKeys = stateKeys;
     }
@@ -47,7 +47,7 @@ public class LoginAccountInfo implements Entity<StringIdKey> {
 
     @Override
     public String toString() {
-        return "LoginAccountInfo{" +
+        return "AccountLoginInfo{" +
                 "key=" + key +
                 ", stateKeys=" + stateKeys +
                 '}';

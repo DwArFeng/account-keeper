@@ -1,10 +1,10 @@
 package com.dwarfeng.acckeeper.node.configuration;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
-import com.dwarfeng.acckeeper.stack.bean.entity.LoginAccountInfo;
+import com.dwarfeng.acckeeper.stack.bean.entity.AccountLoginInfo;
 import com.dwarfeng.acckeeper.stack.cache.AccountCache;
 import com.dwarfeng.acckeeper.stack.dao.AccountDao;
-import com.dwarfeng.acckeeper.stack.dao.LoginAccountInfoDao;
+import com.dwarfeng.acckeeper.stack.dao.AccountLoginInfoDao;
 import com.dwarfeng.subgrade.impl.bean.key.ExceptionKeyFetcher;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyBatchCrudService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
@@ -23,7 +23,7 @@ public class ServiceConfiguration {
 
     private final AccountCache accountCache;
     private final AccountDao accountDao;
-    private final LoginAccountInfoDao loginAccountInfoDao;
+    private final AccountLoginInfoDao accountLoginInfoDao;
 
     @Value("${cache.timeout.entity.account}")
     private long accountTimeout;
@@ -31,12 +31,12 @@ public class ServiceConfiguration {
     public ServiceConfiguration(
             ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration,
             AccountCache accountCache, AccountDao accountDao,
-            LoginAccountInfoDao loginAccountInfoDao
+            AccountLoginInfoDao accountLoginInfoDao
     ) {
         this.serviceExceptionMapperConfiguration = serviceExceptionMapperConfiguration;
         this.accountCache = accountCache;
         this.accountDao = accountDao;
-        this.loginAccountInfoDao = loginAccountInfoDao;
+        this.accountLoginInfoDao = accountLoginInfoDao;
     }
 
     @Bean
@@ -70,9 +70,9 @@ public class ServiceConfiguration {
     }
 
     @Bean
-    public DaoOnlyBatchCrudService<StringIdKey, LoginAccountInfo> loginAccountInfoDaoOnlyBatchCrudService() {
+    public DaoOnlyBatchCrudService<StringIdKey, AccountLoginInfo> accountLoginInfoDaoOnlyBatchCrudService() {
         return new DaoOnlyBatchCrudService<>(
-                loginAccountInfoDao,
+                accountLoginInfoDao,
                 new ExceptionKeyFetcher<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
@@ -80,9 +80,9 @@ public class ServiceConfiguration {
     }
 
     @Bean
-    public DaoOnlyEntireLookupService<LoginAccountInfo> loginAccountInfoDaoOnlyEntireLookupService() {
+    public DaoOnlyEntireLookupService<AccountLoginInfo> accountLoginInfoDaoOnlyEntireLookupService() {
         return new DaoOnlyEntireLookupService<>(
-                loginAccountInfoDao,
+                accountLoginInfoDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );

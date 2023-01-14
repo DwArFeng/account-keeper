@@ -1,7 +1,7 @@
 package com.dwarfeng.acckeeper.impl.service;
 
-import com.dwarfeng.acckeeper.stack.bean.entity.LoginAccountInfo;
-import com.dwarfeng.acckeeper.stack.service.LoginAccountInfoMaintainService;
+import com.dwarfeng.acckeeper.stack.bean.entity.AccountLoginInfo;
+import com.dwarfeng.acckeeper.stack.service.AccountLoginInfoMaintainService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyBatchCrudService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
@@ -16,14 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class LoginAccountInfoMaintainServiceImpl implements LoginAccountInfoMaintainService {
+public class AccountLoginInfoMaintainServiceImpl implements AccountLoginInfoMaintainService {
 
-    private final DaoOnlyBatchCrudService<StringIdKey, LoginAccountInfo> batchCrudService;
-    private final DaoOnlyEntireLookupService<LoginAccountInfo> entireLookupService;
+    private final DaoOnlyBatchCrudService<StringIdKey, AccountLoginInfo> batchCrudService;
+    private final DaoOnlyEntireLookupService<AccountLoginInfo> entireLookupService;
 
-    public LoginAccountInfoMaintainServiceImpl(
-            DaoOnlyBatchCrudService<StringIdKey, LoginAccountInfo> batchCrudService,
-            DaoOnlyEntireLookupService<LoginAccountInfo> entireLookupService
+    public AccountLoginInfoMaintainServiceImpl(
+            DaoOnlyBatchCrudService<StringIdKey, AccountLoginInfo> batchCrudService,
+            DaoOnlyEntireLookupService<AccountLoginInfo> entireLookupService
     ) {
         this.batchCrudService = batchCrudService;
         this.entireLookupService = entireLookupService;
@@ -39,21 +39,21 @@ public class LoginAccountInfoMaintainServiceImpl implements LoginAccountInfoMain
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public LoginAccountInfo get(StringIdKey key) throws ServiceException {
+    public AccountLoginInfo get(StringIdKey key) throws ServiceException {
         return batchCrudService.get(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public StringIdKey insert(LoginAccountInfo element) throws ServiceException {
+    public StringIdKey insert(AccountLoginInfo element) throws ServiceException {
         return batchCrudService.insert(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void update(LoginAccountInfo element) throws ServiceException {
+    public void update(AccountLoginInfo element) throws ServiceException {
         batchCrudService.update(element);
     }
 
@@ -67,21 +67,21 @@ public class LoginAccountInfoMaintainServiceImpl implements LoginAccountInfoMain
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public LoginAccountInfo getIfExists(StringIdKey key) throws ServiceException {
+    public AccountLoginInfo getIfExists(StringIdKey key) throws ServiceException {
         return batchCrudService.getIfExists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public StringIdKey insertIfNotExists(LoginAccountInfo element) throws ServiceException {
+    public StringIdKey insertIfNotExists(AccountLoginInfo element) throws ServiceException {
         return batchCrudService.insertIfNotExists(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void updateIfExists(LoginAccountInfo element) throws ServiceException {
+    public void updateIfExists(AccountLoginInfo element) throws ServiceException {
         batchCrudService.updateIfExists(element);
     }
 
@@ -95,7 +95,7 @@ public class LoginAccountInfoMaintainServiceImpl implements LoginAccountInfoMain
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public StringIdKey insertOrUpdate(LoginAccountInfo element) throws ServiceException {
+    public StringIdKey insertOrUpdate(AccountLoginInfo element) throws ServiceException {
         return batchCrudService.insertOrUpdate(element);
     }
 
@@ -117,7 +117,7 @@ public class LoginAccountInfoMaintainServiceImpl implements LoginAccountInfoMain
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginAccountInfo> batchGet(@SkipRecord List<StringIdKey> keys) throws ServiceException {
+    public List<AccountLoginInfo> batchGet(@SkipRecord List<StringIdKey> keys) throws ServiceException {
         return batchCrudService.batchGet(keys);
     }
 
@@ -125,14 +125,14 @@ public class LoginAccountInfoMaintainServiceImpl implements LoginAccountInfoMain
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsert(@SkipRecord List<LoginAccountInfo> elements) throws ServiceException {
+    public List<StringIdKey> batchInsert(@SkipRecord List<AccountLoginInfo> elements) throws ServiceException {
         return batchCrudService.batchInsert(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchUpdate(@SkipRecord List<LoginAccountInfo> elements) throws ServiceException {
+    public void batchUpdate(@SkipRecord List<AccountLoginInfo> elements) throws ServiceException {
         batchCrudService.batchUpdate(elements);
     }
 
@@ -147,7 +147,7 @@ public class LoginAccountInfoMaintainServiceImpl implements LoginAccountInfoMain
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginAccountInfo> batchGetIfExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
+    public List<AccountLoginInfo> batchGetIfExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
         return batchCrudService.batchGetIfExists(keys);
     }
 
@@ -155,14 +155,14 @@ public class LoginAccountInfoMaintainServiceImpl implements LoginAccountInfoMain
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsertIfExists(@SkipRecord List<LoginAccountInfo> elements) throws ServiceException {
+    public List<StringIdKey> batchInsertIfExists(@SkipRecord List<AccountLoginInfo> elements) throws ServiceException {
         return batchCrudService.batchInsertIfExists(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchUpdateIfExists(@SkipRecord List<LoginAccountInfo> elements) throws ServiceException {
+    public void batchUpdateIfExists(@SkipRecord List<AccountLoginInfo> elements) throws ServiceException {
         batchCrudService.batchUpdateIfExists(elements);
     }
 
@@ -177,7 +177,7 @@ public class LoginAccountInfoMaintainServiceImpl implements LoginAccountInfoMain
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsertOrUpdate(@SkipRecord List<LoginAccountInfo> elements) throws ServiceException {
+    public List<StringIdKey> batchInsertOrUpdate(@SkipRecord List<AccountLoginInfo> elements) throws ServiceException {
         return batchCrudService.batchInsertOrUpdate(elements);
     }
 
@@ -185,7 +185,7 @@ public class LoginAccountInfoMaintainServiceImpl implements LoginAccountInfoMain
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public PagedData<LoginAccountInfo> lookup() throws ServiceException {
+    public PagedData<AccountLoginInfo> lookup() throws ServiceException {
         return entireLookupService.lookup();
     }
 
@@ -193,7 +193,7 @@ public class LoginAccountInfoMaintainServiceImpl implements LoginAccountInfoMain
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public PagedData<LoginAccountInfo> lookup(PagingInfo pagingInfo) throws ServiceException {
+    public PagedData<AccountLoginInfo> lookup(PagingInfo pagingInfo) throws ServiceException {
         return entireLookupService.lookup(pagingInfo);
     }
 
@@ -201,7 +201,7 @@ public class LoginAccountInfoMaintainServiceImpl implements LoginAccountInfoMain
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginAccountInfo> lookupAsList() throws ServiceException {
+    public List<AccountLoginInfo> lookupAsList() throws ServiceException {
         return entireLookupService.lookupAsList();
     }
 
@@ -209,7 +209,7 @@ public class LoginAccountInfoMaintainServiceImpl implements LoginAccountInfoMain
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginAccountInfo> lookupAsList(PagingInfo pagingInfo) throws ServiceException {
+    public List<AccountLoginInfo> lookupAsList(PagingInfo pagingInfo) throws ServiceException {
         return entireLookupService.lookupAsList(pagingInfo);
     }
 }

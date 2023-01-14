@@ -1,7 +1,7 @@
 package com.dwarfeng.acckeeper.sdk.bean.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.dwarfeng.acckeeper.stack.bean.entity.LoginAccountInfo;
+import com.dwarfeng.acckeeper.stack.bean.entity.AccountLoginInfo;
 import com.dwarfeng.subgrade.sdk.bean.key.FastJsonLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
@@ -11,22 +11,22 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * FastJson 登陆账户信息。
+ * FastJson 账户登陆信息。
  *
  * @author DwArFeng
  * @since 1.6.0
  */
-public class FastJsonLoginAccountInfo implements Bean {
+public class FastJsonAccountLoginInfo implements Bean {
 
-    private static final long serialVersionUID = -7823870287562039525L;
+    private static final long serialVersionUID = 1009127365377503861L;
 
-    public static FastJsonLoginAccountInfo of(LoginAccountInfo loginAccountInfo) {
-        if (Objects.isNull(loginAccountInfo)) {
+    public static FastJsonAccountLoginInfo of(AccountLoginInfo accountLoginInfo) {
+        if (Objects.isNull(accountLoginInfo)) {
             return null;
         } else {
-            return new FastJsonLoginAccountInfo(
-                    FastJsonStringIdKey.of(loginAccountInfo.getKey()),
-                    loginAccountInfo.getStateKeys().stream().map(FastJsonLongIdKey::of).collect(Collectors.toList())
+            return new FastJsonAccountLoginInfo(
+                    FastJsonStringIdKey.of(accountLoginInfo.getKey()),
+                    accountLoginInfo.getStateKeys().stream().map(FastJsonLongIdKey::of).collect(Collectors.toList())
             );
         }
     }
@@ -37,10 +37,10 @@ public class FastJsonLoginAccountInfo implements Bean {
     @JSONField(name = "state_keys", ordinal = 2)
     private List<FastJsonLongIdKey> stateKeys;
 
-    public FastJsonLoginAccountInfo() {
+    public FastJsonAccountLoginInfo() {
     }
 
-    public FastJsonLoginAccountInfo(FastJsonStringIdKey key, List<FastJsonLongIdKey> stateKeys) {
+    public FastJsonAccountLoginInfo(FastJsonStringIdKey key, List<FastJsonLongIdKey> stateKeys) {
         this.key = key;
         this.stateKeys = stateKeys;
     }
@@ -63,7 +63,7 @@ public class FastJsonLoginAccountInfo implements Bean {
 
     @Override
     public String toString() {
-        return "FastJsonLoginAccountInfo{" +
+        return "FastJsonAccountLoginInfo{" +
                 "key=" + key +
                 ", stateKeys=" + stateKeys +
                 '}';

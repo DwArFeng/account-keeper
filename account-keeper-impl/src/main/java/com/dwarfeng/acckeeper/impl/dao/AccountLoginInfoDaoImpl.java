@@ -1,8 +1,8 @@
 package com.dwarfeng.acckeeper.impl.dao;
 
-import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonLoginAccountInfo;
-import com.dwarfeng.acckeeper.stack.bean.entity.LoginAccountInfo;
-import com.dwarfeng.acckeeper.stack.dao.LoginAccountInfoDao;
+import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonAccountLoginInfo;
+import com.dwarfeng.acckeeper.stack.bean.entity.AccountLoginInfo;
+import com.dwarfeng.acckeeper.stack.dao.AccountLoginInfoDao;
 import com.dwarfeng.subgrade.impl.dao.RedisBatchBaseDao;
 import com.dwarfeng.subgrade.impl.dao.RedisEntireLookupDao;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public class LoginAccountInfoDaoImpl implements LoginAccountInfoDao {
+public class AccountLoginInfoDaoImpl implements AccountLoginInfoDao {
 
-    private final RedisBatchBaseDao<StringIdKey, LoginAccountInfo, FastJsonLoginAccountInfo> batchDelegate;
-    private final RedisEntireLookupDao<StringIdKey, LoginAccountInfo, FastJsonLoginAccountInfo> entireLookupDelegate;
+    private final RedisBatchBaseDao<StringIdKey, AccountLoginInfo, FastJsonAccountLoginInfo> batchDelegate;
+    private final RedisEntireLookupDao<StringIdKey, AccountLoginInfo, FastJsonAccountLoginInfo> entireLookupDelegate;
 
-    public LoginAccountInfoDaoImpl(
-            RedisBatchBaseDao<StringIdKey, LoginAccountInfo, FastJsonLoginAccountInfo> batchDelegate,
-            RedisEntireLookupDao<StringIdKey, LoginAccountInfo, FastJsonLoginAccountInfo> entireLookupDelegate
+    public AccountLoginInfoDaoImpl(
+            RedisBatchBaseDao<StringIdKey, AccountLoginInfo, FastJsonAccountLoginInfo> batchDelegate,
+            RedisEntireLookupDao<StringIdKey, AccountLoginInfo, FastJsonAccountLoginInfo> entireLookupDelegate
     ) {
         this.batchDelegate = batchDelegate;
         this.entireLookupDelegate = entireLookupDelegate;
@@ -31,14 +31,14 @@ public class LoginAccountInfoDaoImpl implements LoginAccountInfoDao {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public StringIdKey insert(LoginAccountInfo element) throws DaoException {
+    public StringIdKey insert(AccountLoginInfo element) throws DaoException {
         return batchDelegate.insert(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void update(LoginAccountInfo element) throws DaoException {
+    public void update(AccountLoginInfo element) throws DaoException {
         batchDelegate.update(element);
     }
 
@@ -59,21 +59,21 @@ public class LoginAccountInfoDaoImpl implements LoginAccountInfoDao {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public LoginAccountInfo get(StringIdKey key) throws DaoException {
+    public AccountLoginInfo get(StringIdKey key) throws DaoException {
         return batchDelegate.get(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsert(List<LoginAccountInfo> elements) throws DaoException {
+    public List<StringIdKey> batchInsert(List<AccountLoginInfo> elements) throws DaoException {
         return batchDelegate.batchInsert(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchUpdate(List<LoginAccountInfo> elements) throws DaoException {
+    public void batchUpdate(List<AccountLoginInfo> elements) throws DaoException {
         batchDelegate.batchUpdate(elements);
     }
 
@@ -101,21 +101,21 @@ public class LoginAccountInfoDaoImpl implements LoginAccountInfoDao {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginAccountInfo> batchGet(List<StringIdKey> keys) throws DaoException {
+    public List<AccountLoginInfo> batchGet(List<StringIdKey> keys) throws DaoException {
         return batchDelegate.batchGet(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginAccountInfo> lookup() throws DaoException {
+    public List<AccountLoginInfo> lookup() throws DaoException {
         return entireLookupDelegate.lookup();
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginAccountInfo> lookup(PagingInfo pagingInfo) throws DaoException {
+    public List<AccountLoginInfo> lookup(PagingInfo pagingInfo) throws DaoException {
         return entireLookupDelegate.lookup(pagingInfo);
     }
 

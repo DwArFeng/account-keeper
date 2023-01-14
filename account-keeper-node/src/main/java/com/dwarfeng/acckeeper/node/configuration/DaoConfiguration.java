@@ -3,10 +3,10 @@ package com.dwarfeng.acckeeper.node.configuration;
 import com.dwarfeng.acckeeper.impl.bean.entity.HibernateAccount;
 import com.dwarfeng.acckeeper.impl.bean.entity.HibernateMapper;
 import com.dwarfeng.acckeeper.impl.dao.preset.AccountPresetCriteriaMaker;
-import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonLoginAccountInfo;
+import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonAccountLoginInfo;
 import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonMapper;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
-import com.dwarfeng.acckeeper.stack.bean.entity.LoginAccountInfo;
+import com.dwarfeng.acckeeper.stack.bean.entity.AccountLoginInfo;
 import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
 import com.dwarfeng.subgrade.impl.dao.*;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
@@ -26,8 +26,8 @@ public class DaoConfiguration {
 
     private final AccountPresetCriteriaMaker accountPresetCriteriaMaker;
 
-    @Value("${redis.dbkey.login_account_info}")
-    private String loginAccountInfoDbKey;
+    @Value("${redis.dbkey.account_login_info}")
+    private String accountLoginInfoDbKey;
 
     public DaoConfiguration(
             HibernateTemplate hibernateTemplate, RedisTemplate<String, ?> redisTemplate,
@@ -70,29 +70,29 @@ public class DaoConfiguration {
 
     @Bean
     @SuppressWarnings("unchecked")
-    public RedisBatchBaseDao<StringIdKey, LoginAccountInfo, FastJsonLoginAccountInfo>
-    loginAccountInfoHibernateBatchBaseDao() {
+    public RedisBatchBaseDao<StringIdKey, AccountLoginInfo, FastJsonAccountLoginInfo>
+    accountLoginInfoHibernateBatchBaseDao() {
         return new RedisBatchBaseDao<>(
-                (RedisTemplate<String, FastJsonLoginAccountInfo>) redisTemplate,
+                (RedisTemplate<String, FastJsonAccountLoginInfo>) redisTemplate,
                 new StringIdStringKeyFormatter("key."),
                 new MapStructBeanTransformer<>(
-                        LoginAccountInfo.class, FastJsonLoginAccountInfo.class, FastJsonMapper.class
+                        AccountLoginInfo.class, FastJsonAccountLoginInfo.class, FastJsonMapper.class
                 ),
-                loginAccountInfoDbKey
+                accountLoginInfoDbKey
         );
     }
 
     @Bean
     @SuppressWarnings("unchecked")
-    public RedisEntireLookupDao<StringIdKey, LoginAccountInfo, FastJsonLoginAccountInfo>
-    loginAccountInfoRedisEntireLookupDao() {
+    public RedisEntireLookupDao<StringIdKey, AccountLoginInfo, FastJsonAccountLoginInfo>
+    accountLoginInfoRedisEntireLookupDao() {
         return new RedisEntireLookupDao<>(
-                (RedisTemplate<String, FastJsonLoginAccountInfo>) redisTemplate,
+                (RedisTemplate<String, FastJsonAccountLoginInfo>) redisTemplate,
                 new StringIdStringKeyFormatter("key."),
                 new MapStructBeanTransformer<>(
-                        LoginAccountInfo.class, FastJsonLoginAccountInfo.class, FastJsonMapper.class
+                        AccountLoginInfo.class, FastJsonAccountLoginInfo.class, FastJsonMapper.class
                 ),
-                loginAccountInfoDbKey
+                accountLoginInfoDbKey
         );
     }
 }
