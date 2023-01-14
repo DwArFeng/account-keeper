@@ -14,17 +14,19 @@ import java.util.List;
  */
 public class LoginAccountInfo implements Entity<StringIdKey> {
 
-    private static final long serialVersionUID = 4079244778592976456L;
+    private static final long serialVersionUID = -5035809484080429449L;
 
     private StringIdKey key;
     private List<LongIdKey> stateKeys;
+    private int stateCount;
 
     public LoginAccountInfo() {
     }
 
-    public LoginAccountInfo(StringIdKey key, List<LongIdKey> stateKeys) {
+    public LoginAccountInfo(StringIdKey key, List<LongIdKey> stateKeys, int stateCount) {
         this.key = key;
         this.stateKeys = stateKeys;
+        this.stateCount = stateCount;
     }
 
     @Override
@@ -45,11 +47,20 @@ public class LoginAccountInfo implements Entity<StringIdKey> {
         this.stateKeys = stateKeys;
     }
 
+    public int getStateCount() {
+        return stateCount;
+    }
+
+    public void setStateCount(int stateCount) {
+        this.stateCount = stateCount;
+    }
+
     @Override
     public String toString() {
         return "LoginAccountInfo{" +
                 "key=" + key +
                 ", stateKeys=" + stateKeys +
+                ", stateCount=" + stateCount +
                 '}';
     }
 }
