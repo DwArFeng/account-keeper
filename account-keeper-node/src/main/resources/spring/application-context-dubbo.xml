@@ -37,8 +37,8 @@
             group="${dubbo.provider.group}"
     />
     <dubbo:service
-            interface="com.dwarfeng.acckeeper.stack.service.AccountLoginInfoMaintainService"
-            ref="accountLoginInfoMaintainServiceImpl"
+            interface="com.dwarfeng.acckeeper.stack.service.LoginAccountInfoMaintainService"
+            ref="loginAccountInfoMaintainServiceImpl"
             group="${dubbo.provider.group}"
     />
 

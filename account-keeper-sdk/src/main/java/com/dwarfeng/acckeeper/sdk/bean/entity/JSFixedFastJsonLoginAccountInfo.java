@@ -1,7 +1,7 @@
 package com.dwarfeng.acckeeper.sdk.bean.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.dwarfeng.acckeeper.stack.bean.entity.AccountLoginInfo;
+import com.dwarfeng.acckeeper.stack.bean.entity.LoginAccountInfo;
 import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.JSFixedFastJsonLongIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
@@ -11,22 +11,22 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * JSFixed FastJson 账户登陆信息。
+ * JSFixed FastJson 登陆账户信息。
  *
  * @author DwArFeng
  * @since 1.6.0
  */
-public class JSFixedFastJsonAccountLoginInfo implements Bean {
+public class JSFixedFastJsonLoginAccountInfo implements Bean {
 
-    private static final long serialVersionUID = 3845315371817881122L;
+    private static final long serialVersionUID = 7543330969828481784L;
 
-    public static JSFixedFastJsonAccountLoginInfo of(AccountLoginInfo accountLoginInfo) {
-        if (Objects.isNull(accountLoginInfo)) {
+    public static JSFixedFastJsonLoginAccountInfo of(LoginAccountInfo loginAccountInfo) {
+        if (Objects.isNull(loginAccountInfo)) {
             return null;
         } else {
-            return new JSFixedFastJsonAccountLoginInfo(
-                    FastJsonStringIdKey.of(accountLoginInfo.getKey()),
-                    accountLoginInfo.getStateKeys().stream().map(JSFixedFastJsonLongIdKey::of)
+            return new JSFixedFastJsonLoginAccountInfo(
+                    FastJsonStringIdKey.of(loginAccountInfo.getKey()),
+                    loginAccountInfo.getStateKeys().stream().map(JSFixedFastJsonLongIdKey::of)
                             .collect(Collectors.toList())
             );
         }
@@ -38,10 +38,10 @@ public class JSFixedFastJsonAccountLoginInfo implements Bean {
     @JSONField(name = "state_keys", ordinal = 2)
     private List<JSFixedFastJsonLongIdKey> stateKeys;
 
-    public JSFixedFastJsonAccountLoginInfo() {
+    public JSFixedFastJsonLoginAccountInfo() {
     }
 
-    public JSFixedFastJsonAccountLoginInfo(FastJsonStringIdKey key, List<JSFixedFastJsonLongIdKey> stateKeys) {
+    public JSFixedFastJsonLoginAccountInfo(FastJsonStringIdKey key, List<JSFixedFastJsonLongIdKey> stateKeys) {
         this.key = key;
         this.stateKeys = stateKeys;
     }
@@ -64,7 +64,7 @@ public class JSFixedFastJsonAccountLoginInfo implements Bean {
 
     @Override
     public String toString() {
-        return "JSFixedFastJsonAccountLoginInfo{" +
+        return "JSFixedFastJsonLoginAccountInfo{" +
                 "key=" + key +
                 ", stateKeys=" + stateKeys +
                 '}';

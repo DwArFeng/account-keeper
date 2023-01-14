@@ -1,7 +1,7 @@
 package com.dwarfeng.acckeeper.sdk.bean.entity;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
-import com.dwarfeng.acckeeper.stack.bean.entity.AccountLoginInfo;
+import com.dwarfeng.acckeeper.stack.bean.entity.LoginAccountInfo;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.subgrade.sdk.bean.key.FastJsonLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
@@ -39,8 +39,8 @@ public interface FastJsonMapper {
     @InheritInverseConfiguration
     LoginState loginStateFromFastJson(FastJsonLoginState fastJsonLoginState);
 
-    FastJsonAccountLoginInfo accountLoginInfoToFastJson(AccountLoginInfo accountLoginInfo);
+    FastJsonLoginAccountInfo loginAccountInfoToFastJson(LoginAccountInfo loginAccountInfo);
 
     @InheritInverseConfiguration
-    AccountLoginInfo accountLoginInfoFromFastJson(FastJsonAccountLoginInfo fastJsonAccountLoginInfo);
+    LoginAccountInfo loginAccountInfoFromFastJson(FastJsonLoginAccountInfo fastJsonLoginAccountInfo);
 }
