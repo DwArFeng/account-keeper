@@ -14,7 +14,7 @@ import java.util.Date;
  */
 public class LoginHistory implements Entity<LongIdKey> {
 
-    private static final long serialVersionUID = -6272477512582607086L;
+    private static final long serialVersionUID = -885919859579588145L;
 
     private LongIdKey key;
     private StringIdKey accountKey;
@@ -24,13 +24,14 @@ public class LoginHistory implements Entity<LongIdKey> {
     private Double latitude;
     private Double longitude;
     private int responseCode;
+    private String notExistsAccountId;
 
     public LoginHistory() {
     }
 
     public LoginHistory(
             LongIdKey key, StringIdKey accountKey, Date happenedDate, String ipAddress, String location,
-            Double latitude, Double longitude, int responseCode
+            Double latitude, Double longitude, int responseCode, String notExistsAccountId
     ) {
         this.key = key;
         this.accountKey = accountKey;
@@ -40,6 +41,7 @@ public class LoginHistory implements Entity<LongIdKey> {
         this.latitude = latitude;
         this.longitude = longitude;
         this.responseCode = responseCode;
+        this.notExistsAccountId = notExistsAccountId;
     }
 
     @Override
@@ -108,6 +110,14 @@ public class LoginHistory implements Entity<LongIdKey> {
         this.responseCode = responseCode;
     }
 
+    public String getNotExistsAccountId() {
+        return notExistsAccountId;
+    }
+
+    public void setNotExistsAccountId(String notExistsAccountId) {
+        this.notExistsAccountId = notExistsAccountId;
+    }
+
     @Override
     public String toString() {
         return "LoginHistory{" +
@@ -119,6 +129,7 @@ public class LoginHistory implements Entity<LongIdKey> {
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", responseCode=" + responseCode +
+                ", notExistsAccountId='" + notExistsAccountId + '\'' +
                 '}';
     }
 }

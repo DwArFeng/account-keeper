@@ -14,7 +14,7 @@ import java.util.Optional;
 @Table(name = "tbl_login_history")
 public class HibernateLoginHistory implements Bean {
 
-    private static final long serialVersionUID = 2737043418679462581L;
+    private static final long serialVersionUID = -6070490825401079708L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -44,6 +44,9 @@ public class HibernateLoginHistory implements Bean {
 
     @Column(name = "response_code")
     private int responseCode;
+
+    @Column(name = "not_exists_account_id", length = Constraints.LENGTH_ID)
+    private String notExistsAccountId;
 
     // -----------------------------------------------------------多对一-----------------------------------------------------------
     @ManyToOne(targetEntity = HibernateAccount.class)
@@ -137,6 +140,14 @@ public class HibernateLoginHistory implements Bean {
         this.responseCode = responseCode;
     }
 
+    public String getNotExistsAccountId() {
+        return notExistsAccountId;
+    }
+
+    public void setNotExistsAccountId(String notExistsAccountId) {
+        this.notExistsAccountId = notExistsAccountId;
+    }
+
     public HibernateAccount getAccount() {
         return account;
     }
@@ -156,6 +167,7 @@ public class HibernateLoginHistory implements Bean {
                 "latitude = " + latitude + ", " +
                 "longitude = " + longitude + ", " +
                 "responseCode = " + responseCode + ", " +
+                "notExistsAccountId = " + notExistsAccountId + ", " +
                 "account = " + account + ")";
     }
 }

@@ -17,7 +17,7 @@ import java.util.Objects;
  */
 public class JSFixedFastJsonLoginHistory implements Bean {
 
-    private static final long serialVersionUID = -9074993052138630531L;
+    private static final long serialVersionUID = -1348297739922578551L;
 
     public static JSFixedFastJsonLoginHistory of(LoginHistory loginHistory) {
         if (Objects.isNull(loginHistory)) {
@@ -27,7 +27,8 @@ public class JSFixedFastJsonLoginHistory implements Bean {
                     JSFixedFastJsonLongIdKey.of(loginHistory.getKey()),
                     FastJsonStringIdKey.of(loginHistory.getAccountKey()),
                     loginHistory.getHappenedDate(), loginHistory.getIpAddress(), loginHistory.getLocation(),
-                    loginHistory.getLatitude(), loginHistory.getLongitude(), loginHistory.getResponseCode()
+                    loginHistory.getLatitude(), loginHistory.getLongitude(), loginHistory.getResponseCode(),
+                    loginHistory.getNotExistsAccountId()
             );
         }
     }
@@ -56,12 +57,15 @@ public class JSFixedFastJsonLoginHistory implements Bean {
     @JSONField(name = "response_code", ordinal = 8)
     private int responseCode;
 
+    @JSONField(name = "not_exists_account_id", ordinal = 9)
+    private String notExistsAccountId;
+
     public JSFixedFastJsonLoginHistory() {
     }
 
     public JSFixedFastJsonLoginHistory(
             JSFixedFastJsonLongIdKey key, FastJsonStringIdKey accountKey, Date happenedDate, String ipAddress,
-            String location, Double latitude, Double longitude, int responseCode
+            String location, Double latitude, Double longitude, int responseCode, String notExistsAccountId
     ) {
         this.key = key;
         this.accountKey = accountKey;
@@ -71,6 +75,7 @@ public class JSFixedFastJsonLoginHistory implements Bean {
         this.latitude = latitude;
         this.longitude = longitude;
         this.responseCode = responseCode;
+        this.notExistsAccountId = notExistsAccountId;
     }
 
     public JSFixedFastJsonLongIdKey getKey() {
@@ -137,6 +142,14 @@ public class JSFixedFastJsonLoginHistory implements Bean {
         this.responseCode = responseCode;
     }
 
+    public String getNotExistsAccountId() {
+        return notExistsAccountId;
+    }
+
+    public void setNotExistsAccountId(String notExistsAccountId) {
+        this.notExistsAccountId = notExistsAccountId;
+    }
+
     @Override
     public String toString() {
         return "JSFixedFastJsonLoginHistory{" +
@@ -148,6 +161,7 @@ public class JSFixedFastJsonLoginHistory implements Bean {
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", responseCode=" + responseCode +
+                ", notExistsAccountId='" + notExistsAccountId + '\'' +
                 '}';
     }
 }

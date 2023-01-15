@@ -35,7 +35,7 @@ public class LoginHistoryServiceImplTest {
         StringIdKey accountKey = new StringIdKey("test.account");
         account = new Account(accountKey, "password", true, "remark", 0, "测试账号", new Date());
         loginHistory = new LoginHistory(
-                null, accountKey, new Date(), "ipAddress", "location", 12.450, 114.514, 12450
+                null, accountKey, new Date(), "ipAddress", "location", 12.450, 114.514, 12450, "notExistsAccountId"
         );
     }
 
