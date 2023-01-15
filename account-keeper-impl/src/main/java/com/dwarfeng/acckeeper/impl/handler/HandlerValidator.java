@@ -97,7 +97,7 @@ public class HandlerValidator {
             if (Objects.isNull(loginState)) {
                 throw new LoginStateNotExistsException(loginStateKey);
             }
-            long expireTimestamp = Optional.of(loginState.getExpireDate()).map(Date::getTime).orElse(0L);
+            long expireTimestamp = Optional.ofNullable(loginState.getExpireDate()).map(Date::getTime).orElse(0L);
             long currentTimestamp = System.currentTimeMillis();
             if (expireTimestamp < currentTimestamp) {
                 throw new LoginStateExpiredException(loginStateKey);

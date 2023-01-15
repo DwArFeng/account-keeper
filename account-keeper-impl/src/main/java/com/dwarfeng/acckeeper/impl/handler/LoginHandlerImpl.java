@@ -53,7 +53,7 @@ public class LoginHandlerImpl implements LoginHandler {
             LoginState loginState = loginStateMaintainService.get(loginStateKey);
 
             // 如果过了登录超时期，则返回 false。
-            long expireTimestamp = Optional.of(loginState.getExpireDate()).map(Date::getTime).orElse(0L);
+            long expireTimestamp = Optional.ofNullable(loginState.getExpireDate()).map(Date::getTime).orElse(0L);
             long currentTimestamp = System.currentTimeMillis();
             if (expireTimestamp < currentTimestamp) {
                 return false;
