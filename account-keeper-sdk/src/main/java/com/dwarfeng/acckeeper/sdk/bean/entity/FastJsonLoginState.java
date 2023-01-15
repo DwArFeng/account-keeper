@@ -7,9 +7,11 @@ import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 import org.springframework.lang.NonNull;
 
+import java.util.Date;
+
 public class FastJsonLoginState implements Bean {
 
-    private static final long serialVersionUID = 6477281604845897174L;
+    private static final long serialVersionUID = 4517666546314163721L;
 
     public static FastJsonLoginState of(@NonNull LoginState loginState) {
         return new FastJsonLoginState(
@@ -27,7 +29,7 @@ public class FastJsonLoginState implements Bean {
     private FastJsonStringIdKey accountKey;
 
     @JSONField(name = "expire_date", ordinal = 3)
-    private long expireDate;
+    private Date expireDate;
 
     @JSONField(name = "serial_version", ordinal = 4)
     private long serialVersion;
@@ -35,7 +37,7 @@ public class FastJsonLoginState implements Bean {
     public FastJsonLoginState() {
     }
 
-    public FastJsonLoginState(FastJsonLongIdKey key, FastJsonStringIdKey accountKey, long expireDate, long serialVersion) {
+    public FastJsonLoginState(FastJsonLongIdKey key, FastJsonStringIdKey accountKey, Date expireDate, long serialVersion) {
         this.key = key;
         this.accountKey = accountKey;
         this.expireDate = expireDate;
@@ -58,11 +60,11 @@ public class FastJsonLoginState implements Bean {
         this.accountKey = accountKey;
     }
 
-    public long getExpireDate() {
+    public Date getExpireDate() {
         return expireDate;
     }
 
-    public void setExpireDate(long expireDate) {
+    public void setExpireDate(Date expireDate) {
         this.expireDate = expireDate;
     }
 

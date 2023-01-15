@@ -4,6 +4,8 @@
 
 #### 功能构建
 
+- 规范 `LoginState` 实体的访问接口。
+
 - 优化操作服务验证环节的代码结构。
 
 - AccountMaintainService 增加批量增删改查功能。

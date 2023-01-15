@@ -1,7 +1,7 @@
 package com.dwarfeng.acckeeper.impl.service.telqos;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
-import com.dwarfeng.acckeeper.stack.cache.LoginStateCache;
+import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
@@ -25,26 +25,27 @@ class CommandUtils {
     /**
      * 根据I, N, A 选项命令行获取对用的所有登录状态。
      *
-     * @param cache 登录状态缓存。
-     * @param cmd   命令行。
+     * @param service 登录状态缓存。
+     * @param cmd     命令行。
      * @return 命令行获取对用的所有登录状态组成的列表。
      * @throws Exception 获取登录状态期间发生的任何异常。
      */
-    public static List<LoginState> getLoginStateFromInaCommand(LoginStateCache cache, CommandLine cmd) throws Exception {
+    public static List<LoginState> getLoginStateFromInaCommand(LoginStateMaintainService service, CommandLine cmd)
+            throws Exception {
         if (cmd.hasOption("i")) {
             LongIdKey key = new LongIdKey(((Number) cmd.getParsedOptionValue("i")).longValue());
-            if (cache.exists(key)) {
-                return Collections.singletonList(cache.get(key));
+            if (service.exists(key)) {
+                return Collections.singletonList(service.get(key));
             } else {
                 return Collections.emptyList();
             }
         } else if (cmd.hasOption("n")) {
             String accountName = cmd.getOptionValue("n");
-            return cache.all().stream()
+            return service.lookupAsList().stream()
                     .filter(state -> Objects.equals(state.getAccountKey().getStringId(), accountName))
                     .collect(Collectors.toList());
         } else if (cmd.hasOption("a")) {
-            return cache.all();
+            return service.lookupAsList();
         } else {
             throw new IllegalArgumentException("命令行不合法");
         }

@@ -3,9 +3,9 @@ package com.dwarfeng.acckeeper.impl.handler;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
-import com.dwarfeng.acckeeper.stack.cache.LoginStateCache;
 import com.dwarfeng.acckeeper.stack.handler.LoginHandler;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
+import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
 import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
@@ -13,12 +13,14 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+import java.util.Optional;
+
 @Component
 public class LoginHandlerImpl implements LoginHandler {
 
     private final AccountMaintainService accountMaintainService;
-
-    private final LoginStateCache loginStateCache;
+    private final LoginStateMaintainService loginStateMaintainService;
 
     private final HandlerValidator handlerValidator;
 
@@ -26,17 +28,15 @@ public class LoginHandlerImpl implements LoginHandler {
 
     @Value("${acckeeper.login.expire}")
     private long expireTimeout;
-    @Value("${acckeeper.login.timeout_factor}")
-    private double expireTimeoutFactor;
 
     public LoginHandlerImpl(
             AccountMaintainService accountMaintainService,
-            LoginStateCache loginStateCache,
+            LoginStateMaintainService loginStateMaintainService,
             HandlerValidator handlerValidator,
             KeyFetcher<LongIdKey> keyFetcher
     ) {
         this.accountMaintainService = accountMaintainService;
-        this.loginStateCache = loginStateCache;
+        this.loginStateMaintainService = loginStateMaintainService;
         this.handlerValidator = handlerValidator;
         this.keyFetcher = keyFetcher;
     }
@@ -45,15 +45,17 @@ public class LoginHandlerImpl implements LoginHandler {
     public boolean isLogin(LongIdKey loginStateKey) throws HandlerException {
         try {
             // 判断登录状态缓存中是否有登录状态实体，如果没有，则返回 false。
-            if (!loginStateCache.exists(loginStateKey)) {
+            if (!loginStateMaintainService.exists(loginStateKey)) {
                 return false;
             }
 
             // 获取登录状态实体。
-            LoginState loginState = loginStateCache.get(loginStateKey);
+            LoginState loginState = loginStateMaintainService.get(loginStateKey);
 
             // 如果过了登录超时期，则返回 false。
-            if (loginState.getExpireDate() < System.currentTimeMillis()) {
+            long expireTimestamp = Optional.of(loginState.getExpireDate()).map(Date::getTime).orElse(0L);
+            long currentTimestamp = System.currentTimeMillis();
+            if (expireTimestamp < currentTimestamp) {
                 return false;
             }
 
@@ -95,13 +97,12 @@ public class LoginHandlerImpl implements LoginHandler {
             // 获取账户实体，并根据账户实体构造登录状态实体。
             Account account = accountMaintainService.get(accountKey);
             LoginState loginState = new LoginState(
-                    keyFetcher.fetchKey(), accountKey, System.currentTimeMillis() + expireTimeout,
+                    keyFetcher.fetchKey(), accountKey, new Date(System.currentTimeMillis() + expireTimeout),
                     account.getSerialVersion()
             );
-            long timeout = (long) (expireTimeout * expireTimeoutFactor);
 
             // 向登录状态缓存中推送实体，并返回结果。
-            loginStateCache.push(loginState, timeout);
+            loginStateMaintainService.insertOrUpdate(loginState);
             return loginState;
         } catch (HandlerException e) {
             throw e;
@@ -117,7 +118,7 @@ public class LoginHandlerImpl implements LoginHandler {
             handlerValidator.makeSureLoginStateExists(loginStateKey);
 
             // 获取登录状态，并返回。
-            return loginStateCache.get(loginStateKey);
+            return loginStateMaintainService.get(loginStateKey);
         } catch (HandlerException e) {
             throw e;
         } catch (Exception e) {
@@ -129,8 +130,8 @@ public class LoginHandlerImpl implements LoginHandler {
     public void logout(LongIdKey loginStateKey) throws HandlerException {
         try {
             // 如果登录状态缓存中有实体，则清除实体，如果不存在，也不做特别的动作。
-            if (loginStateCache.exists(loginStateKey)) {
-                loginStateCache.delete(loginStateKey);
+            if (loginStateMaintainService.exists(loginStateKey)) {
+                loginStateMaintainService.delete(loginStateKey);
             }
         } catch (Exception e) {
             throw new HandlerException(e);
@@ -147,7 +148,7 @@ public class LoginHandlerImpl implements LoginHandler {
             handlerValidator.makeSureLoginStateNotExpired(loginStateKey);
 
             // 获取登录状态，并获取其中的账户主键。
-            LoginState loginState = loginStateCache.get(loginStateKey);
+            LoginState loginState = loginStateMaintainService.get(loginStateKey);
             StringIdKey accountKey = loginState.getAccountKey();
 
             // 确认账户存在。
@@ -160,11 +161,10 @@ public class LoginHandlerImpl implements LoginHandler {
             handlerValidator.makeSureSerialNumberConsistent(loginStateKey);
 
             // 更新登录状态实体，设置新的超时日期。
-            loginState.setExpireDate(System.currentTimeMillis() + expireTimeout);
+            loginState.setExpireDate(new Date(System.currentTimeMillis() + expireTimeout));
 
             // 将新的实体推送到缓存中，并更新缓存的超时时间，最后返回结果。
-            long timeout = (long) (expireTimeout * expireTimeoutFactor);
-            loginStateCache.push(loginState, timeout);
+            loginStateMaintainService.insertOrUpdate(loginState);
             return loginState;
         } catch (HandlerException e) {
             throw e;

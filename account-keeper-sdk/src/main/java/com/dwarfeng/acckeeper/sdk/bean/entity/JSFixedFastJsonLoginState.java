@@ -8,9 +8,11 @@ import com.dwarfeng.subgrade.sdk.bean.key.JSFixedFastJsonLongIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 import org.springframework.lang.NonNull;
 
+import java.util.Date;
+
 public class JSFixedFastJsonLoginState implements Bean {
 
-    private static final long serialVersionUID = 6905371931123253056L;
+    private static final long serialVersionUID = -1159159798066363154L;
 
     public static JSFixedFastJsonLoginState of(@NonNull LoginState loginState) {
         return new JSFixedFastJsonLoginState(
@@ -28,7 +30,7 @@ public class JSFixedFastJsonLoginState implements Bean {
     private FastJsonStringIdKey accountKey;
 
     @JSONField(name = "expire_date", ordinal = 3)
-    private long expireDate;
+    private Date expireDate;
 
     @JSONField(name = "serial_version", ordinal = 4, serializeUsing = ToStringSerializer.class)
     private long serialVersion;
@@ -36,7 +38,7 @@ public class JSFixedFastJsonLoginState implements Bean {
     public JSFixedFastJsonLoginState() {
     }
 
-    public JSFixedFastJsonLoginState(JSFixedFastJsonLongIdKey key, FastJsonStringIdKey accountKey, long expireDate, long serialVersion) {
+    public JSFixedFastJsonLoginState(JSFixedFastJsonLongIdKey key, FastJsonStringIdKey accountKey, Date expireDate, long serialVersion) {
         this.key = key;
         this.accountKey = accountKey;
         this.expireDate = expireDate;
@@ -59,11 +61,11 @@ public class JSFixedFastJsonLoginState implements Bean {
         this.accountKey = accountKey;
     }
 
-    public long getExpireDate() {
+    public Date getExpireDate() {
         return expireDate;
     }
 
-    public void setExpireDate(long expireDate) {
+    public void setExpireDate(Date expireDate) {
         this.expireDate = expireDate;
     }
 

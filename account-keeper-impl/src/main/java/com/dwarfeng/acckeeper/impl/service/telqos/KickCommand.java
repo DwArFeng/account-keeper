@@ -1,8 +1,8 @@
 package com.dwarfeng.acckeeper.impl.service.telqos;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
-import com.dwarfeng.acckeeper.stack.cache.LoginStateCache;
 import com.dwarfeng.acckeeper.stack.service.LoginService;
+import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
 import com.dwarfeng.springtelqos.stack.command.Context;
 import com.dwarfeng.springtelqos.stack.exception.TelqosException;
@@ -31,12 +31,12 @@ public class KickCommand extends CliCommand {
 
     private final LoginService loginService;
 
-    private final LoginStateCache loginStateCache;
+    private final LoginStateMaintainService loginStateMaintainService;
 
-    public KickCommand(LoginService loginService, LoginStateCache loginStateCache) {
+    public KickCommand(LoginService loginService, LoginStateMaintainService loginStateMaintainService) {
         super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
         this.loginService = loginService;
-        this.loginStateCache = loginStateCache;
+        this.loginStateMaintainService = loginStateMaintainService;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class KickCommand extends CliCommand {
                 context.sendMessage(CMD_LINE_SYNTAX);
                 return;
             }
-            List<LoginState> loginStates = CommandUtils.getLoginStateFromInaCommand(loginStateCache, cmd);
+            List<LoginState> loginStates = CommandUtils.getLoginStateFromInaCommand(loginStateMaintainService, cmd);
             if (loginStates.isEmpty()) {
                 context.sendMessage("not found.");
                 return;

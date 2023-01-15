@@ -4,6 +4,8 @@ import com.dwarfeng.subgrade.stack.bean.entity.Entity;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 
+import java.util.Date;
+
 /**
  * 登录状态。
  *
@@ -12,17 +14,17 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
  */
 public class LoginState implements Entity<LongIdKey> {
 
-    private static final long serialVersionUID = 1978695890873432131L;
+    private static final long serialVersionUID = 8179175846342488993L;
 
     private LongIdKey key;
     private StringIdKey accountKey;
-    private long expireDate;
+    private Date expireDate;
     private long serialVersion;
 
     public LoginState() {
     }
 
-    public LoginState(LongIdKey key, StringIdKey accountKey, long expireDate, long serialVersion) {
+    public LoginState(LongIdKey key, StringIdKey accountKey, Date expireDate, long serialVersion) {
         this.key = key;
         this.accountKey = accountKey;
         this.expireDate = expireDate;
@@ -47,11 +49,11 @@ public class LoginState implements Entity<LongIdKey> {
         this.accountKey = accountKey;
     }
 
-    public long getExpireDate() {
+    public Date getExpireDate() {
         return expireDate;
     }
 
-    public void setExpireDate(long expireDate) {
+    public void setExpireDate(Date expireDate) {
         this.expireDate = expireDate;
     }
 

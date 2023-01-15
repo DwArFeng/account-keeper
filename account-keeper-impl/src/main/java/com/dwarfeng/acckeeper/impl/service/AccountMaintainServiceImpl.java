@@ -2,9 +2,9 @@ package com.dwarfeng.acckeeper.impl.service;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
+import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
-import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
@@ -19,12 +19,12 @@ import java.util.List;
 @Service
 public class AccountMaintainServiceImpl implements AccountMaintainService {
 
-    private final GeneralBatchCrudService<StringIdKey, Account> batchCrudService;
+    private final CustomBatchCrudService<StringIdKey, Account> batchCrudService;
     private final DaoOnlyEntireLookupService<Account> entireLookupService;
     private final DaoOnlyPresetLookupService<Account> presetLookupService;
 
     public AccountMaintainServiceImpl(
-            GeneralBatchCrudService<StringIdKey, Account> batchCrudService,
+            CustomBatchCrudService<StringIdKey, Account> batchCrudService,
             DaoOnlyEntireLookupService<Account> entireLookupService,
             DaoOnlyPresetLookupService<Account> presetLookupService
     ) {
