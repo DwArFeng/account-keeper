@@ -2,6 +2,7 @@ package com.dwarfeng.acckeeper.node.configuration;
 
 import com.alibaba.fastjson.parser.ParserConfig;
 import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonAccount;
+import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonLoginHistory;
 import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonLoginState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ public class FastJsonConfiguration {
         LOGGER.info("正在配置 FastJson autotype 白名单");
         ParserConfig.getGlobalInstance().addAccept(FastJsonAccount.class.getCanonicalName());
         ParserConfig.getGlobalInstance().addAccept(FastJsonLoginState.class.getCanonicalName());
+        ParserConfig.getGlobalInstance().addAccept(FastJsonLoginHistory.class.getCanonicalName());
         LOGGER.debug("FastJson autotype 白名单配置完毕");
     }
 }

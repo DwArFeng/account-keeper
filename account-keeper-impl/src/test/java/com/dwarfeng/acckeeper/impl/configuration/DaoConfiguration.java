@@ -1,15 +1,19 @@
 package com.dwarfeng.acckeeper.impl.configuration;
 
 import com.dwarfeng.acckeeper.impl.bean.entity.HibernateAccount;
+import com.dwarfeng.acckeeper.impl.bean.entity.HibernateLoginHistory;
 import com.dwarfeng.acckeeper.impl.bean.entity.HibernateMapper;
 import com.dwarfeng.acckeeper.impl.dao.preset.AccountPresetCriteriaMaker;
+import com.dwarfeng.acckeeper.impl.dao.preset.LoginHistoryPresetCriteriaMaker;
 import com.dwarfeng.acckeeper.impl.dao.preset.LoginStatePresetEntityFilter;
 import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonLoginState;
 import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonMapper;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
+import com.dwarfeng.acckeeper.stack.bean.entity.LoginHistory;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
 import com.dwarfeng.subgrade.impl.dao.*;
+import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.sdk.redis.formatter.LongIdStringKeyFormatter;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
@@ -28,6 +32,7 @@ public class DaoConfiguration {
 
     private final AccountPresetCriteriaMaker accountPresetCriteriaMaker;
     private final LoginStatePresetEntityFilter loginStatePresetEntityFilter;
+    private final LoginHistoryPresetCriteriaMaker loginHistoryPresetCriteriaMaker;
 
     @Value("${redis.dbkey.login_state}")
     private String loginStateDbKey;
@@ -36,12 +41,14 @@ public class DaoConfiguration {
             HibernateTemplate hibernateTemplate,
             RedisTemplate<String, ?> redisTemplate,
             AccountPresetCriteriaMaker accountPresetCriteriaMaker,
-            LoginStatePresetEntityFilter loginStatePresetEntityFilter
+            LoginStatePresetEntityFilter loginStatePresetEntityFilter,
+            LoginHistoryPresetCriteriaMaker loginHistoryPresetCriteriaMaker
     ) {
         this.hibernateTemplate = hibernateTemplate;
         this.redisTemplate = redisTemplate;
         this.accountPresetCriteriaMaker = accountPresetCriteriaMaker;
         this.loginStatePresetEntityFilter = loginStatePresetEntityFilter;
+        this.loginHistoryPresetCriteriaMaker = loginHistoryPresetCriteriaMaker;
     }
 
     @Bean
@@ -105,6 +112,36 @@ public class DaoConfiguration {
                 new MapStructBeanTransformer<>(LoginState.class, FastJsonLoginState.class, FastJsonMapper.class),
                 loginStatePresetEntityFilter,
                 loginStateDbKey
+        );
+    }
+
+    @Bean
+    public HibernateBatchBaseDao<LongIdKey, HibernateLongIdKey, LoginHistory, HibernateLoginHistory>
+    loginHistoryHibernateBatchBaseDao() {
+        return new HibernateBatchBaseDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(LoginHistory.class, HibernateLoginHistory.class, HibernateMapper.class),
+                HibernateLoginHistory.class
+        );
+    }
+
+    @Bean
+    public HibernateEntireLookupDao<LoginHistory, HibernateLoginHistory> loginHistoryHibernateEntireLookupDao() {
+        return new HibernateEntireLookupDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(LoginHistory.class, HibernateLoginHistory.class, HibernateMapper.class),
+                HibernateLoginHistory.class
+        );
+    }
+
+    @Bean
+    public HibernatePresetLookupDao<LoginHistory, HibernateLoginHistory> loginHistoryHibernatePresetLookupDao() {
+        return new HibernatePresetLookupDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(LoginHistory.class, HibernateLoginHistory.class, HibernateMapper.class),
+                HibernateLoginHistory.class,
+                loginHistoryPresetCriteriaMaker
         );
     }
 }

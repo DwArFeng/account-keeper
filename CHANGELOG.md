@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 新增实体。
+  - com.dwarfeng.acckeeper.stack.bean.entity.LoginHistory。
+
 - 实现清理服务。
   - 自动清理过期的登录状态。
 

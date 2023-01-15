@@ -1,10 +1,14 @@
 package com.dwarfeng.acckeeper.impl.service.operation;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
+import com.dwarfeng.acckeeper.stack.bean.entity.LoginHistory;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.acckeeper.stack.cache.AccountCache;
+import com.dwarfeng.acckeeper.stack.cache.LoginHistoryCache;
 import com.dwarfeng.acckeeper.stack.dao.AccountDao;
+import com.dwarfeng.acckeeper.stack.dao.LoginHistoryDao;
 import com.dwarfeng.acckeeper.stack.dao.LoginStateDao;
+import com.dwarfeng.acckeeper.stack.service.LoginHistoryMaintainService;
 import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
@@ -25,16 +29,22 @@ public class AccountCrudOperation implements BatchCrudOperation<StringIdKey, Acc
 
     private final LoginStateDao loginStateDao;
 
+    private final LoginHistoryDao loginHistoryDao;
+    private final LoginHistoryCache loginHistoryCache;
+
     @Value("${cache.timeout.entity.account}")
     private long accountTimeout;
 
     public AccountCrudOperation(
             AccountDao accountDao, AccountCache accountCache,
-            LoginStateDao loginStateDao
+            LoginStateDao loginStateDao,
+            LoginHistoryDao loginHistoryDao, LoginHistoryCache loginHistoryCache
     ) {
         this.accountDao = accountDao;
         this.accountCache = accountCache;
         this.loginStateDao = loginStateDao;
+        this.loginHistoryDao = loginHistoryDao;
+        this.loginHistoryCache = loginHistoryCache;
     }
 
     @Override
@@ -75,6 +85,14 @@ public class AccountCrudOperation implements BatchCrudOperation<StringIdKey, Acc
                 LoginStateMaintainService.CHILD_FOR_ACCOUNT, new Object[]{key}
         ).stream().map(LoginState::getKey).collect(Collectors.toList());
         loginStateDao.batchDelete(loginStateKeys);
+
+        // 解除与账户相关的登陆历史的关联。
+        List<LoginHistory> loginHistories = loginHistoryDao.lookup(
+                LoginHistoryMaintainService.CHILD_FOR_ACCOUNT, new Object[]{key}
+        );
+        loginHistories.forEach(l -> l.setAccountKey(null));
+        loginHistoryCache.batchDelete(loginHistories.stream().map(LoginHistory::getKey).collect(Collectors.toList()));
+        loginHistoryDao.batchUpdate(loginHistories);
 
         // 删除报警设置本身。
         accountDao.delete(key);
