@@ -16,4 +16,5 @@ public interface LoginStateMaintainService extends BatchCrudService<LongIdKey, L
         EntireLookupService<LoginState>, PresetLookupService<LoginState> {
 
     String CHILD_FOR_ACCOUNT = "child_for_account";
+    String EXPIRE_DATE_BEFORE = "expire_date_before";
 }
