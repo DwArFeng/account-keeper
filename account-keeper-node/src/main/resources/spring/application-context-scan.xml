@@ -19,6 +19,8 @@
     <context:component-scan base-package="com.dwarfeng.acckeeper.impl.handler"/>
     <!--扫描配置类所在的包。 -->
     <context:component-scan base-package="com.dwarfeng.acckeeper.node.configuration"/>
+    <!--扫描启动器有关的 handler 所在的包。 -->
+    <context:component-scan base-package="com.dwarfeng.acckeeper.node.handler"/>
     <!--扫描SnowFlakeLongIdKeyFetcher所在的包。 -->
     <context:component-scan base-package="com.dwarfeng.sfds.api.integration.subgrade"/>
     <!--扫描aop增强所在的包。 -->
