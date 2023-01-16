@@ -13,6 +13,7 @@ import com.dwarfeng.acckeeper.stack.handler.LoginHandler;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
 import com.dwarfeng.acckeeper.stack.service.LoginHistoryMaintainService;
 import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
+import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
@@ -22,8 +23,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class LoginHandlerImpl implements LoginHandler {
@@ -60,6 +61,7 @@ public class LoginHandlerImpl implements LoginHandler {
     }
 
     @Override
+    @BehaviorAnalyse
     public boolean isLogin(LongIdKey loginStateKey) throws HandlerException {
         try {
             // 判断登录状态缓存中是否有登录状态实体，如果没有，则返回 false。
@@ -98,6 +100,7 @@ public class LoginHandlerImpl implements LoginHandler {
     }
 
     @Override
+    @BehaviorAnalyse
     public LoginState login(LoginInfo loginInfo) throws HandlerException {
         try {
             // 获取主键。
@@ -179,6 +182,7 @@ public class LoginHandlerImpl implements LoginHandler {
     }
 
     @Override
+    @BehaviorAnalyse
     public LoginState getLoginState(LongIdKey loginStateKey) throws HandlerException {
         try {
             // 确认登录状态主键存在。
@@ -194,6 +198,7 @@ public class LoginHandlerImpl implements LoginHandler {
     }
 
     @Override
+    @BehaviorAnalyse
     public void logout(LongIdKey loginStateKey) throws HandlerException {
         try {
             // 如果登录状态缓存中有实体，则清除实体，如果不存在，也不做特别的动作。
@@ -206,6 +211,7 @@ public class LoginHandlerImpl implements LoginHandler {
     }
 
     @Override
+    @BehaviorAnalyse
     public LoginState postpone(LongIdKey loginStateKey) throws HandlerException {
         try {
             // 确认登录状态存在。
@@ -235,6 +241,81 @@ public class LoginHandlerImpl implements LoginHandler {
             return loginState;
         } catch (HandlerException e) {
             throw e;
+        } catch (Exception e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    @Override
+    @BehaviorAnalyse
+    public List<LoginState> inspectLoginStateByKey(LongIdKey loginStateKey) throws HandlerException {
+        try {
+            LoginState loginState = loginStateMaintainService.getIfExists(loginStateKey);
+            if (Objects.isNull(loginState)) {
+                return Collections.emptyList();
+            } else {
+                return Collections.singletonList(loginState);
+            }
+        } catch (Exception e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    @Override
+    @BehaviorAnalyse
+    public List<LoginState> inspectLoginStateByAccount(StringIdKey accountKey) throws HandlerException {
+        try {
+            return loginStateMaintainService.lookupAsList(
+                    LoginStateMaintainService.CHILD_FOR_ACCOUNT, new Object[]{accountKey}
+            );
+        } catch (Exception e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    @Override
+    @BehaviorAnalyse
+    public List<LoginState> inspectAllLoginState() throws HandlerException {
+        try {
+            return loginStateMaintainService.lookupAsList();
+        } catch (Exception e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    @Override
+    @BehaviorAnalyse
+    public void kickByLoginState(LongIdKey loginStateKey) throws HandlerException {
+        try {
+            LoginState loginState = loginStateMaintainService.getIfExists(loginStateKey);
+            if (Objects.nonNull(loginState)) {
+                loginStateMaintainService.delete(loginState.getKey());
+            }
+        } catch (Exception e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    @Override
+    @BehaviorAnalyse
+    public void kickByAccount(StringIdKey accountKey) throws HandlerException {
+        try {
+            List<LongIdKey> loginStateKeys = loginStateMaintainService.lookupAsList(
+                    LoginStateMaintainService.CHILD_FOR_ACCOUNT, new Object[]{accountKey}
+            ).stream().map(LoginState::getKey).collect(Collectors.toList());
+            loginStateMaintainService.batchDelete(loginStateKeys);
+        } catch (Exception e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    @Override
+    @BehaviorAnalyse
+    public void kickAll() throws HandlerException {
+        try {
+            List<LongIdKey> loginStateKeys = loginStateMaintainService.lookupAsList()
+                    .stream().map(LoginState::getKey).collect(Collectors.toList());
+            loginStateMaintainService.batchDelete(loginStateKeys);
         } catch (Exception e) {
             throw new HandlerException(e);
         }

@@ -1,8 +1,6 @@
 package com.dwarfeng.acckeeper.impl.service.telqos;
 
-import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
-import com.dwarfeng.acckeeper.stack.service.LoginService;
-import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
+import com.dwarfeng.acckeeper.stack.service.LoginQosService;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
 import com.dwarfeng.springtelqos.stack.command.Context;
 import com.dwarfeng.springtelqos.stack.exception.TelqosException;
@@ -11,18 +9,13 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Component
 public class KickCommand extends CliCommand {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(KickCommand.class);
 
     private static final String COMMAND_OPTION_KICK_FOR_ID = "i";
     private static final String COMMAND_OPTION_KICK_FOR_ACCOUNT = "n";
@@ -51,16 +44,11 @@ public class KickCommand extends CliCommand {
 
     private static final String CMD_LINE_SYNTAX = CommandUtil.syntax(CMD_LINE_ARRAY);
 
-    private final LoginService loginService;
-    private final LoginStateMaintainService loginStateMaintainService;
+    private final LoginQosService loginQosService;
 
-    public KickCommand(
-            LoginService loginService,
-            LoginStateMaintainService loginStateMaintainService
-    ) {
+    public KickCommand(LoginQosService loginQosService) {
         super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
-        this.loginService = loginService;
-        this.loginStateMaintainService = loginStateMaintainService;
+        this.loginQosService = loginQosService;
     }
 
     @SuppressWarnings("DuplicatedCode")
@@ -104,38 +92,18 @@ public class KickCommand extends CliCommand {
 
     private void kickForId(Context context, CommandLine cmd) throws Exception {
         LongIdKey key = new LongIdKey(((Number) cmd.getParsedOptionValue(COMMAND_OPTION_KICK_FOR_ID)).longValue());
-        List<LoginState> loginStates;
-        if (loginStateMaintainService.exists(key)) {
-            loginStates = Collections.singletonList(loginStateMaintainService.get(key));
-        } else {
-            loginStates = Collections.emptyList();
-        }
-        processLoginStateList(context, loginStates);
+        loginQosService.kickByLoginState(key);
+        context.sendMessage("登出成功");
     }
 
     private void kickForName(Context context, CommandLine cmd) throws Exception {
         StringIdKey accountKey = new StringIdKey((String) cmd.getParsedOptionValue(COMMAND_OPTION_KICK_FOR_ACCOUNT));
-        List<LoginState> loginStates = loginStateMaintainService.lookupAsList(
-                LoginStateMaintainService.CHILD_FOR_ACCOUNT, new Object[]{accountKey}
-        );
-        processLoginStateList(context, loginStates);
+        loginQosService.kickByAccount(accountKey);
+        context.sendMessage("登出成功");
     }
 
     private void kickAll(Context context) throws Exception {
-        List<LoginState> loginStates = loginStateMaintainService.lookupAsList();
-        processLoginStateList(context, loginStates);
-    }
-
-    private void processLoginStateList(Context context, List<LoginState> loginStates) throws Exception {
-        int successCount = 0;
-        for (LoginState loginState : loginStates) {
-            try {
-                loginService.logout(loginState.getKey());
-                successCount++;
-            } catch (Exception e) {
-                LOGGER.warn("ID " + loginState.getKey().getLongId() + " 登出失败, 异常信息如下: ", e);
-            }
-        }
-        context.sendMessage(String.format("登出 %d/%d", successCount, loginStates.size()));
+        loginQosService.kickAll();
+        context.sendMessage("登出成功");
     }
 }

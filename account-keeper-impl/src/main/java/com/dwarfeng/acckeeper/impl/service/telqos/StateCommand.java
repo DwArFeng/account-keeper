@@ -1,7 +1,7 @@
 package com.dwarfeng.acckeeper.impl.service.telqos;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
-import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
+import com.dwarfeng.acckeeper.stack.service.LoginQosService;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
 import com.dwarfeng.springtelqos.stack.command.Context;
 import com.dwarfeng.springtelqos.stack.exception.TelqosException;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -52,11 +51,11 @@ public class StateCommand extends CliCommand {
 
     private static final String CMD_LINE_SYNTAX = CommandUtil.syntax(CMD_LINE_ARRAY);
 
-    private final LoginStateMaintainService loginStateMaintainService;
+    private final LoginQosService loginQosService;
 
-    public StateCommand(LoginStateMaintainService loginStateMaintainService) {
+    public StateCommand(LoginQosService loginQosService) {
         super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
-        this.loginStateMaintainService = loginStateMaintainService;
+        this.loginQosService = loginQosService;
     }
 
     @SuppressWarnings("DuplicatedCode")
@@ -102,25 +101,18 @@ public class StateCommand extends CliCommand {
 
     private void inspectForId(Context context, CommandLine cmd) throws Exception {
         LongIdKey key = new LongIdKey(((Number) cmd.getParsedOptionValue(COMMAND_OPTION_INSPECT_FOR_ID)).longValue());
-        List<LoginState> loginStates;
-        if (loginStateMaintainService.exists(key)) {
-            loginStates = Collections.singletonList(loginStateMaintainService.get(key));
-        } else {
-            loginStates = Collections.emptyList();
-        }
+        List<LoginState> loginStates = loginQosService.inspectLoginStateByKey(key);
         processLoginStateList(context, cmd, loginStates);
     }
 
     private void inspectForName(Context context, CommandLine cmd) throws Exception {
         StringIdKey accountKey = new StringIdKey((String) cmd.getParsedOptionValue(COMMAND_OPTION_INSPECT_FOR_ACCOUNT));
-        List<LoginState> loginStates = loginStateMaintainService.lookupAsList(
-                LoginStateMaintainService.CHILD_FOR_ACCOUNT, new Object[]{accountKey}
-        );
+        List<LoginState> loginStates = loginQosService.inspectLoginStateByAccount(accountKey);
         processLoginStateList(context, cmd, loginStates);
     }
 
     private void inspectAll(Context context, CommandLine cmd) throws Exception {
-        List<LoginState> loginStates = loginStateMaintainService.lookupAsList();
+        List<LoginState> loginStates = loginQosService.inspectAllLoginState();
         processLoginStateList(context, cmd, loginStates);
     }
 
@@ -130,7 +122,6 @@ public class StateCommand extends CliCommand {
             printLoginStates(context, loginStates, 0, loginStates.size());
             return;
         }
-
 
         int pageSize;
         try {
