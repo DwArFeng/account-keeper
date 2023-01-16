@@ -20,7 +20,7 @@ public interface ProtectorSupportMaintainService extends BatchCrudService<String
     String LABEL_LIKE = "label_like";
 
     /**
-     * 重置调度器支持。
+     * 重置保护器支持。
      *
      * @throws ServiceException 服务异常。
      */

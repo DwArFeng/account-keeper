@@ -7,8 +7,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class LauncherSettingHandler implements Handler {
 
+    @Value("${launcher.reset_protector_support}")
+    private boolean resetProtectorSupport;
+
     @Value("${launcher.start_cleanup_delay}")
     private long startCleanupDelay;
+
+    public boolean isResetProtectorSupport() {
+        return resetProtectorSupport;
+    }
 
     public long getStartCleanupDelay() {
         return startCleanupDelay;

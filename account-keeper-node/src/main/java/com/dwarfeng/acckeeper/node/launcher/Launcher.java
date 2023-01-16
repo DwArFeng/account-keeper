@@ -2,6 +2,7 @@ package com.dwarfeng.acckeeper.node.launcher;
 
 import com.dwarfeng.acckeeper.node.handler.LauncherSettingHandler;
 import com.dwarfeng.acckeeper.stack.service.CleanQosService;
+import com.dwarfeng.acckeeper.stack.service.ProtectorSupportMaintainService;
 import com.dwarfeng.springterminator.sdk.util.ApplicationUtil;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import org.slf4j.Logger;
@@ -22,9 +23,22 @@ public class Launcher {
 
     public static void main(String[] args) {
         ApplicationUtil.launch(new String[]{
-                "classpath:spring/application-context*.xml"
+                "classpath:spring/application-context*.xml",
+                "file:opt/opt*.xml",
+                "file:optext/opt*.xml"
         }, ctx -> {
             LauncherSettingHandler launcherSettingHandler = ctx.getBean(LauncherSettingHandler.class);
+
+            // 判断是否重置保护器支持。
+            if (launcherSettingHandler.isResetProtectorSupport()) {
+                LOGGER.info("重置保护器支持...");
+                ProtectorSupportMaintainService maintainService = ctx.getBean(ProtectorSupportMaintainService.class);
+                try {
+                    maintainService.reset();
+                } catch (ServiceException e) {
+                    LOGGER.warn("保护器支持重置失败，异常信息如下", e);
+                }
+            }
 
             // 拿出程序中的 ThreadPoolTaskScheduler，用于处理计划任务。
             ThreadPoolTaskScheduler scheduler = ctx.getBean(ThreadPoolTaskScheduler.class);

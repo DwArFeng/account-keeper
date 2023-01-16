@@ -4,6 +4,10 @@
 
 #### 功能构建
 
+- 实现保护机制，并开发预设保护器。
+  - com.dwarfeng.acckeeper.impl.handler.protector.AbstractProtectorRegistry。
+  - com.dwarfeng.acckeeper.impl.handler.protector.DoNothingProtectorRegistry。
+
 - 实现运维指令。
   - com.dwarfeng.acckeeper.impl.service.telqos.LoginCommand。
 
