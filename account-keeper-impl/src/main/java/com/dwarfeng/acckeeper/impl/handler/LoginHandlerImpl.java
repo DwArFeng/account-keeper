@@ -108,7 +108,14 @@ public class LoginHandlerImpl implements LoginHandler {
 
             // 解析 IP 地址。
             String ipAddress = loginInfo.getIpAddress();
-            LocateHandler.LocateResult locateResult = locateHandler.locate(ipAddress);
+
+            // 获取位置信息。
+            LocateHandler.LocateResult locateResult = new LocateHandler.LocateResult(null, null, null);
+            try {
+                locateResult = locateHandler.locate(ipAddress);
+            } catch (Exception e) {
+                LOGGER.warn("定位处理器异常, 定位信息将不会记录, 异常信息如下: ", e);
+            }
             String location = locateResult.getLocation();
             Double latitude = locateResult.getLatitude();
             Double longitude = locateResult.getLongitude();
