@@ -49,35 +49,47 @@ public class HandlerValidator {
         }
     }
 
-    public void makeSureAccountExists(StringIdKey accountKey) throws HandlerException {
+    public boolean isAccountNotExists(StringIdKey accountKey) throws HandlerException {
         try {
-            if (!accountMaintainService.exists(accountKey)) {
-                throw new AccountNotExistsException(accountKey);
-            }
+            return Objects.isNull(accountKey) || !accountMaintainService.exists(accountKey);
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureAccountExists(StringIdKey accountKey) throws HandlerException {
+        if (isAccountNotExists(accountKey)) {
+            throw new AccountNotExistsException(accountKey);
+        }
+    }
+
+    public boolean isPasswordIncorrect(StringIdKey accountKey, String password) throws HandlerException {
+        try {
+            Account account = accountMaintainService.get(accountKey);
+            return !BCrypt.checkpw(password, account.getPassword());
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }
     }
 
     public void makeSurePasswordCorrect(StringIdKey accountKey, String password) throws HandlerException {
+        if (isPasswordIncorrect(accountKey, password)) {
+            throw new PasswordIncorrectException(accountKey);
+        }
+    }
+
+    public boolean isAccountDisabled(StringIdKey accountKey) throws HandlerException {
         try {
             Account account = accountMaintainService.get(accountKey);
-            if (!BCrypt.checkpw(password, account.getPassword())) {
-                throw new PasswordIncorrectException(accountKey);
-            }
+            return !account.isEnabled();
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }
     }
 
     public void makeSureAccountNotDisabled(StringIdKey accountKey) throws HandlerException {
-        try {
-            Account account = accountMaintainService.get(accountKey);
-            if (!account.isEnabled()) {
-                throw new AccountDisabledException(accountKey);
-            }
-        } catch (ServiceException e) {
-            throw new HandlerException(e);
+        if (isAccountDisabled(accountKey)) {
+            throw new AccountDisabledException(accountKey);
         }
     }
 

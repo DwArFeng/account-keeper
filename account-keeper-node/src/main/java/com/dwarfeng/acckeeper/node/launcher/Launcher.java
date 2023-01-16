@@ -22,7 +22,9 @@ public class Launcher {
 
     public static void main(String[] args) {
         ApplicationUtil.launch(new String[]{
-                "classpath:spring/application-context*.xml"
+                "classpath:spring/application-context*.xml",
+                "file:opt/opt*.xml",
+                "file:optext/opt*.xml"
         }, ctx -> {
             LauncherSettingHandler launcherSettingHandler = ctx.getBean(LauncherSettingHandler.class);
 

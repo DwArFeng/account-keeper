@@ -55,10 +55,14 @@ public class LoginServiceImplTest {
             accountOperateService.register(zhangSanRegisterInfo);
             accountOperateService.register(liSiRegisterInfo);
 
-            LoginState loginState = loginService.login(new LoginInfo(zhangSanRegisterInfo.getAccountKey(), "ninja123456"));
+            LoginState loginState = loginService.login(
+                    new LoginInfo(zhangSanRegisterInfo.getAccountKey(), "ninja123456", "127.0.0.1")
+            );
             loginState = loginService.postpone(loginState.getKey());
             try {
-                loginService.login(new LoginInfo(zhangSanRegisterInfo.getAccountKey(), "123456"));
+                loginService.login(
+                        new LoginInfo(zhangSanRegisterInfo.getAccountKey(), "123456", "127.0.0.1")
+                );
             } catch (ServiceException e) {
                 assertEquals(ServiceExceptionCodes.PASSWORD_INCORRECT.getCode(), e.getCode().getCode());
             }
@@ -67,7 +71,7 @@ public class LoginServiceImplTest {
             loginService.logout(loginState.getKey());
 
             try {
-                loginService.login(new LoginInfo(liSiRegisterInfo.getAccountKey(), "ninja123456"));
+                loginService.login(new LoginInfo(liSiRegisterInfo.getAccountKey(), "ninja123456", "127.0.0.1"));
             } catch (ServiceException e) {
                 assertEquals(ServiceExceptionCodes.ACCOUNT_DISABLED.getCode(), e.getCode().getCode());
             }

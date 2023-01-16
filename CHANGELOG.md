@@ -4,6 +4,10 @@
 
 #### 功能构建
 
+- 功能新增。
+  - 登陆时记录登陆历史。
+  - 登陆时解析客户端 IP，通过定位器解析客户端地区以及经纬度。
+
 - 新增实体。
   - com.dwarfeng.acckeeper.stack.bean.entity.LoginHistory。
 
