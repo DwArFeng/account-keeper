@@ -2,7 +2,6 @@ package com.dwarfeng.acckeeper.impl.bean.entity;
 
 import com.dwarfeng.acckeeper.sdk.util.Constraints;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 
 import javax.persistence.*;
@@ -14,18 +13,17 @@ import java.util.Optional;
 @Table(name = "tbl_login_history")
 public class HibernateLoginHistory implements Bean {
 
-    private static final long serialVersionUID = -6070490825401079708L;
+    private static final long serialVersionUID = -5898451848589805939L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
     @Column(name = "id", nullable = false, unique = true)
     private Long longId;
 
-    // -----------------------------------------------------------外键-----------------------------------------------------------
-    @Column(name = "account_id", length = Constraints.LENGTH_ID)
-    private String accountStringId;
-
     // -----------------------------------------------------------主属性字段-----------------------------------------------------------
+    @Column(name = "account_id", length = Constraints.LENGTH_ID)
+    private String accountId;
+
     @Column(name = "happened_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date happenedDate;
@@ -48,13 +46,6 @@ public class HibernateLoginHistory implements Bean {
     @Column(name = "not_exists_account_id", length = Constraints.LENGTH_ID)
     private String notExistsAccountId;
 
-    // -----------------------------------------------------------多对一-----------------------------------------------------------
-    @ManyToOne(targetEntity = HibernateAccount.class)
-    @JoinColumns({ //
-            @JoinColumn(name = "account_id", referencedColumnName = "id", insertable = false, updatable = false), //
-    })
-    private HibernateAccount account;
-
     public HibernateLoginHistory() {
     }
 
@@ -67,14 +58,6 @@ public class HibernateLoginHistory implements Bean {
         this.longId = Optional.ofNullable(key).map(HibernateLongIdKey::getLongId).orElse(null);
     }
 
-    public HibernateStringIdKey getAccountKey() {
-        return Optional.ofNullable(accountStringId).map(HibernateStringIdKey::new).orElse(null);
-    }
-
-    public void setAccountKey(HibernateStringIdKey key) {
-        this.accountStringId = Optional.ofNullable(key).map(HibernateStringIdKey::getStringId).orElse(null);
-    }
-
     // -----------------------------------------------------------常规属性区-----------------------------------------------------------
     public Long getLongId() {
         return longId;
@@ -84,12 +67,12 @@ public class HibernateLoginHistory implements Bean {
         this.longId = longId;
     }
 
-    public String getAccountStringId() {
-        return accountStringId;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setAccountStringId(String accountStringId) {
-        this.accountStringId = accountStringId;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public Date getHappenedDate() {
@@ -148,26 +131,17 @@ public class HibernateLoginHistory implements Bean {
         this.notExistsAccountId = notExistsAccountId;
     }
 
-    public HibernateAccount getAccount() {
-        return account;
-    }
-
-    public void setAccount(HibernateAccount account) {
-        this.account = account;
-    }
-
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
                 "longId = " + longId + ", " +
-                "accountStringId = " + accountStringId + ", " +
+                "accountId = " + accountId + ", " +
                 "happenedDate = " + happenedDate + ", " +
                 "ipAddress = " + ipAddress + ", " +
                 "location = " + location + ", " +
                 "latitude = " + latitude + ", " +
                 "longitude = " + longitude + ", " +
                 "responseCode = " + responseCode + ", " +
-                "notExistsAccountId = " + notExistsAccountId + ", " +
-                "account = " + account + ")";
+                "notExistsAccountId = " + notExistsAccountId + ")";
     }
 }

@@ -6,16 +6,14 @@ import com.dwarfeng.subgrade.stack.bean.Bean;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 @Entity
 @IdClass(HibernateStringIdKey.class)
 @Table(name = "tbl_account")
 public class HibernateAccount implements Bean {
 
-    private static final long serialVersionUID = 5067032688873624426L;
+    private static final long serialVersionUID = -2328276771108513751L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -45,10 +43,6 @@ public class HibernateAccount implements Bean {
     // -----------------------------------------------------------一对一-----------------------------------------------------------
     @OneToOne(cascade = CascadeType.MERGE, targetEntity = HibernateProtectorInfo.class, mappedBy = "account")
     private HibernateProtectorInfo protectorInfo;
-
-    // -----------------------------------------------------------一对多-----------------------------------------------------------
-    @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateLoginHistory.class, mappedBy = "account")
-    private Set<HibernateLoginHistory> loginHistories = new HashSet<>();
 
     public HibernateAccount() {
     }
@@ -125,14 +119,6 @@ public class HibernateAccount implements Bean {
 
     public void setProtectorInfo(HibernateProtectorInfo protectorInfo) {
         this.protectorInfo = protectorInfo;
-    }
-
-    public Set<HibernateLoginHistory> getLoginHistories() {
-        return loginHistories;
-    }
-
-    public void setLoginHistories(Set<HibernateLoginHistory> loginHistories) {
-        this.loginHistories = loginHistories;
     }
 
     @Override

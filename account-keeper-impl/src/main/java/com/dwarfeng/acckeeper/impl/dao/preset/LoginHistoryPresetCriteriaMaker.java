@@ -2,8 +2,8 @@ package com.dwarfeng.acckeeper.impl.dao.preset;
 
 import com.dwarfeng.acckeeper.stack.service.LoginHistoryMaintainService;
 import com.dwarfeng.subgrade.sdk.hibernate.criteria.PresetCriteriaMaker;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
@@ -17,27 +17,46 @@ public class LoginHistoryPresetCriteriaMaker implements PresetCriteriaMaker {
     @Override
     public void makeCriteria(DetachedCriteria criteria, String preset, Object[] objs) {
         switch (preset) {
-            case LoginHistoryMaintainService.CHILD_FOR_ACCOUNT:
-                childForAccount(criteria, objs);
+            case LoginHistoryMaintainService.ACCOUNT_ID_EQUALS:
+                accountIdEquals(criteria, objs);
+                break;
+            case LoginHistoryMaintainService.ACCOUNT_ID_LIKE:
+                accountIdLike(criteria, objs);
                 break;
             case LoginHistoryMaintainService.HAPPENED_DATE_DESC:
                 happenedDateDesc(criteria, objs);
                 break;
-            case LoginHistoryMaintainService.CHILD_FOR_ACCOUNT_HAPPENED_DATE_DESC:
-                childForAccountHappenedDateDesc(criteria, objs);
+            case LoginHistoryMaintainService.ACCOUNT_ID_EQUALS_HAPPENED_DATE_DESC:
+                accountIdEqualsHappenedDateDesc(criteria, objs);
+                break;
+            case LoginHistoryMaintainService.ACCOUNT_ID_LIKE_HAPPENED_DATE_DESC:
+                accountIdLikeHappenedDateDesc(criteria, objs);
                 break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + preset);
         }
     }
 
-    private void childForAccount(DetachedCriteria criteria, Object[] objs) {
+    private void accountIdEquals(DetachedCriteria criteria, Object[] objs) {
         try {
             if (Objects.isNull(objs[0])) {
-                criteria.add(Restrictions.isNull("accountStringId"));
+                criteria.add(Restrictions.isNull("accountId"));
             } else {
-                StringIdKey stringIdKey = (StringIdKey) objs[0];
-                criteria.add(Restrictions.eqOrIsNull("accountStringId", stringIdKey.getStringId()));
+                String pattern = (String) objs[0];
+                criteria.add(Restrictions.eqOrIsNull("accountId", pattern));
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
+        }
+    }
+
+    private void accountIdLike(DetachedCriteria criteria, Object[] objs) {
+        try {
+            if (Objects.isNull(objs[0])) {
+                criteria.add(Restrictions.isNull("accountId"));
+            } else {
+                String pattern = (String) objs[0];
+                criteria.add(Restrictions.like("accountId", pattern, MatchMode.ANYWHERE));
             }
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
@@ -52,13 +71,28 @@ public class LoginHistoryPresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
-    private void childForAccountHappenedDateDesc(DetachedCriteria criteria, Object[] objs) {
+    private void accountIdEqualsHappenedDateDesc(DetachedCriteria criteria, Object[] objs) {
         try {
             if (Objects.isNull(objs[0])) {
                 criteria.add(Restrictions.isNull("accountStringId"));
             } else {
-                StringIdKey stringIdKey = (StringIdKey) objs[0];
-                criteria.add(Restrictions.eqOrIsNull("accountStringId", stringIdKey.getStringId()));
+                String pattern = (String) objs[0];
+                criteria.add(Restrictions.eqOrIsNull("accountId", pattern));
+            }
+            criteria.addOrder(Order.desc("happenedDate"));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
+        }
+    }
+
+
+    private void accountIdLikeHappenedDateDesc(DetachedCriteria criteria, Object[] objs) {
+        try {
+            if (Objects.isNull(objs[0])) {
+                criteria.add(Restrictions.isNull("accountStringId"));
+            } else {
+                String pattern = (String) objs[0];
+                criteria.add(Restrictions.like("accountId", pattern, MatchMode.ANYWHERE));
             }
             criteria.addOrder(Order.desc("happenedDate"));
         } catch (Exception e) {

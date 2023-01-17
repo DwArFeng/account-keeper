@@ -2,7 +2,6 @@ package com.dwarfeng.acckeeper.stack.bean.entity;
 
 import com.dwarfeng.subgrade.stack.bean.entity.Entity;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 
 import java.util.Date;
 
@@ -14,34 +13,32 @@ import java.util.Date;
  */
 public class LoginHistory implements Entity<LongIdKey> {
 
-    private static final long serialVersionUID = -885919859579588145L;
+    private static final long serialVersionUID = 3434522669881705657L;
 
     private LongIdKey key;
-    private StringIdKey accountKey;
+    private String accountId;
     private Date happenedDate;
     private String ipAddress;
     private String location;
     private Double latitude;
     private Double longitude;
     private int responseCode;
-    private String notExistsAccountId;
 
     public LoginHistory() {
     }
 
     public LoginHistory(
-            LongIdKey key, StringIdKey accountKey, Date happenedDate, String ipAddress, String location,
-            Double latitude, Double longitude, int responseCode, String notExistsAccountId
+            LongIdKey key, String accountId, Date happenedDate, String ipAddress, String location, Double latitude,
+            Double longitude, int responseCode
     ) {
         this.key = key;
-        this.accountKey = accountKey;
+        this.accountId = accountId;
         this.happenedDate = happenedDate;
         this.ipAddress = ipAddress;
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;
         this.responseCode = responseCode;
-        this.notExistsAccountId = notExistsAccountId;
     }
 
     @Override
@@ -54,12 +51,12 @@ public class LoginHistory implements Entity<LongIdKey> {
         this.key = key;
     }
 
-    public StringIdKey getAccountKey() {
-        return accountKey;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setAccountKey(StringIdKey accountKey) {
-        this.accountKey = accountKey;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public Date getHappenedDate() {
@@ -110,26 +107,17 @@ public class LoginHistory implements Entity<LongIdKey> {
         this.responseCode = responseCode;
     }
 
-    public String getNotExistsAccountId() {
-        return notExistsAccountId;
-    }
-
-    public void setNotExistsAccountId(String notExistsAccountId) {
-        this.notExistsAccountId = notExistsAccountId;
-    }
-
     @Override
     public String toString() {
         return "LoginHistory{" +
                 "key=" + key +
-                ", accountKey=" + accountKey +
+                ", accountId='" + accountId + '\'' +
                 ", happenedDate=" + happenedDate +
                 ", ipAddress='" + ipAddress + '\'' +
                 ", location='" + location + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", responseCode=" + responseCode +
-                ", notExistsAccountId='" + notExistsAccountId + '\'' +
                 '}';
     }
 }

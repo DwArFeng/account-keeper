@@ -15,7 +15,9 @@ import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 public interface LoginHistoryMaintainService extends BatchCrudService<LongIdKey, LoginHistory>,
         EntireLookupService<LoginHistory>, PresetLookupService<LoginHistory> {
 
-    String CHILD_FOR_ACCOUNT = "child_for_account";
+    String ACCOUNT_ID_EQUALS = "account_id_equals";
+    String ACCOUNT_ID_LIKE = "account_id_like";
     String HAPPENED_DATE_DESC = "happened_date_desc";
-    String CHILD_FOR_ACCOUNT_HAPPENED_DATE_DESC = "child_for_account_happened_date_desc";
+    String ACCOUNT_ID_EQUALS_HAPPENED_DATE_DESC = "account_id_equals_happened_date_desc";
+    String ACCOUNT_ID_LIKE_HAPPENED_DATE_DESC = "account_id_like_happened_date_desc";
 }

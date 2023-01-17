@@ -3,7 +3,6 @@ package com.dwarfeng.acckeeper.sdk.bean.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginHistory;
 import com.dwarfeng.subgrade.sdk.bean.key.FastJsonLongIdKey;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 
 import java.util.Date;
@@ -17,7 +16,7 @@ import java.util.Objects;
  */
 public class FastJsonLoginHistory implements Bean {
 
-    private static final long serialVersionUID = 4308533106665802379L;
+    private static final long serialVersionUID = -6534517006746579821L;
 
     public static FastJsonLoginHistory of(LoginHistory loginHistory) {
         if (Objects.isNull(loginHistory)) {
@@ -25,10 +24,9 @@ public class FastJsonLoginHistory implements Bean {
         } else {
             return new FastJsonLoginHistory(
                     FastJsonLongIdKey.of(loginHistory.getKey()),
-                    FastJsonStringIdKey.of(loginHistory.getAccountKey()),
-                    loginHistory.getHappenedDate(), loginHistory.getIpAddress(), loginHistory.getLocation(),
-                    loginHistory.getLatitude(), loginHistory.getLongitude(), loginHistory.getResponseCode(),
-                    loginHistory.getNotExistsAccountId()
+                    loginHistory.getAccountId(), loginHistory.getHappenedDate(), loginHistory.getIpAddress(),
+                    loginHistory.getLocation(), loginHistory.getLatitude(), loginHistory.getLongitude(),
+                    loginHistory.getResponseCode()
             );
         }
     }
@@ -36,8 +34,8 @@ public class FastJsonLoginHistory implements Bean {
     @JSONField(name = "key", ordinal = 1)
     private FastJsonLongIdKey key;
 
-    @JSONField(name = "account_key", ordinal = 2)
-    private FastJsonStringIdKey accountKey;
+    @JSONField(name = "account_id", ordinal = 2)
+    private String accountId;
 
     @JSONField(name = "happened_date", ordinal = 3)
     private Date happenedDate;
@@ -57,25 +55,21 @@ public class FastJsonLoginHistory implements Bean {
     @JSONField(name = "response_code", ordinal = 8)
     private int responseCode;
 
-    @JSONField(name = "not_exists_account_id", ordinal = 9)
-    private String notExistsAccountId;
-
     public FastJsonLoginHistory() {
     }
 
     public FastJsonLoginHistory(
-            FastJsonLongIdKey key, FastJsonStringIdKey accountKey, Date happenedDate, String ipAddress,
-            String location, Double latitude, Double longitude, int responseCode, String notExistsAccountId
+            FastJsonLongIdKey key, String accountId, Date happenedDate, String ipAddress, String location,
+            Double latitude, Double longitude, int responseCode
     ) {
         this.key = key;
-        this.accountKey = accountKey;
+        this.accountId = accountId;
         this.happenedDate = happenedDate;
         this.ipAddress = ipAddress;
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;
         this.responseCode = responseCode;
-        this.notExistsAccountId = notExistsAccountId;
     }
 
     public FastJsonLongIdKey getKey() {
@@ -86,12 +80,12 @@ public class FastJsonLoginHistory implements Bean {
         this.key = key;
     }
 
-    public FastJsonStringIdKey getAccountKey() {
-        return accountKey;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setAccountKey(FastJsonStringIdKey accountKey) {
-        this.accountKey = accountKey;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public Date getHappenedDate() {
@@ -142,26 +136,17 @@ public class FastJsonLoginHistory implements Bean {
         this.responseCode = responseCode;
     }
 
-    public String getNotExistsAccountId() {
-        return notExistsAccountId;
-    }
-
-    public void setNotExistsAccountId(String notExistsAccountId) {
-        this.notExistsAccountId = notExistsAccountId;
-    }
-
     @Override
     public String toString() {
         return "FastJsonLoginHistory{" +
                 "key=" + key +
-                ", accountKey=" + accountKey +
+                ", accountId='" + accountId + '\'' +
                 ", happenedDate=" + happenedDate +
                 ", ipAddress='" + ipAddress + '\'' +
                 ", location='" + location + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", responseCode=" + responseCode +
-                ", notExistsAccountId='" + notExistsAccountId + '\'' +
                 '}';
     }
 }

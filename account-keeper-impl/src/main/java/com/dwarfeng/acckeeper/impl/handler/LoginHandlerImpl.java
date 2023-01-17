@@ -124,10 +124,11 @@ public class LoginHandlerImpl implements LoginHandler {
             Date currentDate = new Date();
 
             // 确定主键对应的账户存在。
+            String accountId = accountKey.getStringId();
             if (handlerValidator.isAccountNotExists(accountKey)) {
                 LoginHistory loginHistory = new LoginHistory(
-                        null, null, currentDate, ipAddress, location, latitude, longitude,
-                        Constants.LOGIN_RESPONSE_CODE_ACCOUNT_NOT_EXISTS, accountKey.getStringId()
+                        null, accountId, currentDate, ipAddress, location, latitude, longitude,
+                        Constants.LOGIN_RESPONSE_CODE_ACCOUNT_NOT_EXISTS
                 );
                 insertLoginHistory(loginHistory);
                 throw new AccountNotExistsException(accountKey);
@@ -136,8 +137,8 @@ public class LoginHandlerImpl implements LoginHandler {
             // 确定账户未被禁用。
             if (handlerValidator.isAccountDisabled(accountKey)) {
                 LoginHistory loginHistory = new LoginHistory(
-                        null, accountKey, currentDate, ipAddress, location, latitude, longitude,
-                        Constants.LOGIN_RESPONSE_CODE_ACCOUNT_DISABLED, null
+                        null, accountId, currentDate, ipAddress, location, latitude, longitude,
+                        Constants.LOGIN_RESPONSE_CODE_ACCOUNT_DISABLED
                 );
                 insertLoginHistory(loginHistory);
                 throw new AccountDisabledException(accountKey);
@@ -147,8 +148,8 @@ public class LoginHandlerImpl implements LoginHandler {
             String password = loginInfo.getPassword();
             if (handlerValidator.isPasswordIncorrect(accountKey, password)) {
                 LoginHistory loginHistory = new LoginHistory(
-                        null, accountKey, currentDate, ipAddress, location, latitude, longitude,
-                        Constants.LOGIN_RESPONSE_CODE_PASSWORD_INCORRECT, null
+                        null, accountId, currentDate, ipAddress, location, latitude, longitude,
+                        Constants.LOGIN_RESPONSE_CODE_PASSWORD_INCORRECT
                 );
                 insertLoginHistory(loginHistory);
                 throw new PasswordIncorrectException(accountKey);
@@ -166,8 +167,8 @@ public class LoginHandlerImpl implements LoginHandler {
 
             // 插入登录历史。
             LoginHistory loginHistory = new LoginHistory(
-                    null, accountKey, currentDate, ipAddress, location, latitude, longitude,
-                    Constants.LOGIN_RESPONSE_CODE_PASSED, null
+                    null, accountId, currentDate, ipAddress, location, latitude, longitude,
+                    Constants.LOGIN_RESPONSE_CODE_PASSED
             );
             insertLoginHistory(loginHistory);
 

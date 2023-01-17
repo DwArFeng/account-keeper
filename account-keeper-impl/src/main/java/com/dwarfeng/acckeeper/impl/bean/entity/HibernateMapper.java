@@ -37,14 +37,13 @@ public interface HibernateMapper {
 
     @Mapping(target = "stringId", ignore = true)
     @Mapping(target = "protectorInfo", ignore = true)
-    @Mapping(target = "loginHistories", ignore = true)
     HibernateAccount accountToHibernate(Account account);
 
     @InheritInverseConfiguration
     Account accountFromHibernate(HibernateAccount hibernateAccount);
 
+    @Mapping(target = "notExistsAccountId", ignore = true)
     @Mapping(target = "longId", ignore = true)
-    @Mapping(target = "accountStringId", ignore = true)
     @Mapping(target = "account", ignore = true)
     HibernateLoginHistory loginHistoryToHibernate(LoginHistory loginHistory);
 
