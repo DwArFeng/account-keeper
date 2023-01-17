@@ -1,16 +1,12 @@
 package com.dwarfeng.acckeeper.impl.configuration;
 
-import com.dwarfeng.acckeeper.impl.bean.entity.HibernateAccount;
-import com.dwarfeng.acckeeper.impl.bean.entity.HibernateLoginHistory;
-import com.dwarfeng.acckeeper.impl.bean.entity.HibernateMapper;
-import com.dwarfeng.acckeeper.impl.dao.preset.AccountPresetCriteriaMaker;
-import com.dwarfeng.acckeeper.impl.dao.preset.LoginHistoryPresetCriteriaMaker;
-import com.dwarfeng.acckeeper.impl.dao.preset.LoginStatePresetEntityFilter;
+import com.dwarfeng.acckeeper.impl.bean.entity.*;
+import com.dwarfeng.acckeeper.impl.bean.key.HibernateProtectorVariableKey;
+import com.dwarfeng.acckeeper.impl.dao.preset.*;
 import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonLoginState;
 import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonMapper;
-import com.dwarfeng.acckeeper.stack.bean.entity.Account;
-import com.dwarfeng.acckeeper.stack.bean.entity.LoginHistory;
-import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
+import com.dwarfeng.acckeeper.stack.bean.entity.*;
+import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
 import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
 import com.dwarfeng.subgrade.impl.dao.*;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
@@ -33,6 +29,9 @@ public class DaoConfiguration {
     private final AccountPresetCriteriaMaker accountPresetCriteriaMaker;
     private final LoginStatePresetEntityFilter loginStatePresetEntityFilter;
     private final LoginHistoryPresetCriteriaMaker loginHistoryPresetCriteriaMaker;
+    private final ProtectorInfoPresetCriteriaMaker protectorInfoPresetCriteriaMaker;
+    private final ProtectorSupportPresetCriteriaMaker protectorSupportPresetCriteriaMaker;
+    private final ProtectorVariablePresetCriteriaMaker protectorVariablePresetCriteriaMaker;
 
     @Value("${redis.dbkey.login_state}")
     private String loginStateDbKey;
@@ -42,13 +41,19 @@ public class DaoConfiguration {
             RedisTemplate<String, ?> redisTemplate,
             AccountPresetCriteriaMaker accountPresetCriteriaMaker,
             LoginStatePresetEntityFilter loginStatePresetEntityFilter,
-            LoginHistoryPresetCriteriaMaker loginHistoryPresetCriteriaMaker
+            LoginHistoryPresetCriteriaMaker loginHistoryPresetCriteriaMaker,
+            ProtectorInfoPresetCriteriaMaker protectorInfoPresetCriteriaMaker,
+            ProtectorSupportPresetCriteriaMaker protectorSupportPresetCriteriaMaker,
+            ProtectorVariablePresetCriteriaMaker protectorVariablePresetCriteriaMaker
     ) {
         this.hibernateTemplate = hibernateTemplate;
         this.redisTemplate = redisTemplate;
         this.accountPresetCriteriaMaker = accountPresetCriteriaMaker;
         this.loginStatePresetEntityFilter = loginStatePresetEntityFilter;
         this.loginHistoryPresetCriteriaMaker = loginHistoryPresetCriteriaMaker;
+        this.protectorInfoPresetCriteriaMaker = protectorInfoPresetCriteriaMaker;
+        this.protectorSupportPresetCriteriaMaker = protectorSupportPresetCriteriaMaker;
+        this.protectorVariablePresetCriteriaMaker = protectorVariablePresetCriteriaMaker;
     }
 
     @Bean
@@ -142,6 +147,120 @@ public class DaoConfiguration {
                 new MapStructBeanTransformer<>(LoginHistory.class, HibernateLoginHistory.class, HibernateMapper.class),
                 HibernateLoginHistory.class,
                 loginHistoryPresetCriteriaMaker
+        );
+    }
+
+    @Bean
+    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, ProtectorInfo, HibernateProtectorInfo>
+    protectorInfoHibernateBatchBaseDao() {
+        return new HibernateBatchBaseDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(
+                        ProtectorInfo.class, HibernateProtectorInfo.class, HibernateMapper.class
+                ),
+                HibernateProtectorInfo.class
+        );
+    }
+
+    @Bean
+    public HibernateEntireLookupDao<ProtectorInfo, HibernateProtectorInfo> protectorInfoHibernateEntireLookupDao() {
+        return new HibernateEntireLookupDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(
+                        ProtectorInfo.class, HibernateProtectorInfo.class, HibernateMapper.class
+                ),
+                HibernateProtectorInfo.class
+        );
+    }
+
+    @Bean
+    public HibernatePresetLookupDao<ProtectorInfo, HibernateProtectorInfo> protectorInfoHibernatePresetLookupDao() {
+        return new HibernatePresetLookupDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(
+                        ProtectorInfo.class, HibernateProtectorInfo.class, HibernateMapper.class
+                ),
+                HibernateProtectorInfo.class,
+                protectorInfoPresetCriteriaMaker
+        );
+    }
+
+    @Bean
+    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, ProtectorSupport, HibernateProtectorSupport>
+    protectorSupportHibernateBatchBaseDao() {
+        return new HibernateBatchBaseDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(
+                        ProtectorSupport.class, HibernateProtectorSupport.class, HibernateMapper.class
+                ),
+                HibernateProtectorSupport.class
+        );
+    }
+
+    @Bean
+    public HibernateEntireLookupDao<ProtectorSupport, HibernateProtectorSupport>
+    protectorSupportHibernateEntireLookupDao() {
+        return new HibernateEntireLookupDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(
+                        ProtectorSupport.class, HibernateProtectorSupport.class, HibernateMapper.class
+                ),
+                HibernateProtectorSupport.class
+        );
+    }
+
+    @Bean
+    public HibernatePresetLookupDao<ProtectorSupport, HibernateProtectorSupport>
+    protectorSupportHibernatePresetLookupDao() {
+        return new HibernatePresetLookupDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(
+                        ProtectorSupport.class, HibernateProtectorSupport.class, HibernateMapper.class
+                ),
+                HibernateProtectorSupport.class,
+                protectorSupportPresetCriteriaMaker
+        );
+    }
+
+    @Bean
+    public HibernateBatchBaseDao<ProtectorVariableKey, HibernateProtectorVariableKey, ProtectorVariable,
+            HibernateProtectorVariable> protectorVariableHibernateBatchBaseDao() {
+        return new HibernateBatchBaseDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(
+                        ProtectorVariableKey.class, HibernateProtectorVariableKey.class, HibernateMapper.class
+                ),
+                new MapStructBeanTransformer<>(
+                        ProtectorVariable.class, HibernateProtectorVariable.class, HibernateMapper.class
+                ),
+                HibernateProtectorVariable.class
+        );
+    }
+
+    @Bean
+    public HibernateEntireLookupDao<ProtectorVariable, HibernateProtectorVariable>
+    protectorVariableHibernateEntireLookupDao() {
+        return new HibernateEntireLookupDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(
+                        ProtectorVariable.class, HibernateProtectorVariable.class, HibernateMapper.class
+                ),
+                HibernateProtectorVariable.class
+        );
+    }
+
+    @Bean
+    public HibernatePresetLookupDao<ProtectorVariable, HibernateProtectorVariable>
+    protectorVariableHibernatePresetLookupDao() {
+        return new HibernatePresetLookupDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(
+                        ProtectorVariable.class, HibernateProtectorVariable.class, HibernateMapper.class
+                ),
+                HibernateProtectorVariable.class,
+                protectorVariablePresetCriteriaMaker
         );
     }
 }

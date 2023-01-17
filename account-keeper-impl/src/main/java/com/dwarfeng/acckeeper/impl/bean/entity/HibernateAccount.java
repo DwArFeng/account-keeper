@@ -15,8 +15,8 @@ import java.util.Set;
 @Table(name = "tbl_account")
 public class HibernateAccount implements Bean {
 
-    private static final long serialVersionUID = -400295506971799693L;
-    
+    private static final long serialVersionUID = 5067032688873624426L;
+
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
     @Column(name = "id", length = Constraints.LENGTH_ID, nullable = false, unique = true)
@@ -41,6 +41,10 @@ public class HibernateAccount implements Bean {
     @Column(name = "registered_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date registeredDate;
+
+    // -----------------------------------------------------------一对一-----------------------------------------------------------
+    @OneToOne(cascade = CascadeType.MERGE, targetEntity = HibernateProtectorInfo.class, mappedBy = "account")
+    private HibernateProtectorInfo protectorInfo;
 
     // -----------------------------------------------------------一对多-----------------------------------------------------------
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateLoginHistory.class, mappedBy = "account")
@@ -115,6 +119,14 @@ public class HibernateAccount implements Bean {
         this.registeredDate = registeredDate;
     }
 
+    public HibernateProtectorInfo getProtectorInfo() {
+        return protectorInfo;
+    }
+
+    public void setProtectorInfo(HibernateProtectorInfo protectorInfo) {
+        this.protectorInfo = protectorInfo;
+    }
+
     public Set<HibernateLoginHistory> getLoginHistories() {
         return loginHistories;
     }
@@ -132,6 +144,7 @@ public class HibernateAccount implements Bean {
                 "remark = " + remark + ", " +
                 "serialVersion = " + serialVersion + ", " +
                 "displayName = " + displayName + ", " +
-                "registeredDate = " + registeredDate + ")";
+                "registeredDate = " + registeredDate + ", " +
+                "protectorInfo = " + protectorInfo + ")";
     }
 }

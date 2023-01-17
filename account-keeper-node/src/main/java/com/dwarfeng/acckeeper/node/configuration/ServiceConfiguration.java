@@ -1,13 +1,13 @@
 package com.dwarfeng.acckeeper.node.configuration;
 
 import com.dwarfeng.acckeeper.impl.service.operation.AccountCrudOperation;
-import com.dwarfeng.acckeeper.stack.bean.entity.Account;
-import com.dwarfeng.acckeeper.stack.bean.entity.LoginHistory;
-import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
+import com.dwarfeng.acckeeper.impl.service.operation.ProtectorInfoCrudOperation;
+import com.dwarfeng.acckeeper.stack.bean.entity.*;
+import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
 import com.dwarfeng.acckeeper.stack.cache.LoginHistoryCache;
-import com.dwarfeng.acckeeper.stack.dao.AccountDao;
-import com.dwarfeng.acckeeper.stack.dao.LoginHistoryDao;
-import com.dwarfeng.acckeeper.stack.dao.LoginStateDao;
+import com.dwarfeng.acckeeper.stack.cache.ProtectorSupportCache;
+import com.dwarfeng.acckeeper.stack.cache.ProtectorVariableCache;
+import com.dwarfeng.acckeeper.stack.dao.*;
 import com.dwarfeng.subgrade.impl.bean.key.ExceptionKeyFetcher;
 import com.dwarfeng.subgrade.impl.service.*;
 import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
@@ -30,16 +30,29 @@ public class ServiceConfiguration {
     private final LoginStateDao loginStateDao;
     private final LoginHistoryDao loginHistoryDao;
     private final LoginHistoryCache loginHistoryCache;
+    private final ProtectorInfoCrudOperation protectorInfoCrudOperation;
+    private final ProtectorInfoDao protectorInfoDao;
+    private final ProtectorSupportDao protectorSupportDao;
+    private final ProtectorSupportCache protectorSupportCache;
+    private final ProtectorVariableDao protectorVariableDao;
+    private final ProtectorVariableCache protectorVariableCache;
 
     @Value("${cache.timeout.entity.login_history}")
     private long loginHistoryTimeout;
+    @Value("${cache.timeout.entity.protector_support}")
+    private long protectorSupportTimeout;
+    @Value("${cache.timeout.entity.protector_variable}")
+    private long protectorVariableTimeout;
 
     public ServiceConfiguration(
             ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration,
             KeyFetcher<LongIdKey> longIdKeyFetcher,
             AccountCrudOperation accountCrudOperation, AccountDao accountDao,
             LoginStateDao loginStateDao,
-            LoginHistoryDao loginHistoryDao, LoginHistoryCache loginHistoryCache
+            LoginHistoryDao loginHistoryDao, LoginHistoryCache loginHistoryCache,
+            ProtectorInfoCrudOperation protectorInfoCrudOperation, ProtectorInfoDao protectorInfoDao,
+            ProtectorSupportDao protectorSupportDao, ProtectorSupportCache protectorSupportCache,
+            ProtectorVariableDao protectorVariableDao, ProtectorVariableCache protectorVariableCache
     ) {
         this.serviceExceptionMapperConfiguration = serviceExceptionMapperConfiguration;
         this.longIdKeyFetcher = longIdKeyFetcher;
@@ -48,6 +61,12 @@ public class ServiceConfiguration {
         this.loginStateDao = loginStateDao;
         this.loginHistoryDao = loginHistoryDao;
         this.loginHistoryCache = loginHistoryCache;
+        this.protectorInfoCrudOperation = protectorInfoCrudOperation;
+        this.protectorInfoDao = protectorInfoDao;
+        this.protectorSupportDao = protectorSupportDao;
+        this.protectorSupportCache = protectorSupportCache;
+        this.protectorVariableDao = protectorVariableDao;
+        this.protectorVariableCache = protectorVariableCache;
     }
 
     @Bean
@@ -131,6 +150,94 @@ public class ServiceConfiguration {
     public DaoOnlyPresetLookupService<LoginHistory> loginHistoryDaoOnlyPresetLookupService() {
         return new DaoOnlyPresetLookupService<>(
                 loginHistoryDao,
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN
+        );
+    }
+
+    @Bean
+    public CustomBatchCrudService<StringIdKey, ProtectorInfo> protectorInfoCustomBatchCrudService() {
+        return new CustomBatchCrudService<>(
+                protectorInfoCrudOperation,
+                new ExceptionKeyFetcher<>(),
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN
+        );
+    }
+
+    @Bean
+    public DaoOnlyEntireLookupService<ProtectorInfo> protectorInfoDaoOnlyEntireLookupService() {
+        return new DaoOnlyEntireLookupService<>(
+                protectorInfoDao,
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN
+        );
+    }
+
+    @Bean
+    public DaoOnlyPresetLookupService<ProtectorInfo> protectorInfoDaoOnlyPresetLookupService() {
+        return new DaoOnlyPresetLookupService<>(
+                protectorInfoDao,
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN
+        );
+    }
+
+    @Bean
+    public GeneralBatchCrudService<StringIdKey, ProtectorSupport> protectorSupportGeneralBatchCrudService() {
+        return new GeneralBatchCrudService<>(
+                protectorSupportDao,
+                protectorSupportCache,
+                new ExceptionKeyFetcher<>(),
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                protectorSupportTimeout
+        );
+    }
+
+    @Bean
+    public DaoOnlyEntireLookupService<ProtectorSupport> protectorSupportDaoOnlyEntireLookupService() {
+        return new DaoOnlyEntireLookupService<>(
+                protectorSupportDao,
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN
+        );
+    }
+
+    @Bean
+    public DaoOnlyPresetLookupService<ProtectorSupport> protectorSupportDaoOnlyPresetLookupService() {
+        return new DaoOnlyPresetLookupService<>(
+                protectorSupportDao,
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN
+        );
+    }
+
+    @Bean
+    public GeneralBatchCrudService<ProtectorVariableKey, ProtectorVariable> protectorVariableCustomBatchCrudService() {
+        return new GeneralBatchCrudService<>(
+                protectorVariableDao,
+                protectorVariableCache,
+                new ExceptionKeyFetcher<>(),
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                protectorVariableTimeout
+        );
+    }
+
+    @Bean
+    public DaoOnlyEntireLookupService<ProtectorVariable> protectorVariableDaoOnlyEntireLookupService() {
+        return new DaoOnlyEntireLookupService<>(
+                protectorVariableDao,
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN
+        );
+    }
+
+    @Bean
+    public DaoOnlyPresetLookupService<ProtectorVariable> protectorVariableDaoOnlyPresetLookupService() {
+        return new DaoOnlyPresetLookupService<>(
+                protectorVariableDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );

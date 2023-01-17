@@ -13,6 +13,9 @@
 
 - 新增实体。
   - com.dwarfeng.acckeeper.stack.bean.entity.LoginHistory。
+  - com.dwarfeng.acckeeper.stack.bean.entity.ProtectorInfo。
+  - com.dwarfeng.acckeeper.stack.bean.entity.ProtectorSupport。
+  - com.dwarfeng.acckeeper.stack.bean.entity.ProtectorVariable。
 
 - 实现清理服务。
   - 自动清理过期的登录状态。

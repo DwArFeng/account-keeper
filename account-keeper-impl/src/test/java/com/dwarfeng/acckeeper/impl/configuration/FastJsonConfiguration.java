@@ -1,9 +1,7 @@
 package com.dwarfeng.acckeeper.impl.configuration;
 
 import com.alibaba.fastjson.parser.ParserConfig;
-import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonAccount;
-import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonLoginHistory;
-import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonLoginState;
+import com.dwarfeng.acckeeper.sdk.bean.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +16,9 @@ public class FastJsonConfiguration {
         ParserConfig.getGlobalInstance().addAccept(FastJsonAccount.class.getCanonicalName());
         ParserConfig.getGlobalInstance().addAccept(FastJsonLoginState.class.getCanonicalName());
         ParserConfig.getGlobalInstance().addAccept(FastJsonLoginHistory.class.getCanonicalName());
+        ParserConfig.getGlobalInstance().addAccept(FastJsonProtectorInfo.class.getCanonicalName());
+        ParserConfig.getGlobalInstance().addAccept(FastJsonProtectorSupport.class.getCanonicalName());
+        ParserConfig.getGlobalInstance().addAccept(FastJsonProtectorVariable.class.getCanonicalName());
         LOGGER.debug("FastJson autotype 白名单配置完毕");
     }
 }

@@ -1,7 +1,8 @@
 package com.dwarfeng.acckeeper.impl.bean.entity;
 
-import com.dwarfeng.acckeeper.stack.bean.entity.Account;
-import com.dwarfeng.acckeeper.stack.bean.entity.LoginHistory;
+import com.dwarfeng.acckeeper.impl.bean.key.HibernateProtectorVariableKey;
+import com.dwarfeng.acckeeper.stack.bean.entity.*;
+import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
@@ -29,7 +30,13 @@ public interface HibernateMapper {
     @InheritInverseConfiguration
     StringIdKey stringIdKeyFromHibernate(HibernateStringIdKey hibernateStringIdKey);
 
+    HibernateProtectorVariableKey protectorVariableKeyToHibernate(ProtectorVariableKey protectorVariableKey);
+
+    @InheritInverseConfiguration
+    ProtectorVariableKey protectorVariableKeyFromHibernate(HibernateProtectorVariableKey hibernateProtectorVariableKey);
+
     @Mapping(target = "stringId", ignore = true)
+    @Mapping(target = "protectorInfo", ignore = true)
     @Mapping(target = "loginHistories", ignore = true)
     HibernateAccount accountToHibernate(Account account);
 
@@ -43,4 +50,26 @@ public interface HibernateMapper {
 
     @InheritInverseConfiguration
     LoginHistory loginHistoryFromHibernate(HibernateLoginHistory hibernateLoginHistory);
+
+    @Mapping(target = "stringId", ignore = true)
+    @Mapping(target = "protectorVariables", ignore = true)
+    @Mapping(target = "account", ignore = true)
+    HibernateProtectorInfo protectorInfoToHibernate(ProtectorInfo protectorInfo);
+
+    @InheritInverseConfiguration
+    ProtectorInfo protectorInfoFromHibernate(HibernateProtectorInfo hibernateProtectorInfo);
+
+    @Mapping(target = "stringId", ignore = true)
+    HibernateProtectorSupport protectorSupportToHibernate(ProtectorSupport protectorSupport);
+
+    @InheritInverseConfiguration
+    ProtectorSupport protectorSupportFromHibernate(HibernateProtectorSupport hibernateProtectorSupport);
+
+    @Mapping(target = "variableId", ignore = true)
+    @Mapping(target = "protectorInfoId", ignore = true)
+    @Mapping(target = "protectorInfo", ignore = true)
+    HibernateProtectorVariable protectorVariableToHibernate(ProtectorVariable protectorVariable);
+
+    @InheritInverseConfiguration
+    ProtectorVariable protectorVariableFromHibernate(HibernateProtectorVariable hibernateProtectorVariable);
 }
