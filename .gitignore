@@ -62,24 +62,3 @@ buildNumber.properties
 /account-keeper-node/conf/
 /account-keeper-impl/conf/
 /account-keeper-api/conf/
-
-#################
-## Libext Files
-#################
-/account-keeper-node/libext/
-
-#################
-## Opt Files
-#################
-/account-keeper-node/opt/
-
-#################
-## Optext Files
-#################
-/account-keeper-node/optext/
-
-#################
-## Confext Files
-#################
-/account-keeper-node/confext/
-

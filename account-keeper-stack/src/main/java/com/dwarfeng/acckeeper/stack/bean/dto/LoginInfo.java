@@ -11,23 +11,17 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
  */
 public class LoginInfo implements Dto {
 
-    private static final long serialVersionUID = 5887544068143322835L;
+    private static final long serialVersionUID = 2468662831350035827L;
 
     private StringIdKey accountKey;
     private String password;
 
-    /**
-     * @since 1.6.0
-     */
-    private String ipAddress;
-
     public LoginInfo() {
     }
 
-    public LoginInfo(StringIdKey accountKey, String password, String ipAddress) {
+    public LoginInfo(StringIdKey accountKey, String password) {
         this.accountKey = accountKey;
         this.password = password;
-        this.ipAddress = ipAddress;
     }
 
     public StringIdKey getAccountKey() {
@@ -46,20 +40,11 @@ public class LoginInfo implements Dto {
         this.password = password;
     }
 
-    public String getIpAddress() {
-        return ipAddress;
-    }
-
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
     @Override
     public String toString() {
         return "LoginInfo{" +
                 "accountKey=" + accountKey +
                 ", password='" + password + '\'' +
-                ", ipAddress='" + ipAddress + '\'' +
                 '}';
     }
 }

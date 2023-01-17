@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -21,16 +22,14 @@ public class LoginCommand extends CliCommand {
 
     private static final String COMMAND_OPTION_ACCOUNT_ID = "a";
     private static final String COMMAND_OPTION_PASSWORD = "p";
-    private static final String COMMAND_OPTION_IP_ADDRESS = "ip";
 
     private static final String IDENTITY = "login";
     private static final String DESCRIPTION = "用户登陆服务，仅用于测试！测试完成后必须立即更改密码！";
     private static final String CMD_LINE_SYNTAX = String.format(
-            "%s [%s account-id] [%s password] [%s ip-address]",
+            "%s [%s account-id] [%s password]",
             IDENTITY,
             CommandUtil.concatOptionPrefix(COMMAND_OPTION_ACCOUNT_ID),
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_PASSWORD),
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_IP_ADDRESS)
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_PASSWORD)
     );
 
     private final LoginQosService loginQosService;
@@ -48,8 +47,6 @@ public class LoginCommand extends CliCommand {
                 .desc("用户名").build());
         list.add(Option.builder(COMMAND_OPTION_PASSWORD).optionalArg(true).type(String.class).hasArg(true)
                 .desc("密码").build());
-        list.add(Option.builder(COMMAND_OPTION_IP_ADDRESS).optionalArg(true).type(String.class).hasArg(true)
-                .desc("用于测试的 IP 地址, 如不指定该选项则取 telnet 客户端的 IP 地址").build());
         return list;
     }
 
@@ -73,14 +70,9 @@ public class LoginCommand extends CliCommand {
                 password = context.receiveMessage();
             }
 
-            String ipAddress = context.getAddress();
-            if (cmd.hasOption(COMMAND_OPTION_IP_ADDRESS)) {
-                ipAddress = (String) cmd.getParsedOptionValue(COMMAND_OPTION_IP_ADDRESS);
-            }
-
             try {
                 LoginState loginState = loginQosService.login(
-                        new LoginInfo(new StringIdKey(accountId), password, ipAddress)
+                        new LoginInfo(new StringIdKey(accountId), password, Collections.emptyMap())
                 );
                 String token = Long.toString(loginState.getKey().getLongId());
                 String expiredDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(loginState.getExpireDate());

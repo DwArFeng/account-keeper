@@ -1,25 +1,16 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
-import com.dwarfeng.acckeeper.sdk.util.Constants;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
-import com.dwarfeng.acckeeper.stack.bean.entity.LoginHistory;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
-import com.dwarfeng.acckeeper.stack.exception.AccountDisabledException;
-import com.dwarfeng.acckeeper.stack.exception.AccountNotExistsException;
-import com.dwarfeng.acckeeper.stack.exception.PasswordIncorrectException;
-import com.dwarfeng.acckeeper.stack.handler.LocateHandler;
 import com.dwarfeng.acckeeper.stack.handler.LoginHandler;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
-import com.dwarfeng.acckeeper.stack.service.LoginHistoryMaintainService;
 import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -29,13 +20,8 @@ import java.util.stream.Collectors;
 @Component
 public class LoginHandlerImpl implements LoginHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoginHandlerImpl.class);
-
     private final AccountMaintainService accountMaintainService;
     private final LoginStateMaintainService loginStateMaintainService;
-    private final LoginHistoryMaintainService loginHistoryMaintainService;
-
-    private final LocateHandler locateHandler;
 
     private final HandlerValidator handlerValidator;
 
@@ -47,15 +33,11 @@ public class LoginHandlerImpl implements LoginHandler {
     public LoginHandlerImpl(
             AccountMaintainService accountMaintainService,
             LoginStateMaintainService loginStateMaintainService,
-            LoginHistoryMaintainService loginHistoryMaintainService,
-            LocateHandler locateHandler,
             HandlerValidator handlerValidator,
             KeyFetcher<LongIdKey> keyFetcher
     ) {
         this.accountMaintainService = accountMaintainService;
         this.loginStateMaintainService = loginStateMaintainService;
-        this.loginHistoryMaintainService = loginHistoryMaintainService;
-        this.locateHandler = locateHandler;
         this.handlerValidator = handlerValidator;
         this.keyFetcher = keyFetcher;
     }
@@ -106,54 +88,14 @@ public class LoginHandlerImpl implements LoginHandler {
             // 获取主键。
             StringIdKey accountKey = loginInfo.getAccountKey();
 
-            // 解析 IP 地址。
-            String ipAddress = loginInfo.getIpAddress();
-
-            // 获取位置信息。
-            LocateHandler.LocateResult locateResult = new LocateHandler.LocateResult(null, null, null);
-            try {
-                locateResult = locateHandler.locate(ipAddress);
-            } catch (Exception e) {
-                LOGGER.warn("定位处理器异常, 定位信息将不会记录, 异常信息如下: ", e);
-            }
-            String location = locateResult.getLocation();
-            Double latitude = locateResult.getLatitude();
-            Double longitude = locateResult.getLongitude();
-
-            // 获取当前时间。
-            Date currentDate = new Date();
-
             // 确定主键对应的账户存在。
-            String accountId = accountKey.getStringId();
-            if (handlerValidator.isAccountNotExists(accountKey)) {
-                LoginHistory loginHistory = new LoginHistory(
-                        null, accountId, currentDate, ipAddress, location, latitude, longitude,
-                        Constants.LOGIN_RESPONSE_CODE_ACCOUNT_NOT_EXISTS
-                );
-                insertLoginHistory(loginHistory);
-                throw new AccountNotExistsException(accountKey);
-            }
+            handlerValidator.makeSureAccountExists(accountKey);
 
             // 确定账户未被禁用。
-            if (handlerValidator.isAccountDisabled(accountKey)) {
-                LoginHistory loginHistory = new LoginHistory(
-                        null, accountId, currentDate, ipAddress, location, latitude, longitude,
-                        Constants.LOGIN_RESPONSE_CODE_ACCOUNT_DISABLED
-                );
-                insertLoginHistory(loginHistory);
-                throw new AccountDisabledException(accountKey);
-            }
+            handlerValidator.makeSureAccountNotDisabled(accountKey);
 
             // 确认密码正确。
-            String password = loginInfo.getPassword();
-            if (handlerValidator.isPasswordIncorrect(accountKey, password)) {
-                LoginHistory loginHistory = new LoginHistory(
-                        null, accountId, currentDate, ipAddress, location, latitude, longitude,
-                        Constants.LOGIN_RESPONSE_CODE_PASSWORD_INCORRECT
-                );
-                insertLoginHistory(loginHistory);
-                throw new PasswordIncorrectException(accountKey);
-            }
+            handlerValidator.makeSurePasswordCorrect(accountKey, loginInfo.getPassword());
 
             // 获取账户实体，并根据账户实体构造登录状态实体。
             Account account = accountMaintainService.get(accountKey);
@@ -162,30 +104,13 @@ public class LoginHandlerImpl implements LoginHandler {
                     account.getSerialVersion()
             );
 
-            // 插入登录状态实体。
+            // 向登录状态缓存中推送实体，并返回结果。
             loginStateMaintainService.insertOrUpdate(loginState);
-
-            // 插入登录历史。
-            LoginHistory loginHistory = new LoginHistory(
-                    null, accountId, currentDate, ipAddress, location, latitude, longitude,
-                    Constants.LOGIN_RESPONSE_CODE_PASSED
-            );
-            insertLoginHistory(loginHistory);
-
-            // 返回结果。
             return loginState;
         } catch (HandlerException e) {
             throw e;
         } catch (Exception e) {
             throw new HandlerException(e);
-        }
-    }
-
-    private void insertLoginHistory(LoginHistory loginHistory) {
-        try {
-            loginHistoryMaintainService.insertOrUpdate(loginHistory);
-        } catch (Exception e) {
-            LOGGER.warn("登录历史 " + loginHistory + "插入失败, 异常信息如下: ", e);
         }
     }
 

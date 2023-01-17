@@ -40,8 +40,7 @@ public class LoginHandlerImpl implements LoginHandler {
     @Override
     public LongIdKey login(StringIdKey accountKey, String password) throws HandlerException {
         try {
-            // TODO 待升级 subgrade 后更新此处逻辑。
-            return loginService.login(new LoginInfo(accountKey, password, null)).getKey();
+            return loginService.login(new LoginInfo(accountKey, password)).getKey();
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }
