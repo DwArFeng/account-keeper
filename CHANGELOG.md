@@ -18,6 +18,8 @@
   - com.dwarfeng.acckeeper.stack.bean.entity.ProtectorVariable。
   - com.dwarfeng.acckeeper.stack.bean.entity.LoginParamRecord。
   - com.dwarfeng.acckeeper.stack.bean.entity.ProtectDetailRecord。
+  - com.dwarfeng.acckeeper.stack.bean.entity.CheckerInfo。
+  - com.dwarfeng.acckeeper.stack.bean.entity.CheckerSupport。
 
 - 实现清理服务。
   - 自动清理过期的登录状态。

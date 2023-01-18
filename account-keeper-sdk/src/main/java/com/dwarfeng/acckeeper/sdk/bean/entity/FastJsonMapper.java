@@ -80,4 +80,14 @@ public interface FastJsonMapper {
 
     @InheritInverseConfiguration
     ProtectDetailRecord protectDetailRecordFromFastJson(FastJsonProtectDetailRecord fastJsonProtectDetailRecord);
+
+    FastJsonCheckerInfo checkerInfoToFastJson(CheckerInfo checkerInfo);
+
+    @InheritInverseConfiguration
+    CheckerInfo checkerInfoFromFastJson(FastJsonCheckerInfo fastJsonCheckerInfo);
+
+    FastJsonCheckerSupport checkerSupportToFastJson(CheckerSupport checkerSupport);
+
+    @InheritInverseConfiguration
+    CheckerSupport checkerSupportFromFastJson(FastJsonCheckerSupport fastJsonCheckerSupport);
 }

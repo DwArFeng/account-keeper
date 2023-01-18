@@ -38,6 +38,10 @@ public class CacheConfiguration {
     private String loginParamRecordPrefix;
     @Value("${cache.prefix.entity.protect_detail_record}")
     private String protectDetailRecordPrefix;
+    @Value("${cache.prefix.entity.checker_info}")
+    private String checkerInfoPrefix;
+    @Value("${cache.prefix.entity.checker_support}")
+    private String checkerSupportPrefix;
 
     public CacheConfiguration(RedisTemplate<String, ?> template) {
         this.template = template;
@@ -132,6 +136,30 @@ public class CacheConfiguration {
                 new RecordStringKeyFormatter(protectDetailRecordPrefix),
                 new MapStructBeanTransformer<>(
                         ProtectDetailRecord.class, FastJsonProtectDetailRecord.class, FastJsonMapper.class
+                )
+        );
+    }
+
+    @Bean
+    @SuppressWarnings("unchecked")
+    public RedisBatchBaseCache<StringIdKey, CheckerInfo, FastJsonCheckerInfo>
+    checkerInfoRedisBatchBaseCache() {
+        return new RedisBatchBaseCache<>(
+                (RedisTemplate<String, FastJsonCheckerInfo>) template,
+                new StringIdStringKeyFormatter(checkerInfoPrefix),
+                new MapStructBeanTransformer<>(CheckerInfo.class, FastJsonCheckerInfo.class, FastJsonMapper.class)
+        );
+    }
+
+    @Bean
+    @SuppressWarnings("unchecked")
+    public RedisBatchBaseCache<StringIdKey, CheckerSupport, FastJsonCheckerSupport>
+    checkerSupportRedisBatchBaseCache() {
+        return new RedisBatchBaseCache<>(
+                (RedisTemplate<String, FastJsonCheckerSupport>) template,
+                new StringIdStringKeyFormatter(checkerSupportPrefix),
+                new MapStructBeanTransformer<>(
+                        CheckerSupport.class, FastJsonCheckerSupport.class, FastJsonMapper.class
                 )
         );
     }

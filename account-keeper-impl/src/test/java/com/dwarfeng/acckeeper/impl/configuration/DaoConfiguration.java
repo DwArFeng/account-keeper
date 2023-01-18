@@ -36,6 +36,8 @@ public class DaoConfiguration {
     private final ProtectorVariablePresetCriteriaMaker protectorVariablePresetCriteriaMaker;
     private final LoginParamRecordPresetCriteriaMaker loginParamRecordPresetCriteriaMaker;
     private final ProtectDetailRecordPresetCriteriaMaker protectDetailRecordPresetCriteriaMaker;
+    private final CheckerInfoPresetCriteriaMaker checkerInfoPresetCriteriaMaker;
+    private final CheckerSupportPresetCriteriaMaker checkerSupportPresetCriteriaMaker;
 
     @Value("${redis.dbkey.login_state}")
     private String loginStateDbKey;
@@ -50,7 +52,9 @@ public class DaoConfiguration {
             ProtectorSupportPresetCriteriaMaker protectorSupportPresetCriteriaMaker,
             ProtectorVariablePresetCriteriaMaker protectorVariablePresetCriteriaMaker,
             LoginParamRecordPresetCriteriaMaker loginParamRecordPresetCriteriaMaker,
-            ProtectDetailRecordPresetCriteriaMaker protectDetailRecordPresetCriteriaMaker
+            ProtectDetailRecordPresetCriteriaMaker protectDetailRecordPresetCriteriaMaker,
+            CheckerInfoPresetCriteriaMaker checkerInfoPresetCriteriaMaker,
+            CheckerSupportPresetCriteriaMaker checkerSupportPresetCriteriaMaker
     ) {
         this.hibernateTemplate = hibernateTemplate;
         this.redisTemplate = redisTemplate;
@@ -62,6 +66,8 @@ public class DaoConfiguration {
         this.protectorVariablePresetCriteriaMaker = protectorVariablePresetCriteriaMaker;
         this.loginParamRecordPresetCriteriaMaker = loginParamRecordPresetCriteriaMaker;
         this.protectDetailRecordPresetCriteriaMaker = protectDetailRecordPresetCriteriaMaker;
+        this.checkerInfoPresetCriteriaMaker = checkerInfoPresetCriteriaMaker;
+        this.checkerSupportPresetCriteriaMaker = checkerSupportPresetCriteriaMaker;
     }
 
     @Bean
@@ -349,6 +355,80 @@ public class DaoConfiguration {
                 ),
                 HibernateProtectDetailRecord.class,
                 protectDetailRecordPresetCriteriaMaker
+        );
+    }
+
+    @Bean
+    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, CheckerInfo, HibernateCheckerInfo>
+    checkerInfoHibernateBatchBaseDao() {
+        return new HibernateBatchBaseDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(
+                        CheckerInfo.class, HibernateCheckerInfo.class, HibernateMapper.class
+                ),
+                HibernateCheckerInfo.class
+        );
+    }
+
+    @Bean
+    public HibernateEntireLookupDao<CheckerInfo, HibernateCheckerInfo> checkerInfoHibernateEntireLookupDao() {
+        return new HibernateEntireLookupDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(
+                        CheckerInfo.class, HibernateCheckerInfo.class, HibernateMapper.class
+                ),
+                HibernateCheckerInfo.class
+        );
+    }
+
+    @Bean
+    public HibernatePresetLookupDao<CheckerInfo, HibernateCheckerInfo> checkerInfoHibernatePresetLookupDao() {
+        return new HibernatePresetLookupDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(
+                        CheckerInfo.class, HibernateCheckerInfo.class, HibernateMapper.class
+                ),
+                HibernateCheckerInfo.class,
+                checkerInfoPresetCriteriaMaker
+        );
+    }
+
+    @Bean
+    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, CheckerSupport, HibernateCheckerSupport>
+    checkerSupportHibernateBatchBaseDao() {
+        return new HibernateBatchBaseDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(
+                        CheckerSupport.class, HibernateCheckerSupport.class, HibernateMapper.class
+                ),
+                HibernateCheckerSupport.class
+        );
+    }
+
+    @Bean
+    public HibernateEntireLookupDao<CheckerSupport, HibernateCheckerSupport>
+    checkerSupportHibernateEntireLookupDao() {
+        return new HibernateEntireLookupDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(
+                        CheckerSupport.class, HibernateCheckerSupport.class, HibernateMapper.class
+                ),
+                HibernateCheckerSupport.class
+        );
+    }
+
+    @Bean
+    public HibernatePresetLookupDao<CheckerSupport, HibernateCheckerSupport>
+    checkerSupportHibernatePresetLookupDao() {
+        return new HibernatePresetLookupDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(
+                        CheckerSupport.class, HibernateCheckerSupport.class, HibernateMapper.class
+                ),
+                HibernateCheckerSupport.class,
+                checkerSupportPresetCriteriaMaker
         );
     }
 }

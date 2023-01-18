@@ -13,7 +13,7 @@ import java.util.Optional;
 @Table(name = "tbl_account")
 public class HibernateAccount implements Bean {
 
-    private static final long serialVersionUID = -2328276771108513751L;
+    private static final long serialVersionUID = 2671765403084418682L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -43,6 +43,9 @@ public class HibernateAccount implements Bean {
     // -----------------------------------------------------------一对一-----------------------------------------------------------
     @OneToOne(cascade = CascadeType.MERGE, targetEntity = HibernateProtectorInfo.class, mappedBy = "account")
     private HibernateProtectorInfo protectorInfo;
+
+    @OneToOne(cascade = CascadeType.MERGE, targetEntity = HibernateCheckerInfo.class, mappedBy = "account")
+    private HibernateCheckerInfo checkerInfo;
 
     public HibernateAccount() {
     }
@@ -121,6 +124,14 @@ public class HibernateAccount implements Bean {
         this.protectorInfo = protectorInfo;
     }
 
+    public HibernateCheckerInfo getCheckerInfo() {
+        return checkerInfo;
+    }
+
+    public void setCheckerInfo(HibernateCheckerInfo checkerInfo) {
+        this.checkerInfo = checkerInfo;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
@@ -131,6 +142,7 @@ public class HibernateAccount implements Bean {
                 "serialVersion = " + serialVersion + ", " +
                 "displayName = " + displayName + ", " +
                 "registeredDate = " + registeredDate + ", " +
-                "protectorInfo = " + protectorInfo + ")";
+                "protectorInfo = " + protectorInfo + ", " +
+                "checkerInfo = " + checkerInfo + ")";
     }
 }

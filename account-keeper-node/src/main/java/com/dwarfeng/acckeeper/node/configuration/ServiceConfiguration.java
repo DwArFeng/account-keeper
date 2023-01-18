@@ -6,10 +6,7 @@ import com.dwarfeng.acckeeper.impl.service.operation.ProtectorInfoCrudOperation;
 import com.dwarfeng.acckeeper.stack.bean.entity.*;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
-import com.dwarfeng.acckeeper.stack.cache.LoginParamRecordCache;
-import com.dwarfeng.acckeeper.stack.cache.ProtectDetailRecordCache;
-import com.dwarfeng.acckeeper.stack.cache.ProtectorSupportCache;
-import com.dwarfeng.acckeeper.stack.cache.ProtectorVariableCache;
+import com.dwarfeng.acckeeper.stack.cache.*;
 import com.dwarfeng.acckeeper.stack.dao.*;
 import com.dwarfeng.subgrade.impl.bean.key.ExceptionKeyFetcher;
 import com.dwarfeng.subgrade.impl.service.*;
@@ -43,6 +40,10 @@ public class ServiceConfiguration {
     private final LoginParamRecordCache loginParamRecordCache;
     private final ProtectDetailRecordDao protectDetailRecordDao;
     private final ProtectDetailRecordCache protectDetailRecordCache;
+    private final CheckerInfoDao checkerInfoDao;
+    private final CheckerInfoCache checkerInfoCache;
+    private final CheckerSupportDao checkerSupportDao;
+    private final CheckerSupportCache checkerSupportCache;
 
     @Value("${cache.timeout.entity.protector_support}")
     private long protectorSupportTimeout;
@@ -52,6 +53,10 @@ public class ServiceConfiguration {
     private long loginParamRecordTimeout;
     @Value("${cache.timeout.entity.protect_detail_record}")
     private long protectDetailRecordTimeout;
+    @Value("${cache.timeout.entity.checker_info}")
+    private long checkerInfoTimeout;
+    @Value("${cache.timeout.entity.checker_support}")
+    private long checkerSupportTimeout;
 
     public ServiceConfiguration(
             ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration,
@@ -63,7 +68,9 @@ public class ServiceConfiguration {
             ProtectorSupportDao protectorSupportDao, ProtectorSupportCache protectorSupportCache,
             ProtectorVariableDao protectorVariableDao, ProtectorVariableCache protectorVariableCache,
             LoginParamRecordDao loginParamRecordDao, LoginParamRecordCache loginParamRecordCache,
-            ProtectDetailRecordDao protectDetailRecordDao, ProtectDetailRecordCache protectDetailRecordCache
+            ProtectDetailRecordDao protectDetailRecordDao, ProtectDetailRecordCache protectDetailRecordCache,
+            CheckerInfoDao checkerInfoDao, CheckerInfoCache checkerInfoCache,
+            CheckerSupportDao checkerSupportDao, CheckerSupportCache checkerSupportCache
     ) {
         this.serviceExceptionMapperConfiguration = serviceExceptionMapperConfiguration;
         this.longIdKeyFetcher = longIdKeyFetcher;
@@ -82,6 +89,10 @@ public class ServiceConfiguration {
         this.loginParamRecordCache = loginParamRecordCache;
         this.protectDetailRecordDao = protectDetailRecordDao;
         this.protectDetailRecordCache = protectDetailRecordCache;
+        this.checkerInfoDao = checkerInfoDao;
+        this.checkerInfoCache = checkerInfoCache;
+        this.checkerSupportDao = checkerSupportDao;
+        this.checkerSupportCache = checkerSupportCache;
     }
 
     @Bean
@@ -311,6 +322,66 @@ public class ServiceConfiguration {
     public DaoOnlyPresetLookupService<ProtectDetailRecord> protectDetailRecordDaoOnlyPresetLookupService() {
         return new DaoOnlyPresetLookupService<>(
                 protectDetailRecordDao,
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN
+        );
+    }
+
+    @Bean
+    public GeneralBatchCrudService<StringIdKey, CheckerInfo> checkerInfoGeneralBatchCrudService() {
+        return new GeneralBatchCrudService<>(
+                checkerInfoDao,
+                checkerInfoCache,
+                new ExceptionKeyFetcher<>(),
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                checkerInfoTimeout
+        );
+    }
+
+    @Bean
+    public DaoOnlyEntireLookupService<CheckerInfo> checkerInfoDaoOnlyEntireLookupService() {
+        return new DaoOnlyEntireLookupService<>(
+                checkerInfoDao,
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN
+        );
+    }
+
+    @Bean
+    public DaoOnlyPresetLookupService<CheckerInfo> checkerInfoDaoOnlyPresetLookupService() {
+        return new DaoOnlyPresetLookupService<>(
+                checkerInfoDao,
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN
+        );
+    }
+
+    @Bean
+    public GeneralBatchCrudService<StringIdKey, CheckerSupport> checkerSupportGeneralBatchCrudService() {
+        return new GeneralBatchCrudService<>(
+                checkerSupportDao,
+                checkerSupportCache,
+                new ExceptionKeyFetcher<>(),
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                checkerSupportTimeout
+        );
+    }
+
+    @Bean
+    public DaoOnlyEntireLookupService<CheckerSupport> checkerSupportDaoOnlyEntireLookupService() {
+        return new DaoOnlyEntireLookupService<>(
+                checkerSupportDao,
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN
+        );
+    }
+
+    @Bean
+    public DaoOnlyPresetLookupService<CheckerSupport> checkerSupportDaoOnlyPresetLookupService() {
+        return new DaoOnlyPresetLookupService<>(
+                checkerSupportDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );
