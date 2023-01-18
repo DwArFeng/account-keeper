@@ -1,8 +1,10 @@
 package com.dwarfeng.acckeeper.impl.bean.entity;
 
 import com.dwarfeng.acckeeper.impl.bean.key.HibernateProtectorVariableKey;
+import com.dwarfeng.acckeeper.impl.bean.key.HibernateRecordKey;
 import com.dwarfeng.acckeeper.stack.bean.entity.*;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
+import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
@@ -35,6 +37,11 @@ public interface HibernateMapper {
     @InheritInverseConfiguration
     ProtectorVariableKey protectorVariableKeyFromHibernate(HibernateProtectorVariableKey hibernateProtectorVariableKey);
 
+    HibernateRecordKey recordKeyToHibernate(RecordKey recordKey);
+
+    @InheritInverseConfiguration
+    RecordKey recordKeyFromHibernate(HibernateRecordKey hibernateRecordKey);
+
     @Mapping(target = "stringId", ignore = true)
     @Mapping(target = "protectorInfo", ignore = true)
     HibernateAccount accountToHibernate(Account account);
@@ -42,9 +49,10 @@ public interface HibernateMapper {
     @InheritInverseConfiguration
     Account accountFromHibernate(HibernateAccount hibernateAccount);
 
+    @Mapping(target = "protectDetailRecords", ignore = true)
     @Mapping(target = "notExistsAccountId", ignore = true)
     @Mapping(target = "longId", ignore = true)
-    @Mapping(target = "account", ignore = true)
+    @Mapping(target = "loginParamRecords", ignore = true)
     HibernateLoginHistory loginHistoryToHibernate(LoginHistory loginHistory);
 
     @InheritInverseConfiguration
@@ -71,4 +79,20 @@ public interface HibernateMapper {
 
     @InheritInverseConfiguration
     ProtectorVariable protectorVariableFromHibernate(HibernateProtectorVariable hibernateProtectorVariable);
+
+    @Mapping(target = "recordId", ignore = true)
+    @Mapping(target = "loginHistoryId", ignore = true)
+    @Mapping(target = "loginHistory", ignore = true)
+    HibernateLoginParamRecord loginParamRecordToHibernate(LoginParamRecord loginParamRecord);
+
+    @InheritInverseConfiguration
+    LoginParamRecord loginParamRecordFromHibernate(HibernateLoginParamRecord hibernateLoginParamRecord);
+
+    @Mapping(target = "recordId", ignore = true)
+    @Mapping(target = "loginHistoryId", ignore = true)
+    @Mapping(target = "loginHistory", ignore = true)
+    HibernateProtectDetailRecord protectDetailRecordToHibernate(ProtectDetailRecord protectDetailRecord);
+
+    @InheritInverseConfiguration
+    ProtectDetailRecord protectDetailRecordFromHibernate(HibernateProtectDetailRecord hibernateProtectDetailRecord);
 }

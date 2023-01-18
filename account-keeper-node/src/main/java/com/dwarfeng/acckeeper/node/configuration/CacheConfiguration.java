@@ -2,8 +2,10 @@ package com.dwarfeng.acckeeper.node.configuration;
 
 import com.dwarfeng.acckeeper.sdk.bean.entity.*;
 import com.dwarfeng.acckeeper.sdk.bean.key.formatter.ProtectorVariableStringKeyFormatter;
+import com.dwarfeng.acckeeper.sdk.bean.key.formatter.RecordStringKeyFormatter;
 import com.dwarfeng.acckeeper.stack.bean.entity.*;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
+import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
 import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
 import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.sdk.redis.formatter.LongIdStringKeyFormatter;
@@ -32,6 +34,10 @@ public class CacheConfiguration {
     private String protectorSupportPrefix;
     @Value("${cache.prefix.entity.protector_variable}")
     private String protectorVariablePrefix;
+    @Value("${cache.prefix.entity.login_param_record}")
+    private String loginParamRecordPrefix;
+    @Value("${cache.prefix.entity.protect_detail_record}")
+    private String protectDetailRecordPrefix;
 
     public CacheConfiguration(RedisTemplate<String, ?> template) {
         this.template = template;
@@ -100,6 +106,32 @@ public class CacheConfiguration {
                 new ProtectorVariableStringKeyFormatter(protectorVariablePrefix),
                 new MapStructBeanTransformer<>(
                         ProtectorVariable.class, FastJsonProtectorVariable.class, FastJsonMapper.class
+                )
+        );
+    }
+
+    @Bean
+    @SuppressWarnings("unchecked")
+    public RedisBatchBaseCache<RecordKey, LoginParamRecord, FastJsonLoginParamRecord>
+    loginParamRecordCacheDelegate() {
+        return new RedisBatchBaseCache<>(
+                (RedisTemplate<String, FastJsonLoginParamRecord>) template,
+                new RecordStringKeyFormatter(loginParamRecordPrefix),
+                new MapStructBeanTransformer<>(
+                        LoginParamRecord.class, FastJsonLoginParamRecord.class, FastJsonMapper.class
+                )
+        );
+    }
+
+    @Bean
+    @SuppressWarnings("unchecked")
+    public RedisBatchBaseCache<RecordKey, ProtectDetailRecord, FastJsonProtectDetailRecord>
+    protectDetailRecordCacheDelegate() {
+        return new RedisBatchBaseCache<>(
+                (RedisTemplate<String, FastJsonProtectDetailRecord>) template,
+                new RecordStringKeyFormatter(protectDetailRecordPrefix),
+                new MapStructBeanTransformer<>(
+                        ProtectDetailRecord.class, FastJsonProtectDetailRecord.class, FastJsonMapper.class
                 )
         );
     }

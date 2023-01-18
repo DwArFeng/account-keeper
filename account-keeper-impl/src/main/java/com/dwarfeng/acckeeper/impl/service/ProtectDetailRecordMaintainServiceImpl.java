@@ -1,15 +1,15 @@
 package com.dwarfeng.acckeeper.impl.service;
 
-import com.dwarfeng.acckeeper.stack.bean.entity.LoginHistory;
-import com.dwarfeng.acckeeper.stack.service.LoginHistoryMaintainService;
-import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
+import com.dwarfeng.acckeeper.stack.bean.entity.ProtectDetailRecord;
+import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
+import com.dwarfeng.acckeeper.stack.service.ProtectDetailRecordMaintainService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
+import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,18 +17,18 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class LoginHistoryMaintainServiceImpl implements LoginHistoryMaintainService {
+public class ProtectDetailRecordMaintainServiceImpl implements ProtectDetailRecordMaintainService {
 
-    private final CustomBatchCrudService<LongIdKey, LoginHistory> batchCrudService;
-    private final DaoOnlyEntireLookupService<LoginHistory> entireLookupService;
-    private final DaoOnlyPresetLookupService<LoginHistory> presetLookupService;
+    private final GeneralBatchCrudService<RecordKey, ProtectDetailRecord> crudService;
+    private final DaoOnlyEntireLookupService<ProtectDetailRecord> entireLookupService;
+    private final DaoOnlyPresetLookupService<ProtectDetailRecord> presetLookupService;
 
-    public LoginHistoryMaintainServiceImpl(
-            CustomBatchCrudService<LongIdKey, LoginHistory> batchCrudService,
-            DaoOnlyEntireLookupService<LoginHistory> entireLookupService,
-            DaoOnlyPresetLookupService<LoginHistory> presetLookupService
+    public ProtectDetailRecordMaintainServiceImpl(
+            GeneralBatchCrudService<RecordKey, ProtectDetailRecord> crudService,
+            DaoOnlyEntireLookupService<ProtectDetailRecord> entireLookupService,
+            DaoOnlyPresetLookupService<ProtectDetailRecord> presetLookupService
     ) {
-        this.batchCrudService = batchCrudService;
+        this.crudService = crudService;
         this.entireLookupService = entireLookupService;
         this.presetLookupService = presetLookupService;
     }
@@ -36,160 +36,160 @@ public class LoginHistoryMaintainServiceImpl implements LoginHistoryMaintainServ
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean exists(LongIdKey key) throws ServiceException {
-        return batchCrudService.exists(key);
+    public boolean exists(RecordKey key) throws ServiceException {
+        return crudService.exists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public LoginHistory get(LongIdKey key) throws ServiceException {
-        return batchCrudService.get(key);
+    public ProtectDetailRecord get(RecordKey key) throws ServiceException {
+        return crudService.get(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public LongIdKey insert(LoginHistory element) throws ServiceException {
-        return batchCrudService.insert(element);
+    public RecordKey insert(ProtectDetailRecord element) throws ServiceException {
+        return crudService.insert(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void update(LoginHistory element) throws ServiceException {
-        batchCrudService.update(element);
+    public void update(ProtectDetailRecord element) throws ServiceException {
+        crudService.update(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void delete(LongIdKey key) throws ServiceException {
-        batchCrudService.delete(key);
+    public void delete(RecordKey key) throws ServiceException {
+        crudService.delete(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public LoginHistory getIfExists(LongIdKey key) throws ServiceException {
-        return batchCrudService.getIfExists(key);
+    public ProtectDetailRecord getIfExists(RecordKey key) throws ServiceException {
+        return crudService.getIfExists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public LongIdKey insertIfNotExists(LoginHistory element) throws ServiceException {
-        return batchCrudService.insertIfNotExists(element);
+    public RecordKey insertIfNotExists(ProtectDetailRecord element) throws ServiceException {
+        return crudService.insertIfNotExists(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void updateIfExists(LoginHistory element) throws ServiceException {
-        batchCrudService.updateIfExists(element);
+    public void updateIfExists(ProtectDetailRecord element) throws ServiceException {
+        crudService.updateIfExists(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void deleteIfExists(LongIdKey key) throws ServiceException {
-        batchCrudService.deleteIfExists(key);
+    public void deleteIfExists(RecordKey key) throws ServiceException {
+        crudService.deleteIfExists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public LongIdKey insertOrUpdate(LoginHistory element) throws ServiceException {
-        return batchCrudService.insertOrUpdate(element);
+    public RecordKey insertOrUpdate(ProtectDetailRecord element) throws ServiceException {
+        return crudService.insertOrUpdate(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean allExists(@SkipRecord List<LongIdKey> keys) throws ServiceException {
-        return batchCrudService.allExists(keys);
+    public boolean allExists(@SkipRecord List<RecordKey> keys) throws ServiceException {
+        return crudService.allExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean nonExists(@SkipRecord List<LongIdKey> keys) throws ServiceException {
-        return batchCrudService.nonExists(keys);
+    public boolean nonExists(@SkipRecord List<RecordKey> keys) throws ServiceException {
+        return crudService.nonExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginHistory> batchGet(@SkipRecord List<LongIdKey> keys) throws ServiceException {
-        return batchCrudService.batchGet(keys);
+    public List<ProtectDetailRecord> batchGet(@SkipRecord List<RecordKey> keys) throws ServiceException {
+        return crudService.batchGet(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<LongIdKey> batchInsert(@SkipRecord List<LoginHistory> elements) throws ServiceException {
-        return batchCrudService.batchInsert(elements);
+    public List<RecordKey> batchInsert(@SkipRecord List<ProtectDetailRecord> elements) throws ServiceException {
+        return crudService.batchInsert(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchUpdate(@SkipRecord List<LoginHistory> elements) throws ServiceException {
-        batchCrudService.batchUpdate(elements);
+    public void batchUpdate(@SkipRecord List<ProtectDetailRecord> elements) throws ServiceException {
+        crudService.batchUpdate(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDelete(@SkipRecord List<LongIdKey> keys) throws ServiceException {
-        batchCrudService.batchDelete(keys);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @SkipRecord
-    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginHistory> batchGetIfExists(@SkipRecord List<LongIdKey> keys) throws ServiceException {
-        return batchCrudService.batchGetIfExists(keys);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @SkipRecord
-    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<LongIdKey> batchInsertIfExists(@SkipRecord List<LoginHistory> elements) throws ServiceException {
-        return batchCrudService.batchInsertIfExists(elements);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchUpdateIfExists(@SkipRecord List<LoginHistory> elements) throws ServiceException {
-        batchCrudService.batchUpdateIfExists(elements);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDeleteIfExists(@SkipRecord List<LongIdKey> keys) throws ServiceException {
-        batchCrudService.batchDeleteIfExists(keys);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @SkipRecord
-    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<LongIdKey> batchInsertOrUpdate(@SkipRecord List<LoginHistory> elements) throws ServiceException {
-        return batchCrudService.batchInsertOrUpdate(elements);
+    public void batchDelete(@SkipRecord List<RecordKey> keys) throws ServiceException {
+        crudService.batchDelete(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public PagedData<LoginHistory> lookup() throws ServiceException {
+    public List<ProtectDetailRecord> batchGetIfExists(@SkipRecord List<RecordKey> keys) throws ServiceException {
+        return crudService.batchGetIfExists(keys);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public List<RecordKey> batchInsertIfExists(@SkipRecord List<ProtectDetailRecord> elements) throws ServiceException {
+        return crudService.batchInsertIfExists(elements);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public void batchUpdateIfExists(@SkipRecord List<ProtectDetailRecord> elements) throws ServiceException {
+        crudService.batchUpdateIfExists(elements);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public void batchDeleteIfExists(@SkipRecord List<RecordKey> keys) throws ServiceException {
+        crudService.batchDeleteIfExists(keys);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public List<RecordKey> batchInsertOrUpdate(@SkipRecord List<ProtectDetailRecord> elements) throws ServiceException {
+        return crudService.batchInsertOrUpdate(elements);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public PagedData<ProtectDetailRecord> lookup() throws ServiceException {
         return entireLookupService.lookup();
     }
 
@@ -197,7 +197,7 @@ public class LoginHistoryMaintainServiceImpl implements LoginHistoryMaintainServ
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public PagedData<LoginHistory> lookup(PagingInfo pagingInfo) throws ServiceException {
+    public PagedData<ProtectDetailRecord> lookup(PagingInfo pagingInfo) throws ServiceException {
         return entireLookupService.lookup(pagingInfo);
     }
 
@@ -205,7 +205,7 @@ public class LoginHistoryMaintainServiceImpl implements LoginHistoryMaintainServ
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginHistory> lookupAsList() throws ServiceException {
+    public List<ProtectDetailRecord> lookupAsList() throws ServiceException {
         return entireLookupService.lookupAsList();
     }
 
@@ -213,7 +213,7 @@ public class LoginHistoryMaintainServiceImpl implements LoginHistoryMaintainServ
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginHistory> lookupAsList(PagingInfo pagingInfo) throws ServiceException {
+    public List<ProtectDetailRecord> lookupAsList(PagingInfo pagingInfo) throws ServiceException {
         return entireLookupService.lookupAsList(pagingInfo);
     }
 
@@ -221,7 +221,7 @@ public class LoginHistoryMaintainServiceImpl implements LoginHistoryMaintainServ
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public PagedData<LoginHistory> lookup(String preset, Object[] objs) throws ServiceException {
+    public PagedData<ProtectDetailRecord> lookup(String preset, Object[] objs) throws ServiceException {
         return presetLookupService.lookup(preset, objs);
     }
 
@@ -229,7 +229,7 @@ public class LoginHistoryMaintainServiceImpl implements LoginHistoryMaintainServ
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public PagedData<LoginHistory> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+    public PagedData<ProtectDetailRecord> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
         return presetLookupService.lookup(preset, objs, pagingInfo);
     }
 
@@ -237,7 +237,7 @@ public class LoginHistoryMaintainServiceImpl implements LoginHistoryMaintainServ
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginHistory> lookupAsList(String preset, Object[] objs) throws ServiceException {
+    public List<ProtectDetailRecord> lookupAsList(String preset, Object[] objs) throws ServiceException {
         return presetLookupService.lookupAsList(preset, objs);
     }
 
@@ -245,7 +245,7 @@ public class LoginHistoryMaintainServiceImpl implements LoginHistoryMaintainServ
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginHistory> lookupAsList(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+    public List<ProtectDetailRecord> lookupAsList(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
         return presetLookupService.lookupAsList(preset, objs, pagingInfo);
     }
 }

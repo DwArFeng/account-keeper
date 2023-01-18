@@ -3,6 +3,8 @@ package com.dwarfeng.acckeeper.stack.bean.dto;
 import com.dwarfeng.subgrade.stack.bean.dto.Dto;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 
+import java.util.Map;
+
 /**
  * 登录信息。
  *
@@ -11,17 +13,19 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
  */
 public class LoginInfo implements Dto {
 
-    private static final long serialVersionUID = 2468662831350035827L;
+    private static final long serialVersionUID = 6692597398353480845L;
 
     private StringIdKey accountKey;
     private String password;
+    private Map<String, String> extraParams;
 
     public LoginInfo() {
     }
 
-    public LoginInfo(StringIdKey accountKey, String password) {
+    public LoginInfo(StringIdKey accountKey, String password, Map<String, String> extraParams) {
         this.accountKey = accountKey;
         this.password = password;
+        this.extraParams = extraParams;
     }
 
     public StringIdKey getAccountKey() {
@@ -40,11 +44,20 @@ public class LoginInfo implements Dto {
         this.password = password;
     }
 
+    public Map<String, String> getExtraParams() {
+        return extraParams;
+    }
+
+    public void setExtraParams(Map<String, String> extraParams) {
+        this.extraParams = extraParams;
+    }
+
     @Override
     public String toString() {
         return "LoginInfo{" +
                 "accountKey=" + accountKey +
                 ", password='" + password + '\'' +
+                ", extraParams=" + extraParams +
                 '}';
     }
 }

@@ -85,7 +85,6 @@ public class LoginHistoryPresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
-
     private void accountIdLikeHappenedDateDesc(DetachedCriteria criteria, Object[] objs) {
         try {
             if (Objects.isNull(objs[0])) {

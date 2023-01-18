@@ -1,8 +1,10 @@
 package com.dwarfeng.acckeeper.sdk.bean.entity;
 
 import com.dwarfeng.acckeeper.sdk.bean.key.FastJsonProtectorVariableKey;
+import com.dwarfeng.acckeeper.sdk.bean.key.FastJsonRecordKey;
 import com.dwarfeng.acckeeper.stack.bean.entity.*;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
+import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
 import com.dwarfeng.subgrade.sdk.bean.key.FastJsonLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
@@ -30,6 +32,11 @@ public interface FastJsonMapper {
     StringIdKey stringIdKeyFromFastJson(FastJsonStringIdKey fastJsonStringIdKey);
 
     FastJsonProtectorVariableKey protectorVariableKeyToFastJson(ProtectorVariableKey protectorVariableKey);
+
+    FastJsonRecordKey recordKeyToFastJson(RecordKey recordKey);
+
+    @InheritInverseConfiguration
+    RecordKey recordKeyFromFastJson(FastJsonRecordKey fastJsonRecordKey);
 
     @InheritInverseConfiguration
     ProtectorVariableKey protectorVariableKeyFromFastJson(FastJsonProtectorVariableKey fastJsonProtectorVariableKey);
@@ -63,4 +70,14 @@ public interface FastJsonMapper {
 
     @InheritInverseConfiguration
     ProtectorVariable protectorVariableFromFastJson(FastJsonProtectorVariable fastJsonProtectorVariable);
+
+    FastJsonLoginParamRecord loginParamRecordToFastJson(LoginParamRecord loginParamRecord);
+
+    @InheritInverseConfiguration
+    LoginParamRecord loginParamRecordFromFastJson(FastJsonLoginParamRecord fastJsonLoginParamRecord);
+
+    FastJsonProtectDetailRecord protectDetailRecordToFastJson(ProtectDetailRecord protectDetailRecord);
+
+    @InheritInverseConfiguration
+    ProtectDetailRecord protectDetailRecordFromFastJson(FastJsonProtectDetailRecord fastJsonProtectDetailRecord);
 }

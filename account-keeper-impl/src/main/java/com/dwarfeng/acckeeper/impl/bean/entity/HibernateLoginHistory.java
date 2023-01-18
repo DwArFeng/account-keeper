@@ -6,7 +6,9 @@ import com.dwarfeng.subgrade.stack.bean.Bean;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Entity
 @IdClass(HibernateLongIdKey.class)
@@ -45,6 +47,13 @@ public class HibernateLoginHistory implements Bean {
 
     @Column(name = "not_exists_account_id", length = Constraints.LENGTH_ID)
     private String notExistsAccountId;
+
+    // -----------------------------------------------------------一对多-----------------------------------------------------------
+    @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateLoginParamRecord.class, mappedBy = "loginHistory")
+    private Set<HibernateLoginParamRecord> loginParamRecords = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateProtectDetailRecord.class, mappedBy = "loginHistory")
+    private Set<HibernateProtectDetailRecord> protectDetailRecords = new HashSet<>();
 
     public HibernateLoginHistory() {
     }
@@ -129,6 +138,22 @@ public class HibernateLoginHistory implements Bean {
 
     public void setNotExistsAccountId(String notExistsAccountId) {
         this.notExistsAccountId = notExistsAccountId;
+    }
+
+    public Set<HibernateLoginParamRecord> getLoginParamRecords() {
+        return loginParamRecords;
+    }
+
+    public void setLoginParamRecords(Set<HibernateLoginParamRecord> loginParamRecords) {
+        this.loginParamRecords = loginParamRecords;
+    }
+
+    public Set<HibernateProtectDetailRecord> getProtectDetailRecords() {
+        return protectDetailRecords;
+    }
+
+    public void setProtectDetailRecords(Set<HibernateProtectDetailRecord> protectDetailRecords) {
+        this.protectDetailRecords = protectDetailRecords;
     }
 
     @Override

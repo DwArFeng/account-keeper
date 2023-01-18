@@ -11,6 +11,8 @@ import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import com.dwarfeng.subgrade.stack.handler.LoginHandler;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+
 /**
  * 登录处理器的实现。
  *
@@ -40,7 +42,7 @@ public class LoginHandlerImpl implements LoginHandler {
     @Override
     public LongIdKey login(StringIdKey accountKey, String password) throws HandlerException {
         try {
-            return loginService.login(new LoginInfo(accountKey, password)).getKey();
+            return loginService.login(new LoginInfo(accountKey, password, Collections.emptyMap())).getKey();
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }

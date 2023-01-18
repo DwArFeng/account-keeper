@@ -40,7 +40,6 @@ public class ProtectorInfoCrudOperation implements BatchCrudOperation<StringIdKe
         this.protectorVariableCache = protectorVariableCache;
     }
 
-
     @Override
     public boolean exists(StringIdKey key) throws Exception {
         return protectorInfoCache.exists(key) || protectorInfoDao.exists(key);

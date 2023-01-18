@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Collections;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -55,10 +57,14 @@ public class LoginServiceImplTest {
             accountOperateService.register(zhangSanRegisterInfo);
             accountOperateService.register(liSiRegisterInfo);
 
-            LoginState loginState = loginService.login(new LoginInfo(zhangSanRegisterInfo.getAccountKey(), "ninja123456"));
+            LoginState loginState = loginService.login(new LoginInfo(
+                    zhangSanRegisterInfo.getAccountKey(), "ninja123456", Collections.emptyMap()
+            ));
             loginState = loginService.postpone(loginState.getKey());
             try {
-                loginService.login(new LoginInfo(zhangSanRegisterInfo.getAccountKey(), "123456"));
+                loginService.login(new LoginInfo(
+                        zhangSanRegisterInfo.getAccountKey(), "123456", Collections.emptyMap()
+                ));
             } catch (ServiceException e) {
                 assertEquals(ServiceExceptionCodes.PASSWORD_INCORRECT.getCode(), e.getCode().getCode());
             }
@@ -67,7 +73,9 @@ public class LoginServiceImplTest {
             loginService.logout(loginState.getKey());
 
             try {
-                loginService.login(new LoginInfo(liSiRegisterInfo.getAccountKey(), "ninja123456"));
+                loginService.login(new LoginInfo(
+                        liSiRegisterInfo.getAccountKey(), "ninja123456", Collections.emptyMap()
+                ));
             } catch (ServiceException e) {
                 assertEquals(ServiceExceptionCodes.ACCOUNT_DISABLED.getCode(), e.getCode().getCode());
             }
