@@ -10,17 +10,13 @@ import java.util.Date;
 
 public class FastJsonAccount implements Bean {
 
-    private static final long serialVersionUID = 9161141611753087374L;
+    private static final long serialVersionUID = 1782876032660642485L;
 
     public static FastJsonAccount of(@NonNull Account account) {
         return new FastJsonAccount(
                 FastJsonStringIdKey.of(account.getKey()),
-                account.getPassword(),
-                account.isEnabled(),
-                account.getRemark(),
-                account.getSerialVersion(),
-                account.getDisplayName(),
-                account.getRegisteredDate()
+                account.getPassword(), account.isEnabled(), account.getRemark(), account.getSerialVersion(),
+                account.getDisplayName(), account.getRegisteredDate(), account.getLoginCount()
         );
     }
 
@@ -45,12 +41,18 @@ public class FastJsonAccount implements Bean {
     @JSONField(name = "registered_date", ordinal = 7)
     private Date registeredDate;
 
+    @JSONField(name = "login_count", ordinal = 8)
+    private int loginCount;
+
+    @JSONField(name = "password_update_count", ordinal = 9)
+    private int passwordUpdateCount;
+
     public FastJsonAccount() {
     }
 
     public FastJsonAccount(
             FastJsonStringIdKey key, String password, boolean enabled, String remark, long serialVersion,
-            String displayName, Date registeredDate
+            String displayName, Date registeredDate, int loginCount
     ) {
         this.key = key;
         this.password = password;
@@ -59,6 +61,7 @@ public class FastJsonAccount implements Bean {
         this.serialVersion = serialVersion;
         this.displayName = displayName;
         this.registeredDate = registeredDate;
+        this.loginCount = loginCount;
     }
 
     public FastJsonStringIdKey getKey() {
@@ -117,6 +120,22 @@ public class FastJsonAccount implements Bean {
         this.registeredDate = registeredDate;
     }
 
+    public int getLoginCount() {
+        return loginCount;
+    }
+
+    public void setLoginCount(int loginCount) {
+        this.loginCount = loginCount;
+    }
+
+    public int getPasswordUpdateCount() {
+        return passwordUpdateCount;
+    }
+
+    public void setPasswordUpdateCount(int passwordUpdateCount) {
+        this.passwordUpdateCount = passwordUpdateCount;
+    }
+
     @Override
     public String toString() {
         return "FastJsonAccount{" +
@@ -127,6 +146,8 @@ public class FastJsonAccount implements Bean {
                 ", serialVersion=" + serialVersion +
                 ", displayName='" + displayName + '\'' +
                 ", registeredDate=" + registeredDate +
+                ", loginCount=" + loginCount +
+                ", passwordUpdateCount=" + passwordUpdateCount +
                 '}';
     }
 }

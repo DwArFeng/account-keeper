@@ -33,7 +33,7 @@ public class LoginStateServiceImplTest {
     @Before
     public void setUp() {
         StringIdKey accountKey = new StringIdKey("test.account");
-        account = new Account(accountKey, "password", true, "remark", 0, "测试账号", new Date());
+        account = new Account(accountKey, "password", true, "remark", 0, "测试账号", new Date(), 0, 0);
         loginState = new LoginState(
                 null, accountKey, new Date(), 12450
         );

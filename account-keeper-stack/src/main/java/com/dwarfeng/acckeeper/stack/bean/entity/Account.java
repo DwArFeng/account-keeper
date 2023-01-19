@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class Account implements Entity<StringIdKey> {
 
-    private static final long serialVersionUID = 4480763018847028201L;
+    private static final long serialVersionUID = -5078942824192132813L;
 
     private StringIdKey key;
     private String password;
@@ -31,12 +31,22 @@ public class Account implements Entity<StringIdKey> {
      */
     private Date registeredDate;
 
+    /**
+     * @since 1.6.0
+     */
+    private int loginCount;
+
+    /**
+     * @since 1.6.0
+     */
+    private int passwordUpdateCount;
+
     public Account() {
     }
 
     public Account(
             StringIdKey key, String password, boolean enabled, String remark, long serialVersion, String displayName,
-            Date registeredDate
+            Date registeredDate, int loginCount, int passwordUpdateCount
     ) {
         this.key = key;
         this.password = password;
@@ -45,6 +55,8 @@ public class Account implements Entity<StringIdKey> {
         this.serialVersion = serialVersion;
         this.displayName = displayName;
         this.registeredDate = registeredDate;
+        this.loginCount = loginCount;
+        this.passwordUpdateCount = passwordUpdateCount;
     }
 
     @Override
@@ -105,6 +117,22 @@ public class Account implements Entity<StringIdKey> {
         this.registeredDate = registeredDate;
     }
 
+    public int getLoginCount() {
+        return loginCount;
+    }
+
+    public void setLoginCount(int loginCount) {
+        this.loginCount = loginCount;
+    }
+
+    public int getPasswordUpdateCount() {
+        return passwordUpdateCount;
+    }
+
+    public void setPasswordUpdateCount(int passwordUpdateCount) {
+        this.passwordUpdateCount = passwordUpdateCount;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
@@ -115,6 +143,8 @@ public class Account implements Entity<StringIdKey> {
                 ", serialVersion=" + serialVersion +
                 ", displayName='" + displayName + '\'' +
                 ", registeredDate=" + registeredDate +
+                ", loginCount=" + loginCount +
+                ", passwordUpdateCount=" + passwordUpdateCount +
                 '}';
     }
 }

@@ -19,6 +19,10 @@
   - com.dwarfeng.acckeeper.stack.bean.entity.LoginParamRecord。
   - com.dwarfeng.acckeeper.stack.bean.entity.ProtectDetailRecord。
 
+- 新增字段。
+  - Account.loginCount。
+  - Account.passwordUpdateCount。
+
 - 实现清理服务。
   - 自动清理过期的登录状态。
 

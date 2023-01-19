@@ -11,17 +11,14 @@ import java.util.Date;
 
 public class JSFixedFastJsonAccount implements Bean {
 
-    private static final long serialVersionUID = -3394470156008209619L;
+    private static final long serialVersionUID = 3375563105835237335L;
 
     public static JSFixedFastJsonAccount of(@NonNull Account account) {
         return new JSFixedFastJsonAccount(
                 FastJsonStringIdKey.of(account.getKey()),
-                account.getPassword(),
-                account.isEnabled(),
-                account.getRemark(),
-                account.getSerialVersion(),
-                account.getDisplayName(),
-                account.getRegisteredDate()
+                account.getPassword(), account.isEnabled(), account.getRemark(), account.getSerialVersion(),
+                account.getDisplayName(), account.getRegisteredDate(), account.getLoginCount(),
+                account.getPasswordUpdateCount()
         );
     }
 
@@ -46,12 +43,18 @@ public class JSFixedFastJsonAccount implements Bean {
     @JSONField(name = "registered_date", ordinal = 7)
     private Date registeredDate;
 
+    @JSONField(name = "login_count", ordinal = 8)
+    private int loginCount;
+
+    @JSONField(name = "password_update_count", ordinal = 9)
+    private int passwordUpdateCount;
+
     public JSFixedFastJsonAccount() {
     }
 
     public JSFixedFastJsonAccount(
             FastJsonStringIdKey key, String password, boolean enabled, String remark, long serialVersion,
-            String displayName, Date registeredDate
+            String displayName, Date registeredDate, int loginCount, int passwordUpdateCount
     ) {
         this.key = key;
         this.password = password;
@@ -60,6 +63,8 @@ public class JSFixedFastJsonAccount implements Bean {
         this.serialVersion = serialVersion;
         this.displayName = displayName;
         this.registeredDate = registeredDate;
+        this.loginCount = loginCount;
+        this.passwordUpdateCount = passwordUpdateCount;
     }
 
     public FastJsonStringIdKey getKey() {
@@ -118,6 +123,22 @@ public class JSFixedFastJsonAccount implements Bean {
         this.registeredDate = registeredDate;
     }
 
+    public int getLoginCount() {
+        return loginCount;
+    }
+
+    public void setLoginCount(int loginCount) {
+        this.loginCount = loginCount;
+    }
+
+    public int getPasswordUpdateCount() {
+        return passwordUpdateCount;
+    }
+
+    public void setPasswordUpdateCount(int passwordUpdateCount) {
+        this.passwordUpdateCount = passwordUpdateCount;
+    }
+
     @Override
     public String toString() {
         return "JSFixedFastJsonAccount{" +
@@ -128,6 +149,8 @@ public class JSFixedFastJsonAccount implements Bean {
                 ", serialVersion=" + serialVersion +
                 ", displayName='" + displayName + '\'' +
                 ", registeredDate=" + registeredDate +
+                ", loginCount=" + loginCount +
+                ", passwordUpdateCount=" + passwordUpdateCount +
                 '}';
     }
 }

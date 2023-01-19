@@ -13,7 +13,7 @@ import java.util.Optional;
 @Table(name = "tbl_account")
 public class HibernateAccount implements Bean {
 
-    private static final long serialVersionUID = -2328276771108513751L;
+    private static final long serialVersionUID = -6894440316070438450L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -39,6 +39,12 @@ public class HibernateAccount implements Bean {
     @Column(name = "registered_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date registeredDate;
+
+    @Column(name = "login_count", nullable = false)
+    private int loginCount;
+
+    @Column(name = "password_update_count", nullable = false)
+    private int passwordUpdateCount;
 
     // -----------------------------------------------------------一对一-----------------------------------------------------------
     @OneToOne(cascade = CascadeType.MERGE, targetEntity = HibernateProtectorInfo.class, mappedBy = "account")
@@ -113,6 +119,22 @@ public class HibernateAccount implements Bean {
         this.registeredDate = registeredDate;
     }
 
+    public int getLoginCount() {
+        return loginCount;
+    }
+
+    public void setLoginCount(int loginCount) {
+        this.loginCount = loginCount;
+    }
+
+    public int getPasswordUpdateCount() {
+        return passwordUpdateCount;
+    }
+
+    public void setPasswordUpdateCount(int passwordUpdateCount) {
+        this.passwordUpdateCount = passwordUpdateCount;
+    }
+
     public HibernateProtectorInfo getProtectorInfo() {
         return protectorInfo;
     }
@@ -131,6 +153,8 @@ public class HibernateAccount implements Bean {
                 "serialVersion = " + serialVersion + ", " +
                 "displayName = " + displayName + ", " +
                 "registeredDate = " + registeredDate + ", " +
+                "loginCount = " + loginCount + ", " +
+                "passwordUpdateCount = " + passwordUpdateCount + ", " +
                 "protectorInfo = " + protectorInfo + ")";
     }
 }
