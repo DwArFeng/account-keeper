@@ -32,9 +32,7 @@ public class LoginParamRecordMaintainServiceImplTest {
 
     @Before
     public void setUp() {
-        loginHistory = new LoginHistory(
-                null, "accountId", new Date(), "ipAddress", "location", 12.450, 114.514, 12450
-        );
+        loginHistory = new LoginHistory(null, "accountId", new Date(), 12450, "message", 12450);
         loginParamRecord = new LoginParamRecord(null, "value");
     }
 

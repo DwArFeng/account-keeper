@@ -154,7 +154,6 @@ public class HibernateAccount implements Bean {
                 "displayName = " + displayName + ", " +
                 "registeredDate = " + registeredDate + ", " +
                 "loginCount = " + loginCount + ", " +
-                "passwordUpdateCount = " + passwordUpdateCount + ", " +
-                "protectorInfo = " + protectorInfo + ")";
+                "passwordUpdateCount = " + passwordUpdateCount + ")";
     }
 }

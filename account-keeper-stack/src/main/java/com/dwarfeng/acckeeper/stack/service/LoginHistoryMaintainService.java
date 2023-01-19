@@ -20,4 +20,5 @@ public interface LoginHistoryMaintainService extends BatchCrudService<LongIdKey,
     String HAPPENED_DATE_DESC = "happened_date_desc";
     String ACCOUNT_ID_EQUALS_HAPPENED_DATE_DESC = "account_id_equals_happened_date_desc";
     String ACCOUNT_ID_LIKE_HAPPENED_DATE_DESC = "account_id_like_happened_date_desc";
+    String PROTECTOR_INSPECT = "protector_inspect";
 }

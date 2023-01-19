@@ -50,7 +50,6 @@ public interface HibernateMapper {
     Account accountFromHibernate(HibernateAccount hibernateAccount);
 
     @Mapping(target = "protectDetailRecords", ignore = true)
-    @Mapping(target = "notExistsAccountId", ignore = true)
     @Mapping(target = "longId", ignore = true)
     @Mapping(target = "loginParamRecords", ignore = true)
     HibernateLoginHistory loginHistoryToHibernate(LoginHistory loginHistory);

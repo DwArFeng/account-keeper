@@ -27,6 +27,8 @@ public class LoginHandlerImpl implements LoginHandler {
 
     private final KeyFetcher<LongIdKey> keyFetcher;
 
+    private final LoginProcessor loginProcessor;
+
     @Value("${acckeeper.login.expire}")
     private long expireTimeout;
 
@@ -34,12 +36,14 @@ public class LoginHandlerImpl implements LoginHandler {
             AccountMaintainService accountMaintainService,
             LoginStateMaintainService loginStateMaintainService,
             HandlerValidator handlerValidator,
-            KeyFetcher<LongIdKey> keyFetcher
+            KeyFetcher<LongIdKey> keyFetcher,
+            LoginProcessor loginProcessor
     ) {
         this.accountMaintainService = accountMaintainService;
         this.loginStateMaintainService = loginStateMaintainService;
         this.handlerValidator = handlerValidator;
         this.keyFetcher = keyFetcher;
+        this.loginProcessor = loginProcessor;
     }
 
     @Override
@@ -85,27 +89,36 @@ public class LoginHandlerImpl implements LoginHandler {
     @BehaviorAnalyse
     public LoginState login(LoginInfo loginInfo) throws HandlerException {
         try {
-            // 获取主键。
-            StringIdKey accountKey = loginInfo.getAccountKey();
+            // 处理登陆主逻辑。
+            LoginComplex loginComplex = loginProcessor.processLogin(loginInfo);
 
-            // 确定主键对应的账户存在。
-            handlerValidator.makeSureAccountExists(accountKey);
+            // 记录登陆历史。
+            // 登陆历史的记录很重要，因为登陆历史会作为上下文，传入保护器，参与后续的账号保护逻辑。
+            // 因此，如果登陆历史记录失败了，那么登陆过程应该中止，不应该记录日志并继续执行。
+            loginProcessor.processRecord(loginComplex);
 
-            // 确定账户未被禁用。
-            handlerValidator.makeSureAccountNotDisabled(accountKey);
+            // 如果响应中的异常字段不为 null，则抛出对应的异常。
+            if (Objects.nonNull(loginComplex.getException())) {
+                throw loginComplex.getException();
+            }
 
-            // 确认密码正确。
-            handlerValidator.makeSurePasswordCorrect(accountKey, loginInfo.getPassword());
-
-            // 获取账户实体，并根据账户实体构造登录状态实体。
-            Account account = accountMaintainService.get(accountKey);
-            LoginState loginState = new LoginState(
-                    keyFetcher.fetchKey(), accountKey, new Date(System.currentTimeMillis() + expireTimeout),
-                    account.getSerialVersion()
+            // 代码执行至此处，说明登陆正常，可以为本次登陆请求创建登陆状态。
+            // 根据账户实体构造登录状态实体。
+            StringIdKey accountKey = loginComplex.getAccountKey();
+            Date expireDate = new Date(
+                    loginComplex.getHappenedDate().getTime() + expireTimeout
             );
-
-            // 向登录状态缓存中推送实体，并返回结果。
+            long serialVersion = loginComplex.getSerialVersion();
+            LoginState loginState = new LoginState(keyFetcher.fetchKey(), accountKey, expireDate, serialVersion);
+            // 插入登陆实体。
             loginStateMaintainService.insertOrUpdate(loginState);
+
+            // 自增账户的登陆次数。
+            Account account = loginComplex.getAccount();
+            account.setLoginCount(account.getLoginCount() + 1);
+            accountMaintainService.update(account);
+
+            // 返回结果。
             return loginState;
         } catch (HandlerException e) {
             throw e;

@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "tbl_login_history")
 public class HibernateLoginHistory implements Bean {
 
-    private static final long serialVersionUID = -5898451848589805939L;
+    private static final long serialVersionUID = -2189790662526204525L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -30,23 +30,14 @@ public class HibernateLoginHistory implements Bean {
     @Temporal(TemporalType.TIMESTAMP)
     private Date happenedDate;
 
-    @Column(name = "ip_address", length = Constraints.LENGTH_IP_ADDRESS)
-    private String ipAddress;
-
-    @Column(name = "location", length = Constraints.LENGTH_LOCATION)
-    private String location;
-
-    @Column(name = "latitude")
-    private Double latitude;
-
-    @Column(name = "longitude")
-    private Double longitude;
-
     @Column(name = "response_code")
     private int responseCode;
 
-    @Column(name = "not_exists_account_id", length = Constraints.LENGTH_ID)
-    private String notExistsAccountId;
+    @Column(name = "message", length = Constraints.LENGTH_MESSAGE)
+    private String message;
+
+    @Column(name = "alarm_level")
+    private Integer alarmLevel;
 
     // -----------------------------------------------------------一对多-----------------------------------------------------------
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateLoginParamRecord.class, mappedBy = "loginHistory")
@@ -92,38 +83,6 @@ public class HibernateLoginHistory implements Bean {
         this.happenedDate = happenedDate;
     }
 
-    public String getIpAddress() {
-        return ipAddress;
-    }
-
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
     public int getResponseCode() {
         return responseCode;
     }
@@ -132,12 +91,20 @@ public class HibernateLoginHistory implements Bean {
         this.responseCode = responseCode;
     }
 
-    public String getNotExistsAccountId() {
-        return notExistsAccountId;
+    public String getMessage() {
+        return message;
     }
 
-    public void setNotExistsAccountId(String notExistsAccountId) {
-        this.notExistsAccountId = notExistsAccountId;
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Integer getAlarmLevel() {
+        return alarmLevel;
+    }
+
+    public void setAlarmLevel(Integer alarmLevel) {
+        this.alarmLevel = alarmLevel;
     }
 
     public Set<HibernateLoginParamRecord> getLoginParamRecords() {
@@ -162,11 +129,8 @@ public class HibernateLoginHistory implements Bean {
                 "longId = " + longId + ", " +
                 "accountId = " + accountId + ", " +
                 "happenedDate = " + happenedDate + ", " +
-                "ipAddress = " + ipAddress + ", " +
-                "location = " + location + ", " +
-                "latitude = " + latitude + ", " +
-                "longitude = " + longitude + ", " +
                 "responseCode = " + responseCode + ", " +
-                "notExistsAccountId = " + notExistsAccountId + ")";
+                "message = " + message + ", " +
+                "alarmLevel = " + alarmLevel + ")";
     }
 }

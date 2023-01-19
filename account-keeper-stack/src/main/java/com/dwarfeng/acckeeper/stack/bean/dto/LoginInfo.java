@@ -13,19 +13,19 @@ import java.util.Map;
  */
 public class LoginInfo implements Dto {
 
-    private static final long serialVersionUID = 6692597398353480845L;
+    private static final long serialVersionUID = 877270220586583732L;
 
     private StringIdKey accountKey;
     private String password;
-    private Map<String, String> extraParams;
+    private Map<String, String> extraParamMap;
 
     public LoginInfo() {
     }
 
-    public LoginInfo(StringIdKey accountKey, String password, Map<String, String> extraParams) {
+    public LoginInfo(StringIdKey accountKey, String password, Map<String, String> extraParamMap) {
         this.accountKey = accountKey;
         this.password = password;
-        this.extraParams = extraParams;
+        this.extraParamMap = extraParamMap;
     }
 
     public StringIdKey getAccountKey() {
@@ -44,12 +44,12 @@ public class LoginInfo implements Dto {
         this.password = password;
     }
 
-    public Map<String, String> getExtraParams() {
-        return extraParams;
+    public Map<String, String> getExtraParamMap() {
+        return extraParamMap;
     }
 
-    public void setExtraParams(Map<String, String> extraParams) {
-        this.extraParams = extraParams;
+    public void setExtraParamMap(Map<String, String> extraParamMap) {
+        this.extraParamMap = extraParamMap;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class LoginInfo implements Dto {
         return "LoginInfo{" +
                 "accountKey=" + accountKey +
                 ", password='" + password + '\'' +
-                ", extraParams=" + extraParams +
+                ", extraParamMap=" + extraParamMap +
                 '}';
     }
 }

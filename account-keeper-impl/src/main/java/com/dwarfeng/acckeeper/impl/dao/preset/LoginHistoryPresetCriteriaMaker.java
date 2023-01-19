@@ -9,6 +9,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -31,6 +33,9 @@ public class LoginHistoryPresetCriteriaMaker implements PresetCriteriaMaker {
                 break;
             case LoginHistoryMaintainService.ACCOUNT_ID_LIKE_HAPPENED_DATE_DESC:
                 accountIdLikeHappenedDateDesc(criteria, objs);
+                break;
+            case LoginHistoryMaintainService.PROTECTOR_INSPECT:
+                protectorInspect(criteria, objs);
                 break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + preset);
@@ -74,7 +79,7 @@ public class LoginHistoryPresetCriteriaMaker implements PresetCriteriaMaker {
     private void accountIdEqualsHappenedDateDesc(DetachedCriteria criteria, Object[] objs) {
         try {
             if (Objects.isNull(objs[0])) {
-                criteria.add(Restrictions.isNull("accountStringId"));
+                criteria.add(Restrictions.isNull("accountId"));
             } else {
                 String pattern = (String) objs[0];
                 criteria.add(Restrictions.eqOrIsNull("accountId", pattern));
@@ -88,11 +93,45 @@ public class LoginHistoryPresetCriteriaMaker implements PresetCriteriaMaker {
     private void accountIdLikeHappenedDateDesc(DetachedCriteria criteria, Object[] objs) {
         try {
             if (Objects.isNull(objs[0])) {
-                criteria.add(Restrictions.isNull("accountStringId"));
+                criteria.add(Restrictions.isNull("accountId"));
             } else {
                 String pattern = (String) objs[0];
                 criteria.add(Restrictions.like("accountId", pattern, MatchMode.ANYWHERE));
             }
+            criteria.addOrder(Order.desc("happenedDate"));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
+        }
+    }
+
+    private void protectorInspect(DetachedCriteria criteria, Object[] objs) {
+        try {
+            // 账户 ID。
+            String accountId = (String) objs[0];
+            if (Objects.isNull(accountId)) {
+                criteria.add(Restrictions.isNull("accountId"));
+            } else {
+                criteria.add(Restrictions.eqOrIsNull("accountId", accountId));
+            }
+
+            // 发生时间。
+            Date beginDate = (Date) objs[1];
+            Date endDate = (Date) objs[2];
+            if (Objects.isNull(beginDate)) {
+                beginDate = new Date(0);
+            }
+            if (Objects.isNull(endDate)) {
+                endDate = new Date();
+            }
+            criteria.add(Restrictions.between("happenedDate", beginDate, endDate));
+
+            // 响应代码。
+            @SuppressWarnings("unchecked")
+            List<Integer> responseCodes = (List<Integer>) objs[3];
+            if (Objects.nonNull(responseCodes)) {
+                criteria.add(Restrictions.in("responseCode", responseCodes));
+            }
+
             criteria.addOrder(Order.desc("happenedDate"));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));

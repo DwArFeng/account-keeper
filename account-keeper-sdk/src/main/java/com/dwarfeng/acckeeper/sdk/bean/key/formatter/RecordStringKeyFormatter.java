@@ -23,7 +23,7 @@ public class RecordStringKeyFormatter implements StringKeyFormatter<RecordKey> {
     @Override
     public String format(RecordKey key) {
         Objects.requireNonNull(key);
-        return prefix + key.getRecordId() + "_" + key.getRecordId();
+        return prefix + key.getLoginHistoryId() + "_" + key.getRecordId();
     }
 
     @Override

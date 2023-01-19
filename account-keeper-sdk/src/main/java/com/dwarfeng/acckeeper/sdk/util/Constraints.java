@@ -29,19 +29,14 @@ public final class Constraints {
     public static final int LENGTH_LABEL = 20;
 
     /**
-     * IP 地址的长度约束。
-     */
-    public static final int LENGTH_IP_ADDRESS = 45;
-
-    /**
-     * 地点的长度约束。
-     */
-    public static final int LENGTH_LOCATION = 20;
-
-    /**
      * 类型的长度约束。
      */
     public static final int LENGTH_TYPE = 50;
+
+    /**
+     * 消息的长度约束。
+     */
+    public static final int LENGTH_MESSAGE = 100;
 
     private Constraints() {
         throw new IllegalStateException("禁止实例化");

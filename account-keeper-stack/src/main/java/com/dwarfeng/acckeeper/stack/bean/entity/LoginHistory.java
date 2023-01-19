@@ -13,32 +13,27 @@ import java.util.Date;
  */
 public class LoginHistory implements Entity<LongIdKey> {
 
-    private static final long serialVersionUID = 3434522669881705657L;
+    private static final long serialVersionUID = -5005102390305271167L;
 
     private LongIdKey key;
     private String accountId;
     private Date happenedDate;
-    private String ipAddress;
-    private String location;
-    private Double latitude;
-    private Double longitude;
     private int responseCode;
+    private String message;
+    private Integer alarmLevel;
 
     public LoginHistory() {
     }
 
     public LoginHistory(
-            LongIdKey key, String accountId, Date happenedDate, String ipAddress, String location, Double latitude,
-            Double longitude, int responseCode
+            LongIdKey key, String accountId, Date happenedDate, int responseCode, String message, Integer alarmLevel
     ) {
         this.key = key;
         this.accountId = accountId;
         this.happenedDate = happenedDate;
-        this.ipAddress = ipAddress;
-        this.location = location;
-        this.latitude = latitude;
-        this.longitude = longitude;
         this.responseCode = responseCode;
+        this.message = message;
+        this.alarmLevel = alarmLevel;
     }
 
     @Override
@@ -67,38 +62,6 @@ public class LoginHistory implements Entity<LongIdKey> {
         this.happenedDate = happenedDate;
     }
 
-    public String getIpAddress() {
-        return ipAddress;
-    }
-
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
     public int getResponseCode() {
         return responseCode;
     }
@@ -107,17 +70,31 @@ public class LoginHistory implements Entity<LongIdKey> {
         this.responseCode = responseCode;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Integer getAlarmLevel() {
+        return alarmLevel;
+    }
+
+    public void setAlarmLevel(Integer alarmLevel) {
+        this.alarmLevel = alarmLevel;
+    }
+
     @Override
     public String toString() {
         return "LoginHistory{" +
                 "key=" + key +
                 ", accountId='" + accountId + '\'' +
                 ", happenedDate=" + happenedDate +
-                ", ipAddress='" + ipAddress + '\'' +
-                ", location='" + location + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
                 ", responseCode=" + responseCode +
+                ", message='" + message + '\'' +
+                ", alarmLevel=" + alarmLevel +
                 '}';
     }
 }

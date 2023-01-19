@@ -19,7 +19,7 @@ import java.util.Objects;
  */
 public class WebInputLoginInfo implements Dto {
 
-    private static final long serialVersionUID = -3647522302321846492L;
+    private static final long serialVersionUID = -5353670521216276967L;
 
     public static LoginInfo toStackBean(WebInputLoginInfo webInput) {
         if (Objects.isNull(webInput)) {
@@ -27,7 +27,7 @@ public class WebInputLoginInfo implements Dto {
         } else {
             return new LoginInfo(
                     WebInputStringIdKey.toStackBean(webInput.getAccountKey()), webInput.getPassword(),
-                    webInput.getExtraParams()
+                    webInput.getExtraParamMap()
             );
         }
     }
@@ -42,7 +42,7 @@ public class WebInputLoginInfo implements Dto {
     private String password;
 
     @JSONField(name = "extra_params")
-    private Map<String, String> extraParams;
+    private Map<String, String> extraParamMap;
 
     public WebInputLoginInfo() {
     }
@@ -63,12 +63,12 @@ public class WebInputLoginInfo implements Dto {
         this.password = password;
     }
 
-    public Map<String, String> getExtraParams() {
-        return extraParams;
+    public Map<String, String> getExtraParamMap() {
+        return extraParamMap;
     }
 
-    public void setExtraParams(Map<String, String> extraParams) {
-        this.extraParams = extraParams;
+    public void setExtraParamMap(Map<String, String> extraParamMap) {
+        this.extraParamMap = extraParamMap;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class WebInputLoginInfo implements Dto {
         return "WebInputLoginInfo{" +
                 "accountKey=" + accountKey +
                 ", password='" + password + '\'' +
-                ", extraParams=" + extraParams +
+                ", extraParamMap=" + extraParamMap +
                 '}';
     }
 }

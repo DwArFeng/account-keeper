@@ -28,6 +28,7 @@ public class ServiceExceptionMapperConfiguration {
         destination.put(ProtectorMakeException.class, ServiceExceptionCodes.PROTECTOR_MAKE_FAILED);
         destination.put(UnsupportedProtectorTypeException.class, ServiceExceptionCodes.UNSUPPORTED_PROTECTOR_TYPE);
         destination.put(ProtectorInfoNotExistsException.class, ServiceExceptionCodes.PROTECTOR_INFO_NOT_EXISTED);
+        destination.put(ProtectorProhibitedException.class, ServiceExceptionCodes.PROTECTOR_PROHIBITED);
         return new MapServiceExceptionMapper(destination, com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes.UNDEFINE);
     }
 }

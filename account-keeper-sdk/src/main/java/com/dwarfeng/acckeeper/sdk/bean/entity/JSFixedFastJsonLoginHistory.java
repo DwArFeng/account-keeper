@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class JSFixedFastJsonLoginHistory implements Bean {
 
-    private static final long serialVersionUID = -852914150870974130L;
+    private static final long serialVersionUID = 3914151809878788184L;
 
     public static JSFixedFastJsonLoginHistory of(LoginHistory loginHistory) {
         if (Objects.isNull(loginHistory)) {
@@ -24,9 +24,8 @@ public class JSFixedFastJsonLoginHistory implements Bean {
         } else {
             return new JSFixedFastJsonLoginHistory(
                     JSFixedFastJsonLongIdKey.of(loginHistory.getKey()),
-                    loginHistory.getAccountId(), loginHistory.getHappenedDate(), loginHistory.getIpAddress(),
-                    loginHistory.getLocation(), loginHistory.getLatitude(), loginHistory.getLongitude(),
-                    loginHistory.getResponseCode()
+                    loginHistory.getAccountId(), loginHistory.getHappenedDate(), loginHistory.getResponseCode(),
+                    loginHistory.getMessage(), loginHistory.getAlarmLevel()
             );
         }
     }
@@ -40,36 +39,28 @@ public class JSFixedFastJsonLoginHistory implements Bean {
     @JSONField(name = "happened_date", ordinal = 3)
     private Date happenedDate;
 
-    @JSONField(name = "ip_address", ordinal = 4)
-    private String ipAddress;
-
-    @JSONField(name = "location", ordinal = 5)
-    private String location;
-
-    @JSONField(name = "latitude", ordinal = 6)
-    private Double latitude;
-
-    @JSONField(name = "longitude", ordinal = 7)
-    private Double longitude;
-
-    @JSONField(name = "response_code", ordinal = 8)
+    @JSONField(name = "response_code", ordinal = 4)
     private int responseCode;
+
+    @JSONField(name = "message", ordinal = 5)
+    private String message;
+
+    @JSONField(name = "alarm_level", ordinal = 6)
+    private Integer alarmLevel;
 
     public JSFixedFastJsonLoginHistory() {
     }
 
     public JSFixedFastJsonLoginHistory(
-            JSFixedFastJsonLongIdKey key, String accountId, Date happenedDate, String ipAddress, String location,
-            Double latitude, Double longitude, int responseCode
+            JSFixedFastJsonLongIdKey key, String accountId, Date happenedDate, int responseCode, String message,
+            Integer alarmLevel
     ) {
         this.key = key;
         this.accountId = accountId;
         this.happenedDate = happenedDate;
-        this.ipAddress = ipAddress;
-        this.location = location;
-        this.latitude = latitude;
-        this.longitude = longitude;
         this.responseCode = responseCode;
+        this.message = message;
+        this.alarmLevel = alarmLevel;
     }
 
     public JSFixedFastJsonLongIdKey getKey() {
@@ -96,38 +87,6 @@ public class JSFixedFastJsonLoginHistory implements Bean {
         this.happenedDate = happenedDate;
     }
 
-    public String getIpAddress() {
-        return ipAddress;
-    }
-
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
     public int getResponseCode() {
         return responseCode;
     }
@@ -136,17 +95,31 @@ public class JSFixedFastJsonLoginHistory implements Bean {
         this.responseCode = responseCode;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Integer getAlarmLevel() {
+        return alarmLevel;
+    }
+
+    public void setAlarmLevel(Integer alarmLevel) {
+        this.alarmLevel = alarmLevel;
+    }
+
     @Override
     public String toString() {
         return "JSFixedFastJsonLoginHistory{" +
                 "key=" + key +
                 ", accountId='" + accountId + '\'' +
                 ", happenedDate=" + happenedDate +
-                ", ipAddress='" + ipAddress + '\'' +
-                ", location='" + location + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
                 ", responseCode=" + responseCode +
+                ", message='" + message + '\'' +
+                ", alarmLevel=" + alarmLevel +
                 '}';
     }
 }
