@@ -147,9 +147,10 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
             // 确认旧密码正确。
             handlerValidator.makeSurePasswordCorrect(accountKey, passwordUpdateInfo.getOldPassword());
 
-            // 使用维护服务查询账户实体，并将密码字段设置为新的信息。
+            // 使用维护服务查询账户实体，更新密码字段与统计字段。
             Account account = accountMaintainService.get(accountKey);
             account.setPassword(BCrypt.hashpw(passwordUpdateInfo.getNewPassword(), BCrypt.gensalt(logRounds)));
+            account.setPasswordUpdateCount(account.getPasswordUpdateCount() + 1);
 
             // 使用维护服务更新实体。
             accountMaintainService.update(account);
@@ -170,9 +171,10 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
             // 确定主键对应的账户存在。
             handlerValidator.makeSureAccountExists(accountKey);
 
-            // 使用维护服务查询账户实体，并将密码字段设置为新的信息。
+            // 使用维护服务查询账户实体，更新密码字段与统计字段。
             Account account = accountMaintainService.get(accountKey);
             account.setPassword(BCrypt.hashpw(passwordResetInfo.getNewPassword(), BCrypt.gensalt(logRounds)));
+            account.setPasswordUpdateCount(account.getPasswordUpdateCount() + 1);
 
             // 使用维护服务更新实体。
             accountMaintainService.update(account);
