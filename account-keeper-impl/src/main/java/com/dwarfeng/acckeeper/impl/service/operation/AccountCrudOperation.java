@@ -3,9 +3,7 @@ package com.dwarfeng.acckeeper.impl.service.operation;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.acckeeper.stack.cache.AccountCache;
-import com.dwarfeng.acckeeper.stack.cache.CheckerInfoCache;
 import com.dwarfeng.acckeeper.stack.dao.AccountDao;
-import com.dwarfeng.acckeeper.stack.dao.CheckerInfoDao;
 import com.dwarfeng.acckeeper.stack.dao.LoginStateDao;
 import com.dwarfeng.acckeeper.stack.dao.ProtectorInfoDao;
 import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
@@ -31,25 +29,19 @@ public class AccountCrudOperation implements BatchCrudOperation<StringIdKey, Acc
     private final ProtectorInfoCrudOperation protectInfoCrudOperation;
     private final ProtectorInfoDao protectorInfoDao;
 
-    private final CheckerInfoDao checkerInfoDao;
-    private final CheckerInfoCache checkerInfoCache;
-
     @Value("${cache.timeout.entity.account}")
     private long accountTimeout;
 
     public AccountCrudOperation(
             AccountDao accountDao, AccountCache accountCache,
             LoginStateDao loginStateDao,
-            ProtectorInfoCrudOperation protectInfoCrudOperation, ProtectorInfoDao protectorInfoDao,
-            CheckerInfoDao checkerInfoDao, CheckerInfoCache checkerInfoCache
+            ProtectorInfoCrudOperation protectInfoCrudOperation, ProtectorInfoDao protectorInfoDao
     ) {
         this.accountDao = accountDao;
         this.accountCache = accountCache;
         this.loginStateDao = loginStateDao;
         this.protectInfoCrudOperation = protectInfoCrudOperation;
         this.protectorInfoDao = protectorInfoDao;
-        this.checkerInfoDao = checkerInfoDao;
-        this.checkerInfoCache = checkerInfoCache;
     }
 
     @Override
@@ -94,12 +86,6 @@ public class AccountCrudOperation implements BatchCrudOperation<StringIdKey, Acc
         // 删除与账户相关的保护器信息。
         if (protectorInfoDao.exists(key)) {
             protectInfoCrudOperation.delete(key);
-        }
-
-        // 删除与账户相关的检查器信息。
-        if (checkerInfoDao.exists(key)) {
-            checkerInfoCache.delete(key);
-            checkerInfoDao.delete(key);
         }
 
         // 删除报警设置本身。

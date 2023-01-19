@@ -44,7 +44,6 @@ public interface HibernateMapper {
 
     @Mapping(target = "stringId", ignore = true)
     @Mapping(target = "protectorInfo", ignore = true)
-    @Mapping(target = "checkerInfo", ignore = true)
     HibernateAccount accountToHibernate(Account account);
 
     @InheritInverseConfiguration
@@ -96,17 +95,4 @@ public interface HibernateMapper {
 
     @InheritInverseConfiguration
     ProtectDetailRecord protectDetailRecordFromHibernate(HibernateProtectDetailRecord hibernateProtectDetailRecord);
-
-    @Mapping(target = "stringId", ignore = true)
-    @Mapping(target = "account", ignore = true)
-    HibernateCheckerInfo checkerInfoToHibernate(CheckerInfo checkerInfo);
-
-    @InheritInverseConfiguration
-    CheckerInfo checkerInfoFromHibernate(HibernateCheckerInfo hibernateCheckerInfo);
-
-    @Mapping(target = "stringId", ignore = true)
-    HibernateCheckerSupport checkerSupportToHibernate(CheckerSupport checkerSupport);
-
-    @InheritInverseConfiguration
-    CheckerSupport checkerSupportFromHibernate(HibernateCheckerSupport hibernateCheckerSupport);
 }
