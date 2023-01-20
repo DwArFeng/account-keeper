@@ -4,6 +4,12 @@
 
 #### 功能构建
 
+- 实现推送机制，并开发预设推送器。
+  - com.dwarfeng.acckeeper.impl.handler.pusher.AbstractPusher。
+  - com.dwarfeng.acckeeper.impl.handler.pusher.DrainPusher。
+  - com.dwarfeng.acckeeper.impl.handler.pusher.LogPusher。
+  - com.dwarfeng.acckeeper.impl.handler.pusher.MultiPusher。
+
 - 实现保护机制，并开发预设保护器。
   - com.dwarfeng.acckeeper.impl.handler.protector.AbstractProtectorRegistry。
   - com.dwarfeng.acckeeper.impl.handler.protector.DoNothingProtectorRegistry。

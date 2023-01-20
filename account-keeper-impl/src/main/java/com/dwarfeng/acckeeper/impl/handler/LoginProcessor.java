@@ -1,6 +1,7 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
 import com.dwarfeng.acckeeper.sdk.util.Constants;
+import com.dwarfeng.acckeeper.stack.bean.dto.LoginHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginHistory;
@@ -10,12 +11,15 @@ import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
 import com.dwarfeng.acckeeper.stack.exception.*;
 import com.dwarfeng.acckeeper.stack.handler.ProtectLocalCacheHandler;
 import com.dwarfeng.acckeeper.stack.handler.Protector;
+import com.dwarfeng.acckeeper.stack.handler.PushHandler;
 import com.dwarfeng.acckeeper.stack.service.*;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.mindrot.jbcrypt.BCrypt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +28,8 @@ import java.util.*;
 
 @Component
 class LoginProcessor {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginProcessor.class);
 
     private final ApplicationContext ctx;
 
@@ -34,6 +40,7 @@ class LoginProcessor {
     private final ProtectorVariableMaintainService protectorVariableMaintainService;
 
     private final ProtectLocalCacheHandler protectLocalCacheHandler;
+    private final PushHandler pushHandler;
 
     private final KeyFetcher<LongIdKey> keyFetcher;
 
@@ -45,6 +52,7 @@ class LoginProcessor {
             ProtectDetailRecordMaintainService protectDetailRecordMaintainService,
             ProtectorVariableMaintainService protectorVariableMaintainService,
             ProtectLocalCacheHandler protectLocalCacheHandler,
+            PushHandler pushHandler,
             KeyFetcher<LongIdKey> keyFetcher
     ) {
         this.ctx = ctx;
@@ -54,6 +62,7 @@ class LoginProcessor {
         this.protectDetailRecordMaintainService = protectDetailRecordMaintainService;
         this.protectorVariableMaintainService = protectorVariableMaintainService;
         this.protectLocalCacheHandler = protectLocalCacheHandler;
+        this.pushHandler = pushHandler;
         this.keyFetcher = keyFetcher;
     }
 
@@ -171,5 +180,42 @@ class LoginProcessor {
         loginHistoryMaintainService.insert(loginHistory);
         loginParamRecordMaintainService.batchInsert(loginParamRecords);
         protectDetailRecordMaintainService.batchInsert(protectDetailRecords);
+
+        // 构建 LoginRecord，并进行事件推送。
+        LoginHistoryRecordInfo loginHistoryRecordInfo = historyToRecord(
+                loginHistory, loginParamRecords, protectDetailRecords
+        );
+        try {
+            pushHandler.loginHistoryRecorded(loginHistoryRecordInfo);
+        } catch (Exception e) {
+            LOGGER.warn("推送登录历史被记录事件时发生异常, 事件将不会被推送, 异常信息如下: ", e);
+        }
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    private LoginHistoryRecordInfo historyToRecord(
+            LoginHistory loginHistory,
+            List<LoginParamRecord> loginParamRecords, List<ProtectDetailRecord> protectDetailRecords
+    ) {
+        LongIdKey loginHistoryKey = loginHistory.getKey();
+        String accountId = loginHistory.getAccountId();
+        Date happenedDate = loginHistory.getHappenedDate();
+        int responseCode = loginHistory.getResponseCode();
+        String message = loginHistory.getMessage();
+        Integer alarmLevel = loginHistory.getAlarmLevel();
+        Map<String, String> extraParamMap = new HashMap<>();
+        Map<String, String> protectDetailMap = new HashMap<>();
+
+        for (LoginParamRecord loginParamRecord : loginParamRecords) {
+            extraParamMap.put(loginParamRecord.getKey().getRecordId(), loginParamRecord.getValue());
+        }
+        for (ProtectDetailRecord protectDetailRecord : protectDetailRecords) {
+            protectDetailMap.put(protectDetailRecord.getKey().getRecordId(), protectDetailRecord.getValue());
+        }
+
+        return new LoginHistoryRecordInfo(
+                loginHistoryKey,
+                accountId, happenedDate, responseCode, message, alarmLevel, extraParamMap, protectDetailMap
+        );
     }
 }

@@ -101,6 +101,7 @@ class ProtectorContextImpl implements Protector.Context {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private Protector.LoginRecord historyToRecord(LoginHistory loginHistory) throws Exception {
         String accountId = loginHistory.getAccountId();
         Date happenedDate = loginHistory.getHappenedDate();
