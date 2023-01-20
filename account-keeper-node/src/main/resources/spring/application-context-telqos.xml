@@ -21,6 +21,7 @@
             <telqos:command-impl ref="kickCommand"/>
             <telqos:command-impl ref="stateCommand"/>
             <telqos:command-impl ref="loginCommand"/>
+            <telqos:command-impl ref="resetCommand"/>
         </telqos:command>
     </telqos:config>
 

@@ -13,11 +13,18 @@ public class LauncherSettingHandler implements Handler {
     @Value("${launcher.start_cleanup_delay}")
     private long startCleanupDelay;
 
+    @Value("${launcher.start_reset_delay}")
+    private long startResetDelay;
+
     public boolean isResetProtectorSupport() {
         return resetProtectorSupport;
     }
 
     public long getStartCleanupDelay() {
         return startCleanupDelay;
+    }
+
+    public long getStartResetDelay() {
+        return startResetDelay;
     }
 }

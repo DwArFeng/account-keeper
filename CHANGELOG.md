@@ -4,6 +4,15 @@
 
 #### 功能构建
 
+- 增加重置机制，实现保护本地缓存的动态重置。
+  - com.dwarfeng.acckeeper.impl.handler.resetter.AbstractResetter。
+  - com.dwarfeng.acckeeper.impl.handler.resetter.CronResetter。
+  - com.dwarfeng.acckeeper.impl.handler.resetter.DubboResetter。
+  - com.dwarfeng.acckeeper.impl.handler.resetter.FixedDelayResetter。
+  - com.dwarfeng.acckeeper.impl.handler.resetter.FixedRateResetter。
+  - com.dwarfeng.acckeeper.impl.handler.resetter.NeverResetter。
+
+
 - 实现推送机制，并开发预设推送器。
   - com.dwarfeng.acckeeper.impl.handler.pusher.AbstractPusher。
   - com.dwarfeng.acckeeper.impl.handler.pusher.DrainPusher。
