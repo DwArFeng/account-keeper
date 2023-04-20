@@ -39,7 +39,6 @@
   - com.dwarfeng.acckeeper.impl.handler.resetter.FixedRateResetter。
   - com.dwarfeng.acckeeper.impl.handler.resetter.NeverResetter。
 
-
 - 实现推送机制，并开发预设推送器。
   - com.dwarfeng.acckeeper.impl.handler.pusher.AbstractPusher。
   - com.dwarfeng.acckeeper.impl.handler.pusher.DrainPusher。
