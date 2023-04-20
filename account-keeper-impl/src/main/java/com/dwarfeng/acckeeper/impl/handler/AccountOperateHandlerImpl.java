@@ -3,8 +3,10 @@ package com.dwarfeng.acckeeper.impl.handler;
 import com.dwarfeng.acckeeper.sdk.util.AccountUtil;
 import com.dwarfeng.acckeeper.stack.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
+import com.dwarfeng.acckeeper.stack.bean.entity.ProtectorInfo;
 import com.dwarfeng.acckeeper.stack.handler.AccountOperateHandler;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
+import com.dwarfeng.acckeeper.stack.service.ProtectorInfoMaintainService;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import org.mindrot.jbcrypt.BCrypt;
@@ -12,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -21,21 +24,29 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountOperateHandlerImpl.class);
 
     private final AccountMaintainService accountMaintainService;
+    private final ProtectorInfoMaintainService protectorInfoMaintainService;
 
     private final HandlerValidator handlerValidator;
 
-    @Value("${acckeeper.password.salt_log_rounds}")
+    @Value("${register.password.salt_log_rounds}")
     private int logRounds;
+    @Value("${register.default_protector.type}")
+    private String defaultProtectorType;
+    @Value("${register.default_protector.param}")
+    private String defaultProtectorParam;
 
     public AccountOperateHandlerImpl(
             AccountMaintainService accountMaintainService,
+            ProtectorInfoMaintainService protectorInfoMaintainService,
             HandlerValidator handlerValidator
     ) {
         this.accountMaintainService = accountMaintainService;
+        this.protectorInfoMaintainService = protectorInfoMaintainService;
         this.handlerValidator = handlerValidator;
     }
 
     @Override
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void register(AccountRegisterInfo accountRegisterInfo) throws HandlerException {
         try {
             // 获取主键，记录信息。
@@ -57,6 +68,14 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
 
             // 调用维护服务插入账户实体。
             accountMaintainService.insert(account);
+
+            // 构造默认的保护器信息。
+            ProtectorInfo protectorInfo = new ProtectorInfo(
+                    accountKey, defaultProtectorType, defaultProtectorParam, "注册用户时自动创建的默认保护器。"
+            );
+
+            // 调用维护服务插入保护器信息。
+            protectorInfoMaintainService.insert(protectorInfo);
         } catch (HandlerException e) {
             throw e;
         } catch (Exception e) {
@@ -65,6 +84,7 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
     }
 
     @Override
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void update(AccountUpdateInfo accountUpdateInfo) throws HandlerException {
         try {
             // 获取主键，记录信息。
@@ -90,6 +110,7 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
     }
 
     @Override
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void delete(StringIdKey accountKey) throws HandlerException {
         try {
             // 记录信息。
@@ -108,6 +129,7 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
     }
 
     @Override
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public boolean checkPassword(PasswordCheckInfo passwordCheckInfo) throws HandlerException {
         try {
             // 获取主键。
@@ -135,6 +157,7 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
     }
 
     @Override
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void updatePassword(PasswordUpdateInfo passwordUpdateInfo) throws HandlerException {
         try {
             // 获取主键，记录信息。
@@ -162,6 +185,7 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
     }
 
     @Override
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void resetPassword(PasswordResetInfo passwordResetInfo) throws HandlerException {
         try {
             // 获取主键，记录信息。
@@ -186,6 +210,7 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
     }
 
     @Override
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void invalid(StringIdKey accountKey) throws HandlerException {
         try {
             // 确定主键对应的账户存在。
