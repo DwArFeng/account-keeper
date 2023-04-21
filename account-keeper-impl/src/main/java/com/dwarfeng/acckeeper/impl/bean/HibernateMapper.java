@@ -1,5 +1,6 @@
-package com.dwarfeng.acckeeper.impl.bean.entity;
+package com.dwarfeng.acckeeper.impl.bean;
 
+import com.dwarfeng.acckeeper.impl.bean.entity.*;
 import com.dwarfeng.acckeeper.impl.bean.key.HibernateProtectorVariableKey;
 import com.dwarfeng.acckeeper.impl.bean.key.HibernateRecordKey;
 import com.dwarfeng.acckeeper.stack.bean.entity.*;

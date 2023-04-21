@@ -1,5 +1,6 @@
 package com.dwarfeng.acckeeper.node.configuration;
 
+import com.dwarfeng.acckeeper.sdk.bean.FastJsonMapper;
 import com.dwarfeng.acckeeper.sdk.bean.entity.*;
 import com.dwarfeng.acckeeper.sdk.bean.key.formatter.ProtectorVariableStringKeyFormatter;
 import com.dwarfeng.acckeeper.sdk.bean.key.formatter.RecordStringKeyFormatter;

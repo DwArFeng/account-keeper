@@ -1,5 +1,6 @@
-package com.dwarfeng.acckeeper.sdk.bean.entity;
+package com.dwarfeng.acckeeper.sdk.bean;
 
+import com.dwarfeng.acckeeper.sdk.bean.entity.*;
 import com.dwarfeng.acckeeper.sdk.bean.key.FastJsonProtectorVariableKey;
 import com.dwarfeng.acckeeper.sdk.bean.key.FastJsonRecordKey;
 import com.dwarfeng.acckeeper.stack.bean.entity.*;
