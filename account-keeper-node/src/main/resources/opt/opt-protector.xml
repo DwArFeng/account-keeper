@@ -18,6 +18,7 @@
                 type="assignable" expression="com.dwarfeng.acckeeper.impl.handler.protector.DoNothingProtectorRegistry"
         />
         -->
+
         <!-- 加载 PasswordProtector -->
         <!--
         <context:include-filter
