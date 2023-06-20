@@ -4,6 +4,10 @@
 
 #### 功能构建
 
+- 配置文件优化。
+  - 优化 impl 模块下 `spring/application-context-placeholder.xml` 配置文件。
+  - 优化 node 模块下 `spring/application-context-placeholder.xml` 配置文件。
+
 - 优化清理机制。
   - 使用分布式锁管理清理作业，使得同一时刻下一个集群中只有一个节点执行清理作业。
 

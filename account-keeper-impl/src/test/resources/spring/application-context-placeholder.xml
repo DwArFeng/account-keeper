@@ -11,8 +11,8 @@
 
     <!-- 设置配置文件的路径 -->
     <context:property-placeholder
-            location="classpath:dubbo/connection.properties,classpath:database/*.properties,
-            classpath:redis/*.properties,classpath:acckeeper/*.properties,classpath:curator/*.properties"
+            location="classpath:dubbo/*.properties,classpath:database/*.properties,classpath:redis/*.properties,
+            classpath:acckeeper/*.properties,classpath:curator/*.properties"
             local-override="true"
             properties-ref="refProperties"
     />
