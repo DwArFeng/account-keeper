@@ -25,9 +25,7 @@ public class CleanQosServiceImpl implements CleanQosService {
         try {
             return cleanHandler.isStarted();
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow(
-                    "获取清理服务是否启动时发生异常", LogLevel.WARN, sem, e
-            );
+            throw ServiceExceptionHelper.logParse("获取清理服务是否启动时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -36,9 +34,7 @@ public class CleanQosServiceImpl implements CleanQosService {
         try {
             cleanHandler.start();
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow(
-                    "启动清理服务时发生异常", LogLevel.WARN, sem, e
-            );
+            throw ServiceExceptionHelper.logParse("启动清理服务时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -47,9 +43,7 @@ public class CleanQosServiceImpl implements CleanQosService {
         try {
             cleanHandler.stop();
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow(
-                    "停止清理服务时发生异常", LogLevel.WARN, sem, e
-            );
+            throw ServiceExceptionHelper.logParse("停止清理服务时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

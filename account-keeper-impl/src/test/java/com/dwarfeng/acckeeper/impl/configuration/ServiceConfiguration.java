@@ -11,9 +11,8 @@ import com.dwarfeng.acckeeper.stack.cache.ProtectDetailRecordCache;
 import com.dwarfeng.acckeeper.stack.cache.ProtectorSupportCache;
 import com.dwarfeng.acckeeper.stack.cache.ProtectorVariableCache;
 import com.dwarfeng.acckeeper.stack.dao.*;
-import com.dwarfeng.subgrade.impl.bean.key.ExceptionKeyFetcher;
+import com.dwarfeng.subgrade.impl.generation.ExceptionKeyGenerator;
 import com.dwarfeng.subgrade.impl.service.*;
-import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.log.LogLevel;
@@ -25,8 +24,7 @@ import org.springframework.context.annotation.Configuration;
 public class ServiceConfiguration {
 
     private final ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration;
-
-    private final KeyFetcher<LongIdKey> longIdKeyFetcher;
+    private final GenerateConfiguration generateConfiguration;
 
     private final AccountCrudOperation accountCrudOperation;
     private final AccountDao accountDao;
@@ -55,18 +53,25 @@ public class ServiceConfiguration {
 
     public ServiceConfiguration(
             ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration,
-            KeyFetcher<LongIdKey> longIdKeyFetcher,
-            AccountCrudOperation accountCrudOperation, AccountDao accountDao,
+            GenerateConfiguration generateConfiguration,
+            AccountCrudOperation accountCrudOperation,
+            AccountDao accountDao,
             LoginStateDao loginStateDao,
-            LoginHistoryCrudOperation loginHistoryCrudOperation, LoginHistoryDao loginHistoryDao,
-            ProtectorInfoCrudOperation protectorInfoCrudOperation, ProtectorInfoDao protectorInfoDao,
-            ProtectorSupportDao protectorSupportDao, ProtectorSupportCache protectorSupportCache,
-            ProtectorVariableDao protectorVariableDao, ProtectorVariableCache protectorVariableCache,
-            LoginParamRecordDao loginParamRecordDao, LoginParamRecordCache loginParamRecordCache,
-            ProtectDetailRecordDao protectDetailRecordDao, ProtectDetailRecordCache protectDetailRecordCache
+            LoginHistoryCrudOperation loginHistoryCrudOperation,
+            LoginHistoryDao loginHistoryDao,
+            ProtectorInfoCrudOperation protectorInfoCrudOperation,
+            ProtectorInfoDao protectorInfoDao,
+            ProtectorSupportDao protectorSupportDao,
+            ProtectorSupportCache protectorSupportCache,
+            ProtectorVariableDao protectorVariableDao,
+            ProtectorVariableCache protectorVariableCache,
+            LoginParamRecordDao loginParamRecordDao,
+            LoginParamRecordCache loginParamRecordCache,
+            ProtectDetailRecordDao protectDetailRecordDao,
+            ProtectDetailRecordCache protectDetailRecordCache
     ) {
         this.serviceExceptionMapperConfiguration = serviceExceptionMapperConfiguration;
-        this.longIdKeyFetcher = longIdKeyFetcher;
+        this.generateConfiguration = generateConfiguration;
         this.accountCrudOperation = accountCrudOperation;
         this.accountDao = accountDao;
         this.loginStateDao = loginStateDao;
@@ -88,7 +93,7 @@ public class ServiceConfiguration {
     public CustomBatchCrudService<StringIdKey, Account> accountCustomBatchCrudService() {
         return new CustomBatchCrudService<>(
                 accountCrudOperation,
-                new ExceptionKeyFetcher<>(),
+                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );
@@ -116,7 +121,7 @@ public class ServiceConfiguration {
     public DaoOnlyBatchCrudService<LongIdKey, LoginState> loginStateDaoOnlyBatchCrudService() {
         return new DaoOnlyBatchCrudService<>(
                 loginStateDao,
-                longIdKeyFetcher,
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );
@@ -144,7 +149,7 @@ public class ServiceConfiguration {
     public CustomBatchCrudService<LongIdKey, LoginHistory> loginHistoryCustomBatchCrudService() {
         return new CustomBatchCrudService<>(
                 loginHistoryCrudOperation,
-                longIdKeyFetcher,
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );
@@ -172,7 +177,7 @@ public class ServiceConfiguration {
     public CustomBatchCrudService<StringIdKey, ProtectorInfo> protectorInfoCustomBatchCrudService() {
         return new CustomBatchCrudService<>(
                 protectorInfoCrudOperation,
-                new ExceptionKeyFetcher<>(),
+                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );
@@ -201,7 +206,7 @@ public class ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 protectorSupportDao,
                 protectorSupportCache,
-                new ExceptionKeyFetcher<>(),
+                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 protectorSupportTimeout
@@ -231,7 +236,7 @@ public class ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 protectorVariableDao,
                 protectorVariableCache,
-                new ExceptionKeyFetcher<>(),
+                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 protectorVariableTimeout
@@ -261,7 +266,7 @@ public class ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 loginParamRecordDao,
                 loginParamRecordCache,
-                new ExceptionKeyFetcher<>(),
+                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 loginParamRecordTimeout
@@ -291,7 +296,7 @@ public class ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 protectDetailRecordDao,
                 protectDetailRecordCache,
-                new ExceptionKeyFetcher<>(),
+                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 protectDetailRecordTimeout

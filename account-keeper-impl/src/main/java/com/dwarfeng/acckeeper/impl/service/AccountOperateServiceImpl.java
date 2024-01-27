@@ -31,7 +31,7 @@ public class AccountOperateServiceImpl implements AccountOperateService {
         try {
             accountOperateHandler.register(accountRegisterInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("注册账户时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("注册账户时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -42,7 +42,7 @@ public class AccountOperateServiceImpl implements AccountOperateService {
         try {
             accountOperateHandler.update(accountUpdateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新账户时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新账户时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -53,7 +53,7 @@ public class AccountOperateServiceImpl implements AccountOperateService {
         try {
             accountOperateHandler.delete(accountKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除账户时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除账户时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -64,7 +64,7 @@ public class AccountOperateServiceImpl implements AccountOperateService {
         try {
             return accountOperateHandler.checkPassword(passwordCheckInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("判断账户密码是否正确时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("判断账户密码是否正确时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -75,7 +75,7 @@ public class AccountOperateServiceImpl implements AccountOperateService {
         try {
             accountOperateHandler.updatePassword(passwordUpdateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新账户密码时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新账户密码时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -86,7 +86,7 @@ public class AccountOperateServiceImpl implements AccountOperateService {
         try {
             accountOperateHandler.resetPassword(passwordResetInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("重置账户密码时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("重置账户密码时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -97,7 +97,7 @@ public class AccountOperateServiceImpl implements AccountOperateService {
         try {
             accountOperateHandler.invalid(accountKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("使账户之前的登录信息无效时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("使账户之前的登录信息无效时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

@@ -7,6 +7,7 @@ import com.dwarfeng.acckeeper.stack.bean.entity.ProtectorInfo;
 import com.dwarfeng.acckeeper.stack.handler.AccountOperateHandler;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
 import com.dwarfeng.acckeeper.stack.service.ProtectorInfoMaintainService;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import org.mindrot.jbcrypt.BCrypt;
@@ -76,10 +77,8 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
 
             // 调用维护服务插入保护器信息。
             protectorInfoMaintainService.insert(protectorInfo);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -102,10 +101,8 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
 
             // 使用维护服务更新实体。
             accountMaintainService.update(account);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -121,10 +118,8 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
 
             // 调用维护服务删除实体。
             accountMaintainService.delete(accountKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -149,10 +144,8 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
                 LOGGER.warn("账户 ID=" + account.getKey().getStringId() + " 密码验证失败...");
                 return false;
             }
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -177,10 +170,8 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
 
             // 使用维护服务更新实体。
             accountMaintainService.update(account);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -202,10 +193,8 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
 
             // 使用维护服务更新实体。
             accountMaintainService.update(account);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -222,10 +211,8 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
 
             // 使用维护服务更新实体。
             accountMaintainService.update(account);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 }

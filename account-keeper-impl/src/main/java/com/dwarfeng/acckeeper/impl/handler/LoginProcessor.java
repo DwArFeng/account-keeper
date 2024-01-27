@@ -14,9 +14,9 @@ import com.dwarfeng.acckeeper.stack.handler.Protector;
 import com.dwarfeng.acckeeper.stack.handler.PushHandler;
 import com.dwarfeng.acckeeper.stack.service.*;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
-import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.stack.generation.KeyGenerator;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +42,7 @@ class LoginProcessor {
     private final ProtectLocalCacheHandler protectLocalCacheHandler;
     private final PushHandler pushHandler;
 
-    private final KeyFetcher<LongIdKey> keyFetcher;
+    private final KeyGenerator<LongIdKey> keyGenerator;
 
     public LoginProcessor(
             ApplicationContext ctx,
@@ -53,7 +53,7 @@ class LoginProcessor {
             ProtectorVariableMaintainService protectorVariableMaintainService,
             ProtectLocalCacheHandler protectLocalCacheHandler,
             PushHandler pushHandler,
-            KeyFetcher<LongIdKey> keyFetcher
+            KeyGenerator<LongIdKey> keyGenerator
     ) {
         this.ctx = ctx;
         this.accountMaintainService = accountMaintainService;
@@ -63,7 +63,7 @@ class LoginProcessor {
         this.protectorVariableMaintainService = protectorVariableMaintainService;
         this.protectLocalCacheHandler = protectLocalCacheHandler;
         this.pushHandler = pushHandler;
-        this.keyFetcher = keyFetcher;
+        this.keyGenerator = keyGenerator;
     }
 
     // 为了确保代码的可读性，此处不对代码结构进行优化。
@@ -156,7 +156,7 @@ class LoginProcessor {
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void processRecord(LoginComplex loginComplex) throws Exception {
         // 构建实体。
-        LongIdKey loginHistoryKey = keyFetcher.fetchKey();
+        LongIdKey loginHistoryKey = keyGenerator.generate();
         LoginHistory loginHistory = new LoginHistory(
                 loginHistoryKey, loginComplex.getAccountId(), loginComplex.getHappenedDate(),
                 loginComplex.getResponseCode(), loginComplex.getMessage(), loginComplex.getAlarmLevel()

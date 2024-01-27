@@ -6,11 +6,12 @@ import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.acckeeper.stack.handler.LoginHandler;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
 import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
-import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.stack.generation.KeyGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +26,7 @@ public class LoginHandlerImpl implements LoginHandler {
 
     private final HandlerValidator handlerValidator;
 
-    private final KeyFetcher<LongIdKey> keyFetcher;
+    private final KeyGenerator<LongIdKey> keyGenerator;
 
     private final LoginProcessor loginProcessor;
 
@@ -36,13 +37,13 @@ public class LoginHandlerImpl implements LoginHandler {
             AccountMaintainService accountMaintainService,
             LoginStateMaintainService loginStateMaintainService,
             HandlerValidator handlerValidator,
-            KeyFetcher<LongIdKey> keyFetcher,
+            KeyGenerator<LongIdKey> keyGenerator,
             LoginProcessor loginProcessor
     ) {
         this.accountMaintainService = accountMaintainService;
         this.loginStateMaintainService = loginStateMaintainService;
         this.handlerValidator = handlerValidator;
-        this.keyFetcher = keyFetcher;
+        this.keyGenerator = keyGenerator;
         this.loginProcessor = loginProcessor;
     }
 
@@ -109,7 +110,7 @@ public class LoginHandlerImpl implements LoginHandler {
                     loginComplex.getHappenedDate().getTime() + expireTimeout
             );
             long serialVersion = loginComplex.getSerialVersion();
-            LoginState loginState = new LoginState(keyFetcher.fetchKey(), accountKey, expireDate, serialVersion);
+            LoginState loginState = new LoginState(keyGenerator.generate(), accountKey, expireDate, serialVersion);
             // 插入登陆实体。
             loginStateMaintainService.insertOrUpdate(loginState);
 
@@ -120,10 +121,8 @@ public class LoginHandlerImpl implements LoginHandler {
 
             // 返回结果。
             return loginState;
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -136,10 +135,8 @@ public class LoginHandlerImpl implements LoginHandler {
 
             // 获取登录状态，并返回。
             return loginStateMaintainService.get(loginStateKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -185,10 +182,8 @@ public class LoginHandlerImpl implements LoginHandler {
             // 将新的实体推送到缓存中，并更新缓存的超时时间，最后返回结果。
             loginStateMaintainService.insertOrUpdate(loginState);
             return loginState;
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 

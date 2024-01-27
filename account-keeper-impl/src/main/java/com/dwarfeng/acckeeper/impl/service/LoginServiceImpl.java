@@ -32,7 +32,7 @@ public class LoginServiceImpl implements LoginService {
         try {
             return loginHandler.isLogin(loginStateKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("判断是否登录时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("判断是否登录时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -43,7 +43,7 @@ public class LoginServiceImpl implements LoginService {
         try {
             return loginHandler.getLoginState(loginStateKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("获取登录状态时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("获取登录状态时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -54,7 +54,7 @@ public class LoginServiceImpl implements LoginService {
         try {
             return loginHandler.login(loginInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("登录时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("登录时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -65,7 +65,7 @@ public class LoginServiceImpl implements LoginService {
         try {
             loginHandler.logout(loginStateKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("登出时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("登出时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -76,7 +76,7 @@ public class LoginServiceImpl implements LoginService {
         try {
             return loginHandler.postpone(loginStateKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("推迟超时日期时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("推迟超时日期时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

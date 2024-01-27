@@ -251,9 +251,7 @@ public class ProtectorSupportMaintainServiceImpl implements ProtectorSupportMain
             )).collect(Collectors.toList());
             crudService.batchInsert(protectorSupports);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("重置保护器支持时发生异常",
-                    LogLevel.WARN, sem, e
-            );
+            throw ServiceExceptionHelper.logParse("重置保护器支持时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }
