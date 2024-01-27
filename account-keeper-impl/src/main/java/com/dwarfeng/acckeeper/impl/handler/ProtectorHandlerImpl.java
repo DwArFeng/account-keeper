@@ -6,19 +6,22 @@ import com.dwarfeng.acckeeper.stack.handler.Protector;
 import com.dwarfeng.acckeeper.stack.handler.ProtectorHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ProtectorHandlerImpl implements ProtectorHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProtectorHandlerImpl.class);
 
-    @Autowired(required = false)
-    private List<ProtectorMaker> protectorMakers = new ArrayList<>();
+    private final List<ProtectorMaker> protectorMakers;
+
+    public ProtectorHandlerImpl(List<ProtectorMaker> protectorMakers) {
+        this.protectorMakers = Optional.ofNullable(protectorMakers).orElse(Collections.emptyList());
+    }
 
     @Override
     public Protector make(String type, String param) throws ProtectorException {
