@@ -151,16 +151,7 @@ public class PasswordProtectorRegistry extends AbstractProtectorRegistry {
                 );
 
                 // 判断信息的类型。
-                int alarmLevel;
-                int warnThreshold = config.getWarnThreshold();
-                int dangerThreshold = config.getDangerThreshold();
-                if (incorrectCount >= dangerThreshold) {
-                    alarmLevel = Constants.PROTECTOR_MESSAGE_LEVEL_DANGER;
-                } else if (incorrectCount >= warnThreshold) {
-                    alarmLevel = Constants.PROTECTOR_MESSAGE_LEVEL_WARN;
-                } else {
-                    alarmLevel = Constants.PROTECTOR_MESSAGE_LEVEL_INFO;
-                }
+                int alarmLevel = parseAlarmLevel(incorrectCount);
 
                 // 如果 count 大于禁止阈值，则禁止。
                 int prohibitThreshold = config.getProhibitThreshold();
@@ -195,6 +186,20 @@ public class PasswordProtectorRegistry extends AbstractProtectorRegistry {
 
         private String formatTimestamp(long prohibitUntilTimestamp) {
             return new SimpleDateFormat("yyyy-MM-dd:HH:mm:ss").format(new Date(prohibitUntilTimestamp));
+        }
+
+        private int parseAlarmLevel(int incorrectCount) {
+            int alarmLevel;
+            int warnThreshold = config.getWarnThreshold();
+            int dangerThreshold = config.getDangerThreshold();
+            if (incorrectCount >= dangerThreshold) {
+                alarmLevel = Constants.PROTECTOR_MESSAGE_LEVEL_DANGER;
+            } else if (incorrectCount >= warnThreshold) {
+                alarmLevel = Constants.PROTECTOR_MESSAGE_LEVEL_WARN;
+            } else {
+                alarmLevel = Constants.PROTECTOR_MESSAGE_LEVEL_INFO;
+            }
+            return alarmLevel;
         }
 
         @Override

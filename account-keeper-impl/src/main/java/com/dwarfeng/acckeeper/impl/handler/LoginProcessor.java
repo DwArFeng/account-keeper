@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Component
-class LoginProcessor {
+public class LoginProcessor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginProcessor.class);
 

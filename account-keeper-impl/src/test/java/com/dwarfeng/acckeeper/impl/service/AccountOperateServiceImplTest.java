@@ -145,7 +145,8 @@ public class AccountOperateServiceImplTest {
             }
 
             accountOperateService.resetPassword(new PasswordResetInfo(wangWuRegisterInfo.getAccountKey(), "123456"));
-            Account wangWu = accountMaintainService.get(wangWuRegisterInfo.getAccountKey());
+            // Account wangWu = accountMaintainService.get(wangWuRegisterInfo.getAccountKey());
+            // TODO 进一步完善测试内容。
         } finally {
             accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
             accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());

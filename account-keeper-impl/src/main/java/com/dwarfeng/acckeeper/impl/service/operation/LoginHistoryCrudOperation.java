@@ -127,15 +127,15 @@ public class LoginHistoryCrudOperation implements BatchCrudOperation<LongIdKey, 
     }
 
     @Override
-    public List<LongIdKey> batchInsert(List<LoginHistory> loginHistorys) throws Exception {
-        loginHistoryCache.batchPush(loginHistorys, loginHistoryTimeout);
-        return loginHistoryDao.batchInsert(loginHistorys);
+    public List<LongIdKey> batchInsert(List<LoginHistory> loginHistories) throws Exception {
+        loginHistoryCache.batchPush(loginHistories, loginHistoryTimeout);
+        return loginHistoryDao.batchInsert(loginHistories);
     }
 
     @Override
-    public void batchUpdate(List<LoginHistory> loginHistorys) throws Exception {
-        loginHistoryCache.batchPush(loginHistorys, loginHistoryTimeout);
-        loginHistoryDao.batchUpdate(loginHistorys);
+    public void batchUpdate(List<LoginHistory> loginHistories) throws Exception {
+        loginHistoryCache.batchPush(loginHistories, loginHistoryTimeout);
+        loginHistoryDao.batchUpdate(loginHistories);
     }
 
     @Override

@@ -40,7 +40,6 @@ public class LoginCommand extends CliCommand {
         this.loginQosService = loginQosService;
     }
 
-    @SuppressWarnings("DuplicatedCode")
     @Override
     protected List<Option> buildOptions() {
         List<Option> list = new ArrayList<>();
@@ -52,7 +51,6 @@ public class LoginCommand extends CliCommand {
         return list;
     }
 
-    @SuppressWarnings("DuplicatedCode")
     @Override
     protected void executeWithCmd(Context context, CommandLine cmd) throws TelqosException {
         try {

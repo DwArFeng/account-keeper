@@ -7,7 +7,7 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import java.util.Date;
 import java.util.Map;
 
-final class LoginComplex {
+public final class LoginComplex {
 
     private final StringIdKey accountKey;
     private final String accountId;

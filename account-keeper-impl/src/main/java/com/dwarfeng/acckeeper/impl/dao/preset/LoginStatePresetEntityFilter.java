@@ -26,7 +26,6 @@ public class LoginStatePresetEntityFilter implements PresetEntityFilter<LoginSta
         }
     }
 
-    @SuppressWarnings("DuplicatedCode")
     private boolean childForPoint(LoginState entity, Object[] objs) {
         try {
             StringIdKey stringIdKey = (StringIdKey) objs[0];
@@ -36,7 +35,6 @@ public class LoginStatePresetEntityFilter implements PresetEntityFilter<LoginSta
         }
     }
 
-    @SuppressWarnings("DuplicatedCode")
     private boolean expireDateBefore(LoginState entity, Object[] objs) {
         try {
             Date referenceDate = (Date) objs[0];
