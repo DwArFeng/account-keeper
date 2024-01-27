@@ -12,16 +12,13 @@
     <telqos:config>
         <telqos:connection-setting
                 port="${telqos.port}" charset="${telqos.charset}" banner-url="classpath:telqos/my-banner.txt"
-                whitelist-regex="${telqos.whitelist-regex}" blacklist-regex="${telqos.blacklist-regex}"
+                whitelist-regex="${telqos.whitelist_regex}" blacklist-regex="${telqos.blacklist_regex}"
         />
         <telqos:task-pool ref="executor"/>
         <telqos:command>
             <telqos:command-impl ref="shutdownCommand"/>
             <telqos:command-impl ref="dubboCommand"/>
-            <telqos:command-impl ref="kickCommand"/>
-            <telqos:command-impl ref="stateCommand"/>
-            <telqos:command-impl ref="loginCommand"/>
-            <telqos:command-impl ref="resetCommand"/>
+            <telqos:command-impl package-scan="com.dwarfeng.acckeeper.impl.service.telqos"/>
         </telqos:command>
     </telqos:config>
 

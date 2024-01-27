@@ -3,6 +3,7 @@ package com.dwarfeng.acckeeper.impl.service.telqos;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.acckeeper.stack.service.LoginQosService;
+import com.dwarfeng.springtelqos.node.config.TelqosCommand;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
 import com.dwarfeng.springtelqos.stack.command.Context;
 import com.dwarfeng.springtelqos.stack.exception.TelqosException;
@@ -11,12 +12,11 @@ import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@Component
+@TelqosCommand
 public class LoginCommand extends CliCommand {
 
     private static final String COMMAND_OPTION_ACCOUNT_ID = "a";
