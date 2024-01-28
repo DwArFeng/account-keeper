@@ -8,7 +8,8 @@
 
 #### Bug修复
 
-- (无)
+- 修复 Hibernate Key 缺失 `equals` 和 `hashCode` 方法的 bug。
+  - com.dwarfeng.acckeeper.impl.bean.key.HibernateProtectorVariableKey。
 
 #### 功能移除
 
