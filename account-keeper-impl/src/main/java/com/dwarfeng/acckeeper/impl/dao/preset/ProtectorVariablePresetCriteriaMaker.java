@@ -28,7 +28,7 @@ public class ProtectorVariablePresetCriteriaMaker implements PresetCriteriaMaker
     private void childForProtectorInfo(DetachedCriteria detachedCriteria, Object[] objects) {
         try {
             if (Objects.isNull(objects[0])) {
-                detachedCriteria.add(Restrictions.isNull("notifySettingId"));
+                detachedCriteria.add(Restrictions.isNull("protectorInfoId"));
             } else {
                 StringIdKey stringIdKey = (StringIdKey) objects[0];
                 detachedCriteria.add(Restrictions.eqOrIsNull("protectorInfoId", stringIdKey.getStringId()));

@@ -8,6 +8,9 @@
 
 #### Bug修复
 
+- 部分预设 Criteria 制造器修正。
+  - 修正 ProtectorVariablePresetCriteriaMaker.childForProtectorInfo 中的错误。
+
 - 部分配置文件修正。
   - 修正 `spring/application-context-scan.xml` 中缺失的配置内容。
 
