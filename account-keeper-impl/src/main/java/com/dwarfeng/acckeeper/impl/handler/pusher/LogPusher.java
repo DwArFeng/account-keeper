@@ -52,26 +52,28 @@ public class LogPusher extends AbstractPusher {
 
     private void logData(String title, String message) throws HandlerException {
         String logLevel = this.logLevel.toUpperCase();
+        logString(title, logLevel);
+        if (StringUtils.isNotEmpty(message)) {
+            logString(message, logLevel);
+        }
+    }
+
+    private void logString(String title, String logLevel) throws HandlerException {
         switch (logLevel) {
             case LEVEL_TRACE:
                 LOGGER.trace(title);
-                LOGGER.trace(message);
                 return;
             case LEVEL_DEBUG:
                 LOGGER.debug(title);
-                LOGGER.debug(message);
                 return;
             case LEVEL_INFO:
                 LOGGER.info(title);
-                LOGGER.info(message);
                 return;
             case LEVEL_WARN:
                 LOGGER.warn(title);
-                LOGGER.warn(message);
                 return;
             case LEVEL_ERROR:
                 LOGGER.error(title);
-                LOGGER.error(message);
                 return;
             default:
                 throw new HandlerException("未知的日志等级: " + logLevel);
