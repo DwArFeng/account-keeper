@@ -3,29 +3,35 @@ package com.dwarfeng.acckeeper.stack.bean.dto;
 import com.dwarfeng.subgrade.stack.bean.dto.Dto;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
- * 登录信息。
+ * 静态登录信息。
  *
  * @author DwArFeng
- * @since 1.4.0
+ * @since 1.7.0
  */
-@Deprecated
-public class LoginInfo implements Dto {
+public class StaticLoginInfo implements Dto {
 
-    private static final long serialVersionUID = 877270220586583732L;
+    private static final long serialVersionUID = -7654855085347168601L;
 
     private StringIdKey accountKey;
     private String password;
+    private Date expireDate;
+    private String remark;
     private Map<String, String> extraParamMap;
 
-    public LoginInfo() {
+    public StaticLoginInfo() {
     }
 
-    public LoginInfo(StringIdKey accountKey, String password, Map<String, String> extraParamMap) {
+    public StaticLoginInfo(
+            StringIdKey accountKey, String password, Date expireDate, String remark, Map<String, String> extraParamMap
+    ) {
         this.accountKey = accountKey;
         this.password = password;
+        this.expireDate = expireDate;
+        this.remark = remark;
         this.extraParamMap = extraParamMap;
     }
 
@@ -45,6 +51,22 @@ public class LoginInfo implements Dto {
         this.password = password;
     }
 
+    public Date getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(Date expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public Map<String, String> getExtraParamMap() {
         return extraParamMap;
     }
@@ -55,9 +77,11 @@ public class LoginInfo implements Dto {
 
     @Override
     public String toString() {
-        return "LoginInfo{" +
+        return "StaticLoginInfo{" +
                 "accountKey=" + accountKey +
                 ", password='" + password + '\'' +
+                ", expireDate=" + expireDate +
+                ", remark='" + remark + '\'' +
                 ", extraParamMap=" + extraParamMap +
                 '}';
     }

@@ -8,6 +8,7 @@ import com.dwarfeng.subgrade.stack.bean.dto.Dto;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
@@ -32,6 +33,7 @@ public class WebInputAccountUpdateInfo implements Dto {
     }
 
     @JSONField(name = "account_key")
+    @NotNull
     @Valid
     private WebInputStringIdKey accountKey;
 

@@ -17,7 +17,7 @@ import java.util.Objects;
  */
 public class FastJsonLoginHistoryRecordInfo implements Dto {
 
-    private static final long serialVersionUID = -7466547180690199707L;
+    private static final long serialVersionUID = -1132174023173355395L;
 
     public static FastJsonLoginHistoryRecordInfo of(LoginHistoryRecordInfo loginHistoryRecordInfo) {
         if (Objects.isNull(loginHistoryRecordInfo)) {
@@ -25,10 +25,14 @@ public class FastJsonLoginHistoryRecordInfo implements Dto {
         } else {
             return new FastJsonLoginHistoryRecordInfo(
                     FastJsonLongIdKey.of(loginHistoryRecordInfo.getLoginHistoryKey()),
-                    loginHistoryRecordInfo.getAccountId(), loginHistoryRecordInfo.getHappenedDate(),
-                    loginHistoryRecordInfo.getResponseCode(), loginHistoryRecordInfo.getMessage(),
-                    loginHistoryRecordInfo.getAlarmLevel(), loginHistoryRecordInfo.getExtraParamMap(),
-                    loginHistoryRecordInfo.getProtectDetailMap()
+                    loginHistoryRecordInfo.getAccountId(),
+                    loginHistoryRecordInfo.getHappenedDate(),
+                    loginHistoryRecordInfo.getResponseCode(),
+                    loginHistoryRecordInfo.getMessage(),
+                    loginHistoryRecordInfo.getAlarmLevel(),
+                    loginHistoryRecordInfo.getExtraParamMap(),
+                    loginHistoryRecordInfo.getProtectDetailMap(),
+                    loginHistoryRecordInfo.getLoginRemark()
             );
         }
     }
@@ -57,12 +61,16 @@ public class FastJsonLoginHistoryRecordInfo implements Dto {
     @JSONField(name = "protect_details", ordinal = 8)
     private Map<String, String> protectDetailMap;
 
+    @JSONField(name = "login_remark", ordinal = 9)
+    private String loginRemark;
+
     public FastJsonLoginHistoryRecordInfo() {
     }
 
     public FastJsonLoginHistoryRecordInfo(
             FastJsonLongIdKey loginHistoryKey, String accountId, Date happenedDate, int responseCode, String message,
-            Integer alarmLevel, Map<String, String> extraParamMap, Map<String, String> protectDetailMap
+            Integer alarmLevel, Map<String, String> extraParamMap, Map<String, String> protectDetailMap,
+            String loginRemark
     ) {
         this.loginHistoryKey = loginHistoryKey;
         this.accountId = accountId;
@@ -72,6 +80,7 @@ public class FastJsonLoginHistoryRecordInfo implements Dto {
         this.alarmLevel = alarmLevel;
         this.extraParamMap = extraParamMap;
         this.protectDetailMap = protectDetailMap;
+        this.loginRemark = loginRemark;
     }
 
     public FastJsonLongIdKey getLoginHistoryKey() {
@@ -138,6 +147,14 @@ public class FastJsonLoginHistoryRecordInfo implements Dto {
         this.protectDetailMap = protectDetailMap;
     }
 
+    public String getLoginRemark() {
+        return loginRemark;
+    }
+
+    public void setLoginRemark(String loginRemark) {
+        this.loginRemark = loginRemark;
+    }
+
     @Override
     public String toString() {
         return "FastJsonLoginHistoryRecordInfo{" +
@@ -149,6 +166,7 @@ public class FastJsonLoginHistoryRecordInfo implements Dto {
                 ", alarmLevel=" + alarmLevel +
                 ", extraParamMap=" + extraParamMap +
                 ", protectDetailMap=" + protectDetailMap +
+                ", loginRemark='" + loginRemark + '\'' +
                 '}';
     }
 }

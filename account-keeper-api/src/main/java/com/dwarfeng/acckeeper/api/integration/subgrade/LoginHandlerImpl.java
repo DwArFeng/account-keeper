@@ -1,6 +1,6 @@
 package com.dwarfeng.acckeeper.api.integration.subgrade;
 
-import com.dwarfeng.acckeeper.stack.bean.dto.LoginInfo;
+import com.dwarfeng.acckeeper.stack.bean.dto.DynamicLoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.PasswordCheckInfo;
 import com.dwarfeng.acckeeper.stack.service.AccountOperateService;
 import com.dwarfeng.acckeeper.stack.service.LoginService;
@@ -9,6 +9,7 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import com.dwarfeng.subgrade.stack.handler.LoginHandler;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -42,7 +43,10 @@ public class LoginHandlerImpl implements LoginHandler {
     @Override
     public LongIdKey login(StringIdKey accountKey, String password) throws HandlerException {
         try {
-            return loginService.login(new LoginInfo(accountKey, password, Collections.emptyMap())).getKey();
+            DynamicLoginInfo loginInfo = new DynamicLoginInfo(
+                    accountKey, password, StringUtils.EMPTY, Collections.emptyMap()
+            );
+            return loginService.dynamicLogin(loginInfo).getKey();
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }

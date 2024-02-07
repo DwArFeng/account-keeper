@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class FastJsonLoginHistory implements Bean {
 
-    private static final long serialVersionUID = 1820203658523243716L;
+    private static final long serialVersionUID = 6346324285789302578L;
 
     public static FastJsonLoginHistory of(LoginHistory loginHistory) {
         if (Objects.isNull(loginHistory)) {
@@ -25,7 +25,7 @@ public class FastJsonLoginHistory implements Bean {
             return new FastJsonLoginHistory(
                     FastJsonLongIdKey.of(loginHistory.getKey()),
                     loginHistory.getAccountId(), loginHistory.getHappenedDate(), loginHistory.getResponseCode(),
-                    loginHistory.getMessage(), loginHistory.getAlarmLevel()
+                    loginHistory.getMessage(), loginHistory.getAlarmLevel(), loginHistory.getLoginRemark()
             );
         }
     }
@@ -48,12 +48,15 @@ public class FastJsonLoginHistory implements Bean {
     @JSONField(name = "alarm_level", ordinal = 6)
     private Integer alarmLevel;
 
+    @JSONField(name = "login_remark", ordinal = 7)
+    private String loginRemark;
+
     public FastJsonLoginHistory() {
     }
 
     public FastJsonLoginHistory(
             FastJsonLongIdKey key, String accountId, Date happenedDate, int responseCode, String message,
-            Integer alarmLevel
+            Integer alarmLevel, String loginRemark
     ) {
         this.key = key;
         this.accountId = accountId;
@@ -61,6 +64,7 @@ public class FastJsonLoginHistory implements Bean {
         this.responseCode = responseCode;
         this.message = message;
         this.alarmLevel = alarmLevel;
+        this.loginRemark = loginRemark;
     }
 
     public FastJsonLongIdKey getKey() {
@@ -111,6 +115,14 @@ public class FastJsonLoginHistory implements Bean {
         this.alarmLevel = alarmLevel;
     }
 
+    public String getLoginRemark() {
+        return loginRemark;
+    }
+
+    public void setLoginRemark(String loginRemark) {
+        this.loginRemark = loginRemark;
+    }
+
     @Override
     public String toString() {
         return "FastJsonLoginHistory{" +
@@ -120,6 +132,7 @@ public class FastJsonLoginHistory implements Bean {
                 ", responseCode=" + responseCode +
                 ", message='" + message + '\'' +
                 ", alarmLevel=" + alarmLevel +
+                ", loginRemark='" + loginRemark + '\'' +
                 '}';
     }
 }

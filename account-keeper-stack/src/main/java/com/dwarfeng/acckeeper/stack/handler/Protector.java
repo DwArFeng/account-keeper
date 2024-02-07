@@ -1,6 +1,8 @@
 package com.dwarfeng.acckeeper.stack.handler;
 
+import com.dwarfeng.acckeeper.stack.bean.dto.DynamicLoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginInfo;
+import com.dwarfeng.acckeeper.stack.bean.dto.StaticLoginInfo;
 import com.dwarfeng.acckeeper.stack.exception.ProtectorException;
 
 import java.util.Date;
@@ -51,10 +53,57 @@ public interface Protector {
         /**
          * 获取本次登陆的登陆信息。
          *
+         * <p>
+         * 该方法已经被废弃，新版本中使用 {@link #isDynamicLogin()} 或者 {@link #isStaticLogin()}。
+         *
          * @return 本次登陆的登陆信息。
          * @throws ProtectorException 保护器异常。
+         * @deprecated 使用 {@link #isDynamicLogin()} 或者 {@link #isStaticLogin()}。
          */
+        @Deprecated
         LoginInfo getLoginInfo() throws ProtectorException;
+
+        /**
+         * 获取本次登陆是否为动态登陆。
+         *
+         * @return 本次登陆是否为动态登陆。
+         * @throws ProtectorException 保护器异常。
+         * @since 1.7.0
+         */
+        boolean isDynamicLogin() throws ProtectorException;
+
+        /**
+         * 获取动态登陆信息。
+         *
+         * <p>
+         * 该方法在 @{link #isDynamicLogin()} 返回 true 时有效。
+         *
+         * @return 动态登录信息。
+         * @throws ProtectorException 保护器异常。
+         * @since 1.7.0
+         */
+        DynamicLoginInfo getDynamicLoginInfo() throws ProtectorException;
+
+        /**
+         * 获取本次登陆是否为静态登陆。
+         *
+         * @return 本次登陆是否为静态登陆。
+         * @throws ProtectorException 保护器异常。
+         * @since 1.7.0
+         */
+        boolean isStaticLogin() throws ProtectorException;
+
+        /**
+         * 获取静态登陆信息。
+         *
+         * <p>
+         * 该方法在 @{link #isStaticLogin()} 返回 true 时有效。
+         *
+         * @return 静态登录信息。
+         * @throws ProtectorException 保护器异常。
+         * @since 1.7.0
+         */
+        StaticLoginInfo getStaticLoginInfo() throws ProtectorException;
 
         /**
          * 查询登陆响应。

@@ -1,6 +1,8 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
+import com.dwarfeng.acckeeper.stack.bean.dto.DynamicLoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginInfo;
+import com.dwarfeng.acckeeper.stack.bean.dto.StaticLoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.entity.*;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
 import com.dwarfeng.acckeeper.stack.exception.ProtectorException;
@@ -10,6 +12,7 @@ import com.dwarfeng.acckeeper.stack.service.LoginParamRecordMaintainService;
 import com.dwarfeng.acckeeper.stack.service.ProtectDetailRecordMaintainService;
 import com.dwarfeng.acckeeper.stack.service.ProtectorVariableMaintainService;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
+import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -26,8 +29,11 @@ class ProtectorContextImpl implements Protector.Context {
     private final ProtectorVariableMaintainService protectorVariableMaintainService;
 
     private final Account account;
-    private final LoginInfo loginInfo;
     private final boolean passwordCorrect;
+
+    private final LoginType loginType;
+    private final DynamicLoginInfo dynamicLoginInfo;
+    private final StaticLoginInfo staticLoginInfo;
 
     public ProtectorContextImpl(
             LoginHistoryMaintainService loginHistoryMaintainService,
@@ -35,15 +41,19 @@ class ProtectorContextImpl implements Protector.Context {
             ProtectDetailRecordMaintainService protectDetailRecordMaintainService,
             ProtectorVariableMaintainService protectorVariableMaintainService,
             Account account,
-            LoginInfo loginInfo,
-            boolean passwordCorrect
+            boolean passwordCorrect,
+            LoginType loginType,
+            DynamicLoginInfo dynamicLoginInfo,
+            StaticLoginInfo staticLoginInfo
     ) {
         this.loginHistoryMaintainService = loginHistoryMaintainService;
         this.loginParamRecordMaintainService = loginParamRecordMaintainService;
         this.protectDetailRecordMaintainService = protectDetailRecordMaintainService;
         this.protectorVariableMaintainService = protectorVariableMaintainService;
         this.account = account;
-        this.loginInfo = loginInfo;
+        this.loginType = loginType;
+        this.dynamicLoginInfo = dynamicLoginInfo;
+        this.staticLoginInfo = staticLoginInfo;
         this.passwordCorrect = passwordCorrect;
     }
 
@@ -56,8 +66,46 @@ class ProtectorContextImpl implements Protector.Context {
     }
 
     @Override
+    @Deprecated
     public LoginInfo getLoginInfo() {
-        return loginInfo;
+        StringIdKey accountKey;
+        String password;
+        Map<String, String> extraParamMap;
+        switch (loginType) {
+            case DYNAMIC:
+                accountKey = dynamicLoginInfo.getAccountKey();
+                password = dynamicLoginInfo.getPassword();
+                extraParamMap = dynamicLoginInfo.getExtraParamMap();
+                break;
+            case STATIC:
+                accountKey = staticLoginInfo.getAccountKey();
+                password = staticLoginInfo.getPassword();
+                extraParamMap = staticLoginInfo.getExtraParamMap();
+                break;
+            default:
+                throw new AssertionError("未知的登录类型: " + loginType);
+        }
+        return new LoginInfo(accountKey, password, extraParamMap);
+    }
+
+    @Override
+    public boolean isDynamicLogin() {
+        return loginType == LoginType.DYNAMIC;
+    }
+
+    @Override
+    public DynamicLoginInfo getDynamicLoginInfo() {
+        return dynamicLoginInfo;
+    }
+
+    @Override
+    public boolean isStaticLogin() {
+        return loginType == LoginType.STATIC;
+    }
+
+    @Override
+    public StaticLoginInfo getStaticLoginInfo() {
+        return staticLoginInfo;
     }
 
     @Override

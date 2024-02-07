@@ -6,26 +6,29 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import java.util.Map;
 
 /**
- * 登录信息。
+ * 动态登录信息。
  *
  * @author DwArFeng
- * @since 1.4.0
+ * @since 1.7.0
  */
-@Deprecated
-public class LoginInfo implements Dto {
+public class DynamicLoginInfo implements Dto {
 
-    private static final long serialVersionUID = 877270220586583732L;
+    private static final long serialVersionUID = 8051290914672065800L;
 
     private StringIdKey accountKey;
     private String password;
+    private String remark;
     private Map<String, String> extraParamMap;
 
-    public LoginInfo() {
+    public DynamicLoginInfo() {
     }
 
-    public LoginInfo(StringIdKey accountKey, String password, Map<String, String> extraParamMap) {
+    public DynamicLoginInfo(
+            StringIdKey accountKey, String password, String remark, Map<String, String> extraParamMap
+    ) {
         this.accountKey = accountKey;
         this.password = password;
+        this.remark = remark;
         this.extraParamMap = extraParamMap;
     }
 
@@ -45,6 +48,14 @@ public class LoginInfo implements Dto {
         this.password = password;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public Map<String, String> getExtraParamMap() {
         return extraParamMap;
     }
@@ -55,9 +66,10 @@ public class LoginInfo implements Dto {
 
     @Override
     public String toString() {
-        return "LoginInfo{" +
+        return "DynamicLoginInfo{" +
                 "accountKey=" + accountKey +
                 ", password='" + password + '\'' +
+                ", remark='" + remark + '\'' +
                 ", extraParamMap=" + extraParamMap +
                 '}';
     }

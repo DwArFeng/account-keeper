@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "tbl_login_history")
 public class HibernateLoginHistory implements Bean {
 
-    private static final long serialVersionUID = -2189790662526204525L;
+    private static final long serialVersionUID = 5676364144013010866L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -38,6 +38,9 @@ public class HibernateLoginHistory implements Bean {
 
     @Column(name = "alarm_level")
     private Integer alarmLevel;
+
+    @Column(name = "login_remark", length = Constraints.LENGTH_REMARK)
+    private String loginRemark;
 
     // -----------------------------------------------------------一对多-----------------------------------------------------------
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateLoginParamRecord.class, mappedBy = "loginHistory")
@@ -107,6 +110,14 @@ public class HibernateLoginHistory implements Bean {
         this.alarmLevel = alarmLevel;
     }
 
+    public String getLoginRemark() {
+        return loginRemark;
+    }
+
+    public void setLoginRemark(String loginRemark) {
+        this.loginRemark = loginRemark;
+    }
+
     public Set<HibernateLoginParamRecord> getLoginParamRecords() {
         return loginParamRecords;
     }
@@ -131,6 +142,7 @@ public class HibernateLoginHistory implements Bean {
                 "happenedDate = " + happenedDate + ", " +
                 "responseCode = " + responseCode + ", " +
                 "message = " + message + ", " +
-                "alarmLevel = " + alarmLevel + ")";
+                "alarmLevel = " + alarmLevel + ", " +
+                "loginRemark = " + loginRemark + ")";
     }
 }

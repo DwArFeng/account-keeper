@@ -41,10 +41,16 @@ public final class Constants {
     @LoginAlarmLevelItem
     public static final int PROTECTOR_MESSAGE_LEVEL_DANGER = 20;
 
+    @LoginStateTypeItem
+    public static final int LOGIN_STATE_TYPE_DYNAMIC = 0;
+    @LoginStateTypeItem
+    public static final int LOGIN_STATE_TYPE_STATIC = 10;
+
     private static final Lock LOCK = new ReentrantLock();
 
     private static List<Integer> loginResponseCodeSpace = null;
     private static List<Integer> loginAlarmLevelSpace = null;
+    private static List<Integer> loginStateTypeSpace = null;
 
     /**
      * 登录响应代码的空间。
@@ -130,6 +136,49 @@ public final class Constants {
         }
 
         loginAlarmLevelSpace = Collections.unmodifiableList(result);
+    }
+
+    /**
+     * 登录状态类型的空间。
+     *
+     * @return 登录状态类型的空间。
+     * @since 1.7.0
+     */
+    public static List<Integer> loginStateTypeSpace() {
+        if (Objects.nonNull(loginStateTypeSpace)) {
+            return loginStateTypeSpace;
+        }
+        // 基于线程安全的懒加载初始化结果列表。
+        LOCK.lock();
+        try {
+            if (Objects.nonNull(loginStateTypeSpace)) {
+                return loginStateTypeSpace;
+            }
+            initLoginStateTypeSpace();
+            return loginStateTypeSpace;
+        } finally {
+            LOCK.unlock();
+        }
+    }
+
+    private static void initLoginStateTypeSpace() {
+        List<Integer> result = new ArrayList<>();
+
+        Field[] declaredFields = Constants.class.getDeclaredFields();
+        for (Field declaredField : declaredFields) {
+            if (!declaredField.isAnnotationPresent(LoginStateTypeItem.class)) {
+                continue;
+            }
+            Integer value;
+            try {
+                value = (Integer) declaredField.get(null);
+                result.add(value);
+            } catch (Exception e) {
+                LOGGER.error("初始化异常, 请检查代码, 信息如下: ", e);
+            }
+        }
+
+        loginStateTypeSpace = Collections.unmodifiableList(result);
     }
 
     private Constants() {

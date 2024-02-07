@@ -1,51 +1,67 @@
 package com.dwarfeng.acckeeper.sdk.bean.dto;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.dwarfeng.acckeeper.stack.bean.dto.LoginInfo;
+import com.dwarfeng.acckeeper.sdk.util.Constraints;
+import com.dwarfeng.acckeeper.stack.bean.dto.StaticLoginInfo;
 import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
 /**
- * WebInput 登录信息。
+ * WebInput 静态登录信息。
  *
  * @author DwArFeng
- * @since 1.4.0
+ * @since 1.7.0
  */
-@Deprecated
-public class WebInputLoginInfo implements Dto {
+public class WebInputStaticLoginInfo implements Dto {
 
-    private static final long serialVersionUID = -5353670521216276967L;
+    private static final long serialVersionUID = -1541295798296719390L;
 
-    public static LoginInfo toStackBean(WebInputLoginInfo webInput) {
+    public static StaticLoginInfo toStackBean(WebInputStaticLoginInfo webInput) {
         if (Objects.isNull(webInput)) {
             return null;
         } else {
-            return new LoginInfo(
-                    WebInputStringIdKey.toStackBean(webInput.getAccountKey()), webInput.getPassword(),
+            return new StaticLoginInfo(
+                    WebInputStringIdKey.toStackBean(webInput.getAccountKey()),
+                    webInput.getPassword(),
+                    webInput.getExpireDate(),
+                    webInput.getRemark(),
                     webInput.getExtraParamMap()
             );
         }
     }
 
     @JSONField(name = "account_key")
+    @NotNull
     @Valid
     private WebInputStringIdKey accountKey;
 
     @JSONField(name = "password")
-    @NotEmpty
     @NotNull
+    @NotEmpty
     private String password;
+
+    @JSONField(name = "expire_date")
+    @NotNull
+    @Future
+    private Date expireDate;
+
+    @JSONField(name = "remark")
+    @Length(max = Constraints.LENGTH_REMARK)
+    private String remark;
 
     @JSONField(name = "extra_params")
     private Map<String, String> extraParamMap;
 
-    public WebInputLoginInfo() {
+    public WebInputStaticLoginInfo() {
     }
 
     public WebInputStringIdKey getAccountKey() {
@@ -64,6 +80,22 @@ public class WebInputLoginInfo implements Dto {
         this.password = password;
     }
 
+    public Date getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(Date expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public Map<String, String> getExtraParamMap() {
         return extraParamMap;
     }
@@ -74,9 +106,11 @@ public class WebInputLoginInfo implements Dto {
 
     @Override
     public String toString() {
-        return "WebInputLoginInfo{" +
+        return "WebInputStaticLoginInfo{" +
                 "accountKey=" + accountKey +
                 ", password='" + password + '\'' +
+                ", expireDate=" + expireDate +
+                ", remark='" + remark + '\'' +
                 ", extraParamMap=" + extraParamMap +
                 '}';
     }

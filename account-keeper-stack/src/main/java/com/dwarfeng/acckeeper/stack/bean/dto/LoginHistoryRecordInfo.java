@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class LoginHistoryRecordInfo implements Dto {
 
-    private static final long serialVersionUID = -4152212412318866050L;
+    private static final long serialVersionUID = -1456406253019267890L;
 
     private LongIdKey loginHistoryKey;
     private String accountId;
@@ -25,12 +25,20 @@ public class LoginHistoryRecordInfo implements Dto {
     private Map<String, String> extraParamMap;
     private Map<String, String> protectDetailMap;
 
+    /**
+     * 登录备注。
+     *
+     * @since 1.7.0
+     */
+    private String loginRemark;
+
     public LoginHistoryRecordInfo() {
     }
 
     public LoginHistoryRecordInfo(
-            LongIdKey loginHistoryKey, String accountId, Date happenedDate, int responseCode, String message, Integer alarmLevel,
-            Map<String, String> extraParamMap, Map<String, String> protectDetailMap
+            LongIdKey loginHistoryKey, String accountId, Date happenedDate, int responseCode, String message,
+            Integer alarmLevel, Map<String, String> extraParamMap, Map<String, String> protectDetailMap,
+            String loginRemark
     ) {
         this.loginHistoryKey = loginHistoryKey;
         this.accountId = accountId;
@@ -40,6 +48,7 @@ public class LoginHistoryRecordInfo implements Dto {
         this.alarmLevel = alarmLevel;
         this.extraParamMap = extraParamMap;
         this.protectDetailMap = protectDetailMap;
+        this.loginRemark = loginRemark;
     }
 
     public LongIdKey getLoginHistoryKey() {
@@ -106,6 +115,14 @@ public class LoginHistoryRecordInfo implements Dto {
         this.protectDetailMap = protectDetailMap;
     }
 
+    public String getLoginRemark() {
+        return loginRemark;
+    }
+
+    public void setLoginRemark(String loginRemark) {
+        this.loginRemark = loginRemark;
+    }
+
     @Override
     public String toString() {
         return "LoginHistoryRecordInfo{" +
@@ -117,6 +134,7 @@ public class LoginHistoryRecordInfo implements Dto {
                 ", alarmLevel=" + alarmLevel +
                 ", extraParamMap=" + extraParamMap +
                 ", protectDetailMap=" + protectDetailMap +
+                ", loginRemark='" + loginRemark + '\'' +
                 '}';
     }
 }

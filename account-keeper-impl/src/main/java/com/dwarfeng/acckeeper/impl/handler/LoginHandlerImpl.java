@@ -1,6 +1,9 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
+import com.dwarfeng.acckeeper.sdk.util.Constants;
+import com.dwarfeng.acckeeper.stack.bean.dto.DynamicLoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginInfo;
+import com.dwarfeng.acckeeper.stack.bean.dto.StaticLoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.acckeeper.stack.handler.LoginHandler;
@@ -12,6 +15,9 @@ import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import com.dwarfeng.subgrade.stack.generation.KeyGenerator;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +26,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class LoginHandlerImpl implements LoginHandler {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginHandlerImpl.class);
 
     private final AccountMaintainService accountMaintainService;
     private final LoginStateMaintainService loginStateMaintainService;
@@ -30,8 +38,8 @@ public class LoginHandlerImpl implements LoginHandler {
 
     private final LoginProcessor loginProcessor;
 
-    @Value("${acckeeper.login.expire}")
-    private long expireTimeout;
+    @Value("${acckeeper.login.dynamic.expire_duration}")
+    private long dynamicLoginExpireDuration;
 
     public LoginHandlerImpl(
             AccountMaintainService accountMaintainService,
@@ -88,41 +96,99 @@ public class LoginHandlerImpl implements LoginHandler {
 
     @Override
     @BehaviorAnalyse
+    @Deprecated
     public LoginState login(LoginInfo loginInfo) throws HandlerException {
         try {
-            // 处理登陆主逻辑。
-            LoginComplex loginComplex = loginProcessor.processLogin(loginInfo);
-
-            // 记录登陆历史。
-            // 登陆历史的记录很重要，因为登陆历史会作为上下文，传入保护器，参与后续的账号保护逻辑。
-            // 因此，如果登陆历史记录失败了，那么登陆过程应该中止，不应该记录日志并继续执行。
-            loginProcessor.processRecord(loginComplex);
-
-            // 如果响应中的异常字段不为 null，则抛出对应的异常。
-            if (Objects.nonNull(loginComplex.getException())) {
-                throw loginComplex.getException();
-            }
-
-            // 代码执行至此处，说明登陆正常，可以为本次登陆请求创建登陆状态。
-            // 根据账户实体构造登录状态实体。
-            StringIdKey accountKey = loginComplex.getAccountKey();
-            Date expireDate = new Date(
-                    loginComplex.getHappenedDate().getTime() + expireTimeout
+            // LoginInfo -> DynamicLoginInfo。
+            DynamicLoginInfo dynamicLoginInfo = new DynamicLoginInfo(
+                    loginInfo.getAccountKey(), loginInfo.getPassword(), StringUtils.EMPTY,
+                    loginInfo.getExtraParamMap()
             );
-            long serialVersion = loginComplex.getSerialVersion();
-            LoginState loginState = new LoginState(keyGenerator.generate(), accountKey, expireDate, serialVersion);
-            // 插入登陆实体。
-            loginStateMaintainService.insertOrUpdate(loginState);
-
-            // 自增账户的登陆次数。
-            Account account = loginComplex.getAccount();
-            account.setLoginCount(account.getLoginCount() + 1);
-            accountMaintainService.update(account);
-
-            // 返回结果。
-            return loginState;
+            return login0(LoginType.DYNAMIC, dynamicLoginInfo, null);
         } catch (Exception e) {
             throw HandlerExceptionHelper.parse(e);
+        }
+    }
+
+    @Override
+    @BehaviorAnalyse
+    public LoginState dynamicLogin(DynamicLoginInfo loginInfo) throws HandlerException {
+        try {
+            return login0(LoginType.DYNAMIC, loginInfo, null);
+        } catch (Exception e) {
+            throw HandlerExceptionHelper.parse(e);
+        }
+    }
+
+    @Override
+    @BehaviorAnalyse
+    public LoginState staticLogin(StaticLoginInfo loginInfo) throws HandlerException {
+        try {
+            return login0(LoginType.STATIC, null, loginInfo);
+        } catch (Exception e) {
+            throw HandlerExceptionHelper.parse(e);
+        }
+    }
+
+    private LoginState login0(LoginType loginType, DynamicLoginInfo dynamicLoginInfo, StaticLoginInfo staticLoginInfo)
+            throws Exception {
+        // 处理登录主逻辑。
+        LoginComplex loginComplex = loginProcessor.processLogin(loginType, dynamicLoginInfo, staticLoginInfo);
+
+        // 记录登录历史。
+        // 登录历史的记录很重要，因为登录历史会作为上下文，传入保护器，参与后续的账号保护逻辑。
+        // 因此，如果登录历史记录失败了，那么登录过程应该中止，不应该记录日志并继续执行。
+        loginProcessor.processRecord(loginComplex);
+
+        // 如果响应中的异常字段不为 null，则抛出对应的异常。
+        if (Objects.nonNull(loginComplex.getException())) {
+            throw loginComplex.getException();
+        }
+
+        // 代码执行至此处，说明登录正常，可以为本次登录请求创建登录状态。
+        // 根据账户实体构造登录状态实体。
+        StringIdKey accountKey = loginComplex.getAccountKey();
+        Date happenedDate = loginComplex.getHappenedDate();
+        Date expireDate = loginComplex.getExpireDate();
+        String remark = parseRemark(loginType, dynamicLoginInfo, staticLoginInfo);
+        long serialVersion = loginComplex.getSerialVersion();
+        int type = parseLoginStateType(loginType);
+        LoginState loginState = new LoginState(
+                keyGenerator.generate(), accountKey, expireDate, serialVersion, happenedDate, type, remark
+        );
+        // 插入登录实体。
+        loginStateMaintainService.insertOrUpdate(loginState);
+
+        // 自增账户的登录次数。
+        Account account = loginComplex.getAccount();
+        account.setLoginCount(account.getLoginCount() + 1);
+        accountMaintainService.update(account);
+
+        // 返回结果。
+        return loginState;
+    }
+
+    private String parseRemark(
+            LoginType loginType, DynamicLoginInfo dynamicLoginInfo, StaticLoginInfo staticLoginInfo
+    ) {
+        switch (loginType) {
+            case DYNAMIC:
+                return dynamicLoginInfo.getRemark();
+            case STATIC:
+                return staticLoginInfo.getRemark();
+            default:
+                throw new AssertionError("未知的登录类型: " + loginType);
+        }
+    }
+
+    private int parseLoginStateType(LoginType loginType) {
+        switch (loginType) {
+            case DYNAMIC:
+                return Constants.LOGIN_STATE_TYPE_DYNAMIC;
+            case STATIC:
+                return Constants.LOGIN_STATE_TYPE_STATIC;
+            default:
+                throw new AssertionError("未知的登录类型: " + loginType);
         }
     }
 
@@ -176,8 +242,14 @@ public class LoginHandlerImpl implements LoginHandler {
             // 确认用户的序列编码与登录状态编码一致。
             handlerValidator.makeSureSerialNumberConsistent(loginStateKey);
 
+            // 如果登录状态类型是静态类型，则不做任何动作。
+            if (Objects.equals(Constants.LOGIN_STATE_TYPE_STATIC, loginState.getType())) {
+                LOGGER.debug("登录状态 {} 是静态类型，不做任何动作", loginStateKey);
+                return loginState;
+            }
+
             // 更新登录状态实体，设置新的超时日期。
-            loginState.setExpireDate(new Date(System.currentTimeMillis() + expireTimeout));
+            loginState.setExpireDate(new Date(System.currentTimeMillis() + dynamicLoginExpireDuration));
 
             // 将新的实体推送到缓存中，并更新缓存的超时时间，最后返回结果。
             loginStateMaintainService.insertOrUpdate(loginState);

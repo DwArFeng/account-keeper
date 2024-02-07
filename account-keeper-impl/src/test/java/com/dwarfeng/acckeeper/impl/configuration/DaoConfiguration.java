@@ -5,32 +5,28 @@ import com.dwarfeng.acckeeper.impl.bean.entity.*;
 import com.dwarfeng.acckeeper.impl.bean.key.HibernateProtectorVariableKey;
 import com.dwarfeng.acckeeper.impl.bean.key.HibernateRecordKey;
 import com.dwarfeng.acckeeper.impl.dao.preset.*;
-import com.dwarfeng.acckeeper.sdk.bean.FastJsonMapper;
-import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonLoginState;
 import com.dwarfeng.acckeeper.stack.bean.entity.*;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
 import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
-import com.dwarfeng.subgrade.impl.dao.*;
+import com.dwarfeng.subgrade.impl.dao.HibernateBatchBaseDao;
+import com.dwarfeng.subgrade.impl.dao.HibernateEntireLookupDao;
+import com.dwarfeng.subgrade.impl.dao.HibernatePresetLookupDao;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
-import com.dwarfeng.subgrade.sdk.redis.formatter.LongIdStringKeyFormatter;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
 @Configuration
 public class DaoConfiguration {
 
     private final HibernateTemplate hibernateTemplate;
-    private final RedisTemplate<String, ?> redisTemplate;
 
     private final AccountPresetCriteriaMaker accountPresetCriteriaMaker;
-    private final LoginStatePresetEntityFilter loginStatePresetEntityFilter;
+    private final LoginStatePresetCriteriaMaker loginStatePresetCriteriaMaker;
     private final LoginHistoryPresetCriteriaMaker loginHistoryPresetCriteriaMaker;
     private final ProtectorInfoPresetCriteriaMaker protectorInfoPresetCriteriaMaker;
     private final ProtectorSupportPresetCriteriaMaker protectorSupportPresetCriteriaMaker;
@@ -38,14 +34,10 @@ public class DaoConfiguration {
     private final LoginParamRecordPresetCriteriaMaker loginParamRecordPresetCriteriaMaker;
     private final ProtectDetailRecordPresetCriteriaMaker protectDetailRecordPresetCriteriaMaker;
 
-    @Value("${redis.dbkey.login_state}")
-    private String loginStateDbKey;
-
     public DaoConfiguration(
             HibernateTemplate hibernateTemplate,
-            RedisTemplate<String, ?> redisTemplate,
             AccountPresetCriteriaMaker accountPresetCriteriaMaker,
-            LoginStatePresetEntityFilter loginStatePresetEntityFilter,
+            LoginStatePresetCriteriaMaker loginStatePresetCriteriaMaker,
             LoginHistoryPresetCriteriaMaker loginHistoryPresetCriteriaMaker,
             ProtectorInfoPresetCriteriaMaker protectorInfoPresetCriteriaMaker,
             ProtectorSupportPresetCriteriaMaker protectorSupportPresetCriteriaMaker,
@@ -54,9 +46,8 @@ public class DaoConfiguration {
             ProtectDetailRecordPresetCriteriaMaker protectDetailRecordPresetCriteriaMaker
     ) {
         this.hibernateTemplate = hibernateTemplate;
-        this.redisTemplate = redisTemplate;
         this.accountPresetCriteriaMaker = accountPresetCriteriaMaker;
-        this.loginStatePresetEntityFilter = loginStatePresetEntityFilter;
+        this.loginStatePresetCriteriaMaker = loginStatePresetCriteriaMaker;
         this.loginHistoryPresetCriteriaMaker = loginHistoryPresetCriteriaMaker;
         this.protectorInfoPresetCriteriaMaker = protectorInfoPresetCriteriaMaker;
         this.protectorSupportPresetCriteriaMaker = protectorSupportPresetCriteriaMaker;
@@ -96,36 +87,32 @@ public class DaoConfiguration {
     }
 
     @Bean
-    @SuppressWarnings("unchecked")
-    public RedisBatchBaseDao<LongIdKey, LoginState, FastJsonLoginState> loginStateRedisBatchBaseDao() {
-        return new RedisBatchBaseDao<>(
-                (RedisTemplate<String, FastJsonLoginState>) redisTemplate,
-                new LongIdStringKeyFormatter("key."),
-                new MapStructBeanTransformer<>(LoginState.class, FastJsonLoginState.class, FastJsonMapper.class),
-                loginStateDbKey
+    public HibernateBatchBaseDao<LongIdKey, HibernateLongIdKey, LoginState, HibernateLoginState>
+    loginStateHibernateBatchBaseDao() {
+        return new HibernateBatchBaseDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(LoginState.class, HibernateLoginState.class, HibernateMapper.class),
+                HibernateLoginState.class
         );
     }
 
     @Bean
-    @SuppressWarnings("unchecked")
-    public RedisEntireLookupDao<LongIdKey, LoginState, FastJsonLoginState> loginStateRedisEntireLookupDao() {
-        return new RedisEntireLookupDao<>(
-                (RedisTemplate<String, FastJsonLoginState>) redisTemplate,
-                new LongIdStringKeyFormatter("key."),
-                new MapStructBeanTransformer<>(LoginState.class, FastJsonLoginState.class, FastJsonMapper.class),
-                loginStateDbKey
+    public HibernateEntireLookupDao<LoginState, HibernateLoginState> loginStateHibernateEntireLookupDao() {
+        return new HibernateEntireLookupDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(LoginState.class, HibernateLoginState.class, HibernateMapper.class),
+                HibernateLoginState.class
         );
     }
 
     @Bean
-    @SuppressWarnings("unchecked")
-    public RedisPresetLookupDao<LongIdKey, LoginState, FastJsonLoginState> loginStateRedisPresetLookupDao() {
-        return new RedisPresetLookupDao<>(
-                (RedisTemplate<String, FastJsonLoginState>) redisTemplate,
-                new LongIdStringKeyFormatter("key."),
-                new MapStructBeanTransformer<>(LoginState.class, FastJsonLoginState.class, FastJsonMapper.class),
-                loginStatePresetEntityFilter,
-                loginStateDbKey
+    public HibernatePresetLookupDao<LoginState, HibernateLoginState> loginStateHibernatePresetLookupDao() {
+        return new HibernatePresetLookupDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(LoginState.class, HibernateLoginState.class, HibernateMapper.class),
+                HibernateLoginState.class,
+                loginStatePresetCriteriaMaker
         );
     }
 

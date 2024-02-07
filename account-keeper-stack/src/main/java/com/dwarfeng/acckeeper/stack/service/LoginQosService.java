@@ -1,6 +1,8 @@
 package com.dwarfeng.acckeeper.stack.service;
 
+import com.dwarfeng.acckeeper.stack.bean.dto.DynamicLoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginInfo;
+import com.dwarfeng.acckeeper.stack.bean.dto.StaticLoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
@@ -20,11 +22,37 @@ public interface LoginQosService extends Service {
     /**
      * 登录。
      *
+     * <p>
+     * 该方法在新版本中已经被废弃，新版本中使用
+     * {@link #dynamicLogin(DynamicLoginInfo)} 或者 {@link #staticLogin(StaticLoginInfo)}。<br>
+     *
      * @param loginInfo 登录信息。
      * @return 登录状态。
      * @throws ServiceException 服务异常。
+     * @deprecated 使用 {@link #dynamicLogin(DynamicLoginInfo)} 或者 {@link #staticLogin(StaticLoginInfo)}。
      */
+    @Deprecated
     LoginState login(LoginInfo loginInfo) throws ServiceException;
+
+    /**
+     * 动态登录。
+     *
+     * @param loginInfo 登录信息。
+     * @return 登录状态。
+     * @throws ServiceException 服务异常。
+     * @since 1.7.0
+     */
+    LoginState dynamicLogin(DynamicLoginInfo loginInfo) throws ServiceException;
+
+    /**
+     * 静态登录。
+     *
+     * @param loginInfo 登录信息。
+     * @return 登录状态。
+     * @throws ServiceException 服务异常。
+     * @since 1.7.0
+     */
+    LoginState staticLogin(StaticLoginInfo loginInfo) throws ServiceException;
 
     /**
      * 查询指定的登陆状态。

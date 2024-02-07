@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class JSFixedFastJsonLoginHistory implements Bean {
 
-    private static final long serialVersionUID = 3914151809878788184L;
+    private static final long serialVersionUID = 560033093765964356L;
 
     public static JSFixedFastJsonLoginHistory of(LoginHistory loginHistory) {
         if (Objects.isNull(loginHistory)) {
@@ -25,7 +25,7 @@ public class JSFixedFastJsonLoginHistory implements Bean {
             return new JSFixedFastJsonLoginHistory(
                     JSFixedFastJsonLongIdKey.of(loginHistory.getKey()),
                     loginHistory.getAccountId(), loginHistory.getHappenedDate(), loginHistory.getResponseCode(),
-                    loginHistory.getMessage(), loginHistory.getAlarmLevel()
+                    loginHistory.getMessage(), loginHistory.getAlarmLevel(), loginHistory.getLoginRemark()
             );
         }
     }
@@ -48,12 +48,15 @@ public class JSFixedFastJsonLoginHistory implements Bean {
     @JSONField(name = "alarm_level", ordinal = 6)
     private Integer alarmLevel;
 
+    @JSONField(name = "login_remark", ordinal = 7)
+    private String loginRemark;
+
     public JSFixedFastJsonLoginHistory() {
     }
 
     public JSFixedFastJsonLoginHistory(
             JSFixedFastJsonLongIdKey key, String accountId, Date happenedDate, int responseCode, String message,
-            Integer alarmLevel
+            Integer alarmLevel, String loginRemark
     ) {
         this.key = key;
         this.accountId = accountId;
@@ -61,6 +64,7 @@ public class JSFixedFastJsonLoginHistory implements Bean {
         this.responseCode = responseCode;
         this.message = message;
         this.alarmLevel = alarmLevel;
+        this.loginRemark = loginRemark;
     }
 
     public JSFixedFastJsonLongIdKey getKey() {
@@ -111,6 +115,14 @@ public class JSFixedFastJsonLoginHistory implements Bean {
         this.alarmLevel = alarmLevel;
     }
 
+    public String getLoginRemark() {
+        return loginRemark;
+    }
+
+    public void setLoginRemark(String loginRemark) {
+        this.loginRemark = loginRemark;
+    }
+
     @Override
     public String toString() {
         return "JSFixedFastJsonLoginHistory{" +
@@ -120,6 +132,7 @@ public class JSFixedFastJsonLoginHistory implements Bean {
                 ", responseCode=" + responseCode +
                 ", message='" + message + '\'' +
                 ", alarmLevel=" + alarmLevel +
+                ", loginRemark='" + loginRemark + '\'' +
                 '}';
     }
 }

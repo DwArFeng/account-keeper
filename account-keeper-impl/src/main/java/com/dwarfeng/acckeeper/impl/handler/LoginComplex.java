@@ -17,14 +17,16 @@ public final class LoginComplex {
     private final Integer alarmLevel;
     private final Map<String, String> extraParams;
     private final Map<String, String> protectDetail;
+    private final Date expireDate;
     private final long serialVersion;
+    private final String loginRemark;
     private final HandlerException exception;
     private final Account account;
 
     public LoginComplex(
             StringIdKey accountKey, String accountId, Date happenedDate, int responseCode, String message,
-            Integer alarmLevel, Map<String, String> extraParams, Map<String, String> protectDetail,
-            long serialVersion, HandlerException exception, Account account
+            Integer alarmLevel, Map<String, String> extraParams, Map<String, String> protectDetail, Date expireDate,
+            long serialVersion, String loginRemark, HandlerException exception, Account account
     ) {
         this.accountKey = accountKey;
         this.accountId = accountId;
@@ -34,7 +36,9 @@ public final class LoginComplex {
         this.alarmLevel = alarmLevel;
         this.extraParams = extraParams;
         this.protectDetail = protectDetail;
+        this.expireDate = expireDate;
         this.serialVersion = serialVersion;
+        this.loginRemark = loginRemark;
         this.exception = exception;
         this.account = account;
     }
@@ -71,8 +75,16 @@ public final class LoginComplex {
         return protectDetail;
     }
 
+    public Date getExpireDate() {
+        return expireDate;
+    }
+
     public long getSerialVersion() {
         return serialVersion;
+    }
+
+    public String getLoginRemark() {
+        return loginRemark;
     }
 
     public HandlerException getException() {
@@ -94,7 +106,9 @@ public final class LoginComplex {
                 ", alarmLevel=" + alarmLevel +
                 ", extraParams=" + extraParams +
                 ", protectDetail=" + protectDetail +
+                ", expireDate=" + expireDate +
                 ", serialVersion=" + serialVersion +
+                ", loginRemark='" + loginRemark + '\'' +
                 ", exception=" + exception +
                 ", account=" + account +
                 '}';

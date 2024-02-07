@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class LoginHistory implements Entity<LongIdKey> {
 
-    private static final long serialVersionUID = -5005102390305271167L;
+    private static final long serialVersionUID = 6675486972375267544L;
 
     private LongIdKey key;
     private String accountId;
@@ -22,11 +22,19 @@ public class LoginHistory implements Entity<LongIdKey> {
     private String message;
     private Integer alarmLevel;
 
+    /**
+     * 登录备注。
+     *
+     * @since 1.7.0
+     */
+    private String loginRemark;
+
     public LoginHistory() {
     }
 
     public LoginHistory(
-            LongIdKey key, String accountId, Date happenedDate, int responseCode, String message, Integer alarmLevel
+            LongIdKey key, String accountId, Date happenedDate, int responseCode, String message, Integer alarmLevel,
+            String loginRemark
     ) {
         this.key = key;
         this.accountId = accountId;
@@ -34,6 +42,7 @@ public class LoginHistory implements Entity<LongIdKey> {
         this.responseCode = responseCode;
         this.message = message;
         this.alarmLevel = alarmLevel;
+        this.loginRemark = loginRemark;
     }
 
     @Override
@@ -86,6 +95,14 @@ public class LoginHistory implements Entity<LongIdKey> {
         this.alarmLevel = alarmLevel;
     }
 
+    public String getLoginRemark() {
+        return loginRemark;
+    }
+
+    public void setLoginRemark(String loginRemark) {
+        this.loginRemark = loginRemark;
+    }
+
     @Override
     public String toString() {
         return "LoginHistory{" +
@@ -95,6 +112,7 @@ public class LoginHistory implements Entity<LongIdKey> {
                 ", responseCode=" + responseCode +
                 ", message='" + message + '\'' +
                 ", alarmLevel=" + alarmLevel +
+                ", loginRemark='" + loginRemark + '\'' +
                 '}';
     }
 }

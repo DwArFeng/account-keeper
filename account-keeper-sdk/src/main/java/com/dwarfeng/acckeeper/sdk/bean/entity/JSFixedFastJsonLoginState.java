@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class JSFixedFastJsonLoginState implements Bean {
 
-    private static final long serialVersionUID = -1159159798066363154L;
+    private static final long serialVersionUID = -6834816955382548741L;
 
     public static JSFixedFastJsonLoginState of(@NonNull LoginState loginState) {
         return new JSFixedFastJsonLoginState(
@@ -35,10 +35,21 @@ public class JSFixedFastJsonLoginState implements Bean {
     @JSONField(name = "serial_version", ordinal = 4, serializeUsing = ToStringSerializer.class)
     private long serialVersion;
 
+    @JSONField(name = "generated_date", ordinal = 5)
+    private Date generatedDate;
+
+    @JSONField(name = "type", ordinal = 6)
+    private int type;
+
+    @JSONField(name = "remark", ordinal = 7)
+    private String remark;
+
     public JSFixedFastJsonLoginState() {
     }
 
-    public JSFixedFastJsonLoginState(JSFixedFastJsonLongIdKey key, FastJsonStringIdKey accountKey, Date expireDate, long serialVersion) {
+    public JSFixedFastJsonLoginState(
+            JSFixedFastJsonLongIdKey key, FastJsonStringIdKey accountKey, Date expireDate, long serialVersion
+    ) {
         this.key = key;
         this.accountKey = accountKey;
         this.expireDate = expireDate;
@@ -77,6 +88,30 @@ public class JSFixedFastJsonLoginState implements Bean {
         this.serialVersion = serialVersion;
     }
 
+    public Date getGeneratedDate() {
+        return generatedDate;
+    }
+
+    public void setGeneratedDate(Date generatedDate) {
+        this.generatedDate = generatedDate;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     @Override
     public String toString() {
         return "JSFixedFastJsonLoginState{" +
@@ -84,6 +119,9 @@ public class JSFixedFastJsonLoginState implements Bean {
                 ", accountKey=" + accountKey +
                 ", expireDate=" + expireDate +
                 ", serialVersion=" + serialVersion +
+                ", generatedDate=" + generatedDate +
+                ", type=" + type +
+                ", remark='" + remark + '\'' +
                 '}';
     }
 }

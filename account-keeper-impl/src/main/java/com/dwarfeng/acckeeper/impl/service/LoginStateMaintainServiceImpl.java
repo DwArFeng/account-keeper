@@ -2,9 +2,9 @@ package com.dwarfeng.acckeeper.impl.service;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyBatchCrudService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
+import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
@@ -18,12 +18,12 @@ import java.util.List;
 @Service
 public class LoginStateMaintainServiceImpl implements LoginStateMaintainService {
 
-    private final DaoOnlyBatchCrudService<LongIdKey, LoginState> crudService;
+    private final GeneralBatchCrudService<LongIdKey, LoginState> crudService;
     private final DaoOnlyEntireLookupService<LoginState> entireLookupService;
     private final DaoOnlyPresetLookupService<LoginState> presetLookupService;
 
     public LoginStateMaintainServiceImpl(
-            DaoOnlyBatchCrudService<LongIdKey, LoginState> crudService,
+            GeneralBatchCrudService<LongIdKey, LoginState> crudService,
             DaoOnlyEntireLookupService<LoginState> entireLookupService,
             DaoOnlyPresetLookupService<LoginState> presetLookupService
     ) {

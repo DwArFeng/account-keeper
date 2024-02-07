@@ -18,7 +18,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
@@ -94,13 +93,39 @@ public class CleanHandlerImpl implements CleanHandler {
         @Override
         public void run() {
             try {
+                // 记录日志。
                 LOGGER.info("清理登录状态...");
 
-                Date currentDate = new Date();
-                List<LongIdKey> expiredLoginStateKeys = loginStateMaintainService.lookupAsList(
-                        LoginStateMaintainService.EXPIRE_DATE_BEFORE, new Date[]{currentDate}
+                // 定义变量。
+                int cleanedCount = 0;
+                List<LongIdKey> expiredLoginStateKeysToDelete;
+
+                // 清理没有关联账户的登录状态。
+                expiredLoginStateKeysToDelete = loginStateMaintainService.lookupAsList(
+                        LoginStateMaintainService.WITHOUT_ACCOUNT, new Object[0]
                 ).stream().map(LoginState::getKey).collect(Collectors.toList());
-                loginStateMaintainService.batchDelete(expiredLoginStateKeys);
+                loginStateMaintainService.batchDelete(expiredLoginStateKeysToDelete);
+                LOGGER.debug("清理没有关联账户的登录状态, 共 {} 个", expiredLoginStateKeysToDelete.size());
+                cleanedCount += expiredLoginStateKeysToDelete.size();
+
+                // 清理过期的登录状态。
+                expiredLoginStateKeysToDelete = loginStateMaintainService.lookupAsList(
+                        LoginStateMaintainService.EXPIRE_DATE_BEFORE_NOW, new Object[0]
+                ).stream().map(LoginState::getKey).collect(Collectors.toList());
+                loginStateMaintainService.batchDelete(expiredLoginStateKeysToDelete);
+                LOGGER.debug("清理过时的登录状态, 共 {} 个", expiredLoginStateKeysToDelete.size());
+                cleanedCount += expiredLoginStateKeysToDelete.size();
+
+                // 清理序列版本小于对应账户序列版本的登录状态。
+                expiredLoginStateKeysToDelete = loginStateMaintainService.lookupAsList(
+                        LoginStateMaintainService.SERIAL_VERSION_LOWER_THAN_ACCOUNT, new Object[0]
+                ).stream().map(LoginState::getKey).collect(Collectors.toList());
+                loginStateMaintainService.batchDelete(expiredLoginStateKeysToDelete);
+                LOGGER.debug("清理序列版本小于对应账户序列版本的登录状态, 共 {} 个", expiredLoginStateKeysToDelete.size());
+                cleanedCount += expiredLoginStateKeysToDelete.size();
+
+                // 记录日志。
+                LOGGER.info("清理登录状态完成, 共清理 {} 个登录状态", cleanedCount);
             } catch (Exception e) {
                 LOGGER.warn("清理过期登录状态时发送异常, 清理未完成, 异常信息如下: ", e);
             }

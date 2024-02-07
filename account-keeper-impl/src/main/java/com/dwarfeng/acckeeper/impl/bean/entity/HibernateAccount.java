@@ -6,14 +6,16 @@ import com.dwarfeng.subgrade.stack.bean.Bean;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Entity
 @IdClass(HibernateStringIdKey.class)
 @Table(name = "tbl_account")
 public class HibernateAccount implements Bean {
 
-    private static final long serialVersionUID = -6894440316070438450L;
+    private static final long serialVersionUID = 1630681703563914059L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -49,6 +51,10 @@ public class HibernateAccount implements Bean {
     // -----------------------------------------------------------一对一-----------------------------------------------------------
     @OneToOne(cascade = CascadeType.MERGE, targetEntity = HibernateProtectorInfo.class, mappedBy = "account")
     private HibernateProtectorInfo protectorInfo;
+
+    // -----------------------------------------------------------一对多-----------------------------------------------------------
+    @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateLoginState.class, mappedBy = "account")
+    private Set<HibernateLoginState> loginStates = new HashSet<>();
 
     public HibernateAccount() {
     }
@@ -143,6 +149,14 @@ public class HibernateAccount implements Bean {
         this.protectorInfo = protectorInfo;
     }
 
+    public Set<HibernateLoginState> getLoginStates() {
+        return loginStates;
+    }
+
+    public void setLoginStates(Set<HibernateLoginState> loginStates) {
+        this.loginStates = loginStates;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
@@ -154,6 +168,7 @@ public class HibernateAccount implements Bean {
                 "displayName = " + displayName + ", " +
                 "registeredDate = " + registeredDate + ", " +
                 "loginCount = " + loginCount + ", " +
-                "passwordUpdateCount = " + passwordUpdateCount + ")";
+                "passwordUpdateCount = " + passwordUpdateCount + ", " +
+                "protectorInfo = " + protectorInfo + ")";
     }
 }

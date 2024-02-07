@@ -6,13 +6,13 @@ import com.dwarfeng.acckeeper.impl.service.operation.ProtectorInfoCrudOperation;
 import com.dwarfeng.acckeeper.stack.bean.entity.*;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
-import com.dwarfeng.acckeeper.stack.cache.LoginParamRecordCache;
-import com.dwarfeng.acckeeper.stack.cache.ProtectDetailRecordCache;
-import com.dwarfeng.acckeeper.stack.cache.ProtectorSupportCache;
-import com.dwarfeng.acckeeper.stack.cache.ProtectorVariableCache;
+import com.dwarfeng.acckeeper.stack.cache.*;
 import com.dwarfeng.acckeeper.stack.dao.*;
 import com.dwarfeng.subgrade.impl.generation.ExceptionKeyGenerator;
-import com.dwarfeng.subgrade.impl.service.*;
+import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
+import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
+import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
+import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.log.LogLevel;
@@ -29,6 +29,7 @@ public class ServiceConfiguration {
     private final AccountCrudOperation accountCrudOperation;
     private final AccountDao accountDao;
     private final LoginStateDao loginStateDao;
+    private final LoginStateCache loginStateCache;
     private final LoginHistoryCrudOperation loginHistoryCrudOperation;
     private final LoginHistoryDao loginHistoryDao;
     private final ProtectorInfoCrudOperation protectorInfoCrudOperation;
@@ -42,6 +43,8 @@ public class ServiceConfiguration {
     private final ProtectDetailRecordDao protectDetailRecordDao;
     private final ProtectDetailRecordCache protectDetailRecordCache;
 
+    @Value("${cache.timeout.entity.login_state}")
+    private long loginStateTimeout;
     @Value("${cache.timeout.entity.protector_support}")
     private long protectorSupportTimeout;
     @Value("${cache.timeout.entity.protector_variable}")
@@ -57,6 +60,7 @@ public class ServiceConfiguration {
             AccountCrudOperation accountCrudOperation,
             AccountDao accountDao,
             LoginStateDao loginStateDao,
+            LoginStateCache loginStateCache,
             LoginHistoryCrudOperation loginHistoryCrudOperation,
             LoginHistoryDao loginHistoryDao,
             ProtectorInfoCrudOperation protectorInfoCrudOperation,
@@ -75,6 +79,7 @@ public class ServiceConfiguration {
         this.accountCrudOperation = accountCrudOperation;
         this.accountDao = accountDao;
         this.loginStateDao = loginStateDao;
+        this.loginStateCache = loginStateCache;
         this.loginHistoryCrudOperation = loginHistoryCrudOperation;
         this.loginHistoryDao = loginHistoryDao;
         this.protectorInfoCrudOperation = protectorInfoCrudOperation;
@@ -118,12 +123,14 @@ public class ServiceConfiguration {
     }
 
     @Bean
-    public DaoOnlyBatchCrudService<LongIdKey, LoginState> loginStateDaoOnlyBatchCrudService() {
-        return new DaoOnlyBatchCrudService<>(
+    public GeneralBatchCrudService<LongIdKey, LoginState> loginStateGeneralBatchCrudService() {
+        return new GeneralBatchCrudService<>(
                 loginStateDao,
+                loginStateCache,
                 generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                loginStateTimeout
         );
     }
 

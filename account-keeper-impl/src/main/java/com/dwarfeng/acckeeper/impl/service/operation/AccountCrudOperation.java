@@ -3,6 +3,7 @@ package com.dwarfeng.acckeeper.impl.service.operation;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.acckeeper.stack.cache.AccountCache;
+import com.dwarfeng.acckeeper.stack.cache.LoginStateCache;
 import com.dwarfeng.acckeeper.stack.dao.AccountDao;
 import com.dwarfeng.acckeeper.stack.dao.LoginStateDao;
 import com.dwarfeng.acckeeper.stack.dao.ProtectorInfoDao;
@@ -25,6 +26,7 @@ public class AccountCrudOperation implements BatchCrudOperation<StringIdKey, Acc
     private final AccountCache accountCache;
 
     private final LoginStateDao loginStateDao;
+    private final LoginStateCache loginStateCache;
 
     private final ProtectorInfoCrudOperation protectInfoCrudOperation;
     private final ProtectorInfoDao protectorInfoDao;
@@ -33,13 +35,17 @@ public class AccountCrudOperation implements BatchCrudOperation<StringIdKey, Acc
     private long accountTimeout;
 
     public AccountCrudOperation(
-            AccountDao accountDao, AccountCache accountCache,
+            AccountDao accountDao,
+            AccountCache accountCache,
             LoginStateDao loginStateDao,
-            ProtectorInfoCrudOperation protectInfoCrudOperation, ProtectorInfoDao protectorInfoDao
+            LoginStateCache loginStateCache,
+            ProtectorInfoCrudOperation protectInfoCrudOperation,
+            ProtectorInfoDao protectorInfoDao
     ) {
         this.accountDao = accountDao;
         this.accountCache = accountCache;
         this.loginStateDao = loginStateDao;
+        this.loginStateCache = loginStateCache;
         this.protectInfoCrudOperation = protectInfoCrudOperation;
         this.protectorInfoDao = protectorInfoDao;
     }
@@ -81,6 +87,7 @@ public class AccountCrudOperation implements BatchCrudOperation<StringIdKey, Acc
         List<LongIdKey> loginStateKeys = loginStateDao.lookup(
                 LoginStateMaintainService.CHILD_FOR_ACCOUNT, new Object[]{key}
         ).stream().map(LoginState::getKey).collect(Collectors.toList());
+        loginStateCache.batchDelete(loginStateKeys);
         loginStateDao.batchDelete(loginStateKeys);
 
         // 删除与账户相关的保护器信息。
