@@ -81,4 +81,9 @@ public interface FastJsonMapper {
 
     @InheritInverseConfiguration
     ProtectDetailRecord protectDetailRecordFromFastJson(FastJsonProtectDetailRecord fastJsonProtectDetailRecord);
+
+    FastJsonDeriveHistory deriveHistoryToFastJson(DeriveHistory deriveHistory);
+
+    @InheritInverseConfiguration
+    DeriveHistory deriveHistoryFromFastJson(FastJsonDeriveHistory fastJsonDeriveHistory);
 }

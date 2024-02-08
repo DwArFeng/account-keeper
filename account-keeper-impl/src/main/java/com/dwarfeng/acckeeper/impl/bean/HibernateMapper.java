@@ -104,4 +104,10 @@ public interface HibernateMapper {
 
     @InheritInverseConfiguration
     ProtectDetailRecord protectDetailRecordFromHibernate(HibernateProtectDetailRecord hibernateProtectDetailRecord);
+
+    @Mapping(target = "longId", ignore = true)
+    HibernateDeriveHistory deriveHistoryToHibernate(DeriveHistory deriveHistory);
+
+    @InheritInverseConfiguration
+    DeriveHistory deriveHistoryFromHibernate(HibernateDeriveHistory hibernateDeriveHistory);
 }

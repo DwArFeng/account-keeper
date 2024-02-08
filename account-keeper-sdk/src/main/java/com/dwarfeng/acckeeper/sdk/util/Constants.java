@@ -46,11 +46,23 @@ public final class Constants {
     @LoginStateTypeItem
     public static final int LOGIN_STATE_TYPE_STATIC = 10;
 
+    @DeriveResponseCodeItem
+    public static final int DERIVE_RESPONSE_CODE_PASSED = 0;
+    @DeriveResponseCodeItem
+    public static final int DERIVE_RESPONSE_CODE_LOGIN_STATE_NOT_EXISTS = 10;
+    @DeriveResponseCodeItem
+    public static final int DERIVE_RESPONSE_CODE_ACCOUNT_NOT_EXISTS = 20;
+    @DeriveResponseCodeItem
+    public static final int DERIVE_RESPONSE_CODE_ACCOUNT_DISABLED = 30;
+    @DeriveResponseCodeItem
+    public static final int DERIVE_RESPONSE_CODE_SERIAL_VERSION_INCONSISTENT = 40;
+
     private static final Lock LOCK = new ReentrantLock();
 
     private static List<Integer> loginResponseCodeSpace = null;
     private static List<Integer> loginAlarmLevelSpace = null;
     private static List<Integer> loginStateTypeSpace = null;
+    private static List<Integer> deriveResponseCodeSpace = null;
 
     /**
      * 登录响应代码的空间。
@@ -179,6 +191,49 @@ public final class Constants {
         }
 
         loginStateTypeSpace = Collections.unmodifiableList(result);
+    }
+
+    /**
+     * 派生响应代码的空间。
+     *
+     * @return 派生响应代码的空间。
+     * @since 1.7.0
+     */
+    public static List<Integer> deriveResponseCodeSpace() {
+        if (Objects.nonNull(deriveResponseCodeSpace)) {
+            return deriveResponseCodeSpace;
+        }
+        // 基于线程安全的懒加载初始化结果列表。
+        LOCK.lock();
+        try {
+            if (Objects.nonNull(deriveResponseCodeSpace)) {
+                return deriveResponseCodeSpace;
+            }
+            initDeriveResponseCodeSpace();
+            return deriveResponseCodeSpace;
+        } finally {
+            LOCK.unlock();
+        }
+    }
+
+    private static void initDeriveResponseCodeSpace() {
+        List<Integer> result = new ArrayList<>();
+
+        Field[] declaredFields = Constants.class.getDeclaredFields();
+        for (Field declaredField : declaredFields) {
+            if (!declaredField.isAnnotationPresent(DeriveResponseCodeItem.class)) {
+                continue;
+            }
+            Integer value;
+            try {
+                value = (Integer) declaredField.get(null);
+                result.add(value);
+            } catch (Exception e) {
+                LOGGER.error("初始化异常, 请检查代码, 信息如下: ", e);
+            }
+        }
+
+        deriveResponseCodeSpace = Collections.unmodifiableList(result);
     }
 
     private Constants() {

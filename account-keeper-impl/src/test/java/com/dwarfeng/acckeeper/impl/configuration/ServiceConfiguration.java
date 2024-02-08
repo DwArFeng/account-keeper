@@ -42,6 +42,8 @@ public class ServiceConfiguration {
     private final LoginParamRecordCache loginParamRecordCache;
     private final ProtectDetailRecordDao protectDetailRecordDao;
     private final ProtectDetailRecordCache protectDetailRecordCache;
+    private final DeriveHistoryDao deriveHistoryDao;
+    private final DeriveHistoryCache deriveHistoryCache;
 
     @Value("${cache.timeout.entity.login_state}")
     private long loginStateTimeout;
@@ -53,6 +55,8 @@ public class ServiceConfiguration {
     private long loginParamRecordTimeout;
     @Value("${cache.timeout.entity.protect_detail_record}")
     private long protectDetailRecordTimeout;
+    @Value("${cache.timeout.entity.derive_history}")
+    private long deriveHistoryTimeout;
 
     public ServiceConfiguration(
             ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration,
@@ -72,7 +76,9 @@ public class ServiceConfiguration {
             LoginParamRecordDao loginParamRecordDao,
             LoginParamRecordCache loginParamRecordCache,
             ProtectDetailRecordDao protectDetailRecordDao,
-            ProtectDetailRecordCache protectDetailRecordCache
+            ProtectDetailRecordCache protectDetailRecordCache,
+            DeriveHistoryDao deriveHistoryDao,
+            DeriveHistoryCache deriveHistoryCache
     ) {
         this.serviceExceptionMapperConfiguration = serviceExceptionMapperConfiguration;
         this.generateConfiguration = generateConfiguration;
@@ -92,6 +98,8 @@ public class ServiceConfiguration {
         this.loginParamRecordCache = loginParamRecordCache;
         this.protectDetailRecordDao = protectDetailRecordDao;
         this.protectDetailRecordCache = protectDetailRecordCache;
+        this.deriveHistoryDao = deriveHistoryDao;
+        this.deriveHistoryCache = deriveHistoryCache;
     }
 
     @Bean
@@ -323,6 +331,36 @@ public class ServiceConfiguration {
     public DaoOnlyPresetLookupService<ProtectDetailRecord> protectDetailRecordDaoOnlyPresetLookupService() {
         return new DaoOnlyPresetLookupService<>(
                 protectDetailRecordDao,
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN
+        );
+    }
+
+    @Bean
+    public GeneralBatchCrudService<LongIdKey, DeriveHistory> deriveHistoryGeneralBatchCrudService() {
+        return new GeneralBatchCrudService<>(
+                deriveHistoryDao,
+                deriveHistoryCache,
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                deriveHistoryTimeout
+        );
+    }
+
+    @Bean
+    public DaoOnlyEntireLookupService<DeriveHistory> deriveHistoryDaoOnlyEntireLookupService() {
+        return new DaoOnlyEntireLookupService<>(
+                deriveHistoryDao,
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN
+        );
+    }
+
+    @Bean
+    public DaoOnlyPresetLookupService<DeriveHistory> deriveHistoryDaoOnlyPresetLookupService() {
+        return new DaoOnlyPresetLookupService<>(
+                deriveHistoryDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );

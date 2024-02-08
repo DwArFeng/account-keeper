@@ -39,6 +39,8 @@ public class CacheConfiguration {
     private String loginParamRecordPrefix;
     @Value("${cache.prefix.entity.protect_detail_record}")
     private String protectDetailRecordPrefix;
+    @Value("${cache.prefix.entity.derive_history}")
+    private String deriveHistoryPrefix;
 
     public CacheConfiguration(RedisTemplate<String, ?> template) {
         this.template = template;
@@ -134,6 +136,16 @@ public class CacheConfiguration {
                 new MapStructBeanTransformer<>(
                         ProtectDetailRecord.class, FastJsonProtectDetailRecord.class, FastJsonMapper.class
                 )
+        );
+    }
+
+    @Bean
+    @SuppressWarnings("unchecked")
+    public RedisBatchBaseCache<LongIdKey, DeriveHistory, FastJsonDeriveHistory> deriveHistoryCacheDelegate() {
+        return new RedisBatchBaseCache<>(
+                (RedisTemplate<String, FastJsonDeriveHistory>) template,
+                new LongIdStringKeyFormatter(deriveHistoryPrefix),
+                new MapStructBeanTransformer<>(DeriveHistory.class, FastJsonDeriveHistory.class, FastJsonMapper.class)
         );
     }
 }

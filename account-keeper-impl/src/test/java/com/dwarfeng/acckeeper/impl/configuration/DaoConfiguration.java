@@ -33,6 +33,7 @@ public class DaoConfiguration {
     private final ProtectorVariablePresetCriteriaMaker protectorVariablePresetCriteriaMaker;
     private final LoginParamRecordPresetCriteriaMaker loginParamRecordPresetCriteriaMaker;
     private final ProtectDetailRecordPresetCriteriaMaker protectDetailRecordPresetCriteriaMaker;
+    private final DeriveHistoryPresetCriteriaMaker deriveHistoryPresetCriteriaMaker;
 
     public DaoConfiguration(
             HibernateTemplate hibernateTemplate,
@@ -43,7 +44,8 @@ public class DaoConfiguration {
             ProtectorSupportPresetCriteriaMaker protectorSupportPresetCriteriaMaker,
             ProtectorVariablePresetCriteriaMaker protectorVariablePresetCriteriaMaker,
             LoginParamRecordPresetCriteriaMaker loginParamRecordPresetCriteriaMaker,
-            ProtectDetailRecordPresetCriteriaMaker protectDetailRecordPresetCriteriaMaker
+            ProtectDetailRecordPresetCriteriaMaker protectDetailRecordPresetCriteriaMaker,
+            DeriveHistoryPresetCriteriaMaker deriveHistoryPresetCriteriaMaker
     ) {
         this.hibernateTemplate = hibernateTemplate;
         this.accountPresetCriteriaMaker = accountPresetCriteriaMaker;
@@ -54,6 +56,7 @@ public class DaoConfiguration {
         this.protectorVariablePresetCriteriaMaker = protectorVariablePresetCriteriaMaker;
         this.loginParamRecordPresetCriteriaMaker = loginParamRecordPresetCriteriaMaker;
         this.protectDetailRecordPresetCriteriaMaker = protectDetailRecordPresetCriteriaMaker;
+        this.deriveHistoryPresetCriteriaMaker = deriveHistoryPresetCriteriaMaker;
     }
 
     @Bean
@@ -337,6 +340,42 @@ public class DaoConfiguration {
                 ),
                 HibernateProtectDetailRecord.class,
                 protectDetailRecordPresetCriteriaMaker
+        );
+    }
+
+    @Bean
+    public HibernateBatchBaseDao<LongIdKey, HibernateLongIdKey, DeriveHistory, HibernateDeriveHistory>
+    deriveHistoryHibernateBatchBaseDao() {
+        return new HibernateBatchBaseDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(
+                        DeriveHistory.class, HibernateDeriveHistory.class, HibernateMapper.class
+                ),
+                HibernateDeriveHistory.class
+        );
+    }
+
+    @Bean
+    public HibernateEntireLookupDao<DeriveHistory, HibernateDeriveHistory> deriveHistoryHibernateEntireLookupDao() {
+        return new HibernateEntireLookupDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(
+                        DeriveHistory.class, HibernateDeriveHistory.class, HibernateMapper.class
+                ),
+                HibernateDeriveHistory.class
+        );
+    }
+
+    @Bean
+    public HibernatePresetLookupDao<DeriveHistory, HibernateDeriveHistory> deriveHistoryHibernatePresetLookupDao() {
+        return new HibernatePresetLookupDao<>(
+                hibernateTemplate,
+                new MapStructBeanTransformer<>(
+                        DeriveHistory.class, HibernateDeriveHistory.class, HibernateMapper.class
+                ),
+                HibernateDeriveHistory.class,
+                deriveHistoryPresetCriteriaMaker
         );
     }
 }

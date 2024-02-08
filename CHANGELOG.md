@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 新增实体。
+  - com.dwarfeng.acckeeper.stack.bean.entity.DeriveHistory。
+
 - 优化预设推送器。
   - 优化 LogPusher 的日志输出格式。
 
