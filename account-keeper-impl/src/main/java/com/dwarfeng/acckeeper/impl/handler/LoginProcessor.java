@@ -92,7 +92,7 @@ public class LoginProcessor {
 
         // 获取当前时间。
         happenedDate = new Date();
-        // 获取额外登陆参数。
+        // 获取额外登录参数。
         extraParams = parseExtraParams(loginType, dynamicLoginInfo, staticLoginInfo);
         // 获取主键。
         accountKey = parseAccountKey(loginType, dynamicLoginInfo, staticLoginInfo);

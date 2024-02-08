@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * FastJson 登陆历史记录信息。
+ * FastJson 登录历史记录信息。
  *
  * @author DwArFeng
  * @since 1.6.0

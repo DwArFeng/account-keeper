@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * 登陆历史记录信息。
+ * 登录历史记录信息。
  *
  * @author DwArFeng
  * @since 1.6.0

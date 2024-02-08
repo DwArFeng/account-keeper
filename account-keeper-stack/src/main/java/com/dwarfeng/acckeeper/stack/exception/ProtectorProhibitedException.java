@@ -4,7 +4,7 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 
 /**
- * 保护器禁止登陆异常。
+ * 保护器禁止登录异常。
  *
  * @author DwArFeng
  * @since 1.6.0
@@ -26,6 +26,6 @@ public class ProtectorProhibitedException extends HandlerException {
 
     @Override
     public String getMessage() {
-        return "保护器禁止 " + protectorInfoKey + " 本次登陆";
+        return "保护器禁止 " + protectorInfoKey + " 本次登录";
     }
 }

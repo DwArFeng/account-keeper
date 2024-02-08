@@ -14,9 +14,9 @@ import com.dwarfeng.subgrade.stack.handler.Handler;
 public interface PushHandler extends Handler {
 
     /**
-     * 历史被记录时执行的保护。
+     * 登录历史被记录时执行的保护。
      *
-     * @param loginHistoryRecordInfo 登陆历史记录信息。
+     * @param loginHistoryRecordInfo 登录历史记录信息。
      * @throws HandlerException 处理器异常。
      */
     void loginHistoryRecorded(LoginHistoryRecordInfo loginHistoryRecordInfo) throws HandlerException;

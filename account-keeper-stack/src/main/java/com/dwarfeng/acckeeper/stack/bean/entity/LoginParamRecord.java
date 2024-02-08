@@ -4,7 +4,7 @@ import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
 import com.dwarfeng.subgrade.stack.bean.entity.Entity;
 
 /**
- * 登陆参数记录。
+ * 登录参数记录。
  *
  * @author DwArFeng
  * @since 1.6.0

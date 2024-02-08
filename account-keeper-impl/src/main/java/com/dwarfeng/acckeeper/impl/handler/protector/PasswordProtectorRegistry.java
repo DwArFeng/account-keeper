@@ -63,7 +63,7 @@ public class PasswordProtectorRegistry extends AbstractProtectorRegistry {
 
     @Override
     public String provideDescription() {
-        return "如果用户在一段时间内连续输入错误密码超过一定的次数，则禁止用户登陆一段时间";
+        return "如果用户在一段时间内连续输入错误密码超过一定的次数，则禁止用户登录一段时间";
     }
 
     @Override
@@ -125,7 +125,7 @@ public class PasswordProtectorRegistry extends AbstractProtectorRegistry {
                     String prohibitDateString = formatTimestamp(prohibitUntilTimestamp);
                     return new Response(
                             false,
-                            "账户在连续输错了过多次密码, 直到 " + prohibitDateString + " 之前禁止登陆",
+                            "账户在连续输错了过多次密码, 直到 " + prohibitDateString + " 之前禁止登录",
                             Constants.PROTECTOR_MESSAGE_LEVEL_INFO,
                             Collections.emptyMap()
                     );
@@ -161,16 +161,16 @@ public class PasswordProtectorRegistry extends AbstractProtectorRegistry {
                     String prohibitDateString = formatTimestamp(prohibitUntilTimestamp);
                     context.setVariable(
                             VARIABLE_KEY_PROHIBIT_UNTIL_TIMESTAMP,
-                            new Variable(prohibitUntilTimestampString, "禁止登陆截止时间戳")
+                            new Variable(prohibitUntilTimestampString, "禁止登录截止时间戳")
                     );
                     return new Response(
                             false,
-                            "账户在最近一段时间内输错了过多次密码, 直到 " + prohibitDateString + " 之前禁止登陆",
+                            "账户在最近一段时间内输错了过多次密码, 直到 " + prohibitDateString + " 之前禁止登录",
                             alarmLevel,
                             Collections.emptyMap()
                     );
                 }
-                // 否则只禁止登陆。
+                // 否则只禁止登录。
                 else {
                     return new Response(
                             false,
@@ -215,7 +215,7 @@ public class PasswordProtectorRegistry extends AbstractProtectorRegistry {
             context.setVariable(VARIABLE_KEY_INIT, new Variable(StringUtils.EMPTY, "初始化标记"));
             String currentTimestampString = System.currentTimeMillis() + "";
             context.setVariable(
-                    VARIABLE_KEY_PROHIBIT_UNTIL_TIMESTAMP, new Variable(currentTimestampString, "禁止登陆截止时间戳")
+                    VARIABLE_KEY_PROHIBIT_UNTIL_TIMESTAMP, new Variable(currentTimestampString, "禁止登录截止时间戳")
             );
             String incorrectCountString = 0 + "";
             context.setVariable(

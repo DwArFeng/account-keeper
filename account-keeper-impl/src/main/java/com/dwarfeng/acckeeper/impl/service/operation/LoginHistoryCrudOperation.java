@@ -83,7 +83,7 @@ public class LoginHistoryCrudOperation implements BatchCrudOperation<LongIdKey, 
 
     @Override
     public void delete(LongIdKey key) throws Exception {
-        // 删除与账户相关的登陆参数记录。
+        // 删除与账户相关的登录参数记录。
         List<RecordKey> loginParamRecordKeys = loginParamRecordDao.lookup(
                 LoginParamRecordMaintainService.CHILD_FOR_LOGIN_HISTORY, new Object[]{key}
         ).stream().map(LoginParamRecord::getKey).collect(Collectors.toList());

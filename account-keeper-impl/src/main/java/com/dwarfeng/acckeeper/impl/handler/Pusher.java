@@ -21,9 +21,9 @@ public interface Pusher {
     boolean supportType(String type);
 
     /**
-     * 历史被记录时执行的保护。
+     * 登录历史被记录时执行的保护。
      *
-     * @param loginHistory 登陆历史记录信息。
+     * @param loginHistory 登录历史记录信息。
      * @throws HandlerException 处理器异常。
      */
     void loginHistoryRecorded(LoginHistoryRecordInfo loginHistory) throws HandlerException;

@@ -105,46 +105,46 @@ public interface LoginHandler extends Handler {
     LoginState postpone(LongIdKey loginStateKey) throws HandlerException;
 
     /**
-     * 根据登陆状态主键查询登陆状态。
+     * 根据登录状态主键查询登录状态。
      *
      * <p>
      * 结果返回一个列表，列表的元素最大数量是 1。
      * 如果主键对应的值存在，则列表中仅有一个元素，即主键对应的值；
      * 如果主键对应的值不存在，则返回一个空列表。
      *
-     * @param loginStateKey 登陆状态的主键。
-     * @return 登陆状态组成的列表。
+     * @param loginStateKey 登录状态的主键。
+     * @return 登录状态组成的列表。
      * @throws HandlerException 处理器异常。
      */
     List<LoginState> inspectLoginStateByKey(LongIdKey loginStateKey) throws HandlerException;
 
     /**
-     * 查询指定用户的所有登陆状态。
+     * 查询指定用户的所有登录状态。
      *
      * @param accountKey 用户的主键。
-     * @return 登陆状态组成的列表。
+     * @return 登录状态组成的列表。
      * @throws HandlerException 处理器异常。
      */
     List<LoginState> inspectLoginStateByAccount(StringIdKey accountKey) throws HandlerException;
 
     /**
-     * 查询所有的登陆状态。
+     * 查询所有的登录状态。
      *
-     * @return 登陆状态组成的列表。
+     * @return 登录状态组成的列表。
      * @throws HandlerException 处理器异常。
      */
     List<LoginState> inspectAllLoginState() throws HandlerException;
 
     /**
-     * 解除指定的登陆状态。
+     * 解除指定的登录状态。
      *
-     * @param loginStateKey 登陆状态的主键。
+     * @param loginStateKey 登录状态的主键。
      * @throws HandlerException 处理器异常。
      */
     void kickByLoginState(LongIdKey loginStateKey) throws HandlerException;
 
     /**
-     * 解除指定用户的所有登陆状态。
+     * 解除指定用户的所有登录状态。
      *
      * @param accountKey 用户的主键。
      * @throws HandlerException 处理器异常。
@@ -152,7 +152,7 @@ public interface LoginHandler extends Handler {
     void kickByAccount(StringIdKey accountKey) throws HandlerException;
 
     /**
-     * 解除所有的登陆状态。
+     * 解除所有的登录状态。
      *
      * @throws HandlerException 处理器异常。
      */

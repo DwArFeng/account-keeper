@@ -83,7 +83,7 @@ public class AccountCrudOperation implements BatchCrudOperation<StringIdKey, Acc
 
     @Override
     public void delete(StringIdKey key) throws Exception {
-        // 删除与账户相关的登陆状态。
+        // 删除与账户相关的登录状态。
         List<LongIdKey> loginStateKeys = loginStateDao.lookup(
                 LoginStateMaintainService.CHILD_FOR_ACCOUNT, new Object[]{key}
         ).stream().map(LoginState::getKey).collect(Collectors.toList());

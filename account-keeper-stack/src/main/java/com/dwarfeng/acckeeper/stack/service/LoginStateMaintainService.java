@@ -7,7 +7,7 @@ import com.dwarfeng.subgrade.stack.service.EntireLookupService;
 import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 
 /**
- * 登陆状态维护服务。
+ * 登录状态维护服务。
  *
  * @author DwArFeng
  * @since 1.6.0
@@ -19,7 +19,7 @@ public interface LoginStateMaintainService extends BatchCrudService<LongIdKey, L
     String EXPIRE_DATE_BEFORE = "expire_date_before";
 
     /**
-     * 查询没有账户的登陆状态。
+     * 查询没有账户的登录状态。
      *
      * <p>
      * 清理作业使用。
@@ -29,7 +29,7 @@ public interface LoginStateMaintainService extends BatchCrudService<LongIdKey, L
     String WITHOUT_ACCOUNT = "without_account";
 
     /**
-     * 查询过期时间早于当前时间的登陆状态。
+     * 查询过期时间早于当前时间的登录状态。
      *
      * <p>
      * 清理作业使用。

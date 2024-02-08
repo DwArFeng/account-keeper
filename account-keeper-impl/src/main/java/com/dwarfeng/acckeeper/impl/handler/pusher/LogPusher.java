@@ -39,7 +39,7 @@ public class LogPusher extends AbstractPusher {
 
     @Override
     public void loginHistoryRecorded(LoginHistoryRecordInfo loginHistory) throws HandlerException {
-        String title = "历史被记录事件:";
+        String title = "登录历史被记录事件:";
         String message = Objects.toString(loginHistory);
         logData(title, message);
     }

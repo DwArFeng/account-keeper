@@ -4,6 +4,12 @@
 
 #### 功能构建
 
+- 文本、注释、文档优化。
+  - 更正单词：登陆 -> 登录。
+  - PushHandler.loginHistoryRecorded 文档注释优化。
+  - Pusher.loginHistoryRecorded 文档注释优化。
+  - LogPusher.loginHistoryRecorded 日志文案优化。
+
 - 新增运维指令。
   - com.dwarfeng.acckeeper.impl.service.telqos.ProtectLocalCacheCommand。
 

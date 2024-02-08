@@ -61,7 +61,7 @@ public class LoginQosServiceImpl implements LoginQosService {
         try {
             return loginHandler.inspectLoginStateByKey(loginStateKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("查询指定的登陆状态时发生异常", LogLevel.WARN, e, sem);
+            throw ServiceExceptionHelper.logParse("查询指定的登录状态时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -70,7 +70,7 @@ public class LoginQosServiceImpl implements LoginQosService {
         try {
             return loginHandler.inspectLoginStateByAccount(accountKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("查询指定用户的所有登陆状态时发生异常", LogLevel.WARN, e, sem);
+            throw ServiceExceptionHelper.logParse("查询指定用户的所有登录状态时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -79,7 +79,7 @@ public class LoginQosServiceImpl implements LoginQosService {
         try {
             return loginHandler.inspectAllLoginState();
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("查询所有的登陆状态时发生异常", LogLevel.WARN, e, sem);
+            throw ServiceExceptionHelper.logParse("查询所有的登录状态时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -88,7 +88,7 @@ public class LoginQosServiceImpl implements LoginQosService {
         try {
             loginHandler.kickByLoginState(loginStateKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("解除指定的登陆状态时发生异常", LogLevel.WARN, e, sem);
+            throw ServiceExceptionHelper.logParse("解除指定的登录状态时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -97,7 +97,7 @@ public class LoginQosServiceImpl implements LoginQosService {
         try {
             loginHandler.kickByAccount(accountKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("解除指定用户的所有登陆状态时发生异常", LogLevel.WARN, e, sem);
+            throw ServiceExceptionHelper.logParse("解除指定用户的所有登录状态时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -106,7 +106,7 @@ public class LoginQosServiceImpl implements LoginQosService {
         try {
             loginHandler.kickAll();
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("解除所有的登陆状态时发生异常", LogLevel.WARN, e, sem);
+            throw ServiceExceptionHelper.logParse("解除所有的登录状态时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

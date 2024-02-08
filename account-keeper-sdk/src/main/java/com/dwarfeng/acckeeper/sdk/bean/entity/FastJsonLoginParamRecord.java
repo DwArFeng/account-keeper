@@ -8,7 +8,7 @@ import com.dwarfeng.subgrade.stack.bean.Bean;
 import java.util.Objects;
 
 /**
- * FastJson 登陆参数记录。
+ * FastJson 登录参数记录。
  *
  * @author DwArFeng
  * @since 1.6.0

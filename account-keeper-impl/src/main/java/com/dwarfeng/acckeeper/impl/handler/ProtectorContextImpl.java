@@ -135,7 +135,7 @@ class ProtectorContextImpl implements Protector.Context {
                 );
             }
 
-            // 根据查询结果，将每个登陆历史转换为登陆记录。
+            // 根据查询结果，将每个登录历史转换为登录记录。
             List<Protector.LoginRecord> result = new ArrayList<>();
             for (LoginHistory loginHistory : loginHistories) {
                 Protector.LoginRecord loginRecord = historyToRecord(loginHistory);

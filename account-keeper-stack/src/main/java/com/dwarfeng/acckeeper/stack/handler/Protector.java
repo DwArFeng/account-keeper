@@ -51,12 +51,12 @@ public interface Protector {
         AccountMeta getAccountMeta() throws ProtectorException;
 
         /**
-         * 获取本次登陆的登陆信息。
+         * 获取本次登录的登录信息。
          *
          * <p>
          * 该方法已经被废弃，新版本中使用 {@link #isDynamicLogin()} 或者 {@link #isStaticLogin()}。
          *
-         * @return 本次登陆的登陆信息。
+         * @return 本次登录的登录信息。
          * @throws ProtectorException 保护器异常。
          * @deprecated 使用 {@link #isDynamicLogin()} 或者 {@link #isStaticLogin()}。
          */
@@ -64,16 +64,16 @@ public interface Protector {
         LoginInfo getLoginInfo() throws ProtectorException;
 
         /**
-         * 获取本次登陆是否为动态登陆。
+         * 获取本次登录是否为动态登录。
          *
-         * @return 本次登陆是否为动态登陆。
+         * @return 本次登录是否为动态登录。
          * @throws ProtectorException 保护器异常。
          * @since 1.7.0
          */
         boolean isDynamicLogin() throws ProtectorException;
 
         /**
-         * 获取动态登陆信息。
+         * 获取动态登录信息。
          *
          * <p>
          * 该方法在 @{link #isDynamicLogin()} 返回 true 时有效。
@@ -85,16 +85,16 @@ public interface Protector {
         DynamicLoginInfo getDynamicLoginInfo() throws ProtectorException;
 
         /**
-         * 获取本次登陆是否为静态登陆。
+         * 获取本次登录是否为静态登录。
          *
-         * @return 本次登陆是否为静态登陆。
+         * @return 本次登录是否为静态登录。
          * @throws ProtectorException 保护器异常。
          * @since 1.7.0
          */
         boolean isStaticLogin() throws ProtectorException;
 
         /**
-         * 获取静态登陆信息。
+         * 获取静态登录信息。
          *
          * <p>
          * 该方法在 @{link #isStaticLogin()} 返回 true 时有效。
@@ -106,13 +106,13 @@ public interface Protector {
         StaticLoginInfo getStaticLoginInfo() throws ProtectorException;
 
         /**
-         * 查询登陆响应。
+         * 查询登录响应。
          *
          * <p>
          * 查询的结果根据发生时间降序排列。
          *
          * @param param 查询参数。
-         * @return 登陆响应查询结果。
+         * @return 登录响应查询结果。
          * @throws ProtectorException 保护器异常。
          */
         List<LoginRecord> inspectRecord(RecordInspectParam param) throws ProtectorException;
@@ -153,9 +153,9 @@ public interface Protector {
         void removeVariable(String variableId) throws ProtectorException;
 
         /**
-         * 获取本次登陆是否密码正确。
+         * 获取本次登录是否密码正确。
          *
-         * @return 本次登陆是否密码正确。
+         * @return 本次登录是否密码正确。
          * @throws ProtectorException 保护器异常。
          */
         boolean passwordCorrect() throws ProtectorException;
@@ -231,7 +231,7 @@ public interface Protector {
          *
          * <p>
          * 该参数为 null 时，查询时忽略响应空间。<br>
-         * 该参数不为 null 时，只查询响应代码在该空间内的登陆响应。<br>
+         * 该参数不为 null 时，只查询响应代码在该空间内的登录响应。<br>
          * 特殊地，当该值为一个空列表时，整个查询将不会返回任何结果。
          */
         private final List<Integer> responseCodes;
@@ -279,7 +279,7 @@ public interface Protector {
     }
 
     /**
-     * 登陆记录结构体。
+     * 登录记录结构体。
      *
      * @author DwArFeng
      * @since 1.6.0

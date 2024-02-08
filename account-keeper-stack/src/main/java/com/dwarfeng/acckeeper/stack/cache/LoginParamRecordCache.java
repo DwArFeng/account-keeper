@@ -5,7 +5,7 @@ import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
 import com.dwarfeng.subgrade.stack.cache.BatchBaseCache;
 
 /**
- * 登陆参数记录缓存。
+ * 登录参数记录缓存。
  *
  * @author DwArFeng
  * @since 1.6.0
