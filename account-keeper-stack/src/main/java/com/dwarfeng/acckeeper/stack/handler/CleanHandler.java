@@ -1,6 +1,6 @@
 package com.dwarfeng.acckeeper.stack.handler;
 
-import com.dwarfeng.subgrade.stack.handler.StartableHandler;
+import com.dwarfeng.subgrade.stack.handler.DistributedLockHandler;
 
 /**
  * 清理处理器。
@@ -8,5 +8,5 @@ import com.dwarfeng.subgrade.stack.handler.StartableHandler;
  * @author DwArFeng
  * @since 1.6.0
  */
-public interface CleanHandler extends StartableHandler {
+public interface CleanHandler extends DistributedLockHandler {
 }

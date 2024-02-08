@@ -3,11 +3,12 @@ package com.dwarfeng.acckeeper.impl.handler;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.acckeeper.stack.handler.CleanHandler;
 import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
-import com.dwarfeng.subgrade.impl.handler.GeneralStartableHandler;
+import com.dwarfeng.subgrade.impl.handler.CuratorDistributedLockHandler;
 import com.dwarfeng.subgrade.impl.handler.Worker;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import org.apache.curator.framework.CuratorFramework;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,28 +26,62 @@ import java.util.stream.Collectors;
 @Component
 public class CleanHandlerImpl implements CleanHandler {
 
-    private final GeneralStartableHandler delegate;
+    private final CuratorDistributedLockHandler handler;
 
-    public CleanHandlerImpl(CleanWorker worker) {
-        this.delegate = new GeneralStartableHandler(worker);
+    public CleanHandlerImpl(
+            CuratorFramework curatorFramework,
+            @Value("${curator.latch_path.clean.leader_latch}") String leaderLatchPath,
+            CleanWorker worker
+    ) {
+        handler = new CuratorDistributedLockHandler(curatorFramework, leaderLatchPath, worker);
+    }
+
+    @BehaviorAnalyse
+    @Override
+    public boolean isOnline() {
+        return handler.isOnline();
+    }
+
+    @BehaviorAnalyse
+    @Override
+    public void online() throws HandlerException {
+        handler.online();
+    }
+
+    @BehaviorAnalyse
+    @Override
+    public void offline() throws HandlerException {
+        handler.offline();
     }
 
     @BehaviorAnalyse
     @Override
     public boolean isStarted() {
-        return delegate.isStarted();
+        return handler.isStarted();
     }
 
     @BehaviorAnalyse
     @Override
     public void start() throws HandlerException {
-        delegate.start();
+        handler.start();
     }
 
     @BehaviorAnalyse
     @Override
     public void stop() throws HandlerException {
-        delegate.stop();
+        handler.stop();
+    }
+
+    @BehaviorAnalyse
+    @Override
+    public boolean isLockHolding() {
+        return handler.isLockHolding();
+    }
+
+    @BehaviorAnalyse
+    @Override
+    public boolean isWorking() {
+        return handler.isWorking();
     }
 
     @Component

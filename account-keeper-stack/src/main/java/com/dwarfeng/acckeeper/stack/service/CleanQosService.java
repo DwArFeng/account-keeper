@@ -12,7 +12,37 @@ import com.dwarfeng.subgrade.stack.service.Service;
 public interface CleanQosService extends Service {
 
     /**
-     * 清理服务是否启动。
+     * 判断清理服务是否上线。
+     *
+     * @return 是否上线。
+     * @throws ServiceException 服务异常。
+     */
+    boolean isOnline() throws ServiceException;
+
+    /**
+     * 上线清理服务。
+     *
+     * @throws ServiceException 服务异常。
+     */
+    void online() throws ServiceException;
+
+    /**
+     * 下线清理服务。
+     *
+     * @throws ServiceException 服务异常。
+     */
+    void offline() throws ServiceException;
+
+    /**
+     * 判断清理服务是否正在持有锁。
+     *
+     * @return 清理服务是否正在持有锁。
+     * @throws ServiceException 服务异常。
+     */
+    boolean isLockHolding() throws ServiceException;
+
+    /**
+     * 判断清理服务是否启动。
      *
      * @return 清理服务是否启动。
      * @throws ServiceException 服务异常。
@@ -22,9 +52,6 @@ public interface CleanQosService extends Service {
     /**
      * 启动清理服务。
      *
-     * <p>
-     * 该方法重复调用安全，多次调用实际只会执行一次。
-     *
      * @throws ServiceException 服务异常。
      */
     void start() throws ServiceException;
@@ -32,10 +59,15 @@ public interface CleanQosService extends Service {
     /**
      * 停止清理服务。
      *
-     * <p>
-     * 该方法重复调用安全，多次调用实际只会执行一次。
-     *
      * @throws ServiceException 服务异常。
      */
     void stop() throws ServiceException;
+
+    /**
+     * 判断清理服务是否正在工作。
+     *
+     * @return 清理服务是否正在工作。
+     * @throws ServiceException 服务异常。
+     */
+    boolean isWorking() throws ServiceException;
 }

@@ -46,17 +46,40 @@ public class Launcher {
 
             // 处理清理处理器的启动选项。
             CleanQosService cleanQosService = ctx.getBean(CleanQosService.class);
+            // 清理处理器是否上线清理服务。
+            long onlineCleanDelay = launcherSettingHandler.getOnlineCleanDelay();
+            if (onlineCleanDelay == 0) {
+                LOGGER.info("立即上线清理服务...");
+                try {
+                    cleanQosService.online();
+                } catch (ServiceException e) {
+                    LOGGER.error("无法上线清理服务，异常原因如下", e);
+                }
+            } else if (onlineCleanDelay > 0) {
+                LOGGER.info(onlineCleanDelay + " 毫秒后上线清理服务...");
+                scheduler.schedule(
+                        () -> {
+                            LOGGER.info("上线清理服务...");
+                            try {
+                                cleanQosService.online();
+                            } catch (ServiceException e) {
+                                LOGGER.error("无法上线清理服务，异常原因如下", e);
+                            }
+                        },
+                        new Date(System.currentTimeMillis() + onlineCleanDelay)
+                );
+            }
             // 清理处理器是否启动清理服务。
-            long startCleanDelay = launcherSettingHandler.getStartCleanDelay();
-            if (startCleanDelay == 0) {
+            long enableCleanDelay = launcherSettingHandler.getEnableCleanDelay();
+            if (enableCleanDelay == 0) {
                 LOGGER.info("立即启动清理服务...");
                 try {
-                    cleanQosService.start();
+                    cleanQosService.online();
                 } catch (ServiceException e) {
                     LOGGER.error("无法启动清理服务，异常原因如下", e);
                 }
-            } else if (startCleanDelay > 0) {
-                LOGGER.info(startCleanDelay + " 毫秒后启动清理服务...");
+            } else if (enableCleanDelay > 0) {
+                LOGGER.info(enableCleanDelay + " 毫秒后启动清理服务...");
                 scheduler.schedule(
                         () -> {
                             LOGGER.info("启动清理服务...");
@@ -66,7 +89,7 @@ public class Launcher {
                                 LOGGER.error("无法启动清理服务，异常原因如下", e);
                             }
                         },
-                        new Date(System.currentTimeMillis() + startCleanDelay)
+                        new Date(System.currentTimeMillis() + enableCleanDelay)
                 );
             }
 
