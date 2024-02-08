@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 新增运维指令。
+  - com.dwarfeng.acckeeper.impl.service.telqos.ProtectLocalCacheCommand。
+
 - 新增派生机制。
   - 新增派生服务及其 QOS 服务。
   - 实现派生服务的基本功能。
