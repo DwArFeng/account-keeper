@@ -64,7 +64,7 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
             // 构造账户实体。
             Account account = new Account(
                     accountKey, encryptedPassword, accountRegisterInfo.isEnabled(), accountRegisterInfo.getRemark(), 0,
-                    accountRegisterInfo.getDisplayName(), new Date(), 0, 0
+                    accountRegisterInfo.getDisplayName(), new Date(), 0, 0, 0
             );
 
             // 调用维护服务插入账户实体。

@@ -1,5 +1,6 @@
 package com.dwarfeng.acckeeper.impl.handler.pusher;
 
+import com.dwarfeng.acckeeper.stack.bean.dto.DeriveHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginHistoryRecordInfo;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +41,13 @@ public class LogPusher extends AbstractPusher {
     public void loginHistoryRecorded(LoginHistoryRecordInfo loginHistory) throws HandlerException {
         String title = "历史被记录事件:";
         String message = Objects.toString(loginHistory);
+        logData(title, message);
+    }
+
+    @Override
+    public void deriveHistoryRecorded(DeriveHistoryRecordInfo deriveHistoryRecordInfo) throws HandlerException {
+        String title = "派生历史被记录事件:";
+        String message = Objects.toString(deriveHistoryRecordInfo);
         logData(title, message);
     }
 

@@ -4,20 +4,30 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
 import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
-import org.springframework.lang.NonNull;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class FastJsonAccount implements Bean {
 
-    private static final long serialVersionUID = 1782876032660642485L;
+    private static final long serialVersionUID = -3620890230475250515L;
 
-    public static FastJsonAccount of(@NonNull Account account) {
-        return new FastJsonAccount(
-                FastJsonStringIdKey.of(account.getKey()),
-                account.getPassword(), account.isEnabled(), account.getRemark(), account.getSerialVersion(),
-                account.getDisplayName(), account.getRegisteredDate(), account.getLoginCount()
-        );
+    public static FastJsonAccount of(Account account) {
+        if (Objects.isNull(account)) {
+            return null;
+        } else {
+            return new FastJsonAccount(
+                    FastJsonStringIdKey.of(account.getKey()),
+                    account.getPassword(),
+                    account.isEnabled(),
+                    account.getRemark(),
+                    account.getSerialVersion(),
+                    account.getDisplayName(),
+                    account.getRegisteredDate(),
+                    account.getLoginCount(),
+                    account.getDeriveCount()
+            );
+        }
     }
 
     @JSONField(name = "key", ordinal = 1)
@@ -47,12 +57,15 @@ public class FastJsonAccount implements Bean {
     @JSONField(name = "password_update_count", ordinal = 9)
     private int passwordUpdateCount;
 
+    @JSONField(name = "derive_count", ordinal = 10)
+    private int deriveCount;
+
     public FastJsonAccount() {
     }
 
     public FastJsonAccount(
             FastJsonStringIdKey key, String password, boolean enabled, String remark, long serialVersion,
-            String displayName, Date registeredDate, int loginCount
+            String displayName, Date registeredDate, int loginCount, int deriveCount
     ) {
         this.key = key;
         this.password = password;
@@ -62,6 +75,7 @@ public class FastJsonAccount implements Bean {
         this.displayName = displayName;
         this.registeredDate = registeredDate;
         this.loginCount = loginCount;
+        this.deriveCount = deriveCount;
     }
 
     public FastJsonStringIdKey getKey() {
@@ -136,6 +150,14 @@ public class FastJsonAccount implements Bean {
         this.passwordUpdateCount = passwordUpdateCount;
     }
 
+    public int getDeriveCount() {
+        return deriveCount;
+    }
+
+    public void setDeriveCount(int deriveCount) {
+        this.deriveCount = deriveCount;
+    }
+
     @Override
     public String toString() {
         return "FastJsonAccount{" +
@@ -148,6 +170,7 @@ public class FastJsonAccount implements Bean {
                 ", registeredDate=" + registeredDate +
                 ", loginCount=" + loginCount +
                 ", passwordUpdateCount=" + passwordUpdateCount +
+                ", deriveCount=" + deriveCount +
                 '}';
     }
 }

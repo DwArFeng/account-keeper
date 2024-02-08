@@ -1,5 +1,6 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
+import com.dwarfeng.acckeeper.stack.bean.dto.DeriveHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.handler.PushHandler;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
@@ -34,6 +35,11 @@ public class PushHandlerImpl implements PushHandler {
     @Override
     public void loginHistoryRecorded(LoginHistoryRecordInfo loginHistoryRecordInfo) throws HandlerException {
         pusher.loginHistoryRecorded(loginHistoryRecordInfo);
+    }
+
+    @Override
+    public void deriveHistoryRecorded(DeriveHistoryRecordInfo deriveHistoryRecordInfo) throws HandlerException {
+        pusher.deriveHistoryRecorded(deriveHistoryRecordInfo);
     }
 
     @Override

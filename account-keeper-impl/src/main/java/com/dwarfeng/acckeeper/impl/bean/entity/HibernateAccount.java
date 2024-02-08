@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "tbl_account")
 public class HibernateAccount implements Bean {
 
-    private static final long serialVersionUID = 1630681703563914059L;
+    private static final long serialVersionUID = 6888894650096594601L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -47,6 +47,9 @@ public class HibernateAccount implements Bean {
 
     @Column(name = "password_update_count", nullable = false)
     private int passwordUpdateCount;
+
+    @Column(name = "derive_count", nullable = false)
+    private int deriveCount;
 
     // -----------------------------------------------------------一对一-----------------------------------------------------------
     @OneToOne(cascade = CascadeType.MERGE, targetEntity = HibernateProtectorInfo.class, mappedBy = "account")
@@ -141,6 +144,14 @@ public class HibernateAccount implements Bean {
         this.passwordUpdateCount = passwordUpdateCount;
     }
 
+    public int getDeriveCount() {
+        return deriveCount;
+    }
+
+    public void setDeriveCount(int deriveCount) {
+        this.deriveCount = deriveCount;
+    }
+
     public HibernateProtectorInfo getProtectorInfo() {
         return protectorInfo;
     }
@@ -169,6 +180,7 @@ public class HibernateAccount implements Bean {
                 "registeredDate = " + registeredDate + ", " +
                 "loginCount = " + loginCount + ", " +
                 "passwordUpdateCount = " + passwordUpdateCount + ", " +
+                "deriveCount = " + deriveCount + ", " +
                 "protectorInfo = " + protectorInfo + ")";
     }
 }

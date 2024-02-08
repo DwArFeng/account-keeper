@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class Account implements Entity<StringIdKey> {
 
-    private static final long serialVersionUID = -5078942824192132813L;
+    private static final long serialVersionUID = 5515266500914356625L;
 
     private StringIdKey key;
     private String password;
@@ -41,12 +41,17 @@ public class Account implements Entity<StringIdKey> {
      */
     private int passwordUpdateCount;
 
+    /**
+     * @since 1.7.0
+     */
+    private int deriveCount;
+
     public Account() {
     }
 
     public Account(
             StringIdKey key, String password, boolean enabled, String remark, long serialVersion, String displayName,
-            Date registeredDate, int loginCount, int passwordUpdateCount
+            Date registeredDate, int loginCount, int passwordUpdateCount, int deriveCount
     ) {
         this.key = key;
         this.password = password;
@@ -57,6 +62,7 @@ public class Account implements Entity<StringIdKey> {
         this.registeredDate = registeredDate;
         this.loginCount = loginCount;
         this.passwordUpdateCount = passwordUpdateCount;
+        this.deriveCount = deriveCount;
     }
 
     @Override
@@ -133,6 +139,14 @@ public class Account implements Entity<StringIdKey> {
         this.passwordUpdateCount = passwordUpdateCount;
     }
 
+    public int getDeriveCount() {
+        return deriveCount;
+    }
+
+    public void setDeriveCount(int deriveCount) {
+        this.deriveCount = deriveCount;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
@@ -145,6 +159,7 @@ public class Account implements Entity<StringIdKey> {
                 ", registeredDate=" + registeredDate +
                 ", loginCount=" + loginCount +
                 ", passwordUpdateCount=" + passwordUpdateCount +
+                ", deriveCount=" + deriveCount +
                 '}';
     }
 }

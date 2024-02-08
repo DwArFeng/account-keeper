@@ -1,6 +1,7 @@
 package com.dwarfeng.acckeeper.impl.handler.pusher;
 
 import com.dwarfeng.acckeeper.impl.handler.Pusher;
+import com.dwarfeng.acckeeper.stack.bean.dto.DeriveHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginHistoryRecordInfo;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import org.slf4j.Logger;
@@ -52,6 +53,17 @@ public class MultiPusher extends AbstractPusher {
         for (Pusher delegate : delegates) {
             try {
                 delegate.loginHistoryRecorded(loginHistory);
+            } catch (Exception e) {
+                LOGGER.warn("代理推送器推送数据失败，异常信息如下: ", e);
+            }
+        }
+    }
+
+    @Override
+    public void deriveHistoryRecorded(DeriveHistoryRecordInfo deriveHistoryRecordInfo) {
+        for (Pusher delegate : delegates) {
+            try {
+                delegate.deriveHistoryRecorded(deriveHistoryRecordInfo);
             } catch (Exception e) {
                 LOGGER.warn("代理推送器推送数据失败，异常信息如下: ", e);
             }

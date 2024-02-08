@@ -1,5 +1,6 @@
 package com.dwarfeng.acckeeper.impl.handler.pusher;
 
+import com.dwarfeng.acckeeper.stack.bean.dto.DeriveHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginHistoryRecordInfo;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 
@@ -32,6 +33,11 @@ public abstract class PusherAdapter extends AbstractPusher {
     @SuppressWarnings("RedundantThrows")
     @Override
     public void loginHistoryRecorded(LoginHistoryRecordInfo loginHistory) throws HandlerException {
+    }
+
+    @SuppressWarnings("RedundantThrows")
+    @Override
+    public void deriveHistoryRecorded(DeriveHistoryRecordInfo deriveHistoryRecordInfo) throws HandlerException {
     }
 
     @SuppressWarnings("RedundantThrows")

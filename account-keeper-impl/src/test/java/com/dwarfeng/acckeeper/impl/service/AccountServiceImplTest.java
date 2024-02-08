@@ -28,7 +28,7 @@ public class AccountServiceImplTest {
     @Before
     public void setUp() {
         account = new Account(
-                new StringIdKey("test-account"), "password", true, "remark", 0, "测试账号", new Date(), 0, 0
+                new StringIdKey("test-account"), "password", true, "remark", 0, "测试账号", new Date(), 0, 0, 0
         );
     }
 

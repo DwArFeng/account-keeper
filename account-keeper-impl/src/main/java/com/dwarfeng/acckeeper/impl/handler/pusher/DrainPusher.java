@@ -1,5 +1,6 @@
 package com.dwarfeng.acckeeper.impl.handler.pusher;
 
+import com.dwarfeng.acckeeper.stack.bean.dto.DeriveHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginHistoryRecordInfo;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,10 @@ public class DrainPusher extends AbstractPusher {
 
     @Override
     public void loginHistoryRecorded(LoginHistoryRecordInfo loginHistory) {
+    }
+
+    @Override
+    public void deriveHistoryRecorded(DeriveHistoryRecordInfo deriveHistoryRecordInfo) {
     }
 
     @Override
