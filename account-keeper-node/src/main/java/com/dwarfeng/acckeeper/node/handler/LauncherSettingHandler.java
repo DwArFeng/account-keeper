@@ -10,8 +10,8 @@ public class LauncherSettingHandler implements Handler {
     @Value("${launcher.reset_protector_support}")
     private boolean resetProtectorSupport;
 
-    @Value("${launcher.start_cleanup_delay}")
-    private long startCleanupDelay;
+    @Value("${launcher.start_clean_delay}")
+    private long startCleanDelay;
 
     @Value("${launcher.start_reset_delay}")
     private long startResetDelay;
@@ -20,8 +20,8 @@ public class LauncherSettingHandler implements Handler {
         return resetProtectorSupport;
     }
 
-    public long getStartCleanupDelay() {
-        return startCleanupDelay;
+    public long getStartCleanDelay() {
+        return startCleanDelay;
     }
 
     public long getStartResetDelay() {

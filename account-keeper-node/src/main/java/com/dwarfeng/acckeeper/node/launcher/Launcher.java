@@ -47,16 +47,16 @@ public class Launcher {
             // 处理清理处理器的启动选项。
             CleanQosService cleanQosService = ctx.getBean(CleanQosService.class);
             // 清理处理器是否启动清理服务。
-            long startCleanupDelay = launcherSettingHandler.getStartCleanupDelay();
-            if (startCleanupDelay == 0) {
+            long startCleanDelay = launcherSettingHandler.getStartCleanDelay();
+            if (startCleanDelay == 0) {
                 LOGGER.info("立即启动清理服务...");
                 try {
                     cleanQosService.start();
                 } catch (ServiceException e) {
                     LOGGER.error("无法启动清理服务，异常原因如下", e);
                 }
-            } else if (startCleanupDelay > 0) {
-                LOGGER.info(startCleanupDelay + " 毫秒后启动清理服务...");
+            } else if (startCleanDelay > 0) {
+                LOGGER.info(startCleanDelay + " 毫秒后启动清理服务...");
                 scheduler.schedule(
                         () -> {
                             LOGGER.info("启动清理服务...");
@@ -66,7 +66,7 @@ public class Launcher {
                                 LOGGER.error("无法启动清理服务，异常原因如下", e);
                             }
                         },
-                        new Date(System.currentTimeMillis() + startCleanupDelay)
+                        new Date(System.currentTimeMillis() + startCleanDelay)
                 );
             }
 

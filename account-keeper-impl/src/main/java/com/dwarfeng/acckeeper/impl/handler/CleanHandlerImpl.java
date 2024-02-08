@@ -27,7 +27,7 @@ public class CleanHandlerImpl implements CleanHandler {
 
     private final GeneralStartableHandler delegate;
 
-    public CleanHandlerImpl(CleanupWorker worker) {
+    public CleanHandlerImpl(CleanWorker worker) {
         this.delegate = new GeneralStartableHandler(worker);
     }
 
@@ -50,25 +50,25 @@ public class CleanHandlerImpl implements CleanHandler {
     }
 
     @Component
-    public static class CleanupWorker implements Worker {
+    public static class CleanWorker implements Worker {
 
         private final ApplicationContext ctx;
 
         private final ThreadPoolTaskScheduler scheduler;
 
-        @Value("${cleanup.expired_login_state.cron}")
+        @Value("${clean.expired_login_state.cron}")
         private String expiredLoginStateCron;
 
         private Future<?> expiredLoginStateFuture;
 
-        public CleanupWorker(ApplicationContext ctx, ThreadPoolTaskScheduler scheduler) {
+        public CleanWorker(ApplicationContext ctx, ThreadPoolTaskScheduler scheduler) {
             this.ctx = ctx;
             this.scheduler = scheduler;
         }
 
         @Override
         public void work() {
-            ExpiredLoginStateCleanupTask task = ctx.getBean(ExpiredLoginStateCleanupTask.class);
+            ExpiredLoginStateCleanTask task = ctx.getBean(ExpiredLoginStateCleanTask.class);
             expiredLoginStateFuture = scheduler.schedule(task, new CronTrigger(expiredLoginStateCron));
         }
 
@@ -80,13 +80,13 @@ public class CleanHandlerImpl implements CleanHandler {
 
     @Component
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    public static class ExpiredLoginStateCleanupTask implements Runnable {
+    public static class ExpiredLoginStateCleanTask implements Runnable {
 
-        private static final Logger LOGGER = LoggerFactory.getLogger(ExpiredLoginStateCleanupTask.class);
+        private static final Logger LOGGER = LoggerFactory.getLogger(ExpiredLoginStateCleanTask.class);
 
         private final LoginStateMaintainService loginStateMaintainService;
 
-        public ExpiredLoginStateCleanupTask(LoginStateMaintainService loginStateMaintainService) {
+        public ExpiredLoginStateCleanTask(LoginStateMaintainService loginStateMaintainService) {
             this.loginStateMaintainService = loginStateMaintainService;
         }
 
