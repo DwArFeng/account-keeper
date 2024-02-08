@@ -130,6 +130,7 @@ public class LoginHandlerImpl implements LoginHandler {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private LoginState login0(LoginType loginType, DynamicLoginInfo dynamicLoginInfo, StaticLoginInfo staticLoginInfo)
             throws Exception {
         // 处理登录主逻辑。

@@ -78,6 +78,7 @@ public class LoginCommand extends CliCommand {
         this.loginQosService = loginQosService;
     }
 
+    @SuppressWarnings("DuplicatedCode")
     @Override
     protected List<Option> buildOptions() {
         List<Option> list = new ArrayList<>();
@@ -287,6 +288,7 @@ public class LoginCommand extends CliCommand {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private Date parseExpireDate(Context context, CommandLine cmd) throws Exception {
         if (cmd.hasOption(COMMAND_OPTION_EXPIRE_DATE)) {
             String expireDateString = (String) cmd.getParsedOptionValue(COMMAND_OPTION_EXPIRE_DATE);

@@ -276,7 +276,6 @@ public class LoginProcessor {
         }
     }
 
-    @SuppressWarnings("DuplicatedCode")
     private LoginHistoryRecordInfo historyToRecord(
             LoginHistory loginHistory,
             List<LoginParamRecord> loginParamRecords, List<ProtectDetailRecord> protectDetailRecords
