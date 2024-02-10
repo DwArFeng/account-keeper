@@ -61,7 +61,7 @@ class ProtectorContextImpl implements Protector.Context {
     public Protector.AccountMeta getAccountMeta() {
         return new Protector.AccountMeta(
                 account.getSerialVersion(), account.getRegisteredDate(), account.getLoginCount(),
-                account.getPasswordUpdateCount()
+                account.getPasswordUpdateCount(), account.getDeriveCount()
         );
     }
 

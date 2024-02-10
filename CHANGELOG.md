@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 优化保护机制。
+  - 增加账户元数据结构体字段 Protector.AccountMeta.deriveCount。
+
 - 增加微服务注册。
   - com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService。
 

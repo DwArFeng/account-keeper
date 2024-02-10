@@ -174,11 +174,19 @@ public interface Protector {
         private final int loginCount;
         private final int passwordUpdateCount;
 
-        public AccountMeta(long serialVersion, Date registeredDate, int loginCount, int passwordUpdateCount) {
+        /**
+         * @since 1.7.1
+         */
+        private final int deriveCount;
+
+        public AccountMeta(
+                long serialVersion, Date registeredDate, int loginCount, int passwordUpdateCount, int deriveCount
+        ) {
             this.serialVersion = serialVersion;
             this.registeredDate = registeredDate;
             this.loginCount = loginCount;
             this.passwordUpdateCount = passwordUpdateCount;
+            this.deriveCount = deriveCount;
         }
 
         public long getSerialVersion() {
@@ -197,6 +205,10 @@ public interface Protector {
             return passwordUpdateCount;
         }
 
+        public int getDeriveCount() {
+            return deriveCount;
+        }
+
         @Override
         public String toString() {
             return "AccountMeta{" +
@@ -204,6 +216,7 @@ public interface Protector {
                     ", registeredDate=" + registeredDate +
                     ", loginCount=" + loginCount +
                     ", passwordUpdateCount=" + passwordUpdateCount +
+                    ", deriveCount=" + deriveCount +
                     '}';
         }
     }
