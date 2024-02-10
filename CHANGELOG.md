@@ -4,7 +4,8 @@
 
 #### 功能构建
 
-- (无)
+- 增加微服务注册。
+  - com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService。
 
 #### Bug修复
 
