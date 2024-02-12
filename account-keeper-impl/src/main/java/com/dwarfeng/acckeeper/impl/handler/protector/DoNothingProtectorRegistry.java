@@ -4,6 +4,7 @@ import com.dwarfeng.acckeeper.sdk.util.Constants;
 import com.dwarfeng.acckeeper.stack.exception.ProtectorException;
 import com.dwarfeng.acckeeper.stack.exception.ProtectorMakeException;
 import com.dwarfeng.acckeeper.stack.handler.Protector;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -67,7 +68,9 @@ public class DoNothingProtectorRegistry extends AbstractProtectorRegistry {
 
         @Override
         public Response execProtect(Context context) {
-            return new Response(true, "通过", Constants.PROTECTOR_MESSAGE_LEVEL_INFO, Collections.emptyMap());
+            return new Response(
+                    true, StringUtils.EMPTY, Constants.PROTECTOR_MESSAGE_LEVEL_INFO, Collections.emptyMap()
+            );
         }
 
         @Override
