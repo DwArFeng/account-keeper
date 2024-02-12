@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
@@ -46,6 +47,8 @@ public class LoginProcessor {
 
     private final KeyGenerator<LongIdKey> keyGenerator;
 
+    private final TransactionWrapper transactionWrapper;
+
     @Value("${acckeeper.login.dynamic.expire_duration}")
     private long dynamicLoginExpireDuration;
 
@@ -58,7 +61,8 @@ public class LoginProcessor {
             ProtectorVariableMaintainService protectorVariableMaintainService,
             ProtectLocalCacheHandler protectLocalCacheHandler,
             PushHandler pushHandler,
-            KeyGenerator<LongIdKey> keyGenerator
+            KeyGenerator<LongIdKey> keyGenerator,
+            TransactionWrapper transactionWrapper
     ) {
         this.ctx = ctx;
         this.accountMaintainService = accountMaintainService;
@@ -69,6 +73,7 @@ public class LoginProcessor {
         this.protectLocalCacheHandler = protectLocalCacheHandler;
         this.pushHandler = pushHandler;
         this.keyGenerator = keyGenerator;
+        this.transactionWrapper = transactionWrapper;
     }
 
     // 为了确保代码的可读性，此处不对代码结构进行优化。
@@ -260,10 +265,8 @@ public class LoginProcessor {
             protectDetailRecords.add(protectDetailRecord);
         }
 
-        // 批量插入。
-        loginHistoryMaintainService.insert(loginHistory);
-        loginParamRecordMaintainService.batchInsert(loginParamRecords);
-        protectDetailRecordMaintainService.batchInsert(protectDetailRecords);
+        // 插入数据。
+        transactionWrapper.insertHistoryEntities(loginHistory, loginParamRecords, protectDetailRecords);
 
         // 构建 LoginRecord，并进行事件推送。
         LoginHistoryRecordInfo loginHistoryRecordInfo = historyToRecord(
@@ -301,5 +304,36 @@ public class LoginProcessor {
                 loginHistoryKey, accountId, happenedDate, responseCode, message, alarmLevel, extraParamMap,
                 protectDetailMap, loginRemark
         );
+    }
+
+    @Component
+    public static class TransactionWrapper {
+
+        private final LoginHistoryMaintainService loginHistoryMaintainService;
+        private final LoginParamRecordMaintainService loginParamRecordMaintainService;
+        private final ProtectDetailRecordMaintainService protectDetailRecordMaintainService;
+
+        public TransactionWrapper(
+                LoginHistoryMaintainService loginHistoryMaintainService,
+                LoginParamRecordMaintainService loginParamRecordMaintainService,
+                ProtectDetailRecordMaintainService protectDetailRecordMaintainService
+        ) {
+            this.loginHistoryMaintainService = loginHistoryMaintainService;
+            this.loginParamRecordMaintainService = loginParamRecordMaintainService;
+            this.protectDetailRecordMaintainService = protectDetailRecordMaintainService;
+        }
+
+        @Transactional(
+                transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class,
+                propagation = Propagation.REQUIRES_NEW
+        )
+        public void insertHistoryEntities(
+                LoginHistory loginHistory, List<LoginParamRecord> loginParamRecords,
+                List<ProtectDetailRecord> protectDetailRecords
+        ) throws Exception {
+            loginHistoryMaintainService.insert(loginHistory);
+            loginParamRecordMaintainService.batchInsert(loginParamRecords);
+            protectDetailRecordMaintainService.batchInsert(protectDetailRecords);
+        }
     }
 }
