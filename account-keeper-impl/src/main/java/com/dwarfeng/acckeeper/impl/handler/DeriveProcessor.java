@@ -32,24 +32,25 @@ public class DeriveProcessor {
 
     private final LoginStateMaintainService loginStateMaintainService;
     private final AccountMaintainService accountMaintainService;
-    private final DeriveHistoryMaintainService deriveHistoryMaintainService;
 
     private final PushHandler pushHandler;
 
     private final KeyGenerator<LongIdKey> keyGenerator;
 
+    private final TransactionWrapper transactionWrapper;
+
     public DeriveProcessor(
             LoginStateMaintainService loginStateMaintainService,
             AccountMaintainService accountMaintainService,
-            DeriveHistoryMaintainService deriveHistoryMaintainService,
             PushHandler pushHandler,
-            KeyGenerator<LongIdKey> keyGenerator
+            KeyGenerator<LongIdKey> keyGenerator,
+            TransactionWrapper transactionWrapper
     ) {
         this.loginStateMaintainService = loginStateMaintainService;
         this.accountMaintainService = accountMaintainService;
-        this.deriveHistoryMaintainService = deriveHistoryMaintainService;
         this.pushHandler = pushHandler;
         this.keyGenerator = keyGenerator;
+        this.transactionWrapper = transactionWrapper;
     }
 
     // 为了确保代码的可读性，此处不对代码结构进行优化。
@@ -171,8 +172,10 @@ public class DeriveProcessor {
                 deriveHistoryKey, deriveComplex.getAccountId(), deriveComplex.getHappenedDate(),
                 deriveComplex.getResponseCode(), deriveComplex.getDeriveRemark()
         );
-        // 插入实体。
-        deriveHistoryMaintainService.insert(deriveHistory);
+
+        // 插入数据。
+        transactionWrapper.insertHistoryEntities(deriveHistory);
+
         // 构建 DeriveRecord，并进行事件推送。
         DeriveHistoryRecordInfo deriveHistoryRecordInfo = historyToRecord(deriveHistory);
         try {
@@ -189,5 +192,21 @@ public class DeriveProcessor {
         int responseCode = deriveHistory.getResponseCode();
         String deriveRemark = deriveHistory.getDeriveRemark();
         return new DeriveHistoryRecordInfo(deriveHistoryKey, accountId, happenedDate, responseCode, deriveRemark);
+    }
+
+    @Component
+    public static class TransactionWrapper {
+
+        private final DeriveHistoryMaintainService deriveHistoryMaintainService;
+
+        public TransactionWrapper(
+                DeriveHistoryMaintainService deriveHistoryMaintainService
+        ) {
+            this.deriveHistoryMaintainService = deriveHistoryMaintainService;
+        }
+
+        public void insertHistoryEntities(DeriveHistory deriveHistory) throws Exception {
+            deriveHistoryMaintainService.insert(deriveHistory);
+        }
     }
 }
