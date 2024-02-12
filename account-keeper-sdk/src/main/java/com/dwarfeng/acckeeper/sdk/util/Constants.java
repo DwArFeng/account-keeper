@@ -51,6 +51,8 @@ public final class Constants {
     @DeriveResponseCodeItem
     public static final int DERIVE_RESPONSE_CODE_LOGIN_STATE_NOT_EXISTS = 10;
     @DeriveResponseCodeItem
+    public static final int DERIVE_RESPONSE_CODE_LOGIN_STATE_EXPIRED = 15;
+    @DeriveResponseCodeItem
     public static final int DERIVE_RESPONSE_CODE_ACCOUNT_NOT_EXISTS = 20;
     @DeriveResponseCodeItem
     public static final int DERIVE_RESPONSE_CODE_ACCOUNT_DISABLED = 30;

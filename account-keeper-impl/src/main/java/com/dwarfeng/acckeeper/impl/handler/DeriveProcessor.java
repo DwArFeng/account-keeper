@@ -7,10 +7,7 @@ import com.dwarfeng.acckeeper.stack.bean.dto.StaticDeriveInfo;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
 import com.dwarfeng.acckeeper.stack.bean.entity.DeriveHistory;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
-import com.dwarfeng.acckeeper.stack.exception.AccountDisabledException;
-import com.dwarfeng.acckeeper.stack.exception.AccountNotExistsException;
-import com.dwarfeng.acckeeper.stack.exception.LoginStateNotExistsException;
-import com.dwarfeng.acckeeper.stack.exception.SerialVersionInconsistentException;
+import com.dwarfeng.acckeeper.stack.exception.*;
 import com.dwarfeng.acckeeper.stack.handler.PushHandler;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
 import com.dwarfeng.acckeeper.stack.service.DeriveHistoryMaintainService;
@@ -85,6 +82,15 @@ public class DeriveProcessor {
                     loginStateKey, loginStateId, happenedDate, Constants.DERIVE_RESPONSE_CODE_LOGIN_STATE_NOT_EXISTS,
                     null, null, expireDate, serialVersion, deriveRemark,
                     new LoginStateNotExistsException(loginStateKey), account
+            );
+        }
+
+        // 登录状态超时校验。
+        if (Objects.nonNull(loginState.getExpireDate()) && loginState.getExpireDate().before(happenedDate)) {
+            return new DeriveComplex(
+                    loginStateKey, loginStateId, happenedDate, Constants.DERIVE_RESPONSE_CODE_LOGIN_STATE_EXPIRED,
+                    null, null, expireDate, serialVersion, deriveRemark,
+                    new LoginStateExpiredException(loginStateKey), account
             );
         }
 
