@@ -86,6 +86,9 @@ public class DeriveProcessor {
             );
         }
 
+        // 获取序列版本。
+        serialVersion = loginState.getSerialVersion();
+
         // 登录状态超时校验。
         if (Objects.nonNull(loginState.getExpireDate()) && loginState.getExpireDate().before(happenedDate)) {
             return new DeriveComplex(
@@ -120,7 +123,7 @@ public class DeriveProcessor {
         }
 
         // 序列版本校验。
-        long loginStateSerialVersion = loginState.getSerialVersion();
+        long loginStateSerialVersion = serialVersion;
         if (!Objects.equals(accountSerialVersion, loginStateSerialVersion)) {
             return new DeriveComplex(
                     loginStateKey, loginStateId, happenedDate,
