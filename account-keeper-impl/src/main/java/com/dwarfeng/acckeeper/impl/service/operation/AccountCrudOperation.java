@@ -107,7 +107,7 @@ public class AccountCrudOperation implements BatchCrudOperation<StringIdKey, Acc
 
     @Override
     public boolean nonExists(List<StringIdKey> keys) throws Exception {
-        return accountCache.nonExists(keys) && accountCache.nonExists(keys);
+        return accountCache.nonExists(keys) && accountDao.nonExists(keys);
     }
 
     @Override

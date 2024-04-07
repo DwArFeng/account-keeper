@@ -20,6 +20,11 @@
 
 #### Bug修复
 
+- 修复部分 CrudOperation 中 `allExists` 方法行为异常的 bug。
+  - com.dwarfeng.acckeeper.impl.service.operation.AccountCrudOperation。
+  - com.dwarfeng.acckeeper.impl.service.operation.LoginHistoryCrudOperation。
+  - com.dwarfeng.acckeeper.impl.service.operation.ProtectorInfoCrudOperation。
+
 - 修复派生机制的 bug。
   - 修复派生过程中，登录状态的序列版本不能正确设置的 bug。
 

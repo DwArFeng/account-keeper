@@ -109,7 +109,7 @@ public class LoginHistoryCrudOperation implements BatchCrudOperation<LongIdKey, 
 
     @Override
     public boolean nonExists(List<LongIdKey> keys) throws Exception {
-        return loginHistoryCache.nonExists(keys) && loginHistoryCache.nonExists(keys);
+        return loginHistoryCache.nonExists(keys) && loginHistoryDao.nonExists(keys);
     }
 
     @Override

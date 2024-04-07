@@ -92,7 +92,7 @@ public class ProtectorInfoCrudOperation implements BatchCrudOperation<StringIdKe
 
     @Override
     public boolean nonExists(List<StringIdKey> keys) throws Exception {
-        return protectorInfoCache.nonExists(keys) && protectorInfoCache.nonExists(keys);
+        return protectorInfoCache.nonExists(keys) && protectorInfoDao.nonExists(keys);
     }
 
     @Override
