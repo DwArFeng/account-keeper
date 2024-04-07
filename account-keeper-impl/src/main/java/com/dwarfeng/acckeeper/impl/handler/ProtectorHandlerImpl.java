@@ -32,7 +32,7 @@ public class ProtectorHandlerImpl implements ProtectorHandler {
                     .findFirst().orElseThrow(() -> new UnsupportedProtectorTypeException(type));
             Protector protector = protectorMaker.makeProtector(type, param);
             LOGGER.debug("保护器构建成功!");
-            LOGGER.debug("保护器: " + protector);
+            LOGGER.debug("保护器: {}", protector);
             return protector;
         } catch (ProtectorException e) {
             throw e;

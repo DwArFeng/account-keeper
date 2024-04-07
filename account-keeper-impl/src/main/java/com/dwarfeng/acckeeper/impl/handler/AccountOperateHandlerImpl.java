@@ -52,7 +52,7 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
         try {
             // 获取主键，记录信息。
             StringIdKey accountKey = accountRegisterInfo.getAccountKey();
-            LOGGER.info("注册新账户 " + accountKey + " ...");
+            LOGGER.info("注册新账户 {} ...", accountKey);
 
             // 确定主键对应的账户不存在。
             handlerValidator.makeSureAccountNotExists(accountKey);
@@ -88,7 +88,7 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
         try {
             // 获取主键，记录信息。
             StringIdKey accountKey = accountUpdateInfo.getAccountKey();
-            LOGGER.info("注册新账户 " + accountKey + " ...");
+            LOGGER.info("注册新账户 {} ...", accountKey);
 
             // 确定主键对应的账户存在。
             handlerValidator.makeSureAccountExists(accountKey);
@@ -111,7 +111,7 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
     public void delete(StringIdKey accountKey) throws HandlerException {
         try {
             // 记录信息。
-            LOGGER.info("删除账户 " + accountKey + " ...");
+            LOGGER.info("删除账户 {} ...", accountKey);
 
             // 确定主键对应的账户存在。
             handlerValidator.makeSureAccountExists(accountKey);
@@ -141,7 +141,7 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
             if (BCrypt.checkpw(password, account.getPassword())) {
                 return true;
             } else {
-                LOGGER.warn("账户 ID=" + account.getKey().getStringId() + " 密码验证失败...");
+                LOGGER.warn("账户 ID={} 密码验证失败...", account.getKey().getStringId());
                 return false;
             }
         } catch (Exception e) {
@@ -155,7 +155,7 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
         try {
             // 获取主键，记录信息。
             StringIdKey accountKey = passwordUpdateInfo.getAccountKey();
-            LOGGER.info("账户 " + accountKey + " 请求更改密码...");
+            LOGGER.info("账户 {} 请求更改密码...", accountKey);
 
             // 确定主键对应的账户存在。
             handlerValidator.makeSureAccountExists(accountKey);
@@ -181,7 +181,7 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
         try {
             // 获取主键，记录信息。
             StringIdKey accountKey = passwordResetInfo.getAccountKey();
-            LOGGER.info("账户 " + accountKey + " 请求强制性更改密码...");
+            LOGGER.info("账户 {} 请求强制性更改密码...", accountKey);
 
             // 确定主键对应的账户存在。
             handlerValidator.makeSureAccountExists(accountKey);

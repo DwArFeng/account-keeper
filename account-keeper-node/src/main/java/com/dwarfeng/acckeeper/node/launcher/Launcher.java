@@ -78,7 +78,7 @@ public class Launcher {
                 LOGGER.error("无法上线清理服务，异常原因如下", e);
             }
         } else if (onlineCleanDelay > 0) {
-            LOGGER.info(onlineCleanDelay + " 毫秒后上线清理服务...");
+            LOGGER.info("{} 毫秒后上线清理服务...", onlineCleanDelay);
             scheduler.schedule(
                     () -> {
                         LOGGER.info("上线清理服务...");
@@ -113,7 +113,7 @@ public class Launcher {
                 LOGGER.error("无法启动清理服务，异常原因如下", e);
             }
         } else if (enableCleanDelay > 0) {
-            LOGGER.info(enableCleanDelay + " 毫秒后启动清理服务...");
+            LOGGER.info("{} 毫秒后启动清理服务...", enableCleanDelay);
             scheduler.schedule(
                     () -> {
                         LOGGER.info("启动清理服务...");
@@ -148,7 +148,7 @@ public class Launcher {
                 LOGGER.error("无法启动重置服务，异常原因如下", e);
             }
         } else if (startResetDelay > 0) {
-            LOGGER.info(startResetDelay + " 毫秒后启动重置服务...");
+            LOGGER.info("{} 毫秒后启动重置服务...", startResetDelay);
             scheduler.schedule(
                     () -> {
                         LOGGER.info("启动重置服务...");
