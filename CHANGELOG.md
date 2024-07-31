@@ -4,6 +4,17 @@
 
 #### 功能构建
 
+- 优化部分维护服务实现中的部分方法的性能。
+  - com.dwarfeng.acckeeper.impl.service.AccountMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.DeriveHistoryMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.LoginHistoryMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.LoginParamRecordMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.LoginStateMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.ProtectDetailRecordMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.ProtectorInfoMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.ProtectorSupportMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.ProtectorVariableMaintainServiceImpl。
+
 - 依赖升级。
   - 升级 `subgrade` 依赖版本为 `1.5.5.a` 并解决兼容性问题，以应用其新功能。
   - 升级 `spring` 依赖版本为 `5.3.37` 以规避漏洞。

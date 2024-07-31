@@ -263,4 +263,89 @@ public class ProtectorSupportMaintainServiceImpl implements ProtectorSupportMain
             throw ServiceExceptionHelper.logParse("重置保护器支持时发生异常", LogLevel.WARN, e, sem);
         }
     }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public List<ProtectorSupport> lookupAsList() throws ServiceException {
+        return entireLookupService.lookupAsList();
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public List<ProtectorSupport> lookupAsList(PagingInfo pagingInfo) throws ServiceException {
+        return entireLookupService.lookupAsList(pagingInfo);
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public ProtectorSupport lookupFirst() throws ServiceException {
+        return entireLookupService.lookupFirst();
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public int lookupCount() throws ServiceException {
+        return entireLookupService.lookupCount();
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public List<ProtectorSupport> lookupAsList(String preset, Object[] objs) throws ServiceException {
+        return presetLookupService.lookupAsList(preset, objs);
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public List<ProtectorSupport> lookupAsList(String preset, Object[] objs, PagingInfo pagingInfo)
+            throws ServiceException {
+        return presetLookupService.lookupAsList(preset, objs, pagingInfo);
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public ProtectorSupport lookupFirst(String preset, Object[] objs) throws ServiceException {
+        return presetLookupService.lookupFirst(preset, objs);
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public int lookupCount(String preset, Object[] objs) throws ServiceException {
+        return presetLookupService.lookupCount(preset, objs);
+    }
 }

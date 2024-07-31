@@ -225,4 +225,88 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
     public PagedData<LoginState> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
         return presetLookupService.lookup(preset, objs, pagingInfo);
     }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public List<LoginState> lookupAsList() throws ServiceException {
+        return entireLookupService.lookupAsList();
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public List<LoginState> lookupAsList(PagingInfo pagingInfo) throws ServiceException {
+        return entireLookupService.lookupAsList(pagingInfo);
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public LoginState lookupFirst() throws ServiceException {
+        return entireLookupService.lookupFirst();
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public int lookupCount() throws ServiceException {
+        return entireLookupService.lookupCount();
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public List<LoginState> lookupAsList(String preset, Object[] objs) throws ServiceException {
+        return presetLookupService.lookupAsList(preset, objs);
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public List<LoginState> lookupAsList(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+        return presetLookupService.lookupAsList(preset, objs, pagingInfo);
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public LoginState lookupFirst(String preset, Object[] objs) throws ServiceException {
+        return presetLookupService.lookupFirst(preset, objs);
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public int lookupCount(String preset, Object[] objs) throws ServiceException {
+        return presetLookupService.lookupCount(preset, objs);
+    }
 }

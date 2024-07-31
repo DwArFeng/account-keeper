@@ -257,4 +257,44 @@ public class DeriveHistoryMaintainServiceImpl implements DeriveHistoryMaintainSe
     public List<DeriveHistory> lookupAsList(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
         return presetLookupService.lookupAsList(preset, objs, pagingInfo);
     }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public DeriveHistory lookupFirst() throws ServiceException {
+        return entireLookupService.lookupFirst();
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public int lookupCount() throws ServiceException {
+        return entireLookupService.lookupCount();
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public DeriveHistory lookupFirst(String preset, Object[] objs) throws ServiceException {
+        return presetLookupService.lookupFirst(preset, objs);
+    }
+
+    /**
+     * @since 1.7.4
+     */
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public int lookupCount(String preset, Object[] objs) throws ServiceException {
+        return presetLookupService.lookupCount(preset, objs);
+    }
 }
