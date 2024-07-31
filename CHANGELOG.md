@@ -4,7 +4,8 @@
 
 #### 功能构建
 
-- (无)
+- 优化部分类中部分方法的行为分析行为。
+  - com.dwarfeng.acckeeper.impl.service.LoginStateMaintainServiceImpl。
 
 #### Bug修复
 

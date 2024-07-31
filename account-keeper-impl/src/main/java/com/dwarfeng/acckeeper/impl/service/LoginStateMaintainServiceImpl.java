@@ -6,6 +6,7 @@ import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
 import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
@@ -105,28 +106,30 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean allExists(List<LongIdKey> keys) throws ServiceException {
+    public boolean allExists(@SkipRecord List<LongIdKey> keys) throws ServiceException {
         return crudService.allExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean nonExists(List<LongIdKey> keys) throws ServiceException {
+    public boolean nonExists(@SkipRecord List<LongIdKey> keys) throws ServiceException {
         return crudService.nonExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginState> batchGet(List<LongIdKey> keys) throws ServiceException {
+    public List<LoginState> batchGet(@SkipRecord List<LongIdKey> keys) throws ServiceException {
         return crudService.batchGet(keys);
     }
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<LongIdKey> batchInsert(List<LoginState> elements) throws ServiceException {
+    public List<LongIdKey> batchInsert(@SkipRecord List<LoginState> elements) throws ServiceException {
         return crudService.batchInsert(elements);
     }
 
@@ -140,47 +143,51 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDelete(List<LongIdKey> keys) throws ServiceException {
+    public void batchDelete(@SkipRecord List<LongIdKey> keys) throws ServiceException {
         crudService.batchDelete(keys);
     }
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginState> batchGetIfExists(List<LongIdKey> keys) throws ServiceException {
+    public List<LoginState> batchGetIfExists(@SkipRecord List<LongIdKey> keys) throws ServiceException {
         return crudService.batchGetIfExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<LongIdKey> batchInsertIfExists(List<LoginState> elements) throws ServiceException {
+    public List<LongIdKey> batchInsertIfExists(@SkipRecord List<LoginState> elements) throws ServiceException {
         return crudService.batchInsertIfExists(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchUpdateIfExists(List<LoginState> elements) throws ServiceException {
+    public void batchUpdateIfExists(@SkipRecord List<LoginState> elements) throws ServiceException {
         crudService.batchUpdateIfExists(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDeleteIfExists(List<LongIdKey> keys) throws ServiceException {
+    public void batchDeleteIfExists(@SkipRecord List<LongIdKey> keys) throws ServiceException {
         crudService.batchDeleteIfExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<LongIdKey> batchInsertOrUpdate(List<LoginState> elements) throws ServiceException {
+    public List<LongIdKey> batchInsertOrUpdate(@SkipRecord List<LoginState> elements) throws ServiceException {
         return crudService.batchInsertOrUpdate(elements);
     }
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public PagedData<LoginState> lookup() throws ServiceException {
         return entireLookupService.lookup();
@@ -188,6 +195,7 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public PagedData<LoginState> lookup(PagingInfo pagingInfo) throws ServiceException {
         return entireLookupService.lookup(pagingInfo);
@@ -195,6 +203,7 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public PagedData<LoginState> lookup(String preset, Object[] objs) throws ServiceException {
         return presetLookupService.lookup(preset, objs);
@@ -202,6 +211,7 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public PagedData<LoginState> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
         return presetLookupService.lookup(preset, objs, pagingInfo);
