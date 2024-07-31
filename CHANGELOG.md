@@ -4,6 +4,15 @@
 
 #### 功能构建
 
+- 依赖升级。
+  - 升级 `subgrade` 依赖版本为 `1.5.5.a` 并解决兼容性问题，以应用其新功能。
+  - 升级 `spring` 依赖版本为 `5.3.37` 以规避漏洞。
+  - 升级 `netty` 依赖版本为 `4.1.108.Final` 以规避漏洞。
+  - 升级 `slf4j` 依赖版本为 `1.7.36` 以规避漏洞。
+  - 升级 `snowflake` 依赖版本为 `1.5.2.a` 以规避漏洞。
+  - 升级 `spring-terminator` 依赖版本为 `1.0.13.a` 以规避漏洞。
+  - 升级 `spring-telqos` 依赖版本为 `1.1.9.a` 以规避漏洞。
+
 - 优化部分类中部分方法的行为分析行为。
   - com.dwarfeng.acckeeper.impl.service.LoginStateMaintainServiceImpl。
 

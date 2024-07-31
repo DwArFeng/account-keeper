@@ -155,12 +155,21 @@ public class ProtectorVariableMaintainServiceImpl implements ProtectorVariableMa
         return crudService.batchGetIfExists(keys);
     }
 
+    @Deprecated
     @Override
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public List<ProtectorVariableKey> batchInsertIfExists(@SkipRecord List<ProtectorVariable> elements) throws ServiceException {
         return crudService.batchInsertIfExists(elements);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public List<ProtectorVariableKey> batchInsertIfNotExists(List<ProtectorVariable> entities) throws ServiceException {
+        return crudService.batchInsertIfNotExists(entities);
     }
 
     @Override

@@ -155,12 +155,21 @@ public class LoginHistoryMaintainServiceImpl implements LoginHistoryMaintainServ
         return batchCrudService.batchGetIfExists(keys);
     }
 
+    @Deprecated
     @Override
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public List<LongIdKey> batchInsertIfExists(@SkipRecord List<LoginHistory> elements) throws ServiceException {
         return batchCrudService.batchInsertIfExists(elements);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public List<LongIdKey> batchInsertIfNotExists(List<LoginHistory> entities) throws ServiceException {
+        return batchCrudService.batchInsertIfNotExists(entities);
     }
 
     @Override
