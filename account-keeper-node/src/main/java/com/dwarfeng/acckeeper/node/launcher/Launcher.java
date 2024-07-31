@@ -108,7 +108,7 @@ public class Launcher {
         if (enableCleanDelay == 0) {
             LOGGER.info("立即启动清理服务...");
             try {
-                cleanQosService.online();
+                cleanQosService.start();
             } catch (ServiceException e) {
                 LOGGER.error("无法启动清理服务，异常原因如下", e);
             }
