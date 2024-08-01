@@ -181,7 +181,7 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
         try {
             // 获取主键，记录信息。
             StringIdKey accountKey = passwordResetInfo.getAccountKey();
-            LOGGER.info("账户 {} 请求强制性更改密码...", accountKey);
+            LOGGER.info("接收到密码重置请求, 目标账户: {}", accountKey);
 
             // 确定主键对应的账户存在。
             handlerValidator.makeSureAccountExists(accountKey);

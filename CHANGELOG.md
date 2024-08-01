@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 优化部分类中的日志文本。
+  - com.dwarfeng.acckeeper.impl.handler.AccountOperateHandlerImpl。
+
 - 新增运维指令。
   - com.dwarfeng.acckeeper.impl.service.telqos.AccountCommand。
 
