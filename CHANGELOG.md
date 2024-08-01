@@ -50,6 +50,9 @@
 
 #### Bug修复
 
+- 修复部分 wiki 文档中的格式及语法问题。
+  - zh_CN/Introduction.md。
+
 - 修复 telqos 工具类中部分注解不正确的 bug。
 
 - 修复部分功能启动延时为 0 时行为不正确的 bug。
