@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 新增运维指令。
+  - com.dwarfeng.acckeeper.impl.service.telqos.AccountCommand。
+
 - 优化 `node` 模块部分服务启停脚本的注释。
   - binres/acckeeper-start.bat。
   - binres/acckeeper-start.sh。
