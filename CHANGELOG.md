@@ -4,6 +4,10 @@
 
 #### 功能构建
 
+- 增加预设的运维指令。
+  - com.dwarfeng.springtelqos.api.integration.system.MemoryCommand。
+  - com.dwarfeng.springtelqos.api.integration.log4j2.Log4j2Command。
+
 - 优化项目启停脚本设置程序的根目录的方式。
 
 - 优化启停脚本的目录结构。
