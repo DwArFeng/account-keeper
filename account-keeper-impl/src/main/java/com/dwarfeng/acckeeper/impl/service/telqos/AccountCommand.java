@@ -224,6 +224,7 @@ public class AccountCommand extends CliCommand {
         context.sendMessage("账户更新成功");
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void handleDelete(Context context, CommandLine cmd) throws Exception {
         StringIdKey key;
 
@@ -344,6 +345,7 @@ public class AccountCommand extends CliCommand {
         context.sendMessage("账户密码重置成功");
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void handleInvalid(Context context, CommandLine cmd) throws Exception {
         StringIdKey key;
 
