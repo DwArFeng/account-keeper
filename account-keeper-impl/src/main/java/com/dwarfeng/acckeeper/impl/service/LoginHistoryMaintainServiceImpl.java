@@ -168,7 +168,7 @@ public class LoginHistoryMaintainServiceImpl implements LoginHistoryMaintainServ
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<LongIdKey> batchInsertIfNotExists(List<LoginHistory> entities) throws ServiceException {
+    public List<LongIdKey> batchInsertIfNotExists(@SkipRecord List<LoginHistory> entities) throws ServiceException {
         return batchCrudService.batchInsertIfNotExists(entities);
     }
 

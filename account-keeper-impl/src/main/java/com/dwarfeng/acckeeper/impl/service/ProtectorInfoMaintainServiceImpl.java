@@ -168,7 +168,7 @@ public class ProtectorInfoMaintainServiceImpl implements ProtectorInfoMaintainSe
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsertIfNotExists(List<ProtectorInfo> entities) throws ServiceException {
+    public List<StringIdKey> batchInsertIfNotExists(@SkipRecord List<ProtectorInfo> entities) throws ServiceException {
         return crudService.batchInsertIfNotExists(entities);
     }
 

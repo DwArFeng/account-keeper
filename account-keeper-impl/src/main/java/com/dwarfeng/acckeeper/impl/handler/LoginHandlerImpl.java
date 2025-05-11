@@ -11,6 +11,7 @@ import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
 import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
 import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
@@ -262,6 +263,7 @@ public class LoginHandlerImpl implements LoginHandler {
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     public List<LoginState> inspectLoginStateByKey(LongIdKey loginStateKey) throws HandlerException {
         try {
             LoginState loginState = loginStateMaintainService.getIfExists(loginStateKey);
@@ -277,6 +279,7 @@ public class LoginHandlerImpl implements LoginHandler {
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     public List<LoginState> inspectLoginStateByAccount(StringIdKey accountKey) throws HandlerException {
         try {
             return loginStateMaintainService.lookupAsList(
@@ -289,6 +292,7 @@ public class LoginHandlerImpl implements LoginHandler {
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     public List<LoginState> inspectAllLoginState() throws HandlerException {
         try {
             return loginStateMaintainService.lookupAsList();

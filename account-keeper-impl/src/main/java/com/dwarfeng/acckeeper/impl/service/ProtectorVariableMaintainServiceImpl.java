@@ -168,7 +168,7 @@ public class ProtectorVariableMaintainServiceImpl implements ProtectorVariableMa
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<ProtectorVariableKey> batchInsertIfNotExists(List<ProtectorVariable> entities) throws ServiceException {
+    public List<ProtectorVariableKey> batchInsertIfNotExists(@SkipRecord List<ProtectorVariable> entities) throws ServiceException {
         return crudService.batchInsertIfNotExists(entities);
     }
 

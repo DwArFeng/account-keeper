@@ -168,7 +168,7 @@ public class LoginParamRecordMaintainServiceImpl implements LoginParamRecordMain
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<RecordKey> batchInsertIfNotExists(List<LoginParamRecord> entities) throws ServiceException {
+    public List<RecordKey> batchInsertIfNotExists(@SkipRecord List<LoginParamRecord> entities) throws ServiceException {
         return crudService.batchInsertIfNotExists(entities);
     }
 

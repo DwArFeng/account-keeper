@@ -168,7 +168,7 @@ public class DeriveHistoryMaintainServiceImpl implements DeriveHistoryMaintainSe
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<LongIdKey> batchInsertIfNotExists(List<DeriveHistory> entities) throws ServiceException {
+    public List<LongIdKey> batchInsertIfNotExists(@SkipRecord List<DeriveHistory> entities) throws ServiceException {
         return batchCrudService.batchInsertIfNotExists(entities);
     }
 

@@ -168,7 +168,7 @@ public class AccountMaintainServiceImpl implements AccountMaintainService {
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsertIfNotExists(List<Account> entities) throws ServiceException {
+    public List<StringIdKey> batchInsertIfNotExists(@SkipRecord List<Account> entities) throws ServiceException {
         return batchCrudService.batchInsertIfNotExists(entities);
     }
 

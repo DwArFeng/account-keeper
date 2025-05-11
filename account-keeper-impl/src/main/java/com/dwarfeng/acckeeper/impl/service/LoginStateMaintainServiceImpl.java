@@ -136,7 +136,7 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchUpdate(List<LoginState> elements) throws ServiceException {
+    public void batchUpdate(@SkipRecord List<LoginState> elements) throws ServiceException {
         crudService.batchUpdate(elements);
     }
 
@@ -168,7 +168,7 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<LongIdKey> batchInsertIfNotExists(List<LoginState> entities) throws ServiceException {
+    public List<LongIdKey> batchInsertIfNotExists(@SkipRecord List<LoginState> entities) throws ServiceException {
         return crudService.batchInsertIfNotExists(entities);
     }
 

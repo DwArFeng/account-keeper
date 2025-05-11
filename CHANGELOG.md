@@ -4,6 +4,26 @@
 
 #### 功能构建
 
+- 优化部分类中部分方法的行为分析行为。
+  - com.dwarfeng.acckeeper.impl.cache.AccountCacheImpl。
+  - com.dwarfeng.acckeeper.impl.cache.DeriveHistoryCacheImpl。
+  - com.dwarfeng.acckeeper.impl.cache.LoginHistoryCacheImpl。
+  - com.dwarfeng.acckeeper.impl.cache.LoginStateCacheImpl。
+  - com.dwarfeng.acckeeper.impl.dao.AccountDaoImpl。
+  - com.dwarfeng.acckeeper.impl.dao.DeriveHistoryDaoImpl。
+  - com.dwarfeng.acckeeper.impl.dao.LoginHistoryDaoImpl。
+  - com.dwarfeng.acckeeper.impl.dao.LoginStateDaoImpl。
+  - com.dwarfeng.acckeeper.impl.handler.LoginHandlerImpl。
+  - com.dwarfeng.acckeeper.impl.service.AccountMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.DeriveHistoryMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.LoginHistoryMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.LoginParamRecordMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.LoginStateMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.ProtectDetailRecordMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.ProtectorInfoMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.ProtectorSupportMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.ProtectorVariableMaintainServiceImpl。
+
 - Wiki 编写。
   - docs/wiki/zh_CN/VersionBlacklist.md。
 

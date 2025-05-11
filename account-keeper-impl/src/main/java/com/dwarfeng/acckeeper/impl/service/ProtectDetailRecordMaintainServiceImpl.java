@@ -168,7 +168,7 @@ public class ProtectDetailRecordMaintainServiceImpl implements ProtectDetailReco
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<RecordKey> batchInsertIfNotExists(List<ProtectDetailRecord> entities) throws ServiceException {
+    public List<RecordKey> batchInsertIfNotExists(@SkipRecord List<ProtectDetailRecord> entities) throws ServiceException {
         return crudService.batchInsertIfNotExists(entities);
     }
 
