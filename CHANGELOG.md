@@ -4,6 +4,11 @@
 
 #### 功能构建
 
+- 更新 README.md。
+
+- Wiki 更新。
+  - docs/wiki/zh_CN/Introduction.md。
+
 - 优化部分单元测试代码，以规避潜在的 bug。
   - com.dwarfeng.acckeeper.impl.service.AccountOperateServiceImplTest。
   - com.dwarfeng.acckeeper.impl.service.AccountServiceImplTest。

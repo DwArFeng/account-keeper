@@ -6,16 +6,15 @@ Account Keeper (简称 Acckeeper) 是一个功能全面的账户管理服务，�
 
 ## 特性
 
-- 支持账户注册、销毁、登陆、登出等操作。
-- 账户密码加密存储。
-- 支持账户保护器，如密码错误次数限制保护，保护器可基于 SPI 进行扩展。
-- 支持动态登录（短期登录+延迟过期方法）和静态登录（长期登录）。
-- 支持登录状态的派生（基于已有的登录状态派生新的登录状态）。
-- 支持登录状态的指令（如登录状态的查询、销毁），可方便地销毁特定账户的所有登录状态。
-- 提供 Telqos 运维平台，能够在没有 GUI 的环境下使用本服务的功能。
-- 登录和派生操作进行历史记录，可追踪与登录状态相关的所有操作。
-- 支持主流关系型数据库（基于 Hibernate）。
-- 支持分布式部署。
+1. Subgrade 架构支持。
+2. 支持账户注册、销毁、登陆、登出等操作，账户密码使用 `jbcrypt` 算法进行加密存储。
+3. 支持账户保护器，基于 SPI 扩展，轻松实现特殊的保护需求（如 10 秒内连续输错密码超 3 次，锁定账户 10 分钟）。
+4. 支持动态登录（短期登录+延迟过期方法）和静态登录（长期登录）。
+5. 支持登录状态的派生（基于已有的登录状态派生新的登录状态），支持多种授权方式。
+6. 支持登录状态的指令（如登录状态的查询、销毁），可方便地销毁特定账户的登录状态，轻松实现一端登录多端登出。
+7. 登录和派生操作进行历史记录，可追踪与登录状态相关的所有操作。
+8. 提供 QoS 运维平台，能够在前端页面、GUI 尚未开发完成的环境下使用本服务的功能，并进行运维操作。
+9. 关键数据支持数据标记，为运维调试、数据迁移、数据追溯提供一定的辅助作用。
 
 ## 文档
 
@@ -51,36 +50,35 @@ register.password.salt_log_rounds=10
 
 1. 下载源码
 
-   使用git进行源码下载。
-   ```
-   git clone git@github.com:DwArFeng/account-keeper.git
-   ```
-   对于中国用户，可以使用gitee进行高速下载。
-   ```
-   git clone git@gitee.com:dwarfeng/account-keeper.git
-   ```
-   
+   - 使用 git 进行源码下载：
+      ```shell
+      git clone git@github.com:DwArFeng/account-keeper.git
+      ```
+
+   - 对于中国用户，可以使用 gitee 进行高速下载：
+      ```shell
+      git clone git@gitee.com:dwarfeng/account-keeper.git
+      ```
+
 2. 项目打包
 
-   进入项目根目录，执行maven命令
+   进入项目根目录，执行 maven 命令：
    ```
    mvn clean package
    ```
-   
+
 3. 解压
 
-   找到打包后的目标文件 
+   找到打包后的目标文件：
    ```
    account-keeper-node/target/acckeeper-[version]-release.tar.gz
    ```
-   将其解压至windows系统或者linux系统
-   
+   将其解压至 windows 系统或者 linux 系统。
+
 4. 配置
 
-   1. 进入工程下的`bin`目录，修改所有执行脚本的`basedir`和`logdir`
-      
-   2. 修改conf文件夹下的配置文件，着重修改各连接的url与密码。
-   
+   1. 修改 conf 文件夹下的配置文件，着重修改各连接的 url 与密码。
+
 5. enjoy it
 
 ---
