@@ -1,6 +1,6 @@
 package com.dwarfeng.acckeeper.impl.configuration;
 
-import com.dwarfeng.acckeeper.sdk.bean.FastJsonMapper;
+import com.dwarfeng.acckeeper.sdk.bean.BeanMapper;
 import com.dwarfeng.acckeeper.sdk.bean.entity.*;
 import com.dwarfeng.acckeeper.sdk.bean.key.formatter.ProtectorVariableStringKeyFormatter;
 import com.dwarfeng.acckeeper.sdk.bean.key.formatter.RecordStringKeyFormatter;
@@ -52,7 +52,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonAccount>) template,
                 new StringIdStringKeyFormatter(accountPrefix),
-                new MapStructBeanTransformer<>(Account.class, FastJsonAccount.class, FastJsonMapper.class)
+                new MapStructBeanTransformer<>(Account.class, FastJsonAccount.class, BeanMapper.class)
         );
     }
 
@@ -62,7 +62,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonLoginState>) template,
                 new LongIdStringKeyFormatter(loginStatePrefix),
-                new MapStructBeanTransformer<>(LoginState.class, FastJsonLoginState.class, FastJsonMapper.class)
+                new MapStructBeanTransformer<>(LoginState.class, FastJsonLoginState.class, BeanMapper.class)
         );
     }
 
@@ -72,7 +72,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonLoginHistory>) template,
                 new LongIdStringKeyFormatter(loginHistoryPrefix),
-                new MapStructBeanTransformer<>(LoginHistory.class, FastJsonLoginHistory.class, FastJsonMapper.class)
+                new MapStructBeanTransformer<>(LoginHistory.class, FastJsonLoginHistory.class, BeanMapper.class)
         );
     }
 
@@ -83,7 +83,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonProtectorInfo>) template,
                 new StringIdStringKeyFormatter(protectorInfoPrefix),
-                new MapStructBeanTransformer<>(ProtectorInfo.class, FastJsonProtectorInfo.class, FastJsonMapper.class)
+                new MapStructBeanTransformer<>(ProtectorInfo.class, FastJsonProtectorInfo.class, BeanMapper.class)
         );
     }
 
@@ -95,7 +95,7 @@ public class CacheConfiguration {
                 (RedisTemplate<String, FastJsonProtectorSupport>) template,
                 new StringIdStringKeyFormatter(protectorSupportPrefix),
                 new MapStructBeanTransformer<>(
-                        ProtectorSupport.class, FastJsonProtectorSupport.class, FastJsonMapper.class
+                        ProtectorSupport.class, FastJsonProtectorSupport.class, BeanMapper.class
                 )
         );
     }
@@ -108,7 +108,7 @@ public class CacheConfiguration {
                 (RedisTemplate<String, FastJsonProtectorVariable>) template,
                 new ProtectorVariableStringKeyFormatter(protectorVariablePrefix),
                 new MapStructBeanTransformer<>(
-                        ProtectorVariable.class, FastJsonProtectorVariable.class, FastJsonMapper.class
+                        ProtectorVariable.class, FastJsonProtectorVariable.class, BeanMapper.class
                 )
         );
     }
@@ -121,7 +121,7 @@ public class CacheConfiguration {
                 (RedisTemplate<String, FastJsonLoginParamRecord>) template,
                 new RecordStringKeyFormatter(loginParamRecordPrefix),
                 new MapStructBeanTransformer<>(
-                        LoginParamRecord.class, FastJsonLoginParamRecord.class, FastJsonMapper.class
+                        LoginParamRecord.class, FastJsonLoginParamRecord.class, BeanMapper.class
                 )
         );
     }
@@ -134,7 +134,7 @@ public class CacheConfiguration {
                 (RedisTemplate<String, FastJsonProtectDetailRecord>) template,
                 new RecordStringKeyFormatter(protectDetailRecordPrefix),
                 new MapStructBeanTransformer<>(
-                        ProtectDetailRecord.class, FastJsonProtectDetailRecord.class, FastJsonMapper.class
+                        ProtectDetailRecord.class, FastJsonProtectDetailRecord.class, BeanMapper.class
                 )
         );
     }
@@ -145,7 +145,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonDeriveHistory>) template,
                 new LongIdStringKeyFormatter(deriveHistoryPrefix),
-                new MapStructBeanTransformer<>(DeriveHistory.class, FastJsonDeriveHistory.class, FastJsonMapper.class)
+                new MapStructBeanTransformer<>(DeriveHistory.class, FastJsonDeriveHistory.class, BeanMapper.class)
         );
     }
 }

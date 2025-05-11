@@ -1,6 +1,6 @@
 package com.dwarfeng.acckeeper.node.configuration;
 
-import com.dwarfeng.acckeeper.impl.bean.HibernateMapper;
+import com.dwarfeng.acckeeper.impl.bean.BeanMapper;
 import com.dwarfeng.acckeeper.impl.bean.entity.*;
 import com.dwarfeng.acckeeper.impl.bean.key.HibernateProtectorVariableKey;
 import com.dwarfeng.acckeeper.impl.bean.key.HibernateRecordKey;
@@ -64,8 +64,8 @@ public class DaoConfiguration {
     accountHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 hibernateTemplate,
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
-                new MapStructBeanTransformer<>(Account.class, HibernateAccount.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(Account.class, HibernateAccount.class, BeanMapper.class),
                 HibernateAccount.class
         );
     }
@@ -74,7 +74,7 @@ public class DaoConfiguration {
     public HibernateEntireLookupDao<Account, HibernateAccount> accountHibernateEntireLookupDao() {
         return new HibernateEntireLookupDao<>(
                 hibernateTemplate,
-                new MapStructBeanTransformer<>(Account.class, HibernateAccount.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(Account.class, HibernateAccount.class, BeanMapper.class),
                 HibernateAccount.class
         );
     }
@@ -83,7 +83,7 @@ public class DaoConfiguration {
     public HibernatePresetLookupDao<Account, HibernateAccount> accountHibernatePresetLookupDao() {
         return new HibernatePresetLookupDao<>(
                 hibernateTemplate,
-                new MapStructBeanTransformer<>(Account.class, HibernateAccount.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(Account.class, HibernateAccount.class, BeanMapper.class),
                 HibernateAccount.class,
                 accountPresetCriteriaMaker
         );
@@ -94,8 +94,8 @@ public class DaoConfiguration {
     loginStateHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 hibernateTemplate,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, HibernateMapper.class),
-                new MapStructBeanTransformer<>(LoginState.class, HibernateLoginState.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(LoginState.class, HibernateLoginState.class, BeanMapper.class),
                 HibernateLoginState.class
         );
     }
@@ -104,7 +104,7 @@ public class DaoConfiguration {
     public HibernateEntireLookupDao<LoginState, HibernateLoginState> loginStateHibernateEntireLookupDao() {
         return new HibernateEntireLookupDao<>(
                 hibernateTemplate,
-                new MapStructBeanTransformer<>(LoginState.class, HibernateLoginState.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(LoginState.class, HibernateLoginState.class, BeanMapper.class),
                 HibernateLoginState.class
         );
     }
@@ -113,7 +113,7 @@ public class DaoConfiguration {
     public HibernatePresetLookupDao<LoginState, HibernateLoginState> loginStateHibernatePresetLookupDao() {
         return new HibernatePresetLookupDao<>(
                 hibernateTemplate,
-                new MapStructBeanTransformer<>(LoginState.class, HibernateLoginState.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(LoginState.class, HibernateLoginState.class, BeanMapper.class),
                 HibernateLoginState.class,
                 loginStatePresetCriteriaMaker
         );
@@ -124,8 +124,8 @@ public class DaoConfiguration {
     loginHistoryHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 hibernateTemplate,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, HibernateMapper.class),
-                new MapStructBeanTransformer<>(LoginHistory.class, HibernateLoginHistory.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(LoginHistory.class, HibernateLoginHistory.class, BeanMapper.class),
                 HibernateLoginHistory.class
         );
     }
@@ -134,7 +134,7 @@ public class DaoConfiguration {
     public HibernateEntireLookupDao<LoginHistory, HibernateLoginHistory> loginHistoryHibernateEntireLookupDao() {
         return new HibernateEntireLookupDao<>(
                 hibernateTemplate,
-                new MapStructBeanTransformer<>(LoginHistory.class, HibernateLoginHistory.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(LoginHistory.class, HibernateLoginHistory.class, BeanMapper.class),
                 HibernateLoginHistory.class
         );
     }
@@ -143,7 +143,7 @@ public class DaoConfiguration {
     public HibernatePresetLookupDao<LoginHistory, HibernateLoginHistory> loginHistoryHibernatePresetLookupDao() {
         return new HibernatePresetLookupDao<>(
                 hibernateTemplate,
-                new MapStructBeanTransformer<>(LoginHistory.class, HibernateLoginHistory.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(LoginHistory.class, HibernateLoginHistory.class, BeanMapper.class),
                 HibernateLoginHistory.class,
                 loginHistoryPresetCriteriaMaker
         );
@@ -154,9 +154,9 @@ public class DaoConfiguration {
     protectorInfoHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 hibernateTemplate,
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
-                        ProtectorInfo.class, HibernateProtectorInfo.class, HibernateMapper.class
+                        ProtectorInfo.class, HibernateProtectorInfo.class, BeanMapper.class
                 ),
                 HibernateProtectorInfo.class
         );
@@ -167,7 +167,7 @@ public class DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 hibernateTemplate,
                 new MapStructBeanTransformer<>(
-                        ProtectorInfo.class, HibernateProtectorInfo.class, HibernateMapper.class
+                        ProtectorInfo.class, HibernateProtectorInfo.class, BeanMapper.class
                 ),
                 HibernateProtectorInfo.class
         );
@@ -178,7 +178,7 @@ public class DaoConfiguration {
         return new HibernatePresetLookupDao<>(
                 hibernateTemplate,
                 new MapStructBeanTransformer<>(
-                        ProtectorInfo.class, HibernateProtectorInfo.class, HibernateMapper.class
+                        ProtectorInfo.class, HibernateProtectorInfo.class, BeanMapper.class
                 ),
                 HibernateProtectorInfo.class,
                 protectorInfoPresetCriteriaMaker
@@ -190,9 +190,9 @@ public class DaoConfiguration {
     protectorSupportHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 hibernateTemplate,
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
-                        ProtectorSupport.class, HibernateProtectorSupport.class, HibernateMapper.class
+                        ProtectorSupport.class, HibernateProtectorSupport.class, BeanMapper.class
                 ),
                 HibernateProtectorSupport.class
         );
@@ -204,7 +204,7 @@ public class DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 hibernateTemplate,
                 new MapStructBeanTransformer<>(
-                        ProtectorSupport.class, HibernateProtectorSupport.class, HibernateMapper.class
+                        ProtectorSupport.class, HibernateProtectorSupport.class, BeanMapper.class
                 ),
                 HibernateProtectorSupport.class
         );
@@ -216,7 +216,7 @@ public class DaoConfiguration {
         return new HibernatePresetLookupDao<>(
                 hibernateTemplate,
                 new MapStructBeanTransformer<>(
-                        ProtectorSupport.class, HibernateProtectorSupport.class, HibernateMapper.class
+                        ProtectorSupport.class, HibernateProtectorSupport.class, BeanMapper.class
                 ),
                 HibernateProtectorSupport.class,
                 protectorSupportPresetCriteriaMaker
@@ -229,10 +229,10 @@ public class DaoConfiguration {
         return new HibernateBatchBaseDao<>(
                 hibernateTemplate,
                 new MapStructBeanTransformer<>(
-                        ProtectorVariableKey.class, HibernateProtectorVariableKey.class, HibernateMapper.class
+                        ProtectorVariableKey.class, HibernateProtectorVariableKey.class, BeanMapper.class
                 ),
                 new MapStructBeanTransformer<>(
-                        ProtectorVariable.class, HibernateProtectorVariable.class, HibernateMapper.class
+                        ProtectorVariable.class, HibernateProtectorVariable.class, BeanMapper.class
                 ),
                 HibernateProtectorVariable.class
         );
@@ -244,7 +244,7 @@ public class DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 hibernateTemplate,
                 new MapStructBeanTransformer<>(
-                        ProtectorVariable.class, HibernateProtectorVariable.class, HibernateMapper.class
+                        ProtectorVariable.class, HibernateProtectorVariable.class, BeanMapper.class
                 ),
                 HibernateProtectorVariable.class
         );
@@ -256,7 +256,7 @@ public class DaoConfiguration {
         return new HibernatePresetLookupDao<>(
                 hibernateTemplate,
                 new MapStructBeanTransformer<>(
-                        ProtectorVariable.class, HibernateProtectorVariable.class, HibernateMapper.class
+                        ProtectorVariable.class, HibernateProtectorVariable.class, BeanMapper.class
                 ),
                 HibernateProtectorVariable.class,
                 protectorVariablePresetCriteriaMaker
@@ -269,10 +269,10 @@ public class DaoConfiguration {
         return new HibernateBatchBaseDao<>(
                 hibernateTemplate,
                 new MapStructBeanTransformer<>(
-                        RecordKey.class, HibernateRecordKey.class, HibernateMapper.class
+                        RecordKey.class, HibernateRecordKey.class, BeanMapper.class
                 ),
                 new MapStructBeanTransformer<>(
-                        LoginParamRecord.class, HibernateLoginParamRecord.class, HibernateMapper.class
+                        LoginParamRecord.class, HibernateLoginParamRecord.class, BeanMapper.class
                 ),
                 HibernateLoginParamRecord.class
         );
@@ -284,7 +284,7 @@ public class DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 hibernateTemplate,
                 new MapStructBeanTransformer<>(
-                        LoginParamRecord.class, HibernateLoginParamRecord.class, HibernateMapper.class
+                        LoginParamRecord.class, HibernateLoginParamRecord.class, BeanMapper.class
                 ),
                 HibernateLoginParamRecord.class
         );
@@ -296,7 +296,7 @@ public class DaoConfiguration {
         return new HibernatePresetLookupDao<>(
                 hibernateTemplate,
                 new MapStructBeanTransformer<>(
-                        LoginParamRecord.class, HibernateLoginParamRecord.class, HibernateMapper.class
+                        LoginParamRecord.class, HibernateLoginParamRecord.class, BeanMapper.class
                 ),
                 HibernateLoginParamRecord.class,
                 loginParamRecordPresetCriteriaMaker
@@ -309,10 +309,10 @@ public class DaoConfiguration {
         return new HibernateBatchBaseDao<>(
                 hibernateTemplate,
                 new MapStructBeanTransformer<>(
-                        RecordKey.class, HibernateRecordKey.class, HibernateMapper.class
+                        RecordKey.class, HibernateRecordKey.class, BeanMapper.class
                 ),
                 new MapStructBeanTransformer<>(
-                        ProtectDetailRecord.class, HibernateProtectDetailRecord.class, HibernateMapper.class
+                        ProtectDetailRecord.class, HibernateProtectDetailRecord.class, BeanMapper.class
                 ),
                 HibernateProtectDetailRecord.class
         );
@@ -324,7 +324,7 @@ public class DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 hibernateTemplate,
                 new MapStructBeanTransformer<>(
-                        ProtectDetailRecord.class, HibernateProtectDetailRecord.class, HibernateMapper.class
+                        ProtectDetailRecord.class, HibernateProtectDetailRecord.class, BeanMapper.class
                 ),
                 HibernateProtectDetailRecord.class
         );
@@ -336,7 +336,7 @@ public class DaoConfiguration {
         return new HibernatePresetLookupDao<>(
                 hibernateTemplate,
                 new MapStructBeanTransformer<>(
-                        ProtectDetailRecord.class, HibernateProtectDetailRecord.class, HibernateMapper.class
+                        ProtectDetailRecord.class, HibernateProtectDetailRecord.class, BeanMapper.class
                 ),
                 HibernateProtectDetailRecord.class,
                 protectDetailRecordPresetCriteriaMaker
@@ -348,9 +348,9 @@ public class DaoConfiguration {
     deriveHistoryHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 hibernateTemplate,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
-                        DeriveHistory.class, HibernateDeriveHistory.class, HibernateMapper.class
+                        DeriveHistory.class, HibernateDeriveHistory.class, BeanMapper.class
                 ),
                 HibernateDeriveHistory.class
         );
@@ -361,7 +361,7 @@ public class DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 hibernateTemplate,
                 new MapStructBeanTransformer<>(
-                        DeriveHistory.class, HibernateDeriveHistory.class, HibernateMapper.class
+                        DeriveHistory.class, HibernateDeriveHistory.class, BeanMapper.class
                 ),
                 HibernateDeriveHistory.class
         );
@@ -372,7 +372,7 @@ public class DaoConfiguration {
         return new HibernatePresetLookupDao<>(
                 hibernateTemplate,
                 new MapStructBeanTransformer<>(
-                        DeriveHistory.class, HibernateDeriveHistory.class, HibernateMapper.class
+                        DeriveHistory.class, HibernateDeriveHistory.class, BeanMapper.class
                 ),
                 HibernateDeriveHistory.class,
                 deriveHistoryPresetCriteriaMaker
