@@ -4,6 +4,10 @@
 
 #### 功能构建
 
+- 优化项目的启停脚本，以规避潜在的路径问题。
+  - binres/acckeeper-start.sh。
+  - binres/acckeeper-stop.sh。
+
 - 为部分重置器的依赖注入对象增加限定符，以避免潜在的冲突。
   - com.dwarfeng.acckeeper.impl.handler.resetter.DubboResetter。
 
