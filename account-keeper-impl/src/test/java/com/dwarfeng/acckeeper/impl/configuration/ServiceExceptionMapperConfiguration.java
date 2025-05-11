@@ -16,6 +16,7 @@ public class ServiceExceptionMapperConfiguration {
     @Bean
     public MapServiceExceptionMapper mapServiceExceptionMapper() {
         Map<Class<? extends Exception>, ServiceException.Code> destination = ServiceExceptionHelper.putDefaultDestination(null);
+        destination = com.dwarfeng.datamark.util.ServiceExceptionHelper.putDefaultDestination(destination);
         destination.put(AccountAlreadyExistedException.class, ServiceExceptionCodes.ACCOUNT_ALREADY_EXISTED);
         destination.put(AccountDisabledException.class, ServiceExceptionCodes.ACCOUNT_DISABLED);
         destination.put(AccountNotExistsException.class, ServiceExceptionCodes.ACCOUNT_NOT_EXISTS);

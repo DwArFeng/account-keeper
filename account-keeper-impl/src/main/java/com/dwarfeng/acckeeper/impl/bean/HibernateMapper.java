@@ -43,6 +43,8 @@ public interface HibernateMapper {
     @InheritInverseConfiguration
     RecordKey recordKeyFromHibernate(HibernateRecordKey hibernateRecordKey);
 
+    @Mapping(target = "modifiedDatamark", ignore = true)
+    @Mapping(target = "createdDatamark", ignore = true)
     @Mapping(target = "stringId", ignore = true)
     @Mapping(target = "protectorInfo", ignore = true)
     @Mapping(target = "loginStates", ignore = true)
@@ -67,6 +69,8 @@ public interface HibernateMapper {
     @InheritInverseConfiguration
     LoginHistory loginHistoryFromHibernate(HibernateLoginHistory hibernateLoginHistory);
 
+    @Mapping(target = "modifiedDatamark", ignore = true)
+    @Mapping(target = "createdDatamark", ignore = true)
     @Mapping(target = "stringId", ignore = true)
     @Mapping(target = "protectorVariables", ignore = true)
     @Mapping(target = "account", ignore = true)

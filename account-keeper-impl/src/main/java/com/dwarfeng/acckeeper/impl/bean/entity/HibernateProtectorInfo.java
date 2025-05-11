@@ -1,6 +1,8 @@
 package com.dwarfeng.acckeeper.impl.bean.entity;
 
 import com.dwarfeng.acckeeper.sdk.util.Constraints;
+import com.dwarfeng.datamark.bean.jpa.DatamarkEntityListener;
+import com.dwarfeng.datamark.bean.jpa.DatamarkField;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 
@@ -12,9 +14,10 @@ import java.util.Set;
 @Entity
 @IdClass(HibernateStringIdKey.class)
 @Table(name = "tbl_protector_info")
+@EntityListeners(DatamarkEntityListener.class)
 public class HibernateProtectorInfo implements Bean {
 
-    private static final long serialVersionUID = -6622412870305301844L;
+    private static final long serialVersionUID = -6441997265738849113L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -41,6 +44,22 @@ public class HibernateProtectorInfo implements Bean {
     // -----------------------------------------------------------一对多-----------------------------------------------------------
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateProtectorVariable.class, mappedBy = "protectorInfo")
     private Set<HibernateProtectorVariable> protectorVariables = new HashSet<>();
+
+    // -----------------------------------------------------------审计-----------------------------------------------------------
+    @DatamarkField(handlerName = "protectorDatamarkHandler")
+    @Column(
+            name = "created_datamark",
+            length = com.dwarfeng.datamark.util.Constraints.LENGTH_DATAMARK_VALUE,
+            updatable = false
+    )
+    private String createdDatamark;
+
+    @DatamarkField(handlerName = "protectorDatamarkHandler")
+    @Column(
+            name = "modified_datamark",
+            length = com.dwarfeng.datamark.util.Constraints.LENGTH_DATAMARK_VALUE
+    )
+    private String modifiedDatamark;
 
     public HibernateProtectorInfo() {
     }
@@ -103,6 +122,22 @@ public class HibernateProtectorInfo implements Bean {
         this.protectorVariables = protectorVariables;
     }
 
+    public String getCreatedDatamark() {
+        return createdDatamark;
+    }
+
+    public void setCreatedDatamark(String createdDatamark) {
+        this.createdDatamark = createdDatamark;
+    }
+
+    public String getModifiedDatamark() {
+        return modifiedDatamark;
+    }
+
+    public void setModifiedDatamark(String modifiedDatamark) {
+        this.modifiedDatamark = modifiedDatamark;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
@@ -110,6 +145,8 @@ public class HibernateProtectorInfo implements Bean {
                 "type = " + type + ", " +
                 "param = " + param + ", " +
                 "remark = " + remark + ", " +
-                "account = " + account + ")";
+                "account = " + account + ", " +
+                "createdDatamark = " + createdDatamark + ", " +
+                "modifiedDatamark = " + modifiedDatamark + ")";
     }
 }

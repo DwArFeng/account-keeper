@@ -1,6 +1,8 @@
 package com.dwarfeng.acckeeper.impl.bean.entity;
 
 import com.dwarfeng.acckeeper.sdk.util.Constraints;
+import com.dwarfeng.datamark.bean.jpa.DatamarkEntityListener;
+import com.dwarfeng.datamark.bean.jpa.DatamarkField;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 
@@ -13,9 +15,10 @@ import java.util.Set;
 @Entity
 @IdClass(HibernateStringIdKey.class)
 @Table(name = "tbl_account")
+@EntityListeners(DatamarkEntityListener.class)
 public class HibernateAccount implements Bean {
 
-    private static final long serialVersionUID = 6888894650096594601L;
+    private static final long serialVersionUID = 5043089596885380086L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -58,6 +61,22 @@ public class HibernateAccount implements Bean {
     // -----------------------------------------------------------一对多-----------------------------------------------------------
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateLoginState.class, mappedBy = "account")
     private Set<HibernateLoginState> loginStates = new HashSet<>();
+
+    // -----------------------------------------------------------审计-----------------------------------------------------------
+    @DatamarkField(handlerName = "userDatamarkHandler")
+    @Column(
+            name = "created_datamark",
+            length = com.dwarfeng.datamark.util.Constraints.LENGTH_DATAMARK_VALUE,
+            updatable = false
+    )
+    private String createdDatamark;
+
+    @DatamarkField(handlerName = "userDatamarkHandler")
+    @Column(
+            name = "modified_datamark",
+            length = com.dwarfeng.datamark.util.Constraints.LENGTH_DATAMARK_VALUE
+    )
+    private String modifiedDatamark;
 
     public HibernateAccount() {
     }
@@ -168,6 +187,22 @@ public class HibernateAccount implements Bean {
         this.loginStates = loginStates;
     }
 
+    public String getCreatedDatamark() {
+        return createdDatamark;
+    }
+
+    public void setCreatedDatamark(String createdDatamark) {
+        this.createdDatamark = createdDatamark;
+    }
+
+    public String getModifiedDatamark() {
+        return modifiedDatamark;
+    }
+
+    public void setModifiedDatamark(String modifiedDatamark) {
+        this.modifiedDatamark = modifiedDatamark;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
@@ -181,6 +216,8 @@ public class HibernateAccount implements Bean {
                 "loginCount = " + loginCount + ", " +
                 "passwordUpdateCount = " + passwordUpdateCount + ", " +
                 "deriveCount = " + deriveCount + ", " +
-                "protectorInfo = " + protectorInfo + ")";
+                "protectorInfo = " + protectorInfo + ", " +
+                "createdDatamark = " + createdDatamark + ", " +
+                "modifiedDatamark = " + modifiedDatamark + ")";
     }
 }
