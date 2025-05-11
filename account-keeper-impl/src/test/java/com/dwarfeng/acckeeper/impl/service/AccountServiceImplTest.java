@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
@@ -48,7 +49,9 @@ public class AccountServiceImplTest {
             testAccount = accountMaintainService.get(account.getKey());
             assertEquals(BeanUtils.describe(account), BeanUtils.describe(testAccount));
         } finally {
-            accountMaintainService.deleteIfExists(account.getKey());
+            if (Objects.nonNull(account.getKey())) {
+                accountMaintainService.deleteIfExists(account.getKey());
+            }
         }
     }
 }

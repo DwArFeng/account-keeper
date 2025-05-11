@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
@@ -54,8 +55,12 @@ public class LoginHistoryServiceImplTest {
             testLoginHistory = loginHistoryMaintainService.get(loginHistory.getKey());
             assertEquals(BeanUtils.describe(loginHistory), BeanUtils.describe(testLoginHistory));
         } finally {
-            loginHistoryMaintainService.deleteIfExists(loginHistory.getKey());
-            accountMaintainService.deleteIfExists(account.getKey());
+            if (Objects.nonNull(loginHistory.getKey())) {
+                loginHistoryMaintainService.deleteIfExists(loginHistory.getKey());
+            }
+            if (Objects.nonNull(account.getKey())) {
+                accountMaintainService.deleteIfExists(account.getKey());
+            }
         }
     }
 }

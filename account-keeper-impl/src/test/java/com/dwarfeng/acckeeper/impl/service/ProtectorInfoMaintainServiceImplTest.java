@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.Objects;
 
 import static org.junit.Assert.*;
 
@@ -52,8 +53,12 @@ public class ProtectorInfoMaintainServiceImplTest {
             ProtectorInfo testProtectorInfo = protectorInfoMaintainService.get(protectorInfo.getKey());
             assertEquals(BeanUtils.describe(protectorInfo), BeanUtils.describe(testProtectorInfo));
         } finally {
-            protectorInfoMaintainService.deleteIfExists(protectorInfo.getKey());
-            accountMaintainService.deleteIfExists(account.getKey());
+            if (Objects.nonNull(protectorInfo.getKey())) {
+                protectorInfoMaintainService.deleteIfExists(protectorInfo.getKey());
+            }
+            if (Objects.nonNull(account.getKey())) {
+                accountMaintainService.deleteIfExists(account.getKey());
+            }
         }
     }
 
@@ -69,8 +74,12 @@ public class ProtectorInfoMaintainServiceImplTest {
 
             assertFalse(protectorInfoMaintainService.exists(protectorInfo.getKey()));
         } finally {
-            protectorInfoMaintainService.deleteIfExists(protectorInfo.getKey());
-            accountMaintainService.deleteIfExists(account.getKey());
+            if (Objects.nonNull(protectorInfo.getKey())) {
+                protectorInfoMaintainService.deleteIfExists(protectorInfo.getKey());
+            }
+            if (Objects.nonNull(account.getKey())) {
+                accountMaintainService.deleteIfExists(account.getKey());
+            }
         }
     }
 }

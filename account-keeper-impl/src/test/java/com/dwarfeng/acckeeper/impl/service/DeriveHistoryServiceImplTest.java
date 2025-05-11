@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
@@ -54,8 +55,12 @@ public class DeriveHistoryServiceImplTest {
             testDeriveHistory = deriveHistoryMaintainService.get(deriveHistory.getKey());
             assertEquals(BeanUtils.describe(deriveHistory), BeanUtils.describe(testDeriveHistory));
         } finally {
-            deriveHistoryMaintainService.deleteIfExists(deriveHistory.getKey());
-            accountMaintainService.deleteIfExists(account.getKey());
+            if (Objects.nonNull(deriveHistory.getKey())) {
+                deriveHistoryMaintainService.deleteIfExists(deriveHistory.getKey());
+            }
+            if (Objects.nonNull(account.getKey())) {
+                accountMaintainService.deleteIfExists(account.getKey());
+            }
         }
     }
 }

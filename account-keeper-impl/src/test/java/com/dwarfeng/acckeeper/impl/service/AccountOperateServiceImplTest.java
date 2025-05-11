@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Objects;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -62,9 +64,15 @@ public class AccountOperateServiceImplTest {
         Account liSi;
         Account wangWu;
         try {
-            accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
-            accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
-            accountMaintainService.deleteIfExists(wangWuRegisterInfo.getAccountKey());
+            if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(liSiRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(wangWuRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(wangWuRegisterInfo.getAccountKey());
+            }
 
             accountOperateService.register(zhangSanRegisterInfo);
             accountOperateService.register(liSiRegisterInfo);
@@ -114,18 +122,30 @@ public class AccountOperateServiceImplTest {
             assertFalse(accountMaintainService.exists(liSi.getKey()));
             assertFalse(accountMaintainService.exists(wangWu.getKey()));
         } finally {
-            accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
-            accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
-            accountMaintainService.deleteIfExists(wangWuRegisterInfo.getAccountKey());
+            if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(liSiRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(wangWuRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(wangWuRegisterInfo.getAccountKey());
+            }
         }
     }
 
     @Test
     public void testForPassword() throws ServiceException {
         try {
-            accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
-            accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
-            accountMaintainService.deleteIfExists(wangWuRegisterInfo.getAccountKey());
+            if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(liSiRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(wangWuRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(wangWuRegisterInfo.getAccountKey());
+            }
 
             accountOperateService.register(zhangSanRegisterInfo);
             accountOperateService.register(liSiRegisterInfo);
@@ -148,9 +168,15 @@ public class AccountOperateServiceImplTest {
             // Account wangWu = accountMaintainService.get(wangWuRegisterInfo.getAccountKey());
             // TODO 进一步完善测试内容。
         } finally {
-            accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
-            accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
-            accountMaintainService.deleteIfExists(wangWuRegisterInfo.getAccountKey());
+            if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(liSiRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(wangWuRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(wangWuRegisterInfo.getAccountKey());
+            }
         }
     }
 }

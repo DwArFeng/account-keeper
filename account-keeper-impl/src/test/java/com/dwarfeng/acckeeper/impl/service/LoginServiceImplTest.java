@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.Objects;
 
 import static org.junit.Assert.*;
 
@@ -59,8 +60,12 @@ public class LoginServiceImplTest {
     @Test
     public void testForLogin() throws Exception {
         try {
-            accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
-            accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(liSiRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            }
 
             accountOperateService.register(zhangSanRegisterInfo);
             accountOperateService.register(liSiRegisterInfo);
@@ -88,16 +93,24 @@ public class LoginServiceImplTest {
                 assertEquals(ServiceExceptionCodes.ACCOUNT_DISABLED.getCode(), e.getCode().getCode());
             }
         } finally {
-            accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
-            accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(liSiRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            }
         }
     }
 
     @Test
     public void testForDynamicLogin() throws Exception {
         try {
-            accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
-            accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(liSiRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            }
 
             accountOperateService.register(zhangSanRegisterInfo);
             accountOperateService.register(liSiRegisterInfo);
@@ -125,8 +138,12 @@ public class LoginServiceImplTest {
                 assertEquals(ServiceExceptionCodes.ACCOUNT_DISABLED.getCode(), e.getCode().getCode());
             }
         } finally {
-            accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
-            accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(liSiRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            }
         }
     }
 
@@ -136,8 +153,12 @@ public class LoginServiceImplTest {
     public void testForStaticLogin() throws Exception {
         Date expireDate = new Date(System.currentTimeMillis() + STATIC_LOGIN_EXPIRE_DURATION);
         try {
-            accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
-            accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(liSiRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            }
 
             accountOperateService.register(zhangSanRegisterInfo);
             accountOperateService.register(liSiRegisterInfo);
@@ -165,8 +186,12 @@ public class LoginServiceImplTest {
                 assertEquals(ServiceExceptionCodes.ACCOUNT_DISABLED.getCode(), e.getCode().getCode());
             }
         } finally {
-            accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
-            accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(liSiRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            }
         }
     }
 }

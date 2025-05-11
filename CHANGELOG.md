@@ -4,6 +4,18 @@
 
 #### 功能构建
 
+- 优化部分单元测试代码，以规避潜在的 bug。
+  - com.dwarfeng.acckeeper.impl.service.AccountOperateServiceImplTest。
+  - com.dwarfeng.acckeeper.impl.service.AccountServiceImplTest。
+  - com.dwarfeng.acckeeper.impl.service.DeriveHistoryServiceImplTest。
+  - com.dwarfeng.acckeeper.impl.service.LoginHistoryServiceImplTest。
+  - com.dwarfeng.acckeeper.impl.service.LoginParamRecordMaintainServiceImplTest。
+  - com.dwarfeng.acckeeper.impl.service.LoginServiceImplTest。
+  - com.dwarfeng.acckeeper.impl.service.LoginStateServiceImplTest。
+  - com.dwarfeng.acckeeper.impl.service.ProtectorInfoMaintainServiceImplTest。
+  - com.dwarfeng.acckeeper.impl.service.ProtectorSupportMaintainServiceImplTest。
+  - com.dwarfeng.acckeeper.impl.service.ProtectorVariableMaintainServiceImplTest。
+
 - 导入运维指令。
   - com.dwarfeng.datamark.service.telqos.*。
 

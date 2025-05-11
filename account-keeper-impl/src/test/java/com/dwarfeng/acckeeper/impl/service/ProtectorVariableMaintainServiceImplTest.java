@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Objects;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -52,8 +54,12 @@ public class ProtectorVariableMaintainServiceImplTest {
             ProtectorVariable testProtectorVariable = protectorVariableMaintainService.get(protectorVariable.getKey());
             assertEquals(BeanUtils.describe(protectorVariable), BeanUtils.describe(testProtectorVariable));
         } finally {
-            protectorVariableMaintainService.deleteIfExists(protectorVariable.getKey());
-            protectorInfoMaintainService.deleteIfExists(protectorInfo.getKey());
+            if (Objects.nonNull(protectorVariable.getKey())) {
+                protectorVariableMaintainService.deleteIfExists(protectorVariable.getKey());
+            }
+            if (Objects.nonNull(protectorInfo.getKey())) {
+                protectorInfoMaintainService.deleteIfExists(protectorInfo.getKey());
+            }
         }
     }
 
@@ -69,8 +75,12 @@ public class ProtectorVariableMaintainServiceImplTest {
 
             assertFalse(protectorVariableMaintainService.exists(protectorVariable.getKey()));
         } finally {
-            protectorVariableMaintainService.deleteIfExists(protectorVariable.getKey());
-            protectorInfoMaintainService.deleteIfExists(protectorInfo.getKey());
+            if (Objects.nonNull(protectorVariable.getKey())) {
+                protectorVariableMaintainService.deleteIfExists(protectorVariable.getKey());
+            }
+            if (Objects.nonNull(protectorInfo.getKey())) {
+                protectorInfoMaintainService.deleteIfExists(protectorInfo.getKey());
+            }
         }
     }
 }

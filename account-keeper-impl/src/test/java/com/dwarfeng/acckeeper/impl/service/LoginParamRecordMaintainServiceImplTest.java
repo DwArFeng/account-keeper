@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.Objects;
 
 import static org.junit.Assert.*;
 
@@ -52,8 +53,12 @@ public class LoginParamRecordMaintainServiceImplTest {
             LoginParamRecord testLoginParamRecord = loginParamRecordMaintainService.get(loginParamRecord.getKey());
             assertEquals(BeanUtils.describe(loginParamRecord), BeanUtils.describe(testLoginParamRecord));
         } finally {
-            loginParamRecordMaintainService.deleteIfExists(loginParamRecord.getKey());
-            loginHistoryMaintainService.deleteIfExists(loginHistory.getKey());
+            if (Objects.nonNull(loginParamRecord.getKey())) {
+                loginParamRecordMaintainService.deleteIfExists(loginParamRecord.getKey());
+            }
+            if (Objects.nonNull(loginHistory.getKey())) {
+                loginHistoryMaintainService.deleteIfExists(loginHistory.getKey());
+            }
         }
     }
 
