@@ -1,5 +1,6 @@
 package com.dwarfeng.acckeeper.impl.handler.protector;
 
+import com.dwarfeng.acckeeper.sdk.handler.protector.AbstractProtectorRegistry;
 import com.dwarfeng.acckeeper.sdk.util.Constants;
 import com.dwarfeng.acckeeper.stack.exception.ProtectorException;
 import com.dwarfeng.acckeeper.stack.exception.ProtectorMakeException;

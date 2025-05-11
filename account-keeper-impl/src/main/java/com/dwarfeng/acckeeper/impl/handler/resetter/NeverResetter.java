@@ -1,5 +1,6 @@
 package com.dwarfeng.acckeeper.impl.handler.resetter;
 
+import com.dwarfeng.acckeeper.sdk.handler.resetter.AbstractResetter;
 import org.springframework.stereotype.Component;
 
 /**
