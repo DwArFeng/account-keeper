@@ -2,8 +2,6 @@
 
 Account Keeper (简称 Acckeeper) 是一个功能全面的账户管理服务，主要提供了账户的注册销毁、登陆登出等操作。
 
----
-
 ## 特性
 
 1. Subgrade 架构支持。
