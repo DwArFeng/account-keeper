@@ -51,7 +51,7 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     LongIdKey longIdKeyFromWebInput(WebInputLongIdKey webInputLongIdKey);
 
-    // -----------------------------------------------------------Key-----------------------------------------------------------
+    // -----------------------------------------------------------Acckeeper Key-----------------------------------------------------------
     FastJsonProtectorVariableKey protectorVariableKeyToFastJson(ProtectorVariableKey protectorVariableKey);
 
     @InheritInverseConfiguration
@@ -67,7 +67,7 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     RecordKey recordKeyFromJSFixedFastJson(JSFixedFastJsonRecordKey jSFixedFastJsonRecordKey);
 
-    // -----------------------------------------------------------Entity-----------------------------------------------------------
+    // -----------------------------------------------------------Acckeeper Entity-----------------------------------------------------------
     FastJsonAccount accountToFastJson(Account account);
 
     @InheritInverseConfiguration
@@ -152,7 +152,7 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     ProtectorInfo protectorInfoFromWebInput(WebInputProtectorInfo webInputProtectorInfo);
 
-    // -----------------------------------------------------------DTO-----------------------------------------------------------
+    // -----------------------------------------------------------Acckeeper DTO-----------------------------------------------------------
     FastJsonDeriveHistoryRecordInfo deriveHistoryRecordInfoToFastJson(DeriveHistoryRecordInfo deriveHistoryRecordInfo);
 
     @InheritInverseConfiguration

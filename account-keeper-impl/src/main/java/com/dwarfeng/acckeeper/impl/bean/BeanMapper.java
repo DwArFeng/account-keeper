@@ -37,7 +37,7 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     StringIdKey stringIdKeyFromHibernate(HibernateStringIdKey hibernateStringIdKey);
 
-    // -----------------------------------------------------------Key-----------------------------------------------------------
+    // -----------------------------------------------------------Acckeeper Key-----------------------------------------------------------
     HibernateProtectorVariableKey protectorVariableKeyToHibernate(ProtectorVariableKey protectorVariableKey);
 
     @InheritInverseConfiguration
@@ -48,7 +48,7 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     RecordKey recordKeyFromHibernate(HibernateRecordKey hibernateRecordKey);
 
-    // -----------------------------------------------------------Entity-----------------------------------------------------------
+    // -----------------------------------------------------------Acckeeper Entity-----------------------------------------------------------
     @Mapping(target = "modifiedDatamark", ignore = true)
     @Mapping(target = "createdDatamark", ignore = true)
     @Mapping(target = "stringId", ignore = true)
