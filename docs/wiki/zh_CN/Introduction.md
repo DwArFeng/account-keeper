@@ -48,29 +48,34 @@ register.password.salt_log_rounds=10
 
 1. 下载源码
 
-   - 使用 git 进行源码下载：
-      ```shell
-      git clone git@github.com:DwArFeng/account-keeper.git
-      ```
+   使用 git 进行源码下载：
 
-   - 对于中国用户，可以使用 gitee 进行高速下载：
-      ```shell
-      git clone git@gitee.com:dwarfeng/account-keeper.git
-      ```
+   ```shell
+   git clone git@github.com:DwArFeng/account-keeper.git
+   ```
+
+   对于中国用户，可以使用 gitee 进行高速下载：
+
+   ```shell
+   git clone git@gitee.com:dwarfeng/account-keeper.git
+   ```
 
 2. 项目打包
 
    进入项目根目录，执行 maven 命令：
-   ```
+
+   ```shell
    mvn clean package
    ```
 
 3. 解压
 
    找到打包后的目标文件：
+
    ```
    account-keeper-node/target/acckeeper-[version]-release.tar.gz
    ```
+
    将其解压至 windows 系统或者 linux 系统。
 
 4. 配置
@@ -78,8 +83,6 @@ register.password.salt_log_rounds=10
    1. 修改 conf 文件夹下的配置文件，着重修改各连接的 url 与密码。
 
 5. enjoy it
-
----
 
 ## 分布式说明
 

@@ -4,6 +4,12 @@
 
 #### 功能构建
 
+- Wiki 更新。
+  - docs/wiki/zh_CN/Contents.md。
+  - docs/wiki/zh_CN/Introduction.md。
+
+- 更新 README.md。
+
 - Wiki 编写。
   - docs/wiki/zh_CN/UsingTelqos.md。
 
