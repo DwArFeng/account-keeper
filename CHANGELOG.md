@@ -4,6 +4,10 @@
 
 #### 功能构建
 
+- 优化部分类构造器方法中的参数名。
+  - com.dwarfeng.acckeeper.impl.handler.pusher.AbstractPusher。
+  - com.dwarfeng.acckeeper.sdk.handler.pusher.AbstractPusher。
+
 - Wiki 更新。
   - docs/wiki/zh_CN/Contents.md。
   - docs/wiki/zh_CN/Introduction.md。

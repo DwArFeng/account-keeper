@@ -17,7 +17,7 @@ public abstract class AbstractPusher extends com.dwarfeng.acckeeper.sdk.handler.
     public AbstractPusher() {
     }
 
-    public AbstractPusher(String sinkType) {
-        super(sinkType);
+    public AbstractPusher(String pusherType) {
+        super(pusherType);
     }
 }
