@@ -31,7 +31,8 @@
 
 ### Bug 修复
 
-- (无)
+- 修正 Wiki 中部分文档的错误内容。
+  - docs/wiki/zh-CN/ShellScripts.md。
 
 ### 功能移除
 
