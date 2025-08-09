@@ -42,6 +42,7 @@
     </dependencies>
 
     <build>
+        <!-- 插件列表 -->
         <plugins>
             <!-- Maven 清理插件，用于清理测试时留下的日志。 -->
             <plugin>
@@ -55,11 +56,10 @@
                     </filesets>
                 </configuration>
             </plugin>
-            <!-- Maven 资源插件，用于装配项目文件。 -->
+            <!-- Maven 装配插件，用于装配项目文件。 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.1.1</version>
                 <executions>
                     <execution>
                         <id>single</id>
@@ -78,11 +78,18 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Maven 打包插件，用于打可以运行的jar包。 -->
+            <!-- Maven 打包插件，用于打可以运行的 jar 包。 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>./</classpathPrefix>
+                            <mainClass>${mainClass}</mainClass>
+                        </manifest>
+                    </archive>
                     <finalName>${project.name}-${project.version}</finalName>
                 </configuration>
             </plugin>
