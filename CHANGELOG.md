@@ -37,6 +37,9 @@
 
 ### Bug 修复
 
+- 修正部分 `properties` 文件中错误的注释内容。
+  - latch-path.properties。
+
 - 补全实体映射器中缺少的映射方法。
   - com.dwarfeng.acckeeper.sdk.bean.BeanMapper。
 
