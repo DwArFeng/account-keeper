@@ -1,27 +1,20 @@
 package com.dwarfeng.acckeeper.impl.service;
 
-import com.dwarfeng.acckeeper.sdk.handler.ProtectorSupporter;
 import com.dwarfeng.acckeeper.stack.bean.entity.ProtectorSupport;
 import com.dwarfeng.acckeeper.stack.service.ProtectorSupportMaintainService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
 import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
-import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionHelper;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
-import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
-import com.dwarfeng.subgrade.stack.log.LogLevel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class ProtectorSupportMaintainServiceImpl implements ProtectorSupportMaintainService {
@@ -30,26 +23,14 @@ public class ProtectorSupportMaintainServiceImpl implements ProtectorSupportMain
     private final DaoOnlyEntireLookupService<ProtectorSupport> entireLookupService;
     private final DaoOnlyPresetLookupService<ProtectorSupport> presetLookupService;
 
-    private final List<ProtectorSupporter> protectorSupporters;
-
-    private final ServiceExceptionMapper sem;
-
     public ProtectorSupportMaintainServiceImpl(
             GeneralBatchCrudService<StringIdKey, ProtectorSupport> crudService,
             DaoOnlyEntireLookupService<ProtectorSupport> entireLookupService,
-            DaoOnlyPresetLookupService<ProtectorSupport> presetLookupService,
-            List<ProtectorSupporter> protectorSupporters,
-            ServiceExceptionMapper sem
+            DaoOnlyPresetLookupService<ProtectorSupport> presetLookupService
     ) {
         this.crudService = crudService;
         this.entireLookupService = entireLookupService;
         this.presetLookupService = presetLookupService;
-        if (Objects.isNull(protectorSupporters)) {
-            this.protectorSupporters = new ArrayList<>();
-        } else {
-            this.protectorSupporters = protectorSupporters;
-        }
-        this.sem = sem;
     }
 
     @Override
@@ -243,25 +224,6 @@ public class ProtectorSupportMaintainServiceImpl implements ProtectorSupportMain
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public PagedData<ProtectorSupport> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
         return presetLookupService.lookup(preset, objs, pagingInfo);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    public void reset() throws ServiceException {
-        try {
-            List<StringIdKey> protectorKeys = entireLookupService.lookup().getData().stream()
-                    .map(ProtectorSupport::getKey).collect(Collectors.toList());
-            crudService.batchDelete(protectorKeys);
-            List<ProtectorSupport> protectorSupports = protectorSupporters.stream().map(supporter -> new ProtectorSupport(
-                    new StringIdKey(supporter.provideType()),
-                    supporter.provideLabel(),
-                    supporter.provideDescription(),
-                    supporter.provideExampleParam()
-            )).collect(Collectors.toList());
-            crudService.batchInsert(protectorSupports);
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("重置保护器支持时发生异常", LogLevel.WARN, e, sem);
-        }
     }
 
     /**
