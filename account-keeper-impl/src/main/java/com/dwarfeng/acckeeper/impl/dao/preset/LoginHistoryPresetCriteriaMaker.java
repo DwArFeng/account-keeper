@@ -37,6 +37,9 @@ public class LoginHistoryPresetCriteriaMaker implements PresetCriteriaMaker {
             case LoginHistoryMaintainService.PROTECTOR_INSPECT:
                 protectorInspect(criteria, objs);
                 break;
+            case LoginHistoryMaintainService.TO_PURGED:
+                toPurged(criteria, objs);
+                break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + preset);
         }
@@ -137,6 +140,16 @@ public class LoginHistoryPresetCriteriaMaker implements PresetCriteriaMaker {
             }
 
             criteria.addOrder(Order.desc("happenedDate"));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
+        }
+    }
+
+    private void toPurged(DetachedCriteria criteria, Object[] objs) {
+        try {
+            Date date = (Date) objs[0];
+            criteria.add(Restrictions.lt("happenedDate", date));
+            criteria.addOrder(Order.asc("happenedDate"));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
         }

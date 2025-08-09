@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- 增加预设查询。
+  - DeriveHistoryMaintainService.TO_PURGED。
+  - LoginHistoryMaintainService.TO_PURGED。
+
 - 优化 `node` 模块中的 `pom.xml` 文件的配置。
 
 - 优化 impl 模块下的 `logging` 目录结构。
@@ -90,10 +94,9 @@
   - docs/wiki/zh_CN/ShellScripts.md。
   - docs/wiki/zh_CN/BatchScripts.md。
 
-- 更新 README.md。
-
-- Wiki 更新。
-  - docs/wiki/zh_CN/Introduction.md。
+- 增加预设查询。
+  - DeriveHistoryMaintainService.TO_PURGED。
+  - LoginHistoryMaintainService.TO_PURGED。
 
 ### Bug 修复
 

@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Objects;
 
 @Component
@@ -31,6 +32,9 @@ public class DeriveHistoryPresetCriteriaMaker implements PresetCriteriaMaker {
                 break;
             case DeriveHistoryMaintainService.ACCOUNT_ID_LIKE_HAPPENED_DATE_DESC:
                 accountIdLikeHappenedDateDesc(criteria, objs);
+                break;
+            case DeriveHistoryMaintainService.TO_PURGED:
+                toPurged(criteria, objs);
                 break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + preset);
@@ -103,4 +107,13 @@ public class DeriveHistoryPresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
+    private void toPurged(DetachedCriteria criteria, Object[] objs) {
+        try {
+            Date date = (Date) objs[0];
+            criteria.add(Restrictions.lt("happenedDate", date));
+            criteria.addOrder(Order.asc("happenedDate"));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
+        }
+    }
 }
