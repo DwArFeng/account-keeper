@@ -1,24 +1,24 @@
 # ChangeLog
 
-### Release_1.9.0_20250809_build_A
+## Release_1.9.0_20250809_build_A
 
-#### 功能构建
-
-- (无)
-
-#### Bug修复
+### 功能构建
 
 - (无)
 
-#### 功能移除
+### Bug 修复
+
+- (无)
+
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.8.2_20250608_build_A
+## Release_1.8.2_20250608_build_A
 
-#### 功能构建
+### 功能构建
 
 - 优化部分类构造器方法中的参数名。
   - com.dwarfeng.acckeeper.impl.handler.pusher.AbstractPusher。
@@ -38,19 +38,19 @@
   - 升级 `subgrade` 依赖版本为 `1.5.10.a` 以规避漏洞。
   - 升级 `dwarfeng-datamark` 依赖版本为 `1.0.2.a` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.8.1_20250512_build_A
+## Release_1.8.1_20250512_build_A
 
-#### 功能构建
+### 功能构建
 
 - 部分代码注释优化。
   - com.dwarfeng.acckeeper.impl.bean.BeanMapper。
@@ -65,19 +65,19 @@
 - Wiki 更新。
   - docs/wiki/zh_CN/Introduction.md。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.8.0_20250511_build_A
+## Release_1.8.0_20250511_build_A
 
-#### 功能构建
+### 功能构建
 
 - 优化项目的启停脚本，以规避潜在的路径问题。
   - binres/acckeeper-start.sh。
@@ -157,19 +157,19 @@
   - 升级 `spring-terminator` 依赖版本为 `1.0.14.a` 以规避漏洞。
   - 升级 `spring-telqos` 依赖版本为 `1.1.13.a` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - 修正 `impl` 模块中错误的 dubbo 应用名称。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.7.4_20240801_build_A
+## Release_1.7.4_20240801_build_A
 
-#### 功能构建
+### 功能构建
 
 - 优化部分类中的日志文本。
   - com.dwarfeng.acckeeper.impl.handler.AccountOperateHandlerImpl。
@@ -215,7 +215,7 @@
 - 优化部分类中部分方法的行为分析行为。
   - com.dwarfeng.acckeeper.impl.service.LoginStateMaintainServiceImpl。
 
-#### Bug修复
+### Bug 修复
 
 - 修复部分 wiki 文档中的格式及语法问题。
   - zh_CN/Introduction.md。
@@ -225,15 +225,15 @@
 - 修复部分功能启动延时为 0 时行为不正确的 bug。
   - 清理服务启动。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.7.3_20240407_build_A
+## Release_1.7.3_20240407_build_A
 
-#### 功能构建
+### 功能构建
 
 - 启动器优化。
   - 将入口方法中完整独立的功能封装在子方法中，使入口方法代码结构更加清晰。
@@ -249,7 +249,7 @@
 - 依赖升级。
   - 升级 `subgrade` 依赖版本为 `1.5.0.a` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - 修复部分 CrudOperation 中 `allExists` 方法行为异常的 bug。
   - com.dwarfeng.acckeeper.impl.service.operation.AccountCrudOperation。
@@ -259,15 +259,15 @@
 - 修复派生机制的 bug。
   - 修复派生过程中，登录状态的序列版本不能正确设置的 bug。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.7.2_20240212_build_A
+## Release_1.7.2_20240212_build_A
 
-#### 功能构建
+### 功能构建
 
 - 优化预设保护器。
   - 优化 DoNothingProtector.execProtect 返回的信息，以消除歧义。
@@ -283,7 +283,7 @@
   - docs/wiki/zh_CN/Contents.md。
   - docs/wiki/zh_CN/Introduction.md。
 
-#### Bug修复
+### Bug 修复
 
 - 修复登录机制的 bug。
   - 修复登录不成功时，登录历史无法记录的 bug。
@@ -291,15 +291,15 @@
 - 修复派生机制的 bug。
   - 修复登录状态在已过期的状态下，仍然可以派生的 bug。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.7.1_20240210_build_A
+## Release_1.7.1_20240210_build_A
 
-#### 功能构建
+### 功能构建
 
 - 优化保护机制。
   - 增加账户元数据结构体字段 Protector.AccountMeta.deriveCount。
@@ -307,19 +307,19 @@
 - 增加微服务注册。
   - com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.7.0_20240208_build_A
+## Release_1.7.0_20240208_build_A
 
-#### 功能构建
+### 功能构建
 
 - 配置文件优化。
   - 优化 impl 模块下 `spring/application-context-placeholder.xml` 配置文件。
@@ -362,7 +362,7 @@
   - 更新 api 模块中的 subgrade 集成接口。
   - 登录历史新增字段，以适配新的登录机制。
 
-#### Bug修复
+### Bug 修复
 
 - 部分预设 Criteria 制造器修正。
   - 修正 ProtectorVariablePresetCriteriaMaker.childForProtectorInfo 中的错误。
@@ -370,32 +370,32 @@
 - 部分配置文件修正。
   - 修正 `spring/application-context-scan.xml` 中缺失的配置内容。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.6.6_20240128_build_A
+## Release_1.6.6_20240128_build_A
 
-#### 功能构建
+### 功能构建
 
 - (无)
 
-#### Bug修复
+### Bug 修复
 
 - 修复 Hibernate Key 缺失 `equals` 和 `hashCode` 方法的 bug。
   - com.dwarfeng.acckeeper.impl.bean.key.HibernateProtectorVariableKey。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.6.5_20240127_build_A
+## Release_1.6.5_20240127_build_A
 
-#### 功能构建
+### 功能构建
 
 - 将工程中的 `Spring Bean` 注册方式尽可能地由 `@Autowired` 变更为构造器注入。
 
@@ -424,36 +424,36 @@
   - 升级 `spring-terminator` 依赖版本为 `1.0.12.a` 以规避漏洞。
   - 升级 `spring-telqos` 依赖版本为 `1.1.8.a` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.6.4_20230620_build_A
+## Release_1.6.4_20230620_build_A
 
-#### 功能构建
+### 功能构建
 
 - 优化配置文件。
   - 优化 `application-context-database.xml`，使得更多属性可以在配置文件中配置。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.6.3_20230617_build_A
+## Release_1.6.3_20230617_build_A
 
-#### 功能构建
+### 功能构建
 
 - 优化了 AbstractResetter 的代码结构，同时对其实现进行了修改。
   - com.dwarfeng.acckeeper.impl.handler.resetter.CronResetter。
@@ -466,20 +466,20 @@
   - 升级 `dubbo` 依赖版本为 `2.7.22` 以规避漏洞。
   - 升级 `guava` 依赖版本为 `32.0.1-jre` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - 修复 `DubboResetter` 注册微服务时没有指定 `group` 的问题。
 
-#### 功能移除
+### 功能移除
 
 - 删除不需要的依赖。
   - 删除 `aopalliance` 依赖。
 
 ---
 
-### Release_1.6.2_20230421_build_A
+## Release_1.6.2_20230421_build_A
 
-#### 功能构建
+### 功能构建
 
 - 优化 Mapper 接口的文件路径。
 
@@ -490,19 +490,19 @@
   - 升级 `spring-terminator` 依赖版本为 `1.0.11.a` 以规避漏洞。
   - 升级 `spring-telqos` 依赖版本为 `1.1.6.a` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.6.1_20230420_build_A
+## Release_1.6.1_20230420_build_A
 
-#### 功能构建
+### 功能构建
 
 - 启停脚本优化。
   - 优化 Windows 系统的启动脚本。
@@ -517,19 +517,19 @@
   - 升级 `netty` 依赖版本为 `4.1.86.Final` 以规避漏洞。
   - 升级 `subgrade` 依赖版本为 `1.3.2.a` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.6.0_20230120_build_A
+## Release_1.6.0_20230120_build_A
 
-#### 功能构建
+### 功能构建
 
 - 增加重置机制，实现保护本地缓存的动态重置。
   - com.dwarfeng.acckeeper.impl.handler.resetter.AbstractResetter。
@@ -576,36 +576,36 @@
 
 - AccountMaintainService 增加批量增删改查功能。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.5.1_20230113_build_A
+## Release_1.5.1_20230113_build_A
 
-#### 功能构建
+### 功能构建
 
 - 新增字段。
   - Account.registeredDate。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.5.0_20221129_build_A
+## Release_1.5.0_20221129_build_A
 
-#### 功能构建
+### 功能构建
 
 - Dubbo 微服务增加分组配置。
 
@@ -638,11 +638,11 @@
   - 升级 `spring-terminator` 依赖版本为 `1.0.10.a` 以规避漏洞。
   - 升级 `spring-telqos` 依赖版本为 `1.1.5.a` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - 删除不需要的依赖。
   - 删除 `el` 依赖。
@@ -654,9 +654,9 @@
 
 ---
 
-### Release_1.4.4_20220912_build_A
+## Release_1.4.4_20220912_build_A
 
-#### 功能构建
+### 功能构建
 
 - 插件升级。
   - 升级 `maven-deploy-plugin` 插件版本为 `2.8.2`。
@@ -669,19 +669,19 @@
   - 升级 `snowflake` 依赖版本为 `1.4.9.a` 以规避漏洞。
   - 升级 `mysql` 依赖版本为 `8.0.28` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.4.3_20220606_build_A
+## Release_1.4.3_20220606_build_A
 
-#### 功能构建
+### 功能构建
 
 - 依赖升级。
   - 升级 `junit` 依赖版本为 `4.13.2` 以规避漏洞。
@@ -698,11 +698,11 @@
   - 升级 `spring-terminator` 依赖版本为 `1.0.7.a` 以规避漏洞。
   - 升级 `spring-telqos` 依赖版本为 `1.1.3.a` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - 删除不需要的依赖。
   - 删除 `joda-time` 依赖。
@@ -712,45 +712,45 @@
 
 ---
 
-### Release_1.4.2_20220313_build_A
+## Release_1.4.2_20220313_build_A
 
-#### 功能构建
+### 功能构建
 
 - 升级部分依赖的版本。
   - 升级 `log4j2` 版本至 `2.17.1`。
   - 升级 `hibernate` 版本至 `5.4.24.Final`。
   - 升级 `dubbo` 版本至 `2.7.15`。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.4.1_20211023_build_A
+## Release_1.4.1_20211023_build_A
 
-#### 功能构建
+### 功能构建
 
 - 登录接口增加方法。
   - com.dwarfeng.acckeeper.stack.service.LoginService.getLoginState。
 
-#### Bug修复
+### Bug 修复
 
 - 修正 `LoginServiceImpl` 中方法没有行为分析以及事务注解的 bug。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.4.0_20211022_build_A
+## Release_1.4.0_20211022_build_A
 
-#### 功能构建
+### 功能构建
 
 - 账户、密码、登录相关接口完全重写。
   - com.dwarfeng.acckeeper.stack.service.AccountOperateService。
@@ -763,19 +763,19 @@
   - `spring-web`。
   - `spring-mvc`。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.3.1_20211021_build_A
+## Release_1.3.1_20211021_build_A
 
-#### 功能构建
+### 功能构建
 
 - 增加实体字段。
   - com.dwarfeng.acckeeper.stack.bean.entity.Account.displayName。
@@ -789,35 +789,35 @@
   - httpcore。
   - solr-solrj。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.3.0_20201210_build_A
+## Release_1.3.0_20201210_build_A
 
-#### 功能构建
+### 功能构建
 
 - 账户、密码、登录相关接口完全重写。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.2.1_20201209_build_A
+## Release_1.2.1_20201209_build_A
 
-#### 功能构建
+### 功能构建
 
 - 优化 dubbo 的配置。
 - 升级依赖版本。
@@ -830,19 +830,19 @@
 - 优化 redis 的配置。
 - 消除预设配置文件中的真实的 ip 地址。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.2.0_20201018_build_A
+## Release_1.2.0_20201018_build_A
 
-#### 功能构建
+### 功能构建
 
 - 将配置项目 hibernate 更名为 database。
 - 更新多个依赖项目的版本。
@@ -854,260 +854,260 @@
   - 新增指令 com.dwarfeng.acckeeper.impl.service.telqos.StateCommand。
 - 将 application-context-task.xml 中的参数设置为可配置参数。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.1.7_20200512_build_A
+## Release_1.1.7_20200512_build_A
 
-#### 功能构建
+### 功能构建
 
 - 完善@Transactional注解的回滚机制。
 - 更改项目的打包名称。
 - 更新README.md。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.1.6_20200410_build_B
+## Release_1.1.6_20200410_build_B
 
-#### 功能构建
+### 功能构建
 
 - (无)
 
-#### Bug修复
+### Bug 修复
 
 - 禁止node模块运行（通常是在正式使用）时输出sql语句。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.1.6_20200410_build_A
+## Release_1.1.6_20200410_build_A
 
-#### 功能构建
+### 功能构建
 
 - 优化程序的启动脚本。
 - 将程序的启动方式整合至spring-terminator。
 
-#### Bug修复
+### Bug 修复
 
 - 修复com.dwarfeng.acckeeper.api.integration包错误的拼写。
 - 修复项目编译打包过程中发生的报警。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.1.5_20200222_build_A
+## Release_1.1.5_20200222_build_A
 
-#### 功能构建
+### 功能构建
 
 - 将RegisterServiceImplTest中用于测试的账号名称从root改为foo，避免在测试的时候误删除已经存在的root账号。
 - 升级subgrade项目版本为beta-0.2.4.a。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.1.4_20200218_build_B
+## Release_1.1.4_20200218_build_B
 
-#### 功能构建
+### 功能构建
 
 - (无)
 
-#### Bug修复
+### Bug 修复
 
 - 优化实体服务的预设查询样式。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.1.4_20200218_build_A
+## Release_1.1.4_20200218_build_A
 
-#### 功能构建
+### 功能构建
 
 - 为FastJson相关的对象添加 of 静态方法。
 
-#### Bug修复
+### Bug 修复
 
 - 升级subgrade项目版本为beta-0.2.3.a以修复PagedData对象中字段拼写错误bug。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.1.3_20200216_build_B
+## Release_1.1.3_20200216_build_B
 
-#### 功能构建
+### 功能构建
 
 - (无)
 
-#### Bug修复
+### Bug 修复
 
 - 升级subgrade项目版本为beta-0.2.2.b以修复查询对象的总页数错误bug。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.1.3_20200216_build_A
+## Release_1.1.3_20200216_build_A
 
-#### 功能构建
+### 功能构建
 
 - 添加JS修复的实体对象。
 - 实现AccountMaintainService查询所有实体的功能。
 - 实现AccountMaintainService实体预设查询的功能。
 - 升级subgrade项目版本为beta-0.2.2.a。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.1.2_20200215_build_B
+## Release_1.1.2_20200215_build_B
 
-#### 功能构建
+### 功能构建
 
 - (无)
 
-#### Bug修复
+### Bug 修复
 
 - 升级subgrade至beta-0.2.1.a以避免bug。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.1.2_20200215_build_A
+## Release_1.1.2_20200215_build_A
 
-#### 功能构建
+### 功能构建
 
 - 修复ExceptionCodeOffsetConfiguration配置中的错误。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - ~~去除允许在程序在没有默认账户的情况下建立默认账户的功能~~
 
 ---
 
-### Release_1.1.1_20200215_build_A
+## Release_1.1.1_20200215_build_A
 
-#### 功能构建
+### 功能构建
 
 - 解决代码粘贴的遗留问题，将实体以及方法的入口参数中的user替换为account。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.1.0_20200214_build_A
+## Release_1.1.0_20200214_build_A
 
-#### 功能构建
+### 功能构建
 
 - 增加配置文件，允许在程序在没有默认账户的情况下建立默认账户。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.0.0_20200213_build_C
+## Release_1.0.0_20200213_build_C
 
-#### 功能构建
+### 功能构建
 
 - 为dubbo框架配置dubbo.host属性。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.0.0_20200212_build_B
+## Release_1.0.0_20200212_build_B
 
-#### 功能构建
+### 功能构建
 
 - 将工程中的文本“用户”替换为“账户”。
 - 调整subgrade工程版本为beta-0.2.0.b。
 - ExceptionCode偏移量可配置化。
 
-#### Bug修复
+### Bug 修复
 
 - 修正ServiceExceptionCodes中的常量错误。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.0.0_20200212_build_A
+## Release_1.0.0_20200212_build_A
 
-#### 功能构建
+### 功能构建
 
 - 工程全目标实现。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
