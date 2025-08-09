@@ -31,6 +31,9 @@
 
 ### Bug 修复
 
+- 补全实体映射器中缺少的映射方法。
+  - com.dwarfeng.acckeeper.sdk.bean.BeanMapper。
+
 - 修正 Wiki 中部分文档的错误内容。
   - docs/wiki/zh-CN/ShellScripts.md。
 

@@ -9,10 +9,7 @@ import com.dwarfeng.acckeeper.stack.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.bean.entity.*;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonLongIdKey;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
-import com.dwarfeng.subgrade.sdk.bean.key.JSFixedFastJsonLongIdKey;
-import com.dwarfeng.subgrade.sdk.bean.key.WebInputLongIdKey;
+import com.dwarfeng.subgrade.sdk.bean.key.*;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.mapstruct.InheritInverseConfiguration;
@@ -50,6 +47,11 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     LongIdKey longIdKeyFromWebInput(WebInputLongIdKey webInputLongIdKey);
+
+    WebInputStringIdKey stringIdKeyToWebInput(StringIdKey stringIdKey);
+
+    @InheritInverseConfiguration
+    StringIdKey stringIdKeyFromWebInput(WebInputStringIdKey webInputStringIdKey);
 
     // -----------------------------------------------------------Acckeeper Key-----------------------------------------------------------
     FastJsonProtectorVariableKey protectorVariableKeyToFastJson(ProtectorVariableKey protectorVariableKey);
