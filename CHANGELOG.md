@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 实现核心机制。
+  - 清除机制。
+
 - 增加预设查询。
   - DeriveHistoryMaintainService.TO_PURGED。
   - LoginHistoryMaintainService.TO_PURGED。

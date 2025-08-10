@@ -231,4 +231,9 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     StaticLoginInfo staticLoginInfoFromWebInput(WebInputStaticLoginInfo webInputStaticLoginInfo);
+
+    FastJsonPurgeFinishedResult purgeFinishedResultToFastJson(PurgeFinishedResult purgeFinishedResult);
+
+    @InheritInverseConfiguration
+    PurgeFinishedResult purgeFinishedResultFromFastJson(FastJsonPurgeFinishedResult fastJsonPurgeFinishedResult);
 }

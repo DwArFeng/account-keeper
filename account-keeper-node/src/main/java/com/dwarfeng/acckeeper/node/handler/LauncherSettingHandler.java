@@ -18,6 +18,11 @@ public class LauncherSettingHandler implements Handler {
     @Value("${launcher.start_reset_delay}")
     private long startResetDelay;
 
+    @Value("${launcher.online_purge_delay}")
+    private long onlinePurgeDelay;
+    @Value("${launcher.enable_purge_delay}")
+    private long enablePurgeDelay;
+
     public boolean isResetProtectorSupport() {
         return resetProtectorSupport;
     }
@@ -32,5 +37,13 @@ public class LauncherSettingHandler implements Handler {
 
     public long getStartResetDelay() {
         return startResetDelay;
+    }
+
+    public long getOnlinePurgeDelay() {
+        return onlinePurgeDelay;
+    }
+
+    public long getEnablePurgeDelay() {
+        return enablePurgeDelay;
     }
 }

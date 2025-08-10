@@ -3,6 +3,7 @@ package com.dwarfeng.acckeeper.impl.handler;
 import com.dwarfeng.acckeeper.sdk.handler.Pusher;
 import com.dwarfeng.acckeeper.stack.bean.dto.DeriveHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginHistoryRecordInfo;
+import com.dwarfeng.acckeeper.stack.bean.dto.PurgeFinishedResult;
 import com.dwarfeng.acckeeper.stack.handler.PushHandler;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,5 +47,15 @@ public class PushHandlerImpl implements PushHandler {
     @Override
     public void protectReset() throws HandlerException {
         pusher.protectReset();
+    }
+
+    @Override
+    public void purgeFinished(PurgeFinishedResult result) throws HandlerException {
+        pusher.purgeFinished(result);
+    }
+
+    @Override
+    public void purgeFailed() throws HandlerException {
+        pusher.purgeFailed();
     }
 }

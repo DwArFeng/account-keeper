@@ -2,6 +2,7 @@ package com.dwarfeng.acckeeper.sdk.handler;
 
 import com.dwarfeng.acckeeper.stack.bean.dto.DeriveHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginHistoryRecordInfo;
+import com.dwarfeng.acckeeper.stack.bean.dto.PurgeFinishedResult;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 
 /**
@@ -42,4 +43,21 @@ public interface Pusher {
      * @throws HandlerException 处理器异常。
      */
     void protectReset() throws HandlerException;
+
+    /**
+     * 清除完成时执行的调度。
+     *
+     * @param result 清除结束结果。
+     * @throws HandlerException 处理器异常。
+     * @since 1.9.0
+     */
+    void purgeFinished(PurgeFinishedResult result) throws HandlerException;
+
+    /**
+     * 清除失败时执行的调度。
+     *
+     * @throws HandlerException 处理器异常。
+     * @since 1.9.0
+     */
+    void purgeFailed() throws HandlerException;
 }

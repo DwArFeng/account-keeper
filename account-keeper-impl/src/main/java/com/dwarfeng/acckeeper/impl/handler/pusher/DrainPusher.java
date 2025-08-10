@@ -3,6 +3,7 @@ package com.dwarfeng.acckeeper.impl.handler.pusher;
 import com.dwarfeng.acckeeper.sdk.handler.pusher.AbstractPusher;
 import com.dwarfeng.acckeeper.stack.bean.dto.DeriveHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginHistoryRecordInfo;
+import com.dwarfeng.acckeeper.stack.bean.dto.PurgeFinishedResult;
 import org.springframework.stereotype.Component;
 
 /**
@@ -30,5 +31,13 @@ public class DrainPusher extends AbstractPusher {
 
     @Override
     public void protectReset() {
+    }
+
+    @Override
+    public void purgeFinished(PurgeFinishedResult result) {
+    }
+
+    @Override
+    public void purgeFailed() {
     }
 }

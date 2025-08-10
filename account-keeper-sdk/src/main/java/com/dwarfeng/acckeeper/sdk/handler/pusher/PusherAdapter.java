@@ -2,6 +2,7 @@ package com.dwarfeng.acckeeper.sdk.handler.pusher;
 
 import com.dwarfeng.acckeeper.stack.bean.dto.DeriveHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginHistoryRecordInfo;
+import com.dwarfeng.acckeeper.stack.bean.dto.PurgeFinishedResult;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 
 /**
@@ -43,6 +44,16 @@ public abstract class PusherAdapter extends AbstractPusher {
     @SuppressWarnings("RedundantThrows")
     @Override
     public void protectReset() throws HandlerException {
+    }
+
+    @SuppressWarnings("RedundantThrows")
+    @Override
+    public void purgeFinished(PurgeFinishedResult result) throws HandlerException {
+    }
+
+    @SuppressWarnings("RedundantThrows")
+    @Override
+    public void purgeFailed() throws HandlerException {
     }
 
     @Override

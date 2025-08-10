@@ -4,6 +4,7 @@ import com.dwarfeng.acckeeper.sdk.handler.Pusher;
 import com.dwarfeng.acckeeper.sdk.handler.pusher.AbstractPusher;
 import com.dwarfeng.acckeeper.stack.bean.dto.DeriveHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginHistoryRecordInfo;
+import com.dwarfeng.acckeeper.stack.bean.dto.PurgeFinishedResult;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,6 +77,28 @@ public class MultiPusher extends AbstractPusher {
         for (Pusher delegate : delegates) {
             try {
                 delegate.protectReset();
+            } catch (Exception e) {
+                LOGGER.warn("代理推送器推送数据失败，异常信息如下: ", e);
+            }
+        }
+    }
+
+    @Override
+    public void purgeFinished(PurgeFinishedResult result) {
+        for (Pusher delegate : delegates) {
+            try {
+                delegate.purgeFinished(result);
+            } catch (Exception e) {
+                LOGGER.warn("代理推送器推送数据失败，异常信息如下: ", e);
+            }
+        }
+    }
+
+    @Override
+    public void purgeFailed() {
+        for (Pusher delegate : delegates) {
+            try {
+                delegate.purgeFailed();
             } catch (Exception e) {
                 LOGGER.warn("代理推送器推送数据失败，异常信息如下: ", e);
             }
