@@ -21,7 +21,7 @@ public interface Pusher {
     boolean supportType(String type);
 
     /**
-     * 登录历史被记录时执行的保护。
+     * 登录历史被记录时执行的调度。
      *
      * @param loginHistory 登录历史记录信息。
      * @throws HandlerException 处理器异常。
@@ -29,7 +29,7 @@ public interface Pusher {
     void loginHistoryRecorded(LoginHistoryRecordInfo loginHistory) throws HandlerException;
 
     /**
-     * 派生历史被记录时执行的保护。
+     * 派生历史被记录时执行的调度。
      *
      * @param deriveHistoryRecordInfo 派生历史记录信息。
      * @throws HandlerException 处理器异常。
@@ -37,7 +37,7 @@ public interface Pusher {
     void deriveHistoryRecorded(DeriveHistoryRecordInfo deriveHistoryRecordInfo) throws HandlerException;
 
     /**
-     * 保护被重置时执行的保护。
+     * 保护被重置时执行的调度。
      *
      * @throws HandlerException 处理器异常。
      */

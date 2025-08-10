@@ -37,6 +37,10 @@
 
 ### Bug 修复
 
+- 修正部分接口错误的文档注释。
+  - com.dwarfeng.acckeeper.sdk.handler.Pusher。
+  - com.dwarfeng.acckeeper.stack.handler.PushHandler。
+
 - 修正部分 `properties` 文件中错误的注释内容。
   - latch-path.properties。
 
