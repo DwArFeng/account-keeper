@@ -135,63 +135,75 @@ public class PurgeProcessor {
             lock.lock();
             try {
                 run0();
-            } catch (Exception e) {
-                LOGGER.warn("清除任务执行失败, 本次清除中止, 异常信息如下: ", e);
             } finally {
                 lock.unlock();
             }
         }
 
-        private void run0() throws Exception {
+        private void run0() {
             // 二次检查 purgeRetentionDuration 是否大于 0。
             if (purgeRetentionDuration <= 0) {
                 LOGGER.warn("由于保留时长小于等于 0, 清除任务将不执行, 不该指定到此处, 请联系开发人员");
                 return;
             }
 
-            // 日志记录。
-            LOGGER.info("开始执行清除任务...");
+            // 定义清除结果。
+            PurgeFinishedResult purgeFinishedResult = null;
 
-            // 计算保留日期。
-            LOGGER.debug("计算保留日期...");
-            Date retentionDate = new Date(System.currentTimeMillis() - purgeRetentionDuration);
-            LOGGER.debug("保留日期: {}", retentionDate);
-
-            // 定义计时器。
-            TimeMeasurer tm;
-
-            // 清除派生历史。
-            LOGGER.info("清除派生历史...");
-            tm = new TimeMeasurer();
-            tm.start();
-            PurgeResult deriveHistoryPurgeResult = purgeDeriveHistory(retentionDate);
-            int deriveHistoryDeletionCount = deriveHistoryPurgeResult.getDeletionCount();
-            boolean deriveHistoryDivergent = deriveHistoryPurgeResult.isDivergent();
-            tm.stop();
-            LOGGER.info("清除派生历史完成, 共清除 {} 条数据, 耗时 {} 毫秒", deriveHistoryDeletionCount, tm.getTimeMs());
-
-            // 清除登录历史。
-            LOGGER.info("清除登录历史...");
-            tm = new TimeMeasurer();
-            tm.start();
-            PurgeResult loginHistoryPurgeResult = purgeLoginHistory(retentionDate);
-            int loginHistoryDeletionCount = loginHistoryPurgeResult.getDeletionCount();
-            boolean loginHistoryDivergent = loginHistoryPurgeResult.isDivergent();
-            tm.stop();
-            LOGGER.info("清除登录历史完成, 共清除 {} 条数据, 耗时 {} 毫秒", loginHistoryDeletionCount, tm.getTimeMs());
-
-            // 日志记录。
-            LOGGER.info("清除任务执行完成");
-
-            // 推送清除结果。
             try {
-                PurgeFinishedResult result = new PurgeFinishedResult(
+                // 日志记录。
+                LOGGER.info("开始执行清除任务...");
+                // 计算保留日期。
+                LOGGER.debug("计算保留日期...");
+                Date retentionDate = new Date(System.currentTimeMillis() - purgeRetentionDuration);
+                LOGGER.debug("保留日期: {}", retentionDate);
+                // 定义计时器。
+                TimeMeasurer tm;
+                // 清除派生历史。
+                LOGGER.info("清除派生历史...");
+                tm = new TimeMeasurer();
+                tm.start();
+                PurgeResult deriveHistoryPurgeResult = purgeDeriveHistory(retentionDate);
+                int deriveHistoryDeletionCount = deriveHistoryPurgeResult.getDeletionCount();
+                boolean deriveHistoryDivergent = deriveHistoryPurgeResult.isDivergent();
+                tm.stop();
+                LOGGER.info("清除派生历史完成, 共清除 {} 条数据, 耗时 {} 毫秒", deriveHistoryDeletionCount, tm.getTimeMs());
+                // 清除登录历史。
+                LOGGER.info("清除登录历史...");
+                tm = new TimeMeasurer();
+                tm.start();
+                PurgeResult loginHistoryPurgeResult = purgeLoginHistory(retentionDate);
+                int loginHistoryDeletionCount = loginHistoryPurgeResult.getDeletionCount();
+                boolean loginHistoryDivergent = loginHistoryPurgeResult.isDivergent();
+                tm.stop();
+                LOGGER.info("清除登录历史完成, 共清除 {} 条数据, 耗时 {} 毫秒", loginHistoryDeletionCount, tm.getTimeMs());
+                // 构造推送结果。
+                purgeFinishedResult = new PurgeFinishedResult(
                         deriveHistoryDeletionCount, deriveHistoryDivergent,
                         loginHistoryDeletionCount, loginHistoryDivergent
                 );
-                pushHandler.purgeFinished(result);
+                // 日志记录。
+                LOGGER.info("清除任务执行完成");
             } catch (Exception e) {
-                LOGGER.warn("推送清除结果时发生异常, 本次消息将不会被推送, 异常信息如下: ", e);
+                // 日志记录。
+                LOGGER.warn("清除任务执行失败, 本次清除中止, 异常信息如下: ", e);
+            }
+
+            // 如果清除结果不为 null，则代表清除成功；否则清除失败。分别推送相应的事件。
+            if (Objects.nonNull(purgeFinishedResult)) {
+                // 推送清除完成事件。
+                try {
+                    pushHandler.purgeFinished(purgeFinishedResult);
+                } catch (Exception e) {
+                    LOGGER.warn("推送清除结果时发生异常, 本次消息将不会被推送, 异常信息如下: ", e);
+                }
+            } else {
+                // 推送清除失败事件。
+                try {
+                    pushHandler.purgeFailed();
+                } catch (Exception e) {
+                    LOGGER.warn("推送清除失败时发生异常, 本次消息将不会被推送, 异常信息如下: ", e);
+                }
             }
         }
 
