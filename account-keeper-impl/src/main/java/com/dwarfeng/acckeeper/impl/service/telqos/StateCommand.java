@@ -11,6 +11,7 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.text.DateFormat;
@@ -138,13 +139,13 @@ public class StateCommand extends CliCommand {
                 context.sendMessage("输入 q 退出，输入 n 进入下一页，输入 p 进入上一页，输入数字进入指定页");
             }
             String command = context.receiveMessage();
-            if (StringUtils.equalsIgnoreCase(command, "n")) {
+            if (Strings.CI.equals(command, "n")) {
                 currentPage += 1;
                 printFlag = true;
-            } else if (StringUtils.equalsIgnoreCase(command, "p")) {
+            } else if (Strings.CI.equals(command, "p")) {
                 currentPage = Math.max(0, currentPage - 1);
                 printFlag = true;
-            } else if (StringUtils.equalsIgnoreCase(command, "q")) {
+            } else if (Strings.CI.equals(command, "q")) {
                 break;
             } else if (StringUtils.isNumeric(command)) {
                 currentPage = Math.max(0, Integer.parseInt(command) - 1);

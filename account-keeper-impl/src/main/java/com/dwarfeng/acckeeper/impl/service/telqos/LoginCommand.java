@@ -15,7 +15,7 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
@@ -264,9 +264,9 @@ public class LoginCommand extends CliCommand {
                 ));
                 String controlString = context.receiveMessage();
                 mismatchFlag = true;
-                if (StringUtils.equalsIgnoreCase(controlString.toUpperCase(), CONTROL_STRING_NEXT)) {
+                if (Strings.CI.equals(controlString.toUpperCase(), CONTROL_STRING_NEXT)) {
                     mismatchFlag = false;
-                } else if (StringUtils.equalsIgnoreCase(controlString.toUpperCase(), CONTROL_STRING_QUIT)) {
+                } else if (Strings.CI.equals(controlString.toUpperCase(), CONTROL_STRING_QUIT)) {
                     mismatchFlag = false;
                     continueFlag = false;
                 }
