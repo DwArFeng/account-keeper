@@ -8,7 +8,8 @@
 
 ### Bug 修复
 
-- (无)
+- 修正 `impl` 模块中错误的配置文件位置。
+  - `src/main/resources/acckeeper/purge.properties` 移动至 `src/test/resources/acckeeper/`。
 
 ### 功能移除
 
