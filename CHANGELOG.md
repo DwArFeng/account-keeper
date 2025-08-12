@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 优化文件格式。
+  - 优化 `assembly.xml` 文件的格式。
+
 - 优化清除机制相关代码以及配置的执行顺序。
   - com.dwarfeng.acckeeper.node.launcher.Launcher。
   - acckeeper/launcher.properties。
