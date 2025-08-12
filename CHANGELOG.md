@@ -4,7 +4,9 @@
 
 ### 功能构建
 
-- (无)
+- 优化清除机制相关代码以及配置的执行顺序。
+  - com.dwarfeng.acckeeper.node.launcher.Launcher。
+  - acckeeper/launcher.properties。
 
 ### Bug 修复
 

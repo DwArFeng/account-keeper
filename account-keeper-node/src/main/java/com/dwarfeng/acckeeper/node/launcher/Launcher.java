@@ -38,13 +38,13 @@ public class Launcher {
             // 根据启动器设置处理器的设置，选择性启动清理服务。
             mayEnableClean(ctx);
 
+            // 根据启动器设置处理器的设置，选择性启动重置服务。
+            mayStartReset(ctx);
+
             // 根据启动器设置处理器的设置，选择性上线清除服务。
             mayOnlinePurge(ctx);
             // 根据启动器设置处理器的设置，选择性启动清除服务。
             mayEnablePurge(ctx);
-
-            // 根据启动器设置处理器的设置，选择性启动重置服务。
-            mayStartReset(ctx);
         });
     }
 
