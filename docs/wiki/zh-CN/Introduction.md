@@ -25,11 +25,21 @@ wiki 为项目的开发人员为本项目编写的详细文档，包含不同语
 1. [简介](./Introduction.md) - 镜像的 `README.md`，与本文件内容基本相同。
 2. [目录](./Contents.md) - 文档目录。
 
+## 运行截图
+
+Telnet 运维平台 banner：
+
+![Telnet 运维平台 banner](./images/TelqosBanner.png "Telnet 运维平台 banner")
+
+Telnet 运维平台指令合集：
+
+![Telnet 运维平台指令合集](./images/TelqosCommands.png "Telnet 运维平台指令合集")
+
 ## 机制
 
 ### 账户
 
-账户是 Acckeeper 的核心对象，它用于存储用户的基本信息，如用户名、密码、注册时间等；同时，它还用于存储用户状态信息，
+账户是 Acckeeper 的核心对象，它用存储用户的基本信息，如用户名、密码、注册时间等；同时，它还用于存储用户状态信息，
 如 序列版本号、登录计数、派生计数等。
 
 账户拥有使能状态，可以禁用账户，禁用后，账户将无法登录，同时会清除该账户当前的所有登录状态。

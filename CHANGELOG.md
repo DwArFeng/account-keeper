@@ -4,6 +4,12 @@
 
 ### 功能构建
 
+- 更新 README.md。
+
+- Wiki 更新。
+  - docs/wiki/zh-CN/ConfDirectory.md。
+  - docs/wiki/zh-CN/Introduction.md。
+
 - 优化启停脚本注释，以规避潜在的字符集问题。
   - binres/acckeeper-start.bat。
   - binres/acckeeper-start.sh。

@@ -7,7 +7,7 @@
 ```text
 conf
 │
-├─settingrepo
+├─acckeeper
 │      background.properties
 │      clean.properties
 │      derive.properties
@@ -107,6 +107,27 @@ acckeeper.derive.dynamic.expire_duration=600000
 
 动态派生的过期时间由 `acckeeper.derive.dynamic.expire_duration` 参数决定。
 
+### exception.properties
+
+ServiceException 的异常代码的偏移量配置。
+
+```properties
+# acckeeper 自身的异常代号偏移量。
+acckeeper.exception_code_offset=1000
+# acckeeper 工程中 subgrade 的异常代号偏移量。
+acckeeper.exception_code_offset.subgrade=0
+# acckeeper 工程中 snowflake 的异常代号偏移量。
+acckeeper.exception_code_offset.snowflake=1500
+# acckeeper 工程中 dwarfeng-datamark 的异常代号偏移量。
+acckeeper.exception_code_offset.dwarfeng_datamark=2000
+```
+
+Subgrade 框架中，会将微服务抛出的异常映射为 `ServiceException`，每个 `ServiceException` 都有一个异常代码，
+用于标识异常的类型。
+
+如果您的项目中使用了多个基于 Subgrade 框架的微服务，那么，您需要为每个微服务配置一个异常代码偏移量，
+以免不同的微服务生成异常代码相同的 `ServiceException`。
+
 ### launcher.properties
 
 启动器配置文件，决定了启动时的一些行为。
@@ -142,7 +163,6 @@ launcher.online_purge_delay=4000
 # 该参数等于0，意味着启动后立即启动清除服务。
 # 该参数小于0，意味着程序不主动启动清除服务，需要手动启动。
 launcher.enable_purge_delay=4500
-
 ```
 
 该配置文件决定了服务被运行后，哪些功能将会自动被执行。
