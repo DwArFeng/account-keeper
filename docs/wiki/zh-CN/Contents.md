@@ -30,3 +30,8 @@
 ## 维护与调试
 
 - [Using Telqos](./UsingTelqos.md) - 使用 Telqos。Telqos 是本项目的 telnet 运维平台，该文档详细说明了如何使用 Telqos。
+
+## 升级指导
+
+- [Upgrade Guide 2.0.0](./UpgradeGuide2.0.0.md) - 升级指南 2.0.0，详细说明了从 1.10.x 及更早版本升级到 2.0.0
+  版本的不兼容改动、代码迁移指南和数据库迁移方案。

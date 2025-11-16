@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh-CN/UpgradeGuide2.0.0.md。
+
 - 优化部分单元测试代码，以规避潜在的 bug。
   - com.dwarfeng.acckeeper.impl.service.LoginParamRecordMaintainServiceImplTest。
 
