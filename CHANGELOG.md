@@ -31,7 +31,10 @@
 
 ### 功能移除
 
-- (无)
+- 移除运维指令。
+  - com.dwarfeng.acckeeper.impl.service.telqos.KickCommand。
+  - com.dwarfeng.acckeeper.impl.service.telqos.LoginCommand。
+  - com.dwarfeng.acckeeper.impl.service.telqos.StateCommand。
 
 ---
 
