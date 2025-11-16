@@ -42,6 +42,9 @@
 
 ### Bug 修复
 
+- 项目结构修复。
+  - 修复项目打包时未能正确生成 Linux 启停脚本的问题。
+
 - 补全 `account-keeper-sdk` 模块 BeanMapper 中缺失的接口方法。
   - com.dwarfeng.acckeeper.sdk.bean.BeanMapper.loginInfoToWebInput。
   - com.dwarfeng.acckeeper.sdk.bean.BeanMapper.loginInfoFromWebInput。

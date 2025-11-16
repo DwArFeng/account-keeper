@@ -42,6 +42,16 @@
             <outputDirectory>bin</outputDirectory>
             <directory>src/main/resources/binres</directory>
             <includes>
+                <include>*.sh</include>
+            </includes>
+            <filtered>true</filtered>
+            <fileMode>755</fileMode>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <fileSet>
+            <outputDirectory>bin</outputDirectory>
+            <directory>src/main/resources/binres</directory>
+            <includes>
                 <include>*.bat</include>
             </includes>
             <filtered>true</filtered>
