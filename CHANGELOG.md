@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 实现运维指令。
+  - com.dwarfeng.acckeeper.impl.service.telqos.LoginStateKeyGenerateCommand。
+
 - 实现预设登录状态主键生成器。
   - com.dwarfeng.acckeeper.impl.handler.lskgen.RandxLoginStateKeyGenerator。
   - com.dwarfeng.acckeeper.impl.handler.lskgen.UuidLoginStateKeyGenerator。
