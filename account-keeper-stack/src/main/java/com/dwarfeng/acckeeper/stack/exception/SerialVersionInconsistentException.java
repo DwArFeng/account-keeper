@@ -1,6 +1,6 @@
 package com.dwarfeng.acckeeper.stack.exception;
 
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 
 /**
@@ -11,15 +11,15 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class SerialVersionInconsistentException extends HandlerException {
 
-    private static final long serialVersionUID = 6438358351946185749L;
+    private static final long serialVersionUID = -3768844745033206646L;
 
-    private final LongIdKey loginStateKey;
+    private final StringIdKey loginStateKey;
 
-    public SerialVersionInconsistentException(LongIdKey loginStateKey) {
+    public SerialVersionInconsistentException(StringIdKey loginStateKey) {
         this.loginStateKey = loginStateKey;
     }
 
-    public SerialVersionInconsistentException(Throwable cause, LongIdKey loginStateKey) {
+    public SerialVersionInconsistentException(Throwable cause, StringIdKey loginStateKey) {
         super(cause);
         this.loginStateKey = loginStateKey;
     }

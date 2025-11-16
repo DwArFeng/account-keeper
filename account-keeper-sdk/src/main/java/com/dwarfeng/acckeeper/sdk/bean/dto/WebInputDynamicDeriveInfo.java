@@ -3,8 +3,8 @@ package com.dwarfeng.acckeeper.sdk.bean.dto;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.dwarfeng.acckeeper.sdk.util.Constraints;
 import com.dwarfeng.acckeeper.stack.bean.dto.DynamicDeriveInfo;
-import com.dwarfeng.subgrade.sdk.bean.key.WebInputLongIdKey;
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
+import com.dwarfeng.subgrade.stack.bean.Bean;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.Valid;
@@ -12,21 +12,21 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
- * 动态派生信息。
+ * WebInput 动态派生信息。
  *
  * @author DwArFeng
- * @since 1.7.0
+ * @since 2.0.0
  */
-public class WebInputDynamicDeriveInfo implements Dto {
+public class WebInputDynamicDeriveInfo implements Bean {
 
-    private static final long serialVersionUID = -539133524453563860L;
+    private static final long serialVersionUID = 9153185447725158149L;
 
     public static DynamicDeriveInfo toStackBean(WebInputDynamicDeriveInfo webInput) {
         if (Objects.isNull(webInput)) {
             return null;
         } else {
             return new DynamicDeriveInfo(
-                    WebInputLongIdKey.toStackBean(webInput.getLoginStateKey()),
+                    WebInputStringIdKey.toStackBean(webInput.getLoginStateKey()),
                     webInput.getRemark()
             );
         }
@@ -35,7 +35,7 @@ public class WebInputDynamicDeriveInfo implements Dto {
     @JSONField(name = "login_state_key")
     @NotNull
     @Valid
-    private WebInputLongIdKey loginStateKey;
+    private WebInputStringIdKey loginStateKey;
 
     @JSONField(name = "remark")
     @Length(max = Constraints.LENGTH_REMARK)
@@ -44,11 +44,11 @@ public class WebInputDynamicDeriveInfo implements Dto {
     public WebInputDynamicDeriveInfo() {
     }
 
-    public WebInputLongIdKey getLoginStateKey() {
+    public WebInputStringIdKey getLoginStateKey() {
         return loginStateKey;
     }
 
-    public void setLoginStateKey(WebInputLongIdKey loginStateKey) {
+    public void setLoginStateKey(WebInputStringIdKey loginStateKey) {
         this.loginStateKey = loginStateKey;
     }
 

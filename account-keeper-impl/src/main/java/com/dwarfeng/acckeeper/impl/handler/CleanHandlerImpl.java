@@ -6,7 +6,7 @@ import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
 import com.dwarfeng.subgrade.impl.handler.CuratorDistributedLockHandler;
 import com.dwarfeng.subgrade.impl.handler.Worker;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import org.apache.curator.framework.CuratorFramework;
 import org.slf4j.Logger;
@@ -133,7 +133,7 @@ public class CleanHandlerImpl implements CleanHandler {
 
                 // 定义变量。
                 int cleanedCount = 0;
-                List<LongIdKey> expiredLoginStateKeysToDelete;
+                List<StringIdKey> expiredLoginStateKeysToDelete;
 
                 // 清理没有关联账户的登录状态。
                 expiredLoginStateKeysToDelete = loginStateMaintainService.lookupAsList(

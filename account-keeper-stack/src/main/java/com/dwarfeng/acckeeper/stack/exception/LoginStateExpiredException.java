@@ -1,6 +1,6 @@
 package com.dwarfeng.acckeeper.stack.exception;
 
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 
 /**
@@ -11,15 +11,15 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class LoginStateExpiredException extends HandlerException {
 
-    private static final long serialVersionUID = -405183225726353967L;
+    private static final long serialVersionUID = 8814507052610394143L;
 
-    private final LongIdKey loginStateKey;
+    private final StringIdKey loginStateKey;
 
-    public LoginStateExpiredException(LongIdKey loginStateKey) {
+    public LoginStateExpiredException(StringIdKey loginStateKey) {
         this.loginStateKey = loginStateKey;
     }
 
-    public LoginStateExpiredException(Throwable cause, LongIdKey loginStateKey) {
+    public LoginStateExpiredException(Throwable cause, StringIdKey loginStateKey) {
         super(cause);
         this.loginStateKey = loginStateKey;
     }

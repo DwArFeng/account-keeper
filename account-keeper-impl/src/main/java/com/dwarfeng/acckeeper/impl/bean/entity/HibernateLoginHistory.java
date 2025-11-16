@@ -23,7 +23,7 @@ public class HibernateLoginHistory implements Bean {
     private Long longId;
 
     // -----------------------------------------------------------主属性字段-----------------------------------------------------------
-    @Column(name = "account_id", length = Constraints.LENGTH_ID)
+    @Column(name = "account_id", length = Constraints.LENGTH_ID_COMMON)
     private String accountId;
 
     @Column(name = "happened_date")

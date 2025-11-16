@@ -90,11 +90,11 @@ public class DaoConfiguration {
     }
 
     @Bean
-    public HibernateBatchBaseDao<LongIdKey, HibernateLongIdKey, LoginState, HibernateLoginState>
+    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, LoginState, HibernateLoginState>
     loginStateHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 hibernateTemplate,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(LoginState.class, HibernateLoginState.class, BeanMapper.class),
                 HibernateLoginState.class
         );

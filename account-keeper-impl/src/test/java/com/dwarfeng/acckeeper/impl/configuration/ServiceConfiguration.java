@@ -131,13 +131,13 @@ public class ServiceConfiguration {
     }
 
     @Bean
-    public GeneralBatchCrudService<LongIdKey, LoginState> loginStateGeneralBatchCrudService() {
+    public GeneralBatchCrudService<StringIdKey, LoginState> loginStateGeneralBatchCrudService() {
         return new GeneralBatchCrudService<>(
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 loginStateDao,
                 loginStateCache,
-                generateConfiguration.snowflakeLongIdKeyGenerator(),
+                new ExceptionKeyGenerator<>(),
                 loginStateTimeout
         );
     }

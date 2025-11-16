@@ -34,11 +34,6 @@
             group="${dubbo.provider.group}"
     />
     <dubbo:service
-            interface="com.dwarfeng.acckeeper.stack.service.LoginService"
-            ref="loginServiceImpl"
-            group="${dubbo.provider.group}"
-    />
-    <dubbo:service
             interface="com.dwarfeng.acckeeper.stack.service.LoginHistoryMaintainService"
             ref="loginHistoryMaintainServiceImpl"
             group="${dubbo.provider.group}"
@@ -74,13 +69,18 @@
             group="${dubbo.provider.group}"
     />
     <dubbo:service
-            interface="com.dwarfeng.acckeeper.stack.service.DeriveService"
-            ref="deriveServiceImpl"
+            interface="com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService"
+            ref="loginStateMaintainServiceImpl"
             group="${dubbo.provider.group}"
     />
     <dubbo:service
-            interface="com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService"
-            ref="loginStateMaintainServiceImpl"
+            interface="com.dwarfeng.acckeeper.stack.service.AccessService"
+            ref="accessServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
+            interface="com.dwarfeng.acckeeper.stack.service.DeriveService"
+            ref="deriveServiceImpl"
             group="${dubbo.provider.group}"
     />
 

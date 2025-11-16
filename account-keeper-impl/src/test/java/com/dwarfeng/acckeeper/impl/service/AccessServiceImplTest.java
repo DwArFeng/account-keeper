@@ -1,17 +1,13 @@
 package com.dwarfeng.acckeeper.impl.service;
 
 import com.dwarfeng.acckeeper.sdk.util.ServiceExceptionCodes;
-import com.dwarfeng.acckeeper.stack.bean.dto.AccountRegisterInfo;
-import com.dwarfeng.acckeeper.stack.bean.dto.DynamicLoginInfo;
-import com.dwarfeng.acckeeper.stack.bean.dto.LoginInfo;
-import com.dwarfeng.acckeeper.stack.bean.dto.StaticLoginInfo;
-import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
+import com.dwarfeng.acckeeper.stack.bean.dto.*;
+import com.dwarfeng.acckeeper.stack.service.AccessService;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
 import com.dwarfeng.acckeeper.stack.service.AccountOperateService;
-import com.dwarfeng.acckeeper.stack.service.LoginService;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,14 +24,14 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring/application-context*.xml")
-public class LoginServiceImplTest {
+public class AccessServiceImplTest {
 
     @Autowired
     private AccountMaintainService accountMaintainService;
     @Autowired
     private AccountOperateService accountOperateService;
     @Autowired
-    private LoginService loginService;
+    private AccessService accessService;
 
     private AccountRegisterInfo zhangSanRegisterInfo;
     private AccountRegisterInfo liSiRegisterInfo;
@@ -56,52 +52,6 @@ public class LoginServiceImplTest {
         liSiRegisterInfo = null;
     }
 
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testForLogin() throws Exception {
-        try {
-            if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
-                accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
-            }
-            if (Objects.nonNull(liSiRegisterInfo.getAccountKey())) {
-                accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
-            }
-
-            accountOperateService.register(zhangSanRegisterInfo);
-            accountOperateService.register(liSiRegisterInfo);
-
-            LoginState loginState = loginService.login(new LoginInfo(
-                    zhangSanRegisterInfo.getAccountKey(), "ninja123456", Collections.emptyMap()
-            ));
-            loginState = loginService.postpone(loginState.getKey());
-            try {
-                loginService.login(new LoginInfo(
-                        zhangSanRegisterInfo.getAccountKey(), "123456", Collections.emptyMap()
-                ));
-            } catch (ServiceException e) {
-                assertEquals(ServiceExceptionCodes.PASSWORD_INCORRECT.getCode(), e.getCode().getCode());
-            }
-            assertTrue(loginService.isLogin(loginState.getKey()));
-            assertFalse(loginService.isLogin(new LongIdKey(loginState.getKey().getLongId() + 1)));
-            loginService.logout(loginState.getKey());
-
-            try {
-                loginService.login(new LoginInfo(
-                        liSiRegisterInfo.getAccountKey(), "ninja123456", Collections.emptyMap()
-                ));
-            } catch (ServiceException e) {
-                assertEquals(ServiceExceptionCodes.ACCOUNT_DISABLED.getCode(), e.getCode().getCode());
-            }
-        } finally {
-            if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
-                accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
-            }
-            if (Objects.nonNull(liSiRegisterInfo.getAccountKey())) {
-                accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
-            }
-        }
-    }
-
     @Test
     public void testForDynamicLogin() throws Exception {
         try {
@@ -115,23 +65,23 @@ public class LoginServiceImplTest {
             accountOperateService.register(zhangSanRegisterInfo);
             accountOperateService.register(liSiRegisterInfo);
 
-            LoginState loginState = loginService.dynamicLogin(new DynamicLoginInfo(
+            StringIdKey loginStateKey = accessService.dynamicLogin(new DynamicLoginInfo(
                     zhangSanRegisterInfo.getAccountKey(), "ninja123456", "remark", Collections.emptyMap()
-            ));
-            loginState = loginService.postpone(loginState.getKey());
+            )).getLoginStateKey();
+            accessService.postpone(new PostponeInfo(loginStateKey));
             try {
-                loginService.dynamicLogin(new DynamicLoginInfo(
+                accessService.dynamicLogin(new DynamicLoginInfo(
                         zhangSanRegisterInfo.getAccountKey(), "123456", "remark", Collections.emptyMap()
                 ));
             } catch (ServiceException e) {
                 assertEquals(ServiceExceptionCodes.PASSWORD_INCORRECT.getCode(), e.getCode().getCode());
             }
-            assertTrue(loginService.isLogin(loginState.getKey()));
-            assertFalse(loginService.isLogin(new LongIdKey(loginState.getKey().getLongId() + 1)));
-            loginService.logout(loginState.getKey());
+            assertTrue(accessService.authInspect(new AuthInspectInfo(loginStateKey)).isLogin());
+            assertFalse(accessService.authInspect(new AuthInspectInfo(new StringIdKey(StringUtils.EMPTY))).isLogin());
+            accessService.logout(new LogoutInfo(loginStateKey));
 
             try {
-                loginService.dynamicLogin(new DynamicLoginInfo(
+                accessService.dynamicLogin(new DynamicLoginInfo(
                         liSiRegisterInfo.getAccountKey(), "ninja123456", "remark", Collections.emptyMap()
                 ));
             } catch (ServiceException e) {
@@ -163,23 +113,23 @@ public class LoginServiceImplTest {
             accountOperateService.register(zhangSanRegisterInfo);
             accountOperateService.register(liSiRegisterInfo);
 
-            LoginState loginState = loginService.staticLogin(new StaticLoginInfo(
+            StringIdKey loginStateKey = accessService.staticLogin(new StaticLoginInfo(
                     zhangSanRegisterInfo.getAccountKey(), "ninja123456", expireDate, "remark", Collections.emptyMap()
-            ));
-            loginState = loginService.postpone(loginState.getKey());
+            )).getLoginStateKey();
+            accessService.postpone(new PostponeInfo(loginStateKey));
             try {
-                loginService.staticLogin(new StaticLoginInfo(
+                accessService.staticLogin(new StaticLoginInfo(
                         zhangSanRegisterInfo.getAccountKey(), "123456", expireDate, "remark", Collections.emptyMap()
                 ));
             } catch (ServiceException e) {
                 assertEquals(ServiceExceptionCodes.PASSWORD_INCORRECT.getCode(), e.getCode().getCode());
             }
-            assertTrue(loginService.isLogin(loginState.getKey()));
-            assertFalse(loginService.isLogin(new LongIdKey(loginState.getKey().getLongId() + 1)));
-            loginService.logout(loginState.getKey());
+            assertTrue(accessService.authInspect(new AuthInspectInfo(loginStateKey)).isLogin());
+            assertFalse(accessService.authInspect(new AuthInspectInfo(new StringIdKey(StringUtils.EMPTY))).isLogin());
+            accessService.logout(new LogoutInfo(loginStateKey));
 
             try {
-                loginService.staticLogin(new StaticLoginInfo(
+                accessService.staticLogin(new StaticLoginInfo(
                         liSiRegisterInfo.getAccountKey(), "ninja123456", expireDate, "remark", Collections.emptyMap()
                 ));
             } catch (ServiceException e) {

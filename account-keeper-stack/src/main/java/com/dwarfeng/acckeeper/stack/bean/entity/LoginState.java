@@ -1,7 +1,6 @@
 package com.dwarfeng.acckeeper.stack.bean.entity;
 
 import com.dwarfeng.subgrade.stack.bean.entity.Entity;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 
 import java.util.Date;
@@ -12,11 +11,11 @@ import java.util.Date;
  * @author DwArFeng
  * @since 0.0.1-alpha
  */
-public class LoginState implements Entity<LongIdKey> {
+public class LoginState implements Entity<StringIdKey> {
 
-    private static final long serialVersionUID = 8777916898130775988L;
+    private static final long serialVersionUID = -2025395568105481495L;
 
-    private LongIdKey key;
+    private StringIdKey key;
     private StringIdKey accountKey;
     private Date expireDate;
     private long serialVersion;
@@ -54,8 +53,8 @@ public class LoginState implements Entity<LongIdKey> {
     }
 
     public LoginState(
-            LongIdKey key, StringIdKey accountKey, Date expireDate, long serialVersion, Date generatedDate,
-            int type, String remark
+            StringIdKey key, StringIdKey accountKey, Date expireDate, long serialVersion, Date generatedDate, int type,
+            String remark
     ) {
         this.key = key;
         this.accountKey = accountKey;
@@ -67,12 +66,12 @@ public class LoginState implements Entity<LongIdKey> {
     }
 
     @Override
-    public LongIdKey getKey() {
+    public StringIdKey getKey() {
         return key;
     }
 
     @Override
-    public void setKey(LongIdKey key) {
+    public void setKey(StringIdKey key) {
         this.key = key;
     }
 

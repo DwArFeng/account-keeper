@@ -1,25 +1,25 @@
 package com.dwarfeng.acckeeper.stack.exception;
 
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 
 /**
  * 登录状态不存在异常。
  *
  * @author DwArFeng
- * @since 1.4.0
+ * @since 2.0.0
  */
 public class LoginStateNotExistsException extends HandlerException {
 
-    private static final long serialVersionUID = 7482543190444498519L;
+    private static final long serialVersionUID = 2664525030558970797L;
 
-    private final LongIdKey loginStateKey;
+    private final StringIdKey loginStateKey;
 
-    public LoginStateNotExistsException(LongIdKey loginStateKey) {
+    public LoginStateNotExistsException(StringIdKey loginStateKey) {
         this.loginStateKey = loginStateKey;
     }
 
-    public LoginStateNotExistsException(Throwable cause, LongIdKey loginStateKey) {
+    public LoginStateNotExistsException(Throwable cause, StringIdKey loginStateKey) {
         super(cause);
         this.loginStateKey = loginStateKey;
     }

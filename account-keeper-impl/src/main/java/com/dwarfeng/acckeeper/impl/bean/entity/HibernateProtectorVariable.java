@@ -16,11 +16,11 @@ public class HibernateProtectorVariable implements Bean {
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
-    @Column(name = "protector_info_id", length = Constraints.LENGTH_ID, nullable = false)
+    @Column(name = "protector_info_id", length = Constraints.LENGTH_ID_COMMON, nullable = false)
     private String protectorInfoId;
 
     @Id
-    @Column(name = "variable_id", length = Constraints.LENGTH_ID, nullable = false)
+    @Column(name = "variable_id", length = Constraints.LENGTH_ID_COMMON, nullable = false)
     private String variableId;
 
     // -----------------------------------------------------------主属性字段-----------------------------------------------------------

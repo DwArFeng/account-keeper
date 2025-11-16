@@ -30,9 +30,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Component
-public class LoginProcessor {
+public class AccessProcessor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoginProcessor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccessProcessor.class);
 
     private final ApplicationContext ctx;
 
@@ -52,7 +52,7 @@ public class LoginProcessor {
     @Value("${acckeeper.login.dynamic.expire_duration}")
     private long dynamicLoginExpireDuration;
 
-    public LoginProcessor(
+    public AccessProcessor(
             ApplicationContext ctx,
             AccountMaintainService accountMaintainService,
             LoginHistoryMaintainService loginHistoryMaintainService,
@@ -77,7 +77,7 @@ public class LoginProcessor {
     }
 
     // 为了确保代码的可读性，此处不对代码结构进行优化。
-    @SuppressWarnings("ConstantValue")
+    @SuppressWarnings({"ConstantValue"})
     @BehaviorAnalyse
     public LoginComplex processLogin(
             LoginType loginType, DynamicLoginInfo dynamicLoginInfo, StaticLoginInfo staticLoginInfo
@@ -234,7 +234,7 @@ public class LoginProcessor {
             case DYNAMIC:
                 return new Date(happenedDate.getTime() + dynamicLoginExpireDuration);
             case STATIC:
-                return staticLoginInfo.getExpireDate();
+                return Optional.ofNullable(staticLoginInfo.getExpireDate()).orElse(new Date());
             default:
                 throw new IllegalArgumentException("非法的登录类型: " + loginType);
         }

@@ -21,7 +21,7 @@ public class HibernateProtectorInfo implements Bean {
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
-    @Column(name = "id", length = Constraints.LENGTH_ID, nullable = false, unique = true)
+    @Column(name = "id", length = Constraints.LENGTH_ID_COMMON, nullable = false, unique = true)
     private String stringId;
 
     // -----------------------------------------------------------主属性字段-----------------------------------------------------------

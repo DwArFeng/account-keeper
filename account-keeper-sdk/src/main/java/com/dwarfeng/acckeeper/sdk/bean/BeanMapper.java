@@ -137,11 +137,6 @@ public interface BeanMapper {
             JSFixedFastJsonLoginParamRecord jSFixedFastJsonLoginParamRecord
     );
 
-    JSFixedFastJsonLoginState loginStateToJSFixedFastJson(LoginState loginState);
-
-    @InheritInverseConfiguration
-    LoginState loginStateFromJSFixedFastJson(JSFixedFastJsonLoginState jSFixedFastJsonLoginState);
-
     JSFixedFastJsonProtectDetailRecord protectDetailRecordToJSFixedFastJson(ProtectDetailRecord protectDetailRecord);
 
     @InheritInverseConfiguration
@@ -155,6 +150,11 @@ public interface BeanMapper {
     ProtectorInfo protectorInfoFromWebInput(WebInputProtectorInfo webInputProtectorInfo);
 
     // -----------------------------------------------------------Acckeeper DTO-----------------------------------------------------------
+    FastJsonAuthInspectResult authInspectResultToFastJson(AuthInspectResult authInspectResult);
+
+    @InheritInverseConfiguration
+    AuthInspectResult authInspectResultFromFastJson(FastJsonAuthInspectResult fastJsonAuthInspectResult);
+
     FastJsonDeriveHistoryRecordInfo deriveHistoryRecordInfoToFastJson(DeriveHistoryRecordInfo deriveHistoryRecordInfo);
 
     @InheritInverseConfiguration
@@ -162,12 +162,42 @@ public interface BeanMapper {
             FastJsonDeriveHistoryRecordInfo fastJsonDeriveHistoryRecordInfo
     );
 
+    FastJsonDynamicDeriveResult dynamicDeriveResultToFastJson(DynamicDeriveResult dynamicDeriveResult);
+
+    @InheritInverseConfiguration
+    DynamicDeriveResult dynamicDeriveResultFromFastJson(FastJsonDynamicDeriveResult fastJsonDynamicDeriveResult);
+
+    FastJsonDynamicLoginResult dynamicLoginResultToFastJson(DynamicLoginResult dynamicLoginResult);
+
+    @InheritInverseConfiguration
+    DynamicLoginResult dynamicLoginResultFromFastJson(FastJsonDynamicLoginResult fastJsonDynamicLoginResult);
+
     FastJsonLoginHistoryRecordInfo loginHistoryRecordInfoToFastJson(LoginHistoryRecordInfo loginHistoryRecordInfo);
 
     @InheritInverseConfiguration
     LoginHistoryRecordInfo loginHistoryRecordInfoFromFastJson(
             FastJsonLoginHistoryRecordInfo fastJsonLoginHistoryRecordInfo
     );
+
+    FastJsonPostponeResult postponeResultToFastJson(PostponeResult postponeResult);
+
+    @InheritInverseConfiguration
+    PostponeResult postponeResultFromFastJson(FastJsonPostponeResult fastJsonPostponeResult);
+
+    FastJsonPurgeFinishedResult purgeFinishedResultToFastJson(PurgeFinishedResult purgeFinishedResult);
+
+    @InheritInverseConfiguration
+    PurgeFinishedResult purgeFinishedResultFromFastJson(FastJsonPurgeFinishedResult fastJsonPurgeFinishedResult);
+
+    FastJsonStaticDeriveResult staticDeriveResultToFastJson(StaticDeriveResult staticDeriveResult);
+
+    @InheritInverseConfiguration
+    StaticDeriveResult staticDeriveResultFromFastJson(FastJsonStaticDeriveResult fastJsonStaticDeriveResult);
+
+    FastJsonStaticLoginResult staticLoginResultToFastJson(StaticLoginResult staticLoginResult);
+
+    @InheritInverseConfiguration
+    StaticLoginResult staticLoginResultFromFastJson(FastJsonStaticLoginResult fastJsonStaticLoginResult);
 
     JSFixedFastJsonDeriveHistoryRecordInfo deriveHistoryRecordInfoToJSFixedFastJson(
             DeriveHistoryRecordInfo deriveHistoryRecordInfo
@@ -197,6 +227,11 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     AccountUpdateInfo accountUpdateInfoFromWebInput(WebInputAccountUpdateInfo webInputAccountUpdateInfo);
 
+    WebInputAuthInspectInfo authInspectInfoToWebInput(AuthInspectInfo authInspectInfo);
+
+    @InheritInverseConfiguration
+    AuthInspectInfo authInspectInfoFromWebInput(WebInputAuthInspectInfo webInputAuthInspectInfo);
+
     WebInputDynamicDeriveInfo dynamicDeriveInfoToWebInput(DynamicDeriveInfo dynamicDeriveInfo);
 
     @InheritInverseConfiguration
@@ -206,6 +241,16 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     DynamicLoginInfo dynamicLoginInfoFromWebInput(WebInputDynamicLoginInfo webInputDynamicLoginInfo);
+
+    WebInputKickInfo kickInfoToWebInput(KickInfo kickInfo);
+
+    @InheritInverseConfiguration
+    KickInfo kickInfoFromWebInput(WebInputKickInfo webInputKickInfo);
+
+    WebInputLogoutInfo logoutInfoToWebInput(LogoutInfo logoutInfo);
+
+    @InheritInverseConfiguration
+    LogoutInfo logoutInfoFromWebInput(WebInputLogoutInfo webInputLogoutInfo);
 
     WebInputPasswordCheckInfo passwordCheckInfoToWebInput(PasswordCheckInfo passwordCheckInfo);
 
@@ -222,6 +267,11 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     PasswordUpdateInfo passwordUpdateInfoFromWebInput(WebInputPasswordUpdateInfo webInputPasswordUpdateInfo);
 
+    WebInputPostponeInfo postponeInfoToWebInput(PostponeInfo postponeInfo);
+
+    @InheritInverseConfiguration
+    PostponeInfo postponeInfoFromWebInput(WebInputPostponeInfo webInputPostponeInfo);
+
     WebInputStaticDeriveInfo staticDeriveInfoToWebInput(StaticDeriveInfo staticDeriveInfo);
 
     @InheritInverseConfiguration
@@ -231,9 +281,4 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     StaticLoginInfo staticLoginInfoFromWebInput(WebInputStaticLoginInfo webInputStaticLoginInfo);
-
-    FastJsonPurgeFinishedResult purgeFinishedResultToFastJson(PurgeFinishedResult purgeFinishedResult);
-
-    @InheritInverseConfiguration
-    PurgeFinishedResult purgeFinishedResultFromFastJson(FastJsonPurgeFinishedResult fastJsonPurgeFinishedResult);
 }

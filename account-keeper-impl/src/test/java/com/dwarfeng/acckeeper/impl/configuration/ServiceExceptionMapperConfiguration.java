@@ -30,6 +30,7 @@ public class ServiceExceptionMapperConfiguration {
         destination.put(UnsupportedProtectorTypeException.class, ServiceExceptionCodes.UNSUPPORTED_PROTECTOR_TYPE);
         destination.put(ProtectorInfoNotExistsException.class, ServiceExceptionCodes.PROTECTOR_INFO_NOT_EXISTED);
         destination.put(ProtectorProhibitedException.class, ServiceExceptionCodes.PROTECTOR_PROHIBITED);
+        destination.put(LoginStateKeyConflictException.class, ServiceExceptionCodes.LOGIN_STATE_KEY_CONFLICT);
         return new MapServiceExceptionMapper(destination, com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes.UNDEFINED);
     }
 }

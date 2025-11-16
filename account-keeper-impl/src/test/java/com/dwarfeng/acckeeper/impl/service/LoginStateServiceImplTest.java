@@ -36,7 +36,7 @@ public class LoginStateServiceImplTest {
         StringIdKey accountKey = new StringIdKey("test.account");
         account = new Account(accountKey, "password", true, "remark", 0, "测试账号", new Date(), 0, 0, 0);
         loginState = new LoginState(
-                null, accountKey, new Date(), 12450, new Date(), 12450, "remark"
+                new StringIdKey("test.login_state"), accountKey, new Date(), 12450, new Date(), 12450, "remark"
         );
     }
 
@@ -49,7 +49,7 @@ public class LoginStateServiceImplTest {
     public void testForCrud() throws Exception {
         try {
             accountMaintainService.insertOrUpdate(account);
-            loginState.setKey(loginStateMaintainService.insertOrUpdate(loginState));
+            loginStateMaintainService.insertOrUpdate(loginState);
 
             LoginState testLoginState = loginStateMaintainService.get(loginState.getKey());
             assertEquals(BeanUtils.describe(loginState), BeanUtils.describe(testLoginState));
@@ -70,7 +70,7 @@ public class LoginStateServiceImplTest {
     public void testForAccountCascade() throws Exception {
         try {
             accountMaintainService.insertOrUpdate(account);
-            loginState.setKey(loginStateMaintainService.insertOrUpdate(loginState));
+            loginStateMaintainService.insertOrUpdate(loginState);
 
             assertTrue(loginStateMaintainService.exists(loginState.getKey()));
 

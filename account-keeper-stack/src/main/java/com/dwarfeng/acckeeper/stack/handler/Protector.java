@@ -1,7 +1,6 @@
 package com.dwarfeng.acckeeper.stack.handler;
 
 import com.dwarfeng.acckeeper.stack.bean.dto.DynamicLoginInfo;
-import com.dwarfeng.acckeeper.stack.bean.dto.LoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.StaticLoginInfo;
 import com.dwarfeng.acckeeper.stack.exception.ProtectorException;
 
@@ -49,19 +48,6 @@ public interface Protector {
          * @throws ProtectorException 保护器异常。
          */
         AccountMeta getAccountMeta() throws ProtectorException;
-
-        /**
-         * 获取本次登录的登录信息。
-         *
-         * <p>
-         * 该方法已经被废弃，新版本中使用 {@link #isDynamicLogin()} 或者 {@link #isStaticLogin()}。
-         *
-         * @return 本次登录的登录信息。
-         * @throws ProtectorException 保护器异常。
-         * @deprecated 使用 {@link #isDynamicLogin()} 或者 {@link #isStaticLogin()}。
-         */
-        @Deprecated
-        LoginInfo getLoginInfo() throws ProtectorException;
 
         /**
          * 获取本次登录是否为动态登录。

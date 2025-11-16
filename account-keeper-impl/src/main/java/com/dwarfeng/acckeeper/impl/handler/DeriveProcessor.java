@@ -54,27 +54,29 @@ public class DeriveProcessor {
     }
 
     // 为了确保代码的可读性，此处不对代码结构进行优化。
-    @SuppressWarnings("ConstantValue")
+    @SuppressWarnings({"ConstantValue"})
     @BehaviorAnalyse
     public DeriveComplex processDerive(
             DeriveType deriveType, DynamicDeriveInfo dynamicDeriveInfo, StaticDeriveInfo staticDeriveInfo
     ) throws Exception {
         // 定义变量。
-        LongIdKey loginStateKey;
-        Long loginStateId;
+        StringIdKey loginStateKey;
+        String loginStateId;
         StringIdKey accountKey;
         String accountId;
         Date happenedDate;
         Date expireDate = null;
         long serialVersion = 0;
-        String deriveRemark = parseDeriveRemark(deriveType, dynamicDeriveInfo, staticDeriveInfo);
+        String deriveRemark;
         Account account = null;
 
         // 获取当前时间。
         happenedDate = new Date();
         // 获取登录状态主键。
         loginStateKey = parseLoginStateKey(deriveType, dynamicDeriveInfo, staticDeriveInfo);
-        loginStateId = loginStateKey.getLongId();
+        loginStateId = loginStateKey.getStringId();
+        // 获取备注。
+        deriveRemark = parseDeriveRemark(deriveType, dynamicDeriveInfo, staticDeriveInfo);
 
         // 获取登录状态，进行登录状态校验。
         LoginState loginState = loginStateMaintainService.getIfExists(loginStateKey);
@@ -133,14 +135,14 @@ public class DeriveProcessor {
             );
         }
 
-        // 返回正常的登录结果。
+        // 返回正常的派生结果。
         return new DeriveComplex(
                 loginStateKey, loginStateId, happenedDate, Constants.DERIVE_RESPONSE_CODE_PASSED,
                 accountKey, accountId, expireDate, serialVersion, deriveRemark, null, account
         );
     }
 
-    private LongIdKey parseLoginStateKey(
+    private StringIdKey parseLoginStateKey(
             DeriveType deriveType, DynamicDeriveInfo dynamicDeriveInfo, StaticDeriveInfo staticDeriveInfo
     ) {
         switch (deriveType) {

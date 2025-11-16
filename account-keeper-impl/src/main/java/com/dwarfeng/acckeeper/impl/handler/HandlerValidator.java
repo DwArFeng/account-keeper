@@ -5,7 +5,6 @@ import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.acckeeper.stack.exception.*;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
 import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
@@ -81,7 +80,7 @@ public class HandlerValidator {
         }
     }
 
-    public void makeSureLoginStateExists(LongIdKey loginStateKey) throws HandlerException {
+    public void makeSureLoginStateExists(StringIdKey loginStateKey) throws HandlerException {
         try {
             if (!loginStateMaintainService.exists(loginStateKey)) {
                 throw new LoginStateNotExistsException(loginStateKey);
@@ -91,7 +90,7 @@ public class HandlerValidator {
         }
     }
 
-    public void makeSureLoginStateNotExpired(LongIdKey loginStateKey) throws HandlerException {
+    public void makeSureLoginStateNotExpired(StringIdKey loginStateKey) throws HandlerException {
         try {
             LoginState loginState = loginStateMaintainService.get(loginStateKey);
             if (Objects.isNull(loginState)) {
@@ -107,7 +106,7 @@ public class HandlerValidator {
         }
     }
 
-    public void makeSureSerialNumberConsistent(LongIdKey loginStateKey) throws HandlerException {
+    public void makeSureSerialNumberConsistent(StringIdKey loginStateKey) throws HandlerException {
         try {
             LoginState loginState = loginStateMaintainService.get(loginStateKey);
             Account account = accountMaintainService.get(loginState.getAccountKey());

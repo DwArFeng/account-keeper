@@ -1,7 +1,6 @@
 package com.dwarfeng.acckeeper.impl.bean.entity;
 
 import com.dwarfeng.acckeeper.sdk.util.Constraints;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 
@@ -10,19 +9,19 @@ import java.util.Date;
 import java.util.Optional;
 
 @Entity
-@IdClass(HibernateLongIdKey.class)
+@IdClass(HibernateStringIdKey.class)
 @Table(name = "tbl_login_state")
 public class HibernateLoginState implements Bean {
 
-    private static final long serialVersionUID = -6247985308318109744L;
+    private static final long serialVersionUID = -187471331672578945L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
-    @Column(name = "id", nullable = false, unique = true)
-    private Long longId;
+    @Column(name = "id", length = Constraints.LENGTH_ID_LOGIN_STATE, nullable = false, unique = true)
+    private String stringId;
 
     // -----------------------------------------------------------外键-----------------------------------------------------------
-    @Column(name = "account_id", length = Constraints.LENGTH_ID)
+    @Column(name = "account_id", length = Constraints.LENGTH_ID_COMMON)
     private String accountStringId;
 
     // -----------------------------------------------------------主属性字段-----------------------------------------------------------
@@ -54,12 +53,12 @@ public class HibernateLoginState implements Bean {
     }
 
     // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
-    public HibernateLongIdKey getKey() {
-        return Optional.ofNullable(longId).map(HibernateLongIdKey::new).orElse(null);
+    public HibernateStringIdKey getKey() {
+        return Optional.ofNullable(stringId).map(HibernateStringIdKey::new).orElse(null);
     }
 
-    public void setKey(HibernateLongIdKey key) {
-        this.longId = Optional.ofNullable(key).map(HibernateLongIdKey::getLongId).orElse(null);
+    public void setKey(HibernateStringIdKey uuidKey) {
+        this.stringId = Optional.ofNullable(uuidKey).map(HibernateStringIdKey::getStringId).orElse(null);
     }
 
     public HibernateStringIdKey getAccountKey() {
@@ -71,12 +70,12 @@ public class HibernateLoginState implements Bean {
     }
 
     // -----------------------------------------------------------常规属性区-----------------------------------------------------------
-    public Long getLongId() {
-        return longId;
+    public String getStringId() {
+        return stringId;
     }
 
-    public void setLongId(Long longId) {
-        this.longId = longId;
+    public void setStringId(String stringId) {
+        this.stringId = stringId;
     }
 
     public String getAccountStringId() {
@@ -138,7 +137,7 @@ public class HibernateLoginState implements Bean {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
-                "longId = " + longId + ", " +
+                "stringId = " + stringId + ", " +
                 "accountStringId = " + accountStringId + ", " +
                 "expireDate = " + expireDate + ", " +
                 "serialVersion = " + serialVersion + ", " +

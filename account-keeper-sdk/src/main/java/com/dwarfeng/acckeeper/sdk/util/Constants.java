@@ -59,6 +59,13 @@ public final class Constants {
     @DeriveResponseCodeItem
     public static final int DERIVE_RESPONSE_CODE_SERIAL_VERSION_INCONSISTENT = 40;
 
+    /**
+     * 最大登录状态主键生成尝试次数。
+     *
+     * @since 2.0.0
+     */
+    public static final int LOGIN_STATE_KEY_GENERATE_MAX_ATTEMPTS = 5;
+
     private static final Lock LOCK = new ReentrantLock();
 
     private static List<Integer> loginResponseCodeSpace = null;

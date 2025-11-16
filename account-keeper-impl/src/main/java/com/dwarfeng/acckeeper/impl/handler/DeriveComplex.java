@@ -1,7 +1,6 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 
@@ -9,8 +8,8 @@ import java.util.Date;
 
 public final class DeriveComplex {
 
-    private final LongIdKey loginStateKey;
-    private final Long loginStateId;
+    private final StringIdKey loginStateKey;
+    private final String loginStateId;
     private final Date happenedDate;
     private final int responseCode;
     private final StringIdKey accountKey;
@@ -22,7 +21,7 @@ public final class DeriveComplex {
     private final Account account;
 
     public DeriveComplex(
-            LongIdKey loginStateKey, Long loginStateId, Date happenedDate, int responseCode, StringIdKey accountKey,
+            StringIdKey loginStateKey, String loginStateId, Date happenedDate, int responseCode, StringIdKey accountKey,
             String accountId, Date expireDate, Long serialVersion, String deriveRemark, HandlerException exception,
             Account account
     ) {
@@ -39,11 +38,11 @@ public final class DeriveComplex {
         this.account = account;
     }
 
-    public LongIdKey getLoginStateKey() {
+    public StringIdKey getLoginStateKey() {
         return loginStateKey;
     }
 
-    public Long getLoginStateId() {
+    public String getLoginStateId() {
         return loginStateId;
     }
 

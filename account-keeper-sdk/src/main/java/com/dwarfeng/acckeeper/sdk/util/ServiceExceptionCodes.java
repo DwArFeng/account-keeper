@@ -38,6 +38,8 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(80), "protector info not existed");
     public static final ServiceException.Code PROTECTOR_PROHIBITED =
             new ServiceException.Code(offset(90), "protector prohibited");
+    public static final ServiceException.Code LOGIN_STATE_KEY_CONFLICT =
+            new ServiceException.Code(offset(100), "login state key conflict");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;
@@ -75,6 +77,7 @@ public final class ServiceExceptionCodes {
         UNSUPPORTED_PROTECTOR_TYPE.setCode(offset(73));
         PROTECTOR_INFO_NOT_EXISTED.setCode(offset(80));
         PROTECTOR_PROHIBITED.setCode(offset(90));
+        LOGIN_STATE_KEY_CONFLICT.setCode(offset(100));
     }
 
     private ServiceExceptionCodes() {

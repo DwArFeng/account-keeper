@@ -2,7 +2,6 @@ package com.dwarfeng.acckeeper.sdk.bean.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 
@@ -17,14 +16,14 @@ import java.util.Objects;
  */
 public class FastJsonLoginState implements Bean {
 
-    private static final long serialVersionUID = -5531750506393067569L;
+    private static final long serialVersionUID = -7235929765382620281L;
 
     public static FastJsonLoginState of(LoginState loginState) {
         if (Objects.isNull(loginState)) {
             return null;
         } else {
             return new FastJsonLoginState(
-                    FastJsonLongIdKey.of(loginState.getKey()),
+                    FastJsonStringIdKey.of(loginState.getKey()),
                     FastJsonStringIdKey.of(loginState.getAccountKey()),
                     loginState.getExpireDate(),
                     loginState.getSerialVersion(),
@@ -36,7 +35,7 @@ public class FastJsonLoginState implements Bean {
     }
 
     @JSONField(name = "key", ordinal = 1)
-    private FastJsonLongIdKey key;
+    private FastJsonStringIdKey key;
 
     @JSONField(name = "account_key", ordinal = 2)
     private FastJsonStringIdKey accountKey;
@@ -60,7 +59,7 @@ public class FastJsonLoginState implements Bean {
     }
 
     public FastJsonLoginState(
-            FastJsonLongIdKey key, FastJsonStringIdKey accountKey, Date expireDate, long serialVersion,
+            FastJsonStringIdKey key, FastJsonStringIdKey accountKey, Date expireDate, long serialVersion,
             Date generatedDate, int type, String remark
     ) {
         this.key = key;
@@ -72,11 +71,11 @@ public class FastJsonLoginState implements Bean {
         this.remark = remark;
     }
 
-    public FastJsonLongIdKey getKey() {
+    public FastJsonStringIdKey getKey() {
         return key;
     }
 
-    public void setKey(FastJsonLongIdKey key) {
+    public void setKey(FastJsonStringIdKey key) {
         this.key = key;
     }
 

@@ -1,7 +1,6 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
 import com.dwarfeng.acckeeper.stack.bean.dto.DynamicLoginInfo;
-import com.dwarfeng.acckeeper.stack.bean.dto.LoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.StaticLoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.entity.*;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
@@ -12,7 +11,6 @@ import com.dwarfeng.acckeeper.stack.service.LoginParamRecordMaintainService;
 import com.dwarfeng.acckeeper.stack.service.ProtectDetailRecordMaintainService;
 import com.dwarfeng.acckeeper.stack.service.ProtectorVariableMaintainService;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -63,29 +61,6 @@ class ProtectorContextImpl implements Protector.Context {
                 account.getSerialVersion(), account.getRegisteredDate(), account.getLoginCount(),
                 account.getPasswordUpdateCount(), account.getDeriveCount()
         );
-    }
-
-    @Override
-    @Deprecated
-    public LoginInfo getLoginInfo() {
-        StringIdKey accountKey;
-        String password;
-        Map<String, String> extraParamMap;
-        switch (loginType) {
-            case DYNAMIC:
-                accountKey = dynamicLoginInfo.getAccountKey();
-                password = dynamicLoginInfo.getPassword();
-                extraParamMap = dynamicLoginInfo.getExtraParamMap();
-                break;
-            case STATIC:
-                accountKey = staticLoginInfo.getAccountKey();
-                password = staticLoginInfo.getPassword();
-                extraParamMap = staticLoginInfo.getExtraParamMap();
-                break;
-            default:
-                throw new AssertionError("未知的登录类型: " + loginType);
-        }
-        return new LoginInfo(accountKey, password, extraParamMap);
     }
 
     @Override

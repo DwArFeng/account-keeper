@@ -1,7 +1,7 @@
 package com.dwarfeng.acckeeper.stack.dao;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.dao.BatchBaseDao;
 import com.dwarfeng.subgrade.stack.dao.EntireLookupDao;
 import com.dwarfeng.subgrade.stack.dao.PresetLookupDao;
@@ -12,6 +12,6 @@ import com.dwarfeng.subgrade.stack.dao.PresetLookupDao;
  * @author DwArFeng
  * @since 1.6.0
  */
-public interface LoginStateDao extends BatchBaseDao<LongIdKey, LoginState>, EntireLookupDao<LoginState>,
+public interface LoginStateDao extends BatchBaseDao<StringIdKey, LoginState>, EntireLookupDao<LoginState>,
         PresetLookupDao<LoginState> {
 }

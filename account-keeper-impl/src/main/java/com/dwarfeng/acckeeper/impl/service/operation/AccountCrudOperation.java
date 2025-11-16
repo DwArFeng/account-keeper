@@ -10,7 +10,6 @@ import com.dwarfeng.acckeeper.stack.dao.ProtectorInfoDao;
 import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Value;
@@ -84,7 +83,7 @@ public class AccountCrudOperation implements BatchCrudOperation<StringIdKey, Acc
     @Override
     public void delete(StringIdKey key) throws Exception {
         // 删除与账户相关的登录状态。
-        List<LongIdKey> loginStateKeys = loginStateDao.lookup(
+        List<StringIdKey> loginStateKeys = loginStateDao.lookup(
                 LoginStateMaintainService.CHILD_FOR_ACCOUNT, new Object[]{key}
         ).stream().map(LoginState::getKey).collect(Collectors.toList());
         loginStateCache.batchDelete(loginStateKeys);

@@ -20,7 +20,7 @@ public class HibernateLoginParamRecord implements Bean {
     private Long loginHistoryId;
 
     @Id
-    @Column(name = "record_id", length = Constraints.LENGTH_ID, nullable = false)
+    @Column(name = "record_id", length = Constraints.LENGTH_ID_COMMON, nullable = false)
     private String recordId;
 
     // -----------------------------------------------------------主属性字段-----------------------------------------------------------

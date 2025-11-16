@@ -9,7 +9,7 @@ import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,12 +19,12 @@ import java.util.List;
 @Service
 public class LoginStateMaintainServiceImpl implements LoginStateMaintainService {
 
-    private final GeneralBatchCrudService<LongIdKey, LoginState> crudService;
+    private final GeneralBatchCrudService<StringIdKey, LoginState> crudService;
     private final DaoOnlyEntireLookupService<LoginState> entireLookupService;
     private final DaoOnlyPresetLookupService<LoginState> presetLookupService;
 
     public LoginStateMaintainServiceImpl(
-            GeneralBatchCrudService<LongIdKey, LoginState> crudService,
+            GeneralBatchCrudService<StringIdKey, LoginState> crudService,
             DaoOnlyEntireLookupService<LoginState> entireLookupService,
             DaoOnlyPresetLookupService<LoginState> presetLookupService
     ) {
@@ -36,21 +36,21 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean exists(LongIdKey key) throws ServiceException {
+    public boolean exists(StringIdKey key) throws ServiceException {
         return crudService.exists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public LoginState get(LongIdKey key) throws ServiceException {
+    public LoginState get(StringIdKey key) throws ServiceException {
         return crudService.get(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public LongIdKey insert(LoginState element) throws ServiceException {
+    public StringIdKey insert(LoginState element) throws ServiceException {
         return crudService.insert(element);
     }
 
@@ -64,21 +64,21 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void delete(LongIdKey key) throws ServiceException {
+    public void delete(StringIdKey key) throws ServiceException {
         crudService.delete(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public LoginState getIfExists(LongIdKey key) throws ServiceException {
+    public LoginState getIfExists(StringIdKey key) throws ServiceException {
         return crudService.getIfExists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public LongIdKey insertIfNotExists(LoginState element) throws ServiceException {
+    public StringIdKey insertIfNotExists(LoginState element) throws ServiceException {
         return crudService.insertIfNotExists(element);
     }
 
@@ -92,28 +92,28 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void deleteIfExists(LongIdKey key) throws ServiceException {
+    public void deleteIfExists(StringIdKey key) throws ServiceException {
         crudService.deleteIfExists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public LongIdKey insertOrUpdate(LoginState element) throws ServiceException {
+    public StringIdKey insertOrUpdate(LoginState element) throws ServiceException {
         return crudService.insertOrUpdate(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean allExists(@SkipRecord List<LongIdKey> keys) throws ServiceException {
+    public boolean allExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
         return crudService.allExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean nonExists(@SkipRecord List<LongIdKey> keys) throws ServiceException {
+    public boolean nonExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
         return crudService.nonExists(keys);
     }
 
@@ -121,7 +121,7 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginState> batchGet(@SkipRecord List<LongIdKey> keys) throws ServiceException {
+    public List<LoginState> batchGet(@SkipRecord List<StringIdKey> keys) throws ServiceException {
         return crudService.batchGet(keys);
     }
 
@@ -129,7 +129,7 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<LongIdKey> batchInsert(@SkipRecord List<LoginState> elements) throws ServiceException {
+    public List<StringIdKey> batchInsert(@SkipRecord List<LoginState> elements) throws ServiceException {
         return crudService.batchInsert(elements);
     }
 
@@ -143,7 +143,7 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDelete(@SkipRecord List<LongIdKey> keys) throws ServiceException {
+    public void batchDelete(@SkipRecord List<StringIdKey> keys) throws ServiceException {
         crudService.batchDelete(keys);
     }
 
@@ -151,7 +151,7 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginState> batchGetIfExists(@SkipRecord List<LongIdKey> keys) throws ServiceException {
+    public List<LoginState> batchGetIfExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
         return crudService.batchGetIfExists(keys);
     }
 
@@ -160,7 +160,7 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<LongIdKey> batchInsertIfExists(@SkipRecord List<LoginState> elements) throws ServiceException {
+    public List<StringIdKey> batchInsertIfExists(@SkipRecord List<LoginState> elements) throws ServiceException {
         return crudService.batchInsertIfExists(elements);
     }
 
@@ -168,7 +168,7 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<LongIdKey> batchInsertIfNotExists(@SkipRecord List<LoginState> entities) throws ServiceException {
+    public List<StringIdKey> batchInsertIfNotExists(@SkipRecord List<LoginState> entities) throws ServiceException {
         return crudService.batchInsertIfNotExists(entities);
     }
 
@@ -182,7 +182,7 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDeleteIfExists(@SkipRecord List<LongIdKey> keys) throws ServiceException {
+    public void batchDeleteIfExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
         crudService.batchDeleteIfExists(keys);
     }
 
@@ -190,7 +190,7 @@ public class LoginStateMaintainServiceImpl implements LoginStateMaintainService 
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<LongIdKey> batchInsertOrUpdate(@SkipRecord List<LoginState> elements) throws ServiceException {
+    public List<StringIdKey> batchInsertOrUpdate(@SkipRecord List<LoginState> elements) throws ServiceException {
         return crudService.batchInsertOrUpdate(elements);
     }
 

@@ -59,7 +59,7 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     Account accountFromHibernate(HibernateAccount hibernateAccount);
 
-    @Mapping(target = "longId", ignore = true)
+    @Mapping(target = "stringId", ignore = true)
     @Mapping(target = "accountStringId", ignore = true)
     @Mapping(target = "account", ignore = true)
     HibernateLoginState loginStateToHibernate(LoginState loginState);

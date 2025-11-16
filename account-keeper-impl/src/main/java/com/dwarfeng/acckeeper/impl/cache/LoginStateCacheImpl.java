@@ -6,7 +6,7 @@ import com.dwarfeng.acckeeper.stack.cache.LoginStateCache;
 import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.CacheException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,23 +16,23 @@ import java.util.List;
 @Repository
 public class LoginStateCacheImpl implements LoginStateCache {
 
-    private final RedisBatchBaseCache<LongIdKey, LoginState, FastJsonLoginState> delegate;
+    private final RedisBatchBaseCache<StringIdKey, LoginState, FastJsonLoginState> delegate;
 
-    public LoginStateCacheImpl(RedisBatchBaseCache<LongIdKey, LoginState, FastJsonLoginState> delegate) {
+    public LoginStateCacheImpl(RedisBatchBaseCache<StringIdKey, LoginState, FastJsonLoginState> delegate) {
         this.delegate = delegate;
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean exists(LongIdKey key) throws CacheException {
+    public boolean exists(StringIdKey key) throws CacheException {
         return delegate.exists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public LoginState get(LongIdKey key) throws CacheException {
+    public LoginState get(StringIdKey key) throws CacheException {
         return delegate.get(key);
     }
 
@@ -46,7 +46,7 @@ public class LoginStateCacheImpl implements LoginStateCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void delete(LongIdKey key) throws CacheException {
+    public void delete(StringIdKey key) throws CacheException {
         delegate.delete(key);
     }
 
@@ -60,14 +60,14 @@ public class LoginStateCacheImpl implements LoginStateCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean allExists(@SkipRecord List<LongIdKey> keys) throws CacheException {
+    public boolean allExists(@SkipRecord List<StringIdKey> keys) throws CacheException {
         return delegate.allExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean nonExists(@SkipRecord List<LongIdKey> keys) throws CacheException {
+    public boolean nonExists(@SkipRecord List<StringIdKey> keys) throws CacheException {
         return delegate.nonExists(keys);
     }
 
@@ -75,7 +75,7 @@ public class LoginStateCacheImpl implements LoginStateCache {
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<LoginState> batchGet(@SkipRecord List<LongIdKey> keys) throws CacheException {
+    public List<LoginState> batchGet(@SkipRecord List<StringIdKey> keys) throws CacheException {
         return delegate.batchGet(keys);
     }
 
@@ -89,7 +89,7 @@ public class LoginStateCacheImpl implements LoginStateCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDelete(@SkipRecord List<LongIdKey> keys) throws CacheException {
+    public void batchDelete(@SkipRecord List<StringIdKey> keys) throws CacheException {
         delegate.batchDelete(keys);
     }
 }

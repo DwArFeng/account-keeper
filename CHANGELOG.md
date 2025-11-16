@@ -4,6 +4,12 @@
 
 ### 功能构建
 
+- 重构核心机制。
+  - 将 LoginHandler/LoginService 重命名为 AccessHandler/AccessService。
+  - 将 LoginState 的主键类型从 LongIdKey 改为 StringIdKey。
+  - 派生相关接口返回类型从 LoginState 改为 DeriveResult。
+  - 新增 LoginStateKeyConflictException 异常。
+
 - 实现运维指令。
   - com.dwarfeng.acckeeper.impl.service.telqos.LoginStateKeyGenerateCommand。
 
@@ -30,6 +36,9 @@
 - (无)
 
 ### 功能移除
+
+- 移除废弃方法。
+  - com.dwarfeng.acckeeper.stack.handler.Protector.getLoginInfo()。
 
 - 移除运维指令。
   - com.dwarfeng.acckeeper.impl.service.telqos.KickCommand。

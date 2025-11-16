@@ -58,10 +58,10 @@ public class CacheConfiguration {
 
     @Bean
     @SuppressWarnings("unchecked")
-    public RedisBatchBaseCache<LongIdKey, LoginState, FastJsonLoginState> loginStateRedisBatchBaseCache() {
+    public RedisBatchBaseCache<StringIdKey, LoginState, FastJsonLoginState> loginStateRedisBatchBaseCache() {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonLoginState>) template,
-                new LongIdStringKeyFormatter(loginStatePrefix),
+                new StringIdStringKeyFormatter(loginStatePrefix),
                 new MapStructBeanTransformer<>(LoginState.class, FastJsonLoginState.class, BeanMapper.class)
         );
     }
