@@ -11,6 +11,7 @@
   - 新增 LoginStateKeyConflictException 异常。
 
 - 实现运维指令。
+  - com.dwarfeng.acckeeper.impl.service.telqos.LoginStateLookupCommand。
   - com.dwarfeng.acckeeper.impl.service.telqos.LoginStateKeyGenerateCommand。
 
 - 实现预设登录状态主键生成器。
