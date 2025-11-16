@@ -4,6 +4,14 @@
 
 ### 功能构建
 
+- 实现预设登录状态主键生成器。
+  - com.dwarfeng.acckeeper.impl.handler.lskgen.RandxLoginStateKeyGenerator。
+  - com.dwarfeng.acckeeper.impl.handler.lskgen.UuidLoginStateKeyGenerator。
+  - com.dwarfeng.acckeeper.impl.handler.lskgen.SnowflakeLoginStateKeyGenerator。
+
+- 实现核心机制。
+  - 登录状态主键生成机制。
+
 - 增加预设的运维指令。
   - com.dwarfeng.springtelqos.api.integration.system.UptimeCommand。
   - com.dwarfeng.springtelqos.api.integration.system.JmxRemoteCommand。
