@@ -75,8 +75,12 @@ public class LoginParamRecordMaintainServiceImplTest {
 
             assertFalse(loginParamRecordMaintainService.exists(loginParamRecord.getKey()));
         } finally {
-            loginParamRecordMaintainService.deleteIfExists(loginParamRecord.getKey());
-            loginHistoryMaintainService.deleteIfExists(loginHistory.getKey());
+            if (Objects.nonNull(loginParamRecord.getKey())) {
+                loginParamRecordMaintainService.deleteIfExists(loginParamRecord.getKey());
+            }
+            if (Objects.nonNull(loginHistory.getKey())) {
+                loginHistoryMaintainService.deleteIfExists(loginHistory.getKey());
+            }
         }
     }
 }

@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 优化部分单元测试代码，以规避潜在的 bug。
+  - com.dwarfeng.acckeeper.impl.service.LoginParamRecordMaintainServiceImplTest。
+
 - 重构核心机制。
   - 将 LoginHandler/LoginService 重命名为 AccessHandler/AccessService。
   - 将 LoginState 的主键类型从 LongIdKey 改为 StringIdKey。
