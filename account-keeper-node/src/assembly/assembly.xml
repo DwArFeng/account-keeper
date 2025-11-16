@@ -1,6 +1,9 @@
-<assembly xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
-          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+<assembly
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+        xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0
+        http://maven.apache.org/xsd/assembly-2.0.0.xsd"
+>
     <id>release</id>
 
     <formats>
@@ -34,6 +37,16 @@
             </includes>
             <filtered>false</filtered>
             <fileMode>644</fileMode>
+        </fileSet>
+        <fileSet>
+            <outputDirectory>bin</outputDirectory>
+            <directory>src/main/resources/binres</directory>
+            <includes>
+                <include>*.sh</include>
+            </includes>
+            <filtered>true</filtered>
+            <fileMode>755</fileMode>
+            <lineEnding>unix</lineEnding>
         </fileSet>
         <fileSet>
             <outputDirectory>bin</outputDirectory>
