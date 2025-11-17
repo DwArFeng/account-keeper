@@ -5,6 +5,8 @@
 ### 功能构建
 
 - Wiki 更新。
+  - docs/wiki/en-US/README.md。
+  - docs/wiki/zh-CN/README.md。
   - docs/wiki/zh-CN/VersionBlacklist.md。
 
 - Wiki 编写。
