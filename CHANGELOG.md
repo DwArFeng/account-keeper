@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- 优化部分说明文件中的格式。
+  - libext/README.md。
+  - optext/README.md。
+
 - `account-keeper-impl` 子模块类优化注释、文档注释格式、代码换行格式。
   - com.dwarfeng.acckeeper.impl.dao.preset.AccountPresetCriteriaMaker。
   - com.dwarfeng.acckeeper.impl.service.telqos.AccountCommand。
