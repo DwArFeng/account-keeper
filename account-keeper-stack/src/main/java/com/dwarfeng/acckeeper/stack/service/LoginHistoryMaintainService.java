@@ -23,7 +23,7 @@ public interface LoginHistoryMaintainService extends BatchCrudService<LongIdKey,
     String PROTECTOR_INSPECT = "protector_inspect";
 
     /**
-     * 获取将要被清理的登录历史实体。
+     * 获取将要被清除的登录历史实体。
      *
      * <p>
      * 返回 <code>happenedDate（发生日期）</code> 早于指定的日期的实体，

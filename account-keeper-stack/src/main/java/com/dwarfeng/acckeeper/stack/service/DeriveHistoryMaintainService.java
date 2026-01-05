@@ -22,7 +22,7 @@ public interface DeriveHistoryMaintainService extends BatchCrudService<LongIdKey
     String ACCOUNT_ID_LIKE_HAPPENED_DATE_DESC = "account_id_like_happened_date_desc";
 
     /**
-     * 获取将要被清理的派生历史实体。
+     * 获取将要被清除的派生历史实体。
      *
      * <p>
      * 返回 <code>happenedDate（发生日期）</code> 早于指定的日期的实体，

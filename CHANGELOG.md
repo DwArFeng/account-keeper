@@ -4,6 +4,11 @@
 
 ### 功能构建
 
+- 清除机制相关类优化注释、文档注释内容。
+  - com.dwarfeng.acckeeper.impl.handler.PurgeProcessor。
+  - com.dwarfeng.acckeeper.stack.service.DeriveHistoryMaintainService。
+  - com.dwarfeng.acckeeper.stack.service.LoginHistoryMaintainService。
+
 - 优化部分说明文件中的格式。
   - libext/README.md。
   - optext/README.md。

@@ -51,18 +51,18 @@ public class PurgeProcessor {
     private ScheduledFuture<?> purgeTaskScheduledFuture;
 
     /**
-     * 上一次保留的派生历史距离清理时间的偏移量。
+     * 上一次保留的派生历史距离清除时间的偏移量。
      *
      * <p>
-     * 该变量用于判断清理派生历史是否发散（即每次清理的数据小于生成的数据）。
+     * 该变量用于判断清除派生历史是否发散（即每次清除的数据小于生成的数据）。
      */
     private long lastRetentionDeriveHistoryOffset = 0;
 
     /**
-     * 上一次保留的登录历史距离清理时间的偏移量。
+     * 上一次保留的登录历史距离清除时间的偏移量。
      *
      * <p>
-     * 该变量用于判断清理登录历史是否发散（即每次清理的数据小于生成的数据）。
+     * 该变量用于判断清除登录历史是否发散（即每次清除的数据小于生成的数据）。
      */
     private long lastRetentionLoginHistoryOffset = 0;
 
@@ -253,7 +253,7 @@ public class PurgeProcessor {
                 // 如果偏移量大于上一次的偏移量，说明清除发散，记录日志。
                 if (currentRetentionDeriveHistoryOffset > lastRetentionDeriveHistoryOffset) {
                     LOGGER.warn("执行清除任务时检测到派生历史发散, 这意味着清除的数据小于生成的数据, 将会造成数据的积压");
-                    LOGGER.warn("请减少清理任务的执行间隔或增加最大删除数量, 以避免派生历史的积压");
+                    LOGGER.warn("请减少清除任务的执行间隔或增加最大删除数量, 以避免派生历史的积压");
                     divergent = true;
                 }
                 // 更新 lastRetentionDeriveHistoryOffset。
@@ -310,7 +310,7 @@ public class PurgeProcessor {
                 // 如果偏移量大于上一次的偏移量，说明清除发散，记录日志。
                 if (currentRetentionLoginHistoryOffset > lastRetentionLoginHistoryOffset) {
                     LOGGER.warn("执行清除任务时检测到登录历史发散, 这意味着清除的数据小于生成的数据, 将会造成数据的积压");
-                    LOGGER.warn("请减少清理任务的执行间隔或增加最大删除数量, 以避免登录历史的积压");
+                    LOGGER.warn("请减少清除任务的执行间隔或增加最大删除数量, 以避免登录历史的积压");
                     divergent = true;
                 }
                 // 更新 lastRetentionLoginHistoryOffset。
