@@ -9,7 +9,7 @@
         http://dwarfeng.com/schema/dwarfeng-datamark/dwarfeng-datamark.xsd"
 >
 
-    <!-- User 数据标识 -->
+    <!-- User 数据标识。 -->
     <datamark:handler
             handler-name="userDatamarkHandler"
             resource-url="${datamark.user.resource_url}"
@@ -17,7 +17,7 @@
             update-allowed="${datamark.user.update_allowed}"
     />
 
-    <!-- Protector 数据标识 -->
+    <!-- Protector 数据标识。 -->
     <datamark:handler
             handler-name="protectorDatamarkHandler"
             resource-url="${datamark.protector.resource_url}"
