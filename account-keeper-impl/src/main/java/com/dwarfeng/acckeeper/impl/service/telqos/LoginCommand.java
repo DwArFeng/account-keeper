@@ -104,10 +104,10 @@ public class LoginCommand extends CliCommand {
                         .desc("过期时间").build()
         );
         list.add(
-                Option.builder(COMMAND_OPTION_JSON).desc("JSON字符串").hasArg().type(String.class).build()
+                Option.builder(COMMAND_OPTION_JSON).desc("JSON 字符串").hasArg().type(String.class).build()
         );
         list.add(
-                Option.builder(COMMAND_OPTION_JSON_FILE).longOpt(COMMAND_LONG_OPTION_JSON_FILE).desc("JSON文件")
+                Option.builder(COMMAND_OPTION_JSON_FILE).longOpt(COMMAND_LONG_OPTION_JSON_FILE).desc("JSON 文件")
                         .hasArg().type(File.class).build()
         );
         return list;

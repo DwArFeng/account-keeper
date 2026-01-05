@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 /**
- * 账户的CriteriaMaker。
+ * 账户的 CriteriaMaker。
  *
  * @author DwArFeng
  * @since 1.1.3

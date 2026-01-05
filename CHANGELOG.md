@@ -4,6 +4,12 @@
 
 ### 功能构建
 
+- `account-keeper-impl` 子模块类优化注释、文档注释格式、代码换行格式。
+  - com.dwarfeng.acckeeper.impl.dao.preset.AccountPresetCriteriaMaker。
+  - com.dwarfeng.acckeeper.impl.service.telqos.AccountCommand。
+  - com.dwarfeng.acckeeper.impl.service.telqos.DeriveCommand。
+  - com.dwarfeng.acckeeper.impl.service.telqos.LoginCommand。
+
 - `account-keeper-sdk` 子模块类优化注释、文档注释格式、代码换行格式。
   - com.dwarfeng.acckeeper.sdk.util.Constraints。
 
