@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- 增加预设的运维指令。
+  - com.dwarfeng.springtelqos.api.integration.system.UptimeCommand。
+  - com.dwarfeng.springtelqos.api.integration.system.JmxRemoteCommand。
+
 - 清除机制相关类优化注释、文档注释内容。
   - com.dwarfeng.acckeeper.impl.handler.PurgeProcessor。
   - com.dwarfeng.acckeeper.stack.service.DeriveHistoryMaintainService。
