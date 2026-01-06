@@ -207,6 +207,15 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     DynamicLoginInfo dynamicLoginInfoFromWebInput(WebInputDynamicLoginInfo webInputDynamicLoginInfo);
 
+    // 提供对应 bean 的转换方法以向后兼容，故忽略相关警告。
+    @SuppressWarnings("deprecation")
+    WebInputLoginInfo loginInfoToWebInput(LoginInfo loginInfo);
+
+    // 提供对应 bean 的转换方法以向后兼容，故忽略相关警告。
+    @SuppressWarnings("deprecation")
+    @InheritInverseConfiguration
+    LoginInfo loginInfoFromWebInput(WebInputLoginInfo webInputLoginInfo);
+
     WebInputPasswordCheckInfo passwordCheckInfoToWebInput(PasswordCheckInfo passwordCheckInfo);
 
     @InheritInverseConfiguration

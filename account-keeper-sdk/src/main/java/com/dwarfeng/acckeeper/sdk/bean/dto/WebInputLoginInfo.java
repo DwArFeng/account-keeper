@@ -17,6 +17,8 @@ import java.util.Objects;
  * @author DwArFeng
  * @since 1.4.0
  */
+// BeanMapper 还在使用该类，以用于向后兼容，故忽略相关警告。
+@SuppressWarnings("DeprecatedIsStillUsed")
 @Deprecated
 public class WebInputLoginInfo implements Dto {
 

@@ -42,7 +42,9 @@
 
 ### Bug 修复
 
-- (无)
+- 补全 `account-keeper-sdk` 模块 BeanMapper 中缺失的接口方法。
+  - com.dwarfeng.acckeeper.sdk.bean.BeanMapper.loginInfoToWebInput。
+  - com.dwarfeng.acckeeper.sdk.bean.BeanMapper.loginInfoFromWebInput。
 
 ### 功能移除
 
