@@ -1,7 +1,5 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
-import com.dwarfeng.acckeeper.stack.bean.dto.DynamicLoginInfo;
-import com.dwarfeng.acckeeper.stack.bean.dto.StaticLoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.entity.*;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
 import com.dwarfeng.acckeeper.stack.exception.ProtectorException;
@@ -30,8 +28,8 @@ class ProtectorContextImpl implements Protector.Context {
     private final boolean passwordCorrect;
 
     private final LoginType loginType;
-    private final DynamicLoginInfo dynamicLoginInfo;
-    private final StaticLoginInfo staticLoginInfo;
+    private final Protector.DynamicLoginInfo dynamicLoginInfo;
+    private final Protector.StaticLoginInfo staticLoginInfo;
 
     public ProtectorContextImpl(
             LoginHistoryMaintainService loginHistoryMaintainService,
@@ -41,8 +39,8 @@ class ProtectorContextImpl implements Protector.Context {
             Account account,
             boolean passwordCorrect,
             LoginType loginType,
-            DynamicLoginInfo dynamicLoginInfo,
-            StaticLoginInfo staticLoginInfo
+            Protector.DynamicLoginInfo dynamicLoginInfo,
+            Protector.StaticLoginInfo staticLoginInfo
     ) {
         this.loginHistoryMaintainService = loginHistoryMaintainService;
         this.loginParamRecordMaintainService = loginParamRecordMaintainService;
@@ -69,7 +67,7 @@ class ProtectorContextImpl implements Protector.Context {
     }
 
     @Override
-    public DynamicLoginInfo getDynamicLoginInfo() {
+    public Protector.DynamicLoginInfo getDynamicLoginInfo() {
         return dynamicLoginInfo;
     }
 
@@ -79,7 +77,7 @@ class ProtectorContextImpl implements Protector.Context {
     }
 
     @Override
-    public StaticLoginInfo getStaticLoginInfo() {
+    public Protector.StaticLoginInfo getStaticLoginInfo() {
         return staticLoginInfo;
     }
 

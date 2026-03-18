@@ -4,7 +4,9 @@
 
 ### 功能构建
 
-- (无)
+- 优化保护器上下文部分方法签名，增强安全性。
+  - com.dwarfeng.acckeeper.stack.handler.Protector.Context.getDynamicLoginInfo。
+  - com.dwarfeng.acckeeper.stack.handler.Protector.Context.getStaticLoginInfo。
 
 ### Bug 修复
 

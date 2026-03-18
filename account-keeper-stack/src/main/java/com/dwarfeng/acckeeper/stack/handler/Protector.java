@@ -1,8 +1,7 @@
 package com.dwarfeng.acckeeper.stack.handler;
 
-import com.dwarfeng.acckeeper.stack.bean.dto.DynamicLoginInfo;
-import com.dwarfeng.acckeeper.stack.bean.dto.StaticLoginInfo;
 import com.dwarfeng.acckeeper.stack.exception.ProtectorException;
+import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 
 import java.util.Date;
 import java.util.List;
@@ -145,6 +144,95 @@ public interface Protector {
          * @throws ProtectorException 保护器异常。
          */
         boolean passwordCorrect() throws ProtectorException;
+    }
+
+    /**
+     * 动态登录信息（不含密码）。
+     *
+     * @author DwArFeng
+     * @since 1.10.0
+     */
+    final class DynamicLoginInfo {
+
+        private final StringIdKey accountKey;
+        private final String remark;
+        private final Map<String, String> extraParamMap;
+
+        public DynamicLoginInfo(StringIdKey accountKey, String remark, Map<String, String> extraParamMap) {
+            this.accountKey = accountKey;
+            this.remark = remark;
+            this.extraParamMap = extraParamMap;
+        }
+
+        public StringIdKey getAccountKey() {
+            return accountKey;
+        }
+
+        public String getRemark() {
+            return remark;
+        }
+
+        public Map<String, String> getExtraParamMap() {
+            return extraParamMap;
+        }
+
+        @Override
+        public String toString() {
+            return "DynamicLoginInfo{" +
+                    "accountKey=" + accountKey +
+                    ", remark='" + remark + '\'' +
+                    ", extraParamMap=" + extraParamMap +
+                    '}';
+        }
+    }
+
+    /**
+     * 静态登录信息（不含密码）。
+     *
+     * @author DwArFeng
+     * @since 1.10.0
+     */
+    final class StaticLoginInfo {
+
+        private final StringIdKey accountKey;
+        private final Date expireDate;
+        private final String remark;
+        private final Map<String, String> extraParamMap;
+
+        public StaticLoginInfo(
+                StringIdKey accountKey, Date expireDate, String remark, Map<String, String> extraParamMap
+        ) {
+            this.accountKey = accountKey;
+            this.expireDate = expireDate;
+            this.remark = remark;
+            this.extraParamMap = extraParamMap;
+        }
+
+        public StringIdKey getAccountKey() {
+            return accountKey;
+        }
+
+        public Date getExpireDate() {
+            return expireDate;
+        }
+
+        public String getRemark() {
+            return remark;
+        }
+
+        public Map<String, String> getExtraParamMap() {
+            return extraParamMap;
+        }
+
+        @Override
+        public String toString() {
+            return "StaticLoginInfo{" +
+                    "accountKey=" + accountKey +
+                    ", expireDate=" + expireDate +
+                    ", remark='" + remark + '\'' +
+                    ", extraParamMap=" + extraParamMap +
+                    '}';
+        }
     }
 
     /**
