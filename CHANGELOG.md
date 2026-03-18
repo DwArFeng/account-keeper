@@ -12,7 +12,8 @@
 
 ### 功能移除
 
-- (无)
+- 删除保护器上下文中过时的方法。
+  - com.dwarfeng.acckeeper.stack.handler.Protector.Context.getLoginInfo。
 
 ---
 
