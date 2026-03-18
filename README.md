@@ -50,7 +50,7 @@ Telnet 运维平台指令合集：
 账户的密码是加密存储的，使用了 `BCrypt` 算法进行加密，可以调整 `conf/acckeeper/register.properties` 中的参数调整加密强度。
 
 ```properties
-# 用户注册时加密密码时盐生成的复杂度，值越高，安全性越强，但是速度越慢。最高为30。
+# 用户注册时加密密码时盐生成的复杂度，值越高，安全性越强，但是速度越慢。最高为  30。
 register.password.salt_log_rounds=10
 ```
 
@@ -96,4 +96,4 @@ register.password.salt_log_rounds=10
 
 ## 分布式说明
 
-该项目使用`dubbo`作为RPC框架，本身支持分布式，您可以在实际使用时，部署该项目任意数量，以进行分布式运算。
+该项目使用`dubbo`作为 RPC 框架，本身支持分布式，您可以在实际使用时，部署该项目任意数量，以进行分布式运算。
