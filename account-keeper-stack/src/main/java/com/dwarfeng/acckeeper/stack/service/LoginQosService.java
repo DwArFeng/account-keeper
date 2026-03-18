@@ -1,8 +1,6 @@
 package com.dwarfeng.acckeeper.stack.service;
 
-import com.dwarfeng.acckeeper.stack.bean.dto.DynamicLoginInfo;
-import com.dwarfeng.acckeeper.stack.bean.dto.LoginInfo;
-import com.dwarfeng.acckeeper.stack.bean.dto.StaticLoginInfo;
+import com.dwarfeng.acckeeper.stack.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
@@ -53,6 +51,36 @@ public interface LoginQosService extends Service {
      * @since 1.7.0
      */
     LoginState staticLogin(StaticLoginInfo loginInfo) throws ServiceException;
+
+    /**
+     * 可信动态登录。
+     *
+     * <p>
+     * 用于与第三方登录系统（如 OAuth2、SAML、企业 SSO）集成。<br>
+     * 当用户已通过外部身份提供者完成认证后，调用方传入账户标识等信息，
+     * 系统将信任该认证结果，跳过密码校验直接创建登录状态。
+     *
+     * @param loginInfo 可信动态登录信息。
+     * @return 登录状态。
+     * @throws ServiceException 服务异常。
+     * @since 1.10.0
+     */
+    LoginState trustedDynamicLogin(TrustedDynamicLoginInfo loginInfo) throws ServiceException;
+
+    /**
+     * 可信静态登录。
+     *
+     * <p>
+     * 用于与第三方登录系统（如 OAuth2、SAML、企业 SSO）集成。<br>
+     * 当用户已通过外部身份提供者完成认证后，调用方传入账户标识及期望的过期时间，
+     * 系统将信任该认证结果，跳过密码校验直接创建登录状态。
+     *
+     * @param loginInfo 可信静态登录信息。
+     * @return 登录状态。
+     * @throws ServiceException 服务异常。
+     * @since 1.10.0
+     */
+    LoginState trustedStaticLogin(TrustedStaticLoginInfo loginInfo) throws ServiceException;
 
     /**
      * 查询指定的登录状态。

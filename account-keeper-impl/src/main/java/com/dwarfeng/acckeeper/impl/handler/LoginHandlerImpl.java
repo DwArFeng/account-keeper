@@ -1,9 +1,7 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
 import com.dwarfeng.acckeeper.sdk.util.Constants;
-import com.dwarfeng.acckeeper.stack.bean.dto.DynamicLoginInfo;
-import com.dwarfeng.acckeeper.stack.bean.dto.LoginInfo;
-import com.dwarfeng.acckeeper.stack.bean.dto.StaticLoginInfo;
+import com.dwarfeng.acckeeper.stack.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.acckeeper.stack.handler.LoginHandler;
@@ -131,6 +129,26 @@ public class LoginHandlerImpl implements LoginHandler {
         }
     }
 
+    @Override
+    @BehaviorAnalyse
+    public LoginState trustedDynamicLogin(TrustedDynamicLoginInfo loginInfo) throws HandlerException {
+        try {
+            return trustedLogin0(LoginType.DYNAMIC, loginInfo, null);
+        } catch (Exception e) {
+            throw HandlerExceptionHelper.parse(e);
+        }
+    }
+
+    @Override
+    @BehaviorAnalyse
+    public LoginState trustedStaticLogin(TrustedStaticLoginInfo loginInfo) throws HandlerException {
+        try {
+            return trustedLogin0(LoginType.STATIC, null, loginInfo);
+        } catch (Exception e) {
+            throw HandlerExceptionHelper.parse(e);
+        }
+    }
+
     @SuppressWarnings("DuplicatedCode")
     private LoginState login0(LoginType loginType, DynamicLoginInfo dynamicLoginInfo, StaticLoginInfo staticLoginInfo)
             throws Exception {
@@ -168,6 +186,53 @@ public class LoginHandlerImpl implements LoginHandler {
 
         // 返回结果。
         return loginState;
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    private LoginState trustedLogin0(
+            LoginType loginType, TrustedDynamicLoginInfo trustedDynamicLoginInfo,
+            TrustedStaticLoginInfo trustedStaticLoginInfo
+    ) throws Exception {
+        LoginComplex loginComplex = loginProcessor.processTrustedLogin(
+                loginType, trustedDynamicLoginInfo, trustedStaticLoginInfo
+        );
+
+        loginProcessor.processRecord(loginComplex);
+
+        if (Objects.nonNull(loginComplex.getException())) {
+            throw loginComplex.getException();
+        }
+
+        StringIdKey accountKey = loginComplex.getAccountKey();
+        Date happenedDate = loginComplex.getHappenedDate();
+        Date expireDate = loginComplex.getExpireDate();
+        String remark = parseTrustedRemark(loginType, trustedDynamicLoginInfo, trustedStaticLoginInfo);
+        long serialVersion = loginComplex.getSerialVersion();
+        int type = parseLoginStateType(loginType);
+        LoginState loginState = new LoginState(
+                keyGenerator.generate(), accountKey, expireDate, serialVersion, happenedDate, type, remark
+        );
+        loginStateMaintainService.insertOrUpdate(loginState);
+
+        Account account = loginComplex.getAccount();
+        account.setLoginCount(account.getLoginCount() + 1);
+        accountMaintainService.update(account);
+
+        return loginState;
+    }
+
+    private String parseTrustedRemark(
+            LoginType loginType, TrustedDynamicLoginInfo trustedDynamicLoginInfo,
+            TrustedStaticLoginInfo trustedStaticLoginInfo
+    ) {
+        switch (loginType) {
+            case DYNAMIC:
+                return trustedDynamicLoginInfo.getRemark();
+            case STATIC:
+                return trustedStaticLoginInfo.getRemark();
+            default:
+                throw new AssertionError("未知的登录类型: " + loginType);
+        }
     }
 
     private String parseRemark(

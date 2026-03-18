@@ -1,8 +1,6 @@
 package com.dwarfeng.acckeeper.impl.service;
 
-import com.dwarfeng.acckeeper.stack.bean.dto.DynamicLoginInfo;
-import com.dwarfeng.acckeeper.stack.bean.dto.LoginInfo;
-import com.dwarfeng.acckeeper.stack.bean.dto.StaticLoginInfo;
+import com.dwarfeng.acckeeper.stack.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.acckeeper.stack.handler.LoginHandler;
 import com.dwarfeng.acckeeper.stack.service.LoginQosService;
@@ -53,6 +51,24 @@ public class LoginQosServiceImpl implements LoginQosService {
             return loginHandler.staticLogin(loginInfo);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logParse("静态登录时发生异常", LogLevel.WARN, e, sem);
+        }
+    }
+
+    @Override
+    public LoginState trustedDynamicLogin(TrustedDynamicLoginInfo loginInfo) throws ServiceException {
+        try {
+            return loginHandler.trustedDynamicLogin(loginInfo);
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logParse("可信动态登录时发生异常", LogLevel.WARN, e, sem);
+        }
+    }
+
+    @Override
+    public LoginState trustedStaticLogin(TrustedStaticLoginInfo loginInfo) throws ServiceException {
+        try {
+            return loginHandler.trustedStaticLogin(loginInfo);
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logParse("可信静态登录时发生异常", LogLevel.WARN, e, sem);
         }
     }
 

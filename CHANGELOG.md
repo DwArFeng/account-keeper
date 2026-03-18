@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 登录机制增强。
+  - 增加可信登录机制，支持与第三方登录系统（OAuth2、SAML、企业 SSO）集成。
+
 - 优化保护器上下文部分方法签名，增强安全性。
   - com.dwarfeng.acckeeper.stack.handler.Protector.Context.getDynamicLoginInfo。
   - com.dwarfeng.acckeeper.stack.handler.Protector.Context.getStaticLoginInfo。
