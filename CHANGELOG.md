@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh-CN/OptDirectory.md。
+
 - 优化预设的运维指令。
   - com.dwarfeng.acckeeper.impl.service.telqos.LoginCommand。
 
