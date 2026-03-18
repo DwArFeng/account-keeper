@@ -16,6 +16,9 @@
 
 ### Bug 修复
 
+- 修正部分 `properties` 文件中错误的注释内容。
+  - reset.properties。
+
 - 修复 datamark 中错误的配置项与 bean 名称。
   - com.dwarfeng.acckeeper.impl.bean.entity.HibernateAccount。
   - datamark/settings.properties。
