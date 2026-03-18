@@ -144,4 +144,94 @@ public class AccessServiceImplTest {
             }
         }
     }
+
+    @Test
+    public void testTrustedDynamicLogin() throws Exception {
+        try {
+            if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(liSiRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            }
+
+            accountOperateService.register(zhangSanRegisterInfo);
+            accountOperateService.register(liSiRegisterInfo);
+
+            StringIdKey loginStateKey = accessService.trustedDynamicLogin(new TrustedDynamicLoginInfo(
+                    zhangSanRegisterInfo.getAccountKey(), "remark", Collections.emptyMap()
+            )).getLoginStateKey();
+            assertTrue(accessService.authInspect(new AuthInspectInfo(loginStateKey)).isLogin());
+            accessService.postpone(new PostponeInfo(loginStateKey));
+            accessService.logout(new LogoutInfo(loginStateKey));
+
+            try {
+                accessService.trustedDynamicLogin(new TrustedDynamicLoginInfo(
+                        new StringIdKey("non_existent"), "remark", Collections.emptyMap()
+                ));
+            } catch (ServiceException e) {
+                assertEquals(ServiceExceptionCodes.ACCOUNT_NOT_EXISTS.getCode(), e.getCode().getCode());
+            }
+
+            try {
+                accessService.trustedDynamicLogin(new TrustedDynamicLoginInfo(
+                        liSiRegisterInfo.getAccountKey(), "remark", Collections.emptyMap()
+                ));
+            } catch (ServiceException e) {
+                assertEquals(ServiceExceptionCodes.ACCOUNT_DISABLED.getCode(), e.getCode().getCode());
+            }
+        } finally {
+            if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(liSiRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            }
+        }
+    }
+
+    @Test
+    public void testTrustedStaticLogin() throws Exception {
+        Date expireDate = new Date(System.currentTimeMillis() + STATIC_LOGIN_EXPIRE_DURATION);
+        try {
+            if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(liSiRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            }
+
+            accountOperateService.register(zhangSanRegisterInfo);
+            accountOperateService.register(liSiRegisterInfo);
+
+            StringIdKey loginStateKey = accessService.trustedStaticLogin(new TrustedStaticLoginInfo(
+                    zhangSanRegisterInfo.getAccountKey(), expireDate, "remark", Collections.emptyMap()
+            )).getLoginStateKey();
+            assertTrue(accessService.authInspect(new AuthInspectInfo(loginStateKey)).isLogin());
+            accessService.logout(new LogoutInfo(loginStateKey));
+
+            try {
+                accessService.trustedStaticLogin(new TrustedStaticLoginInfo(
+                        new StringIdKey("non_existent"), expireDate, "remark", Collections.emptyMap()
+                ));
+            } catch (ServiceException e) {
+                assertEquals(ServiceExceptionCodes.ACCOUNT_NOT_EXISTS.getCode(), e.getCode().getCode());
+            }
+
+            try {
+                accessService.trustedStaticLogin(new TrustedStaticLoginInfo(
+                        liSiRegisterInfo.getAccountKey(), expireDate, "remark", Collections.emptyMap()
+                ));
+            } catch (ServiceException e) {
+                assertEquals(ServiceExceptionCodes.ACCOUNT_DISABLED.getCode(), e.getCode().getCode());
+            }
+        } finally {
+            if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(zhangSanRegisterInfo.getAccountKey());
+            }
+            if (Objects.nonNull(liSiRegisterInfo.getAccountKey())) {
+                accountMaintainService.deleteIfExists(liSiRegisterInfo.getAccountKey());
+            }
+        }
+    }
 }

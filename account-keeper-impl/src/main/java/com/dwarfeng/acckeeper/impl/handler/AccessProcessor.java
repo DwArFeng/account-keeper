@@ -1,9 +1,7 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
 import com.dwarfeng.acckeeper.sdk.util.Constants;
-import com.dwarfeng.acckeeper.stack.bean.dto.DynamicLoginInfo;
-import com.dwarfeng.acckeeper.stack.bean.dto.LoginHistoryRecordInfo;
-import com.dwarfeng.acckeeper.stack.bean.dto.StaticLoginInfo;
+import com.dwarfeng.acckeeper.stack.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginHistory;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginParamRecord;
@@ -76,8 +74,21 @@ public class AccessProcessor {
         this.transactionWrapper = transactionWrapper;
     }
 
+    /**
+     * 处理登录。
+     *
+     * <p>
+     * 与 {@link #processTrustedLogin} 对称，进行密码校验，适用于常规账号密码登录场景。<br>
+     * 将实际密码校验结果 passwordCorrect 传入保护器，保护器可基于密码正确性及其他逻辑决定是否放行。
+     *
+     * @param loginType        登录类型。
+     * @param dynamicLoginInfo 动态登录信息，loginType 为 DYNAMIC 时非 null。
+     * @param staticLoginInfo  静态登录信息，loginType 为 STATIC 时非 null。
+     * @return 登录复合结果。
+     * @throws Exception 处理过程中的异常。
+     */
     // 为了确保代码的可读性，此处不对代码结构进行优化。
-    @SuppressWarnings({"ConstantValue"})
+    @SuppressWarnings({"ConstantValue", "DuplicatedCode"})
     @BehaviorAnalyse
     public LoginComplex processLogin(
             LoginType loginType, DynamicLoginInfo dynamicLoginInfo, StaticLoginInfo staticLoginInfo
@@ -173,6 +184,177 @@ public class AccessProcessor {
         );
     }
 
+    /**
+     * 处理可信登录。
+     *
+     * <p>
+     * 与 {@link #processLogin} 对称，但跳过密码校验，适用于第三方登录系统集成场景。<br>
+     * 将 passwordCorrect 固定为 true 传入保护器，保护器仍可基于其他逻辑决定是否放行。
+     *
+     * @param loginType               登录类型。
+     * @param trustedDynamicLoginInfo 可信动态登录信息，loginType 为 DYNAMIC 时非 null。
+     * @param trustedStaticLoginInfo  可信静态登录信息，loginType 为 STATIC 时非 null。
+     * @return 登录复合结果。
+     * @throws Exception 处理过程中的异常。
+     * @since 2.1.0
+     */
+    // 为了确保代码的可读性，此处不对代码结构进行优化。
+    @SuppressWarnings({"ConstantValue", "DuplicatedCode"})
+    @BehaviorAnalyse
+    public LoginComplex processTrustedLogin(
+            LoginType loginType, TrustedDynamicLoginInfo trustedDynamicLoginInfo,
+            TrustedStaticLoginInfo trustedStaticLoginInfo
+    ) throws Exception {
+        StringIdKey accountKey;
+        String accountId;
+        Date happenedDate;
+        String message = null;
+        Integer alarmLevel = null;
+        Map<String, String> extraParams;
+        Map<String, String> protectDetail = Collections.emptyMap();
+        Date expireDate = null;
+        long serialVersion = 0;
+        String loginRemark = parseTrustedLoginRemark(loginType, trustedDynamicLoginInfo, trustedStaticLoginInfo);
+        Account account;
+
+        happenedDate = new Date();
+        extraParams = parseTrustedExtraParams(loginType, trustedDynamicLoginInfo, trustedStaticLoginInfo);
+        accountKey = parseTrustedAccountKey(loginType, trustedDynamicLoginInfo, trustedStaticLoginInfo);
+        accountId = accountKey.getStringId();
+
+        account = accountMaintainService.getIfExists(accountKey);
+        if (Objects.isNull(account)) {
+            return new LoginComplex(
+                    accountKey, accountId, happenedDate, Constants.LOGIN_RESPONSE_CODE_ACCOUNT_NOT_EXISTS,
+                    message, alarmLevel, extraParams, protectDetail, expireDate, serialVersion,
+                    loginRemark, new AccountNotExistsException(accountKey), account
+            );
+        }
+        serialVersion = account.getSerialVersion();
+        if (!account.isEnabled()) {
+            return new LoginComplex(
+                    accountKey, accountId, happenedDate, Constants.LOGIN_RESPONSE_CODE_ACCOUNT_DISABLED,
+                    message, alarmLevel, extraParams, protectDetail, expireDate, serialVersion,
+                    loginRemark, new AccountDisabledException(accountKey), account
+            );
+        }
+
+        Protector protector = protectLocalCacheHandler.get(accountKey);
+        if (Objects.isNull(protector)) {
+            return new LoginComplex(
+                    accountKey, accountId, happenedDate, Constants.LOGIN_RESPONSE_CODE_PROTECTOR_INFO_NOT_EXISTS,
+                    message, alarmLevel, extraParams, protectDetail, expireDate, serialVersion,
+                    loginRemark, new ProtectorInfoNotExistsException(accountKey), account
+            );
+        }
+
+        Protector.DynamicLoginInfo protectorDynamicLoginInfo = loginType == LoginType.DYNAMIC
+                ? toProtectorDynamicLoginInfo(trustedDynamicLoginInfo) : null;
+        Protector.StaticLoginInfo protectorStaticLoginInfo = loginType == LoginType.STATIC
+                ? toProtectorStaticLoginInfo(trustedStaticLoginInfo) : null;
+        Protector.Context protectorContext = ctx.getBean(
+                ProtectorContextImpl.class, loginHistoryMaintainService, loginParamRecordMaintainService,
+                protectDetailRecordMaintainService, protectorVariableMaintainService, account, true,
+                loginType, protectorDynamicLoginInfo, protectorStaticLoginInfo
+        );
+        Protector.Response response = protector.execProtect(protectorContext);
+        message = response.getMessage();
+        alarmLevel = response.getAlarmLevel();
+
+        if (!response.isPassed()) {
+            return new LoginComplex(
+                    accountKey, accountId, happenedDate, Constants.LOGIN_RESPONSE_CODE_PROTECTOR_PROHIBITED,
+                    message, alarmLevel, extraParams, protectDetail, expireDate, serialVersion,
+                    loginRemark, new ProtectorProhibitedException(accountKey), account
+            );
+        }
+
+        expireDate = parseTrustedExpireDate(loginType, happenedDate, trustedStaticLoginInfo);
+
+        return new LoginComplex(
+                accountKey, accountId, happenedDate, Constants.LOGIN_RESPONSE_CODE_PASSED,
+                message, alarmLevel, extraParams, protectDetail, expireDate, serialVersion, loginRemark, null, account
+        );
+    }
+
+    private String parseTrustedLoginRemark(
+            LoginType loginType, TrustedDynamicLoginInfo trustedDynamicLoginInfo,
+            TrustedStaticLoginInfo trustedStaticLoginInfo
+    ) {
+        switch (loginType) {
+            case DYNAMIC:
+                return trustedDynamicLoginInfo.getRemark();
+            case STATIC:
+                return trustedStaticLoginInfo.getRemark();
+            default:
+                throw new IllegalArgumentException("非法的登录类型: " + loginType);
+        }
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    private Map<String, String> parseTrustedExtraParams(
+            LoginType loginType, TrustedDynamicLoginInfo trustedDynamicLoginInfo,
+            TrustedStaticLoginInfo trustedStaticLoginInfo
+    ) {
+        Map<String, String> result;
+        switch (loginType) {
+            case DYNAMIC:
+                result = trustedDynamicLoginInfo.getExtraParamMap();
+                break;
+            case STATIC:
+                result = trustedStaticLoginInfo.getExtraParamMap();
+                break;
+            default:
+                throw new IllegalArgumentException("非法的登录类型: " + loginType);
+        }
+        if (Objects.isNull(result)) {
+            return Collections.emptyMap();
+        }
+        return result;
+    }
+
+    private StringIdKey parseTrustedAccountKey(
+            LoginType loginType, TrustedDynamicLoginInfo trustedDynamicLoginInfo,
+            TrustedStaticLoginInfo trustedStaticLoginInfo
+    ) {
+        switch (loginType) {
+            case DYNAMIC:
+                return trustedDynamicLoginInfo.getAccountKey();
+            case STATIC:
+                return trustedStaticLoginInfo.getAccountKey();
+            default:
+                throw new IllegalArgumentException("非法的登录类型: " + loginType);
+        }
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    private Date parseTrustedExpireDate(
+            LoginType loginType, Date happenedDate, TrustedStaticLoginInfo trustedStaticLoginInfo
+    ) {
+        switch (loginType) {
+            case DYNAMIC:
+                return new Date(happenedDate.getTime() + dynamicLoginExpireDuration);
+            case STATIC:
+                return Optional.ofNullable(trustedStaticLoginInfo.getExpireDate()).orElse(new Date());
+            default:
+                throw new IllegalArgumentException("非法的登录类型: " + loginType);
+        }
+    }
+
+    private Protector.DynamicLoginInfo toProtectorDynamicLoginInfo(TrustedDynamicLoginInfo dto) {
+        Map<String, String> extraParamMap = Objects.isNull(dto.getExtraParamMap())
+                ? Collections.emptyMap() : dto.getExtraParamMap();
+        return new Protector.DynamicLoginInfo(dto.getAccountKey(), dto.getRemark(), extraParamMap);
+    }
+
+    private Protector.StaticLoginInfo toProtectorStaticLoginInfo(TrustedStaticLoginInfo dto) {
+        Map<String, String> extraParamMap = Objects.isNull(dto.getExtraParamMap())
+                ? Collections.emptyMap() : dto.getExtraParamMap();
+        return new Protector.StaticLoginInfo(
+                dto.getAccountKey(), dto.getExpireDate(), dto.getRemark(), extraParamMap
+        );
+    }
+
     private String parseLoginRemark(
             LoginType loginType, DynamicLoginInfo dynamicLoginInfo, StaticLoginInfo staticLoginInfo
     ) {
@@ -186,6 +368,7 @@ public class AccessProcessor {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private Map<String, String> parseExtraParams(
             LoginType loginType, DynamicLoginInfo dynamicLoginInfo, StaticLoginInfo staticLoginInfo
     ) {
@@ -232,6 +415,7 @@ public class AccessProcessor {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private Date parseExpireDate(
             LoginType loginType, Date happenedDate, StaticLoginInfo staticLoginInfo
     ) {

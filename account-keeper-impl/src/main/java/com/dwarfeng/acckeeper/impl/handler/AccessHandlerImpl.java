@@ -133,6 +133,42 @@ public class AccessHandlerImpl implements AccessHandler {
         }
     }
 
+    @Override
+    @BehaviorAnalyse
+    public DynamicLoginResult trustedDynamicLogin(TrustedDynamicLoginInfo info) throws HandlerException {
+        try {
+            LoginState loginState = trustedLogin0(LoginType.DYNAMIC, info, null);
+            return new DynamicLoginResult(
+                    loginState.getKey(),
+                    loginState.getAccountKey(),
+                    loginState.getExpireDate(),
+                    loginState.getGeneratedDate(),
+                    loginState.getType(),
+                    loginState.getRemark()
+            );
+        } catch (Exception e) {
+            throw HandlerExceptionHelper.parse(e);
+        }
+    }
+
+    @Override
+    @BehaviorAnalyse
+    public StaticLoginResult trustedStaticLogin(TrustedStaticLoginInfo info) throws HandlerException {
+        try {
+            LoginState loginState = trustedLogin0(LoginType.STATIC, null, info);
+            return new StaticLoginResult(
+                    loginState.getKey(),
+                    loginState.getAccountKey(),
+                    loginState.getExpireDate(),
+                    loginState.getGeneratedDate(),
+                    loginState.getType(),
+                    loginState.getRemark()
+            );
+        } catch (Exception e) {
+            throw HandlerExceptionHelper.parse(e);
+        }
+    }
+
     @SuppressWarnings("DuplicatedCode")
     private LoginState login0(LoginType loginType, DynamicLoginInfo dynamicLoginInfo, StaticLoginInfo staticLoginInfo)
             throws Exception {
@@ -169,6 +205,57 @@ public class AccessHandlerImpl implements AccessHandler {
 
         // 返回结果。
         return loginState;
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    private LoginState trustedLogin0(
+            LoginType loginType, TrustedDynamicLoginInfo trustedDynamicLoginInfo,
+            TrustedStaticLoginInfo trustedStaticLoginInfo
+    ) throws Exception {
+        // 处理可信登录主逻辑。
+        LoginComplex loginComplex = accessProcessor.processTrustedLogin(
+                loginType, trustedDynamicLoginInfo, trustedStaticLoginInfo
+        );
+
+        // 记录登录历史。
+        accessProcessor.processRecord(loginComplex);
+
+        // 如果响应中的异常字段不为 null，则抛出对应的异常。
+        if (Objects.nonNull(loginComplex.getException())) {
+            throw loginComplex.getException();
+        }
+
+        // 代码执行至此处，说明登录正常，可以为本次登录请求创建登录状态。
+        StringIdKey key = generateUniqueLoginStateKey();
+        StringIdKey accountKey = loginComplex.getAccountKey();
+        Date happenedDate = loginComplex.getHappenedDate();
+        Date expireDate = loginComplex.getExpireDate();
+        String remark = parseTrustedRemark(loginType, trustedDynamicLoginInfo, trustedStaticLoginInfo);
+        long serialVersion = loginComplex.getSerialVersion();
+        int type = parseLoginStateType(loginType);
+        LoginState loginState = new LoginState(key, accountKey, expireDate, serialVersion, happenedDate, type, remark);
+        loginStateMaintainService.insertOrUpdate(loginState);
+
+        // 自增账户的登录次数。
+        Account account = loginComplex.getAccount();
+        account.setLoginCount(account.getLoginCount() + 1);
+        accountMaintainService.update(account);
+
+        return loginState;
+    }
+
+    private String parseTrustedRemark(
+            LoginType loginType, TrustedDynamicLoginInfo trustedDynamicLoginInfo,
+            TrustedStaticLoginInfo trustedStaticLoginInfo
+    ) {
+        switch (loginType) {
+            case DYNAMIC:
+                return trustedDynamicLoginInfo.getRemark();
+            case STATIC:
+                return trustedStaticLoginInfo.getRemark();
+            default:
+                throw new AssertionError("未知的登录类型: " + loginType);
+        }
     }
 
     @SuppressWarnings("DuplicatedCode")

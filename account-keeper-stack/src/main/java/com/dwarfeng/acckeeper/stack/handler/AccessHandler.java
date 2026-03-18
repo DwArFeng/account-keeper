@@ -46,6 +46,38 @@ public interface AccessHandler extends Handler {
     StaticLoginResult staticLogin(StaticLoginInfo info) throws HandlerException;
 
     /**
+     * 可信动态登录。
+     *
+     * <p>
+     * 用于与第三方登录系统（如 OAuth2、SAML、企业 SSO）集成。<br>
+     * 当用户已通过外部身份提供者完成认证后，调用方传入账户标识等信息，
+     * 系统将信任该认证结果，跳过密码校验直接创建登录状态。<br>
+     * 动态登录返回的登录状态过期时间较短，需通过 {@link #postpone(PostponeInfo)} 延长。
+     *
+     * @param info 可信动态登录信息。
+     * @return 动态登录结果。
+     * @throws HandlerException 处理器异常。
+     * @since 2.1.0
+     */
+    DynamicLoginResult trustedDynamicLogin(TrustedDynamicLoginInfo info) throws HandlerException;
+
+    /**
+     * 可信静态登录。
+     *
+     * <p>
+     * 用于与第三方登录系统（如 OAuth2、SAML、企业 SSO）集成。<br>
+     * 当用户已通过外部身份提供者完成认证后，调用方传入账户标识及期望的过期时间，
+     * 系统将信任该认证结果，跳过密码校验直接创建登录状态。<br>
+     * 静态登录的过期时间由调用方指定，适用于长期登录场景。
+     *
+     * @param info 可信静态登录信息。
+     * @return 静态登录结果。
+     * @throws HandlerException 处理器异常。
+     * @since 2.1.0
+     */
+    StaticLoginResult trustedStaticLogin(TrustedStaticLoginInfo info) throws HandlerException;
+
+    /**
      * 登出。
      *
      * <p>

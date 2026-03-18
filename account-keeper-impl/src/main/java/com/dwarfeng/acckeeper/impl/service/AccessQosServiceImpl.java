@@ -59,6 +59,28 @@ public class AccessQosServiceImpl implements AccessQosService {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public DynamicLoginResult trustedDynamicLogin(TrustedDynamicLoginInfo info) throws ServiceException {
+        try {
+            return accessHandler.trustedDynamicLogin(info);
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logParse("可信动态登录时发生异常", LogLevel.WARN, e, sem);
+        }
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public StaticLoginResult trustedStaticLogin(TrustedStaticLoginInfo info) throws ServiceException {
+        try {
+            return accessHandler.trustedStaticLogin(info);
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logParse("可信静态登录时发生异常", LogLevel.WARN, e, sem);
+        }
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void logout(LogoutInfo info) throws ServiceException {
         try {
             accessHandler.logout(info);

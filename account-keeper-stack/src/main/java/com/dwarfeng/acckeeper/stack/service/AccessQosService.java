@@ -46,6 +46,36 @@ public interface AccessQosService extends Service {
     StaticLoginResult staticLogin(StaticLoginInfo info) throws ServiceException;
 
     /**
+     * 可信动态登录。
+     *
+     * <p>
+     * 用于与第三方登录系统（如 OAuth2、SAML、企业 SSO）集成。<br>
+     * 当用户已通过外部身份提供者完成认证后，调用方传入账户标识等信息，
+     * 系统将信任该认证结果，跳过密码校验直接创建登录状态。
+     *
+     * @param info 可信动态登录信息。
+     * @return 动态登录结果。
+     * @throws ServiceException 服务异常。
+     * @since 2.1.0
+     */
+    DynamicLoginResult trustedDynamicLogin(TrustedDynamicLoginInfo info) throws ServiceException;
+
+    /**
+     * 可信静态登录。
+     *
+     * <p>
+     * 用于与第三方登录系统（如 OAuth2、SAML、企业 SSO）集成。<br>
+     * 当用户已通过外部身份提供者完成认证后，调用方传入账户标识及期望的过期时间，
+     * 系统将信任该认证结果，跳过密码校验直接创建登录状态。
+     *
+     * @param info 可信静态登录信息。
+     * @return 静态登录结果。
+     * @throws ServiceException 服务异常。
+     * @since 2.1.0
+     */
+    StaticLoginResult trustedStaticLogin(TrustedStaticLoginInfo info) throws ServiceException;
+
+    /**
      * 登出指定登录状态主键对应的登录状态。
      *
      * <p>

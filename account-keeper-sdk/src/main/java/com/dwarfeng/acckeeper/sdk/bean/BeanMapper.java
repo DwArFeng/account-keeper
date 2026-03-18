@@ -291,4 +291,18 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     LoginStateLookupInfo loginStateLookupInfoFromWebInput(WebInputLoginStateLookupInfo webInputLoginStateLookupInfo);
+
+    WebInputTrustedDynamicLoginInfo trustedDynamicLoginInfoToWebInput(TrustedDynamicLoginInfo trustedDynamicLoginInfo);
+
+    @InheritInverseConfiguration
+    TrustedDynamicLoginInfo trustedDynamicLoginInfoFromWebInput(
+            WebInputTrustedDynamicLoginInfo webInputTrustedDynamicLoginInfo
+    );
+
+    WebInputTrustedStaticLoginInfo trustedStaticLoginInfoToWebInput(TrustedStaticLoginInfo trustedStaticLoginInfo);
+
+    @InheritInverseConfiguration
+    TrustedStaticLoginInfo trustedStaticLoginInfoFromWebInput(
+            WebInputTrustedStaticLoginInfo webInputTrustedStaticLoginInfo
+    );
 }
