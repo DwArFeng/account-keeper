@@ -63,7 +63,7 @@ public class HibernateAccount implements Bean {
     private Set<HibernateLoginState> loginStates = new HashSet<>();
 
     // -----------------------------------------------------------审计-----------------------------------------------------------
-    @DatamarkField(handlerName = "userDatamarkHandler")
+    @DatamarkField(handlerName = "accountDatamarkHandler")
     @Column(
             name = "created_datamark",
             length = com.dwarfeng.datamark.util.Constraints.LENGTH_DATAMARK_VALUE,
@@ -71,7 +71,7 @@ public class HibernateAccount implements Bean {
     )
     private String createdDatamark;
 
-    @DatamarkField(handlerName = "userDatamarkHandler")
+    @DatamarkField(handlerName = "accountDatamarkHandler")
     @Column(
             name = "modified_datamark",
             length = com.dwarfeng.datamark.util.Constraints.LENGTH_DATAMARK_VALUE
