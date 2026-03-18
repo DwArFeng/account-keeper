@@ -135,10 +135,15 @@ public class AccessProcessor {
                     loginRemark, new ProtectorInfoNotExistsException(accountKey), account
             );
         }
+        // 转换为不含密码的内部类，降低密码泄露风险。
+        Protector.DynamicLoginInfo protectorDynamicLoginInfo = loginType == LoginType.DYNAMIC
+                ? toProtectorDynamicLoginInfo(dynamicLoginInfo) : null;
+        Protector.StaticLoginInfo protectorStaticLoginInfo = loginType == LoginType.STATIC
+                ? toProtectorStaticLoginInfo(staticLoginInfo) : null;
         Protector.Context protectorContext = ctx.getBean(
                 ProtectorContextImpl.class, loginHistoryMaintainService, loginParamRecordMaintainService,
                 protectDetailRecordMaintainService, protectorVariableMaintainService, account, passwordCorrect,
-                loginType, dynamicLoginInfo, staticLoginInfo
+                loginType, protectorDynamicLoginInfo, protectorStaticLoginInfo
         );
         Protector.Response response = protector.execProtect(protectorContext);
         message = response.getMessage();
@@ -238,6 +243,20 @@ public class AccessProcessor {
             default:
                 throw new IllegalArgumentException("非法的登录类型: " + loginType);
         }
+    }
+
+    private Protector.DynamicLoginInfo toProtectorDynamicLoginInfo(DynamicLoginInfo dto) {
+        Map<String, String> extraParamMap = Objects.isNull(dto.getExtraParamMap())
+                ? Collections.emptyMap() : dto.getExtraParamMap();
+        return new Protector.DynamicLoginInfo(dto.getAccountKey(), dto.getRemark(), extraParamMap);
+    }
+
+    private Protector.StaticLoginInfo toProtectorStaticLoginInfo(StaticLoginInfo dto) {
+        Map<String, String> extraParamMap = Objects.isNull(dto.getExtraParamMap())
+                ? Collections.emptyMap() : dto.getExtraParamMap();
+        return new Protector.StaticLoginInfo(
+                dto.getAccountKey(), dto.getExpireDate(), dto.getRemark(), extraParamMap
+        );
     }
 
     @BehaviorAnalyse

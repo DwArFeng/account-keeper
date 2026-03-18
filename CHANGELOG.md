@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- 优化保护器上下文部分方法签名，增强安全性。
+  - com.dwarfeng.acckeeper.stack.handler.Protector.Context.getDynamicLoginInfo。
+  - com.dwarfeng.acckeeper.stack.handler.Protector.Context.getStaticLoginInfo。
+
 - 清除机制相关类优化注释、文档注释内容。
   - com.dwarfeng.acckeeper.impl.handler.PurgeProcessor。
   - com.dwarfeng.acckeeper.stack.service.DeriveHistoryMaintainService。
