@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- `account-keeper-impl` 子模块类优化注释、文档注释格式、代码换行格式。
+  - com.dwarfeng.acckeeper.impl.dao.preset.AccountPresetCriteriaMaker。
+  - com.dwarfeng.acckeeper.impl.service.telqos.AccountCommand。
+
 - 依赖升级。
   - 升级 `netty` 依赖版本为 `4.2.9.Final` 以规避漏洞。
   - 升级 `log4j2` 依赖版本为 `2.25.3` 以规避漏洞。
