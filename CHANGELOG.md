@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 优化预设的运维指令。
+  - com.dwarfeng.acckeeper.impl.service.telqos.AccessCommand。
+
 - 访问机制增强。
   - 增加可信登录机制，支持与第三方登录系统（OAuth2、SAML、企业 SSO）集成。
 
