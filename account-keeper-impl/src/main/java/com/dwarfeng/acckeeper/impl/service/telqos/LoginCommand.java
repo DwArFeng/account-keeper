@@ -3,8 +3,12 @@ package com.dwarfeng.acckeeper.impl.service.telqos;
 import com.alibaba.fastjson.JSON;
 import com.dwarfeng.acckeeper.sdk.bean.dto.WebInputDynamicLoginInfo;
 import com.dwarfeng.acckeeper.sdk.bean.dto.WebInputStaticLoginInfo;
+import com.dwarfeng.acckeeper.sdk.bean.dto.WebInputTrustedDynamicLoginInfo;
+import com.dwarfeng.acckeeper.sdk.bean.dto.WebInputTrustedStaticLoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.DynamicLoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.StaticLoginInfo;
+import com.dwarfeng.acckeeper.stack.bean.dto.TrustedDynamicLoginInfo;
+import com.dwarfeng.acckeeper.stack.bean.dto.TrustedStaticLoginInfo;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.acckeeper.stack.service.LoginQosService;
 import com.dwarfeng.springtelqos.node.config.TelqosCommand;
@@ -26,8 +30,14 @@ import java.util.*;
 @TelqosCommand
 public class LoginCommand extends CliCommand {
 
-    private static final String COMMAND_OPTION_DYNAMIC_LOGIN = "dynamic";
-    private static final String COMMAND_OPTION_STATIC_LOGIN = "static";
+    private static final String COMMAND_OPTION_DYNAMIC_LOGIN = "dl";
+    private static final String COMMAND_OPTION_DYNAMIC_LOGIN_LONG_OPT = "dynamic-login";
+    private static final String COMMAND_OPTION_STATIC_LOGIN = "sl";
+    private static final String COMMAND_OPTION_STATIC_LOGIN_LONG_OPT = "static-login";
+    private static final String COMMAND_OPTION_TRUSTED_DYNAMIC_LOGIN = "tdl";
+    private static final String COMMAND_OPTION_TRUSTED_DYNAMIC_LOGIN_LONG_OPT = "trusted-dynamic-login";
+    private static final String COMMAND_OPTION_TRUSTED_STATIC_LOGIN = "tsl";
+    private static final String COMMAND_OPTION_TRUSTED_STATIC_LOGIN_LONG_OPT = "trusted-static-login";
 
     private static final String COMMAND_OPTION_ACCOUNT_ID = "a";
     private static final String COMMAND_OPTION_PASSWORD = "p";
@@ -40,7 +50,9 @@ public class LoginCommand extends CliCommand {
 
     private static final String[] COMMAND_OPTION_ARRAY = new String[]{
             COMMAND_OPTION_DYNAMIC_LOGIN,
-            COMMAND_OPTION_STATIC_LOGIN
+            COMMAND_OPTION_STATIC_LOGIN,
+            COMMAND_OPTION_TRUSTED_DYNAMIC_LOGIN,
+            COMMAND_OPTION_TRUSTED_STATIC_LOGIN
     };
 
     private static final String IDENTITY = "login";
@@ -63,10 +75,27 @@ public class LoginCommand extends CliCommand {
             CommandUtil.concatOptionPrefix(COMMAND_OPTION_EXTRA_PARAMS) + " extra-params] [" +
             CommandUtil.concatOptionPrefix(COMMAND_OPTION_EXPIRE_DATE) + " expire-date] [" +
             CommandUtil.concatOptionPrefix(COMMAND_OPTION_REMARK) + " remark]";
+    private static final String CMD_LINE_SYNTAX_TRUSTED_DYNAMIC_LOGIN = IDENTITY + " " +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_TRUSTED_DYNAMIC_LOGIN) + " [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file] [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_ACCOUNT_ID) + " account-id] [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_EXTRA_PARAMS) + " extra-params] [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_REMARK) + " remark]";
+    private static final String CMD_LINE_SYNTAX_TRUSTED_STATIC_LOGIN = IDENTITY + " " +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_TRUSTED_STATIC_LOGIN) + " [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file] [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_ACCOUNT_ID) + " account-id] [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_EXTRA_PARAMS) + " extra-params] [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_EXPIRE_DATE) + " expire-date] [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_REMARK) + " remark]";
 
     private static final String[] CMD_LINE_ARRAY = new String[]{
             CMD_LINE_SYNTAX_DYNAMIC_LOGIN,
-            CMD_LINE_SYNTAX_STATIC_LOGIN
+            CMD_LINE_SYNTAX_STATIC_LOGIN,
+            CMD_LINE_SYNTAX_TRUSTED_DYNAMIC_LOGIN,
+            CMD_LINE_SYNTAX_TRUSTED_STATIC_LOGIN
     };
 
     private static final String CMD_LINE_SYNTAX = CommandUtil.syntax(CMD_LINE_ARRAY);
@@ -82,8 +111,24 @@ public class LoginCommand extends CliCommand {
     @Override
     protected List<Option> buildOptions() {
         List<Option> list = new ArrayList<>();
-        list.add(Option.builder(COMMAND_OPTION_DYNAMIC_LOGIN).desc("动态登录").build());
-        list.add(Option.builder(COMMAND_OPTION_STATIC_LOGIN).desc("静态登录").build());
+        list.add(
+                Option.builder(COMMAND_OPTION_DYNAMIC_LOGIN).longOpt(COMMAND_OPTION_DYNAMIC_LOGIN_LONG_OPT)
+                        .desc("动态登录").build()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_STATIC_LOGIN).longOpt(COMMAND_OPTION_STATIC_LOGIN_LONG_OPT)
+                        .desc("静态登录").build()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_TRUSTED_DYNAMIC_LOGIN)
+                        .longOpt(COMMAND_OPTION_TRUSTED_DYNAMIC_LOGIN_LONG_OPT)
+                        .desc("可信动态登录").build()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_TRUSTED_STATIC_LOGIN)
+                        .longOpt(COMMAND_OPTION_TRUSTED_STATIC_LOGIN_LONG_OPT)
+                        .desc("可信静态登录").build()
+        );
         list.add(
                 Option.builder(COMMAND_OPTION_ACCOUNT_ID).optionalArg(true).type(String.class).hasArg(true)
                         .desc("用户名").build()
@@ -129,6 +174,12 @@ public class LoginCommand extends CliCommand {
                 case COMMAND_OPTION_STATIC_LOGIN:
                     staticLogin(context, cmd);
                     break;
+                case COMMAND_OPTION_TRUSTED_DYNAMIC_LOGIN:
+                    trustedDynamicLogin(context, cmd);
+                    break;
+                case COMMAND_OPTION_TRUSTED_STATIC_LOGIN:
+                    trustedStaticLogin(context, cmd);
+                    break;
                 default:
                     throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
             }
@@ -157,6 +208,38 @@ public class LoginCommand extends CliCommand {
         StaticLoginInfo loginInfo = parseStaticLoginInfo(context, cmd);
         try {
             LoginState loginState = loginQosService.staticLogin(loginInfo);
+            String token = Long.toString(loginState.getKey().getLongId());
+            String expiredDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(loginState.getExpireDate());
+            context.sendMessage(
+                    "登录成功! token: " + token + ", 过期时间: " + expiredDate
+            );
+        } catch (ServiceException e) {
+            String code = Integer.toString(e.getCode().getCode());
+            String tip = e.getCode().getTip();
+            context.sendMessage("登录失败! 异常代码: " + code + ", 异常提示: " + tip);
+        }
+    }
+
+    private void trustedDynamicLogin(Context context, CommandLine cmd) throws Exception {
+        TrustedDynamicLoginInfo loginInfo = parseTrustedDynamicLoginInfo(context, cmd);
+        try {
+            LoginState loginState = loginQosService.trustedDynamicLogin(loginInfo);
+            String token = Long.toString(loginState.getKey().getLongId());
+            String expiredDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(loginState.getExpireDate());
+            context.sendMessage(
+                    "登录成功! token: " + token + ", 过期时间: " + expiredDate
+            );
+        } catch (ServiceException e) {
+            String code = Integer.toString(e.getCode().getCode());
+            String tip = e.getCode().getTip();
+            context.sendMessage("登录失败! 异常代码: " + code + ", 异常提示: " + tip);
+        }
+    }
+
+    private void trustedStaticLogin(Context context, CommandLine cmd) throws Exception {
+        TrustedStaticLoginInfo loginInfo = parseTrustedStaticLoginInfo(context, cmd);
+        try {
+            LoginState loginState = loginQosService.trustedStaticLogin(loginInfo);
             String token = Long.toString(loginState.getKey().getLongId());
             String expiredDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(loginState.getExpireDate());
             context.sendMessage(
@@ -213,6 +296,59 @@ public class LoginCommand extends CliCommand {
             Date expireDate = parseExpireDate(context, cmd);
             String remark = parseRemark(context, cmd);
             return new StaticLoginInfo(new StringIdKey(accountId), password, expireDate, remark, extraParams);
+        }
+    }
+
+    private TrustedDynamicLoginInfo parseTrustedDynamicLoginInfo(Context context, CommandLine cmd) throws Exception {
+        // 如果有 -json 选项，则从选项中获取 JSON，解析为 TrustedDynamicLoginInfo。
+        if (cmd.hasOption(COMMAND_OPTION_JSON)) {
+            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            return WebInputTrustedDynamicLoginInfo.toStackBean(
+                    JSON.parseObject(json, WebInputTrustedDynamicLoginInfo.class)
+            );
+        }
+        // 如果有 --json-file 选项，则从选项中获取 JSON 文件，解析为 TrustedDynamicLoginInfo。
+        else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
+            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            try (FileInputStream in = new FileInputStream(jsonFile)) {
+                return WebInputTrustedDynamicLoginInfo.toStackBean(
+                        JSON.parseObject(in, WebInputTrustedDynamicLoginInfo.class)
+                );
+            }
+        }
+        // 如果没有 -json 和 --json-file 选项，则从命令行获取或交互式解析获取所需参数，构造 TrustedDynamicLoginInfo。
+        else {
+            String accountId = parseAccountId(context, cmd);
+            Map<String, String> extraParams = parseExtraParams(context, cmd);
+            String remark = parseRemark(context, cmd);
+            return new TrustedDynamicLoginInfo(new StringIdKey(accountId), remark, extraParams);
+        }
+    }
+
+    private TrustedStaticLoginInfo parseTrustedStaticLoginInfo(Context context, CommandLine cmd) throws Exception {
+        // 如果有 -json 选项，则从选项中获取 JSON，解析为 TrustedStaticLoginInfo。
+        if (cmd.hasOption(COMMAND_OPTION_JSON)) {
+            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            return WebInputTrustedStaticLoginInfo.toStackBean(
+                    JSON.parseObject(json, WebInputTrustedStaticLoginInfo.class)
+            );
+        }
+        // 如果有 --json-file 选项，则从选项中获取 JSON 文件，解析为 TrustedStaticLoginInfo。
+        else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
+            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            try (FileInputStream in = new FileInputStream(jsonFile)) {
+                return WebInputTrustedStaticLoginInfo.toStackBean(
+                        JSON.parseObject(in, WebInputTrustedStaticLoginInfo.class)
+                );
+            }
+        }
+        // 如果没有 -json 和 --json-file 选项，则从命令行获取或交互式解析获取所需参数，构造 TrustedStaticLoginInfo。
+        else {
+            String accountId = parseAccountId(context, cmd);
+            Map<String, String> extraParams = parseExtraParams(context, cmd);
+            Date expireDate = parseExpireDate(context, cmd);
+            String remark = parseRemark(context, cmd);
+            return new TrustedStaticLoginInfo(new StringIdKey(accountId), expireDate, remark, extraParams);
         }
     }
 
