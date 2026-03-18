@@ -72,7 +72,7 @@ conf
 
 ```properties
 # 任务执行器的线程池数量范围。
-executor.pool_size=50-75
+executor.pool_size=20-40
 # 任务执行器的队列容量。
 executor.queue_capacity=100
 # 任务执行器的保活时间（秒）。
@@ -213,10 +213,10 @@ purge.max_deletion_size=10000
 1. 派生历史，即 `DeriveHistory`。
 2. 登录历史，即 `LoginHistory`。
 
-配置项 `purge.retention_duration` 用于指定清除任务的保留时长，是清除任务中最重要的配置项。关于此配置，有一下原则可以参考：
+配置项 `purge.retention_duration` 用于指定清除任务的保留时长，是清除任务中最重要的配置项。关于此配置，有一些原则可以参考：
 
 - 总体而言，可以首先将此值配置为 `0` 或负数，使历史记录无限期保留，在后续的使用中，逐步探索保留的边界，
-  例如经过一段时间的使用，用户只查询 3 个月内的历史数据，则可将此值调整为 `8640000000`，即 100 天。
+  例如经过一段时间的使用，观察到用户几乎只查询 3 个月内的历史数据，则可将此值调整为 `8640000000`，即 100 天。
 - 如果系统有等保需求，那么历史记录必须保留 6 个月以上，可以将此配置设置为 `17280000000`，即 200 天。
 - 如果对于特别重要的系统，那么历史记录必须无限期保留，必须将此值配置为 `0` 或负数。
 
@@ -296,7 +296,7 @@ register.default_protector.param=
 > jBCrypt is an implementation the OpenBSD Blowfish password hashing algorithm, as described in "A Future-Adaptable
 > Password Scheme" by Niels Provos and David Mazieres.
 
-配置项 `register.password.salt_log_rounds` 是 `org.mindrot:jbcrypt` 加密的参数，有关该参数的猫叔如下：
+配置项 `register.password.salt_log_rounds` 是 `org.mindrot:jbcrypt` 加密的参数，有关该参数的描述如下：
 
 > The log2 of the number of rounds of hashing to apply - the work factor therefore increases as 2**log_rounds.
 
@@ -311,7 +311,7 @@ register.default_protector.param=
 ###################################################
 #                      never                      #
 ###################################################
-# Never 推送器没有任何配置。
+# Never 重置器没有任何配置。
 #
 ###################################################
 #                   fixed_delay                   #
@@ -334,7 +334,7 @@ resetter.cron.cron=0 0 1 * * *
 ###################################################
 #                      dubbo                      #
 ###################################################
-# Dubbo 推送器没有任何配置。
+# Dubbo 重置器没有任何配置。
 ```
 
 您不必对所有的配置项进行配置。
@@ -442,7 +442,7 @@ data_source.min_idle=0
 # 数据标记服务是否允许更新。
 # datamark.xxx.update_allowed=true
 #
-#---------------------------------User----------------------------------------
+#---------------------------------Account----------------------------------------
 # etc...
 #
 #---------------------------------Protector----------------------------------------
@@ -471,9 +471,9 @@ dubbo.consumer.snowflake.group=
 其中，`dubbo.registry.zookeeper.address` 需要配置为 ZooKeeper 的地址，
 `dubbo.protocol.dubbo.host` 需要配置为本机的 IP 地址。
 
-如果您需要在本机启动多个 FDR 实例，那么需要为每个实例配置不同的 `dubbo.protocol.dubbo.port`。
+如果您需要在本机启动多个 Acckeeper 实例，那么需要为每个实例配置不同的 `dubbo.protocol.dubbo.port`。
 
-如果您在本机上部署了多个项目，每个项目中都使用了 FDR，那么需要为每个项目配置不同的 `dubbo.provider.group`，
+如果您在本机上部署了多个项目，每个项目中都使用了 Acckeeper，那么需要为每个项目配置不同的 `dubbo.provider.group`，
 以避免微服务错误的调用。
 
 ## logging 目录
@@ -544,11 +544,11 @@ dubbo.consumer.snowflake.group=
 Redis 连接配置文件。
 
 ```properties
-# ip 地址
+# ip 地址。
 redis.hostName=your-host-here
-# 端口号
+# 端口号。
 redis.port=6379
-# 如果有密码
+# 如果有密码。
 redis.password=your-password-here
 # etc...
 ```
