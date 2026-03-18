@@ -9,12 +9,12 @@
         http://dwarfeng.com/schema/dwarfeng-datamark/dwarfeng-datamark.xsd"
 >
 
-    <!-- User 数据标识。 -->
+    <!-- Account 数据标识。 -->
     <datamark:handler
-            handler-name="userDatamarkHandler"
-            resource-url="${datamark.user.resource_url}"
-            resource-charset="${datamark.user.resource_charset}"
-            update-allowed="${datamark.user.update_allowed}"
+            handler-name="accountDatamarkHandler"
+            resource-url="${datamark.account.resource_url}"
+            resource-charset="${datamark.account.resource_charset}"
+            update-allowed="${datamark.account.update_allowed}"
     />
 
     <!-- Protector 数据标识。 -->

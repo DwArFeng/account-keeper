@@ -44,6 +44,11 @@
 
 ### Bug 修复
 
+- 修复 datamark 中错误的配置项与 bean 名称。
+  - com.dwarfeng.acckeeper.impl.bean.entity.HibernateAccount。
+  - datamark/settings.properties。
+  - spring/application-context-datamark.xml。
+
 - 修复 `assembly.xml` 中的配置错误。
 
 ### 功能移除
