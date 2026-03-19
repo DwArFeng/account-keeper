@@ -19,7 +19,7 @@ import java.security.SecureRandom;
 @Component
 public class RandxLoginStateKeyGenerator extends AbstractLoginStateKeyGenerator {
 
-    @SuppressWarnings("SpellCheckingInspection")
+    @SuppressWarnings({"SpellCheckingInspection", "RedundantSuppression"})
     private static final char[] SYMBOLS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             .toCharArray();
 
