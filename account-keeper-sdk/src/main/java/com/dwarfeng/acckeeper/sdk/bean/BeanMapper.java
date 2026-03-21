@@ -27,7 +27,8 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface BeanMapper {
 
-    // -----------------------------------------------------------Subgrade Key-----------------------------------------------------------
+    // region Subgrade Key
+
     FastJsonLongIdKey longIdKeyToFastJson(LongIdKey longIdKey);
 
     @InheritInverseConfiguration
@@ -53,7 +54,10 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     StringIdKey stringIdKeyFromWebInput(WebInputStringIdKey webInputStringIdKey);
 
-    // -----------------------------------------------------------Acckeeper Key-----------------------------------------------------------
+    // endregion
+
+    // region Acckeeper Key
+
     FastJsonProtectorVariableKey protectorVariableKeyToFastJson(ProtectorVariableKey protectorVariableKey);
 
     @InheritInverseConfiguration
@@ -69,7 +73,10 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     RecordKey recordKeyFromJSFixedFastJson(JSFixedFastJsonRecordKey jSFixedFastJsonRecordKey);
 
-    // -----------------------------------------------------------Acckeeper Entity-----------------------------------------------------------
+    // endregion
+
+    // region Acckeeper Entity
+
     FastJsonAccount accountToFastJson(Account account);
 
     @InheritInverseConfiguration
@@ -149,7 +156,10 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     ProtectorInfo protectorInfoFromWebInput(WebInputProtectorInfo webInputProtectorInfo);
 
-    // -----------------------------------------------------------Acckeeper DTO-----------------------------------------------------------
+    // endregion
+
+    // region Acckeeper DTO
+
     FastJsonAuthInspectResult authInspectResultToFastJson(AuthInspectResult authInspectResult);
 
     @InheritInverseConfiguration
@@ -305,4 +315,6 @@ public interface BeanMapper {
     TrustedStaticLoginInfo trustedStaticLoginInfoFromWebInput(
             WebInputTrustedStaticLoginInfo webInputTrustedStaticLoginInfo
     );
+
+    // endregion
 }
