@@ -28,7 +28,10 @@
 
 ### Bug 修复
 
-- (无)
+- 修复部分类中 javadoc 注释的 typo 问题。
+  - com.dwarfeng.acckeeper.stack.handler.AccessHandler。
+  - com.dwarfeng.acckeeper.stack.service.AccessQosService。
+  - com.dwarfeng.acckeeper.stack.service.AccessService。
 
 ### 功能移除
 
