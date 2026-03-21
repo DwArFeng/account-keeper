@@ -15,16 +15,23 @@ public class HibernateLoginState implements Bean {
 
     private static final long serialVersionUID = -187471331672578945L;
 
-    // -----------------------------------------------------------主键-----------------------------------------------------------
+    // region 主键
+
     @Id
     @Column(name = "id", length = Constraints.LENGTH_ID_LOGIN_STATE, nullable = false, unique = true)
     private String stringId;
 
-    // -----------------------------------------------------------外键-----------------------------------------------------------
+    // endregion
+
+    // region 外键
+
     @Column(name = "account_id", length = Constraints.LENGTH_ID_COMMON)
     private String accountStringId;
 
-    // -----------------------------------------------------------主属性字段-----------------------------------------------------------
+    // endregion
+
+    // region 主属性字段
+
     @Column(name = "expire_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date expireDate;
@@ -42,7 +49,10 @@ public class HibernateLoginState implements Bean {
     @Column(name = "remark", length = Constraints.LENGTH_REMARK)
     private String remark;
 
-    // -----------------------------------------------------------多对一-----------------------------------------------------------
+    // endregion
+
+    // region 多对一
+
     @ManyToOne(targetEntity = HibernateAccount.class)
     @JoinColumns({ //
             @JoinColumn(name = "account_id", referencedColumnName = "id", insertable = false, updatable = false), //
@@ -52,7 +62,10 @@ public class HibernateLoginState implements Bean {
     public HibernateLoginState() {
     }
 
-    // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
+    // endregion
+
+    // region 映射用属性区
+
     public HibernateStringIdKey getKey() {
         return Optional.ofNullable(stringId).map(HibernateStringIdKey::new).orElse(null);
     }
@@ -69,7 +82,10 @@ public class HibernateLoginState implements Bean {
         this.accountStringId = Optional.ofNullable(key).map(HibernateStringIdKey::getStringId).orElse(null);
     }
 
-    // -----------------------------------------------------------常规属性区-----------------------------------------------------------
+    // endregion
+
+    // region 常规属性区
+
     public String getStringId() {
         return stringId;
     }
@@ -133,6 +149,8 @@ public class HibernateLoginState implements Bean {
     public void setAccount(HibernateAccount account) {
         this.account = account;
     }
+
+    // endregion
 
     @Override
     public String toString() {

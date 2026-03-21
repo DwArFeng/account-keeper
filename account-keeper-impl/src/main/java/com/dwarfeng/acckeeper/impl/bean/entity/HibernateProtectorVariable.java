@@ -14,7 +14,8 @@ public class HibernateProtectorVariable implements Bean {
 
     private static final long serialVersionUID = -6545402618566570939L;
 
-    // -----------------------------------------------------------主键-----------------------------------------------------------
+    // region 主键
+
     @Id
     @Column(name = "protector_info_id", length = Constraints.LENGTH_ID_COMMON, nullable = false)
     private String protectorInfoId;
@@ -23,14 +24,20 @@ public class HibernateProtectorVariable implements Bean {
     @Column(name = "variable_id", length = Constraints.LENGTH_ID_COMMON, nullable = false)
     private String variableId;
 
-    // -----------------------------------------------------------主属性字段-----------------------------------------------------------
+    // endregion
+
+    // region 主属性字段
+
     @Column(name = "value", columnDefinition = "TEXT")
     private String value;
 
     @Column(name = "remark", length = Constraints.LENGTH_REMARK)
     private String remark;
 
-    // -----------------------------------------------------------多对一-----------------------------------------------------------
+    // endregion
+
+    // region 多对一
+
     @ManyToOne(targetEntity = HibernateProtectorInfo.class)
     @JoinColumns({ //
             @JoinColumn(name = "protector_info_id", referencedColumnName = "id", insertable = false, updatable = false), //
@@ -40,7 +47,10 @@ public class HibernateProtectorVariable implements Bean {
     public HibernateProtectorVariable() {
     }
 
-    // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
+    // endregion
+
+    // region 映射用属性区
+
     public HibernateProtectorVariableKey getKey() {
         return new HibernateProtectorVariableKey(protectorInfoId, variableId);
     }
@@ -55,7 +65,10 @@ public class HibernateProtectorVariable implements Bean {
         }
     }
 
-    // -----------------------------------------------------------常规属性区-----------------------------------------------------------
+    // endregion
+
+    // region 常规属性区
+
     public String getProtectorInfoId() {
         return protectorInfoId;
     }
@@ -95,6 +108,8 @@ public class HibernateProtectorVariable implements Bean {
     public void setProtectorInfo(HibernateProtectorInfo protectorInfo) {
         this.protectorInfo = protectorInfo;
     }
+
+    // endregion
 
     @Override
     public String toString() {

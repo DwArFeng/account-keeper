@@ -4,6 +4,18 @@
 
 ### 功能构建
 
+- `account-keeper-impl` 子模块类优化注释、文档注释格式、代码换行格式。
+  - com.dwarfeng.acckeeper.impl.bean.BeanMapper。
+  - com.dwarfeng.acckeeper.impl.bean.entity.HibernateAccount。
+  - com.dwarfeng.acckeeper.impl.bean.entity.HibernateDeriveHistory。
+  - com.dwarfeng.acckeeper.impl.bean.entity.HibernateLoginHistory。
+  - com.dwarfeng.acckeeper.impl.bean.entity.HibernateLoginParamRecord。
+  - com.dwarfeng.acckeeper.impl.bean.entity.HibernateLoginState。
+  - com.dwarfeng.acckeeper.impl.bean.entity.HibernateProtectDetailRecord。
+  - com.dwarfeng.acckeeper.impl.bean.entity.HibernateProtectorInfo。
+  - com.dwarfeng.acckeeper.impl.bean.entity.HibernateProtectorSupport。
+  - com.dwarfeng.acckeeper.impl.bean.entity.HibernateProtectorVariable。
+
 - `account-keeper-sdk` 子模块类优化注释、文档注释格式、代码换行格式。
   - com.dwarfeng.acckeeper.sdk.bean.BeanMapper。
 

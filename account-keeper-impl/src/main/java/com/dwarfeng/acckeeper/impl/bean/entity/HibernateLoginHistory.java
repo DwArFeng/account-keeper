@@ -17,12 +17,16 @@ public class HibernateLoginHistory implements Bean {
 
     private static final long serialVersionUID = 5676364144013010866L;
 
-    // -----------------------------------------------------------主键-----------------------------------------------------------
+    // region 主键
+
     @Id
     @Column(name = "id", nullable = false, unique = true)
     private Long longId;
 
-    // -----------------------------------------------------------主属性字段-----------------------------------------------------------
+    // endregion
+
+    // region 主属性字段
+
     @Column(name = "account_id", length = Constraints.LENGTH_ID_COMMON)
     private String accountId;
 
@@ -42,7 +46,10 @@ public class HibernateLoginHistory implements Bean {
     @Column(name = "login_remark", length = Constraints.LENGTH_REMARK)
     private String loginRemark;
 
-    // -----------------------------------------------------------一对多-----------------------------------------------------------
+    // endregion
+
+    // region 一对多
+
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateLoginParamRecord.class, mappedBy = "loginHistory")
     private Set<HibernateLoginParamRecord> loginParamRecords = new HashSet<>();
 
@@ -52,7 +59,10 @@ public class HibernateLoginHistory implements Bean {
     public HibernateLoginHistory() {
     }
 
-    // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
+    // endregion
+
+    // region 映射用属性区
+
     public HibernateLongIdKey getKey() {
         return Optional.ofNullable(longId).map(HibernateLongIdKey::new).orElse(null);
     }
@@ -61,7 +71,10 @@ public class HibernateLoginHistory implements Bean {
         this.longId = Optional.ofNullable(key).map(HibernateLongIdKey::getLongId).orElse(null);
     }
 
-    // -----------------------------------------------------------常规属性区-----------------------------------------------------------
+    // endregion
+
+    // region 常规属性区
+
     public Long getLongId() {
         return longId;
     }
@@ -133,6 +146,8 @@ public class HibernateLoginHistory implements Bean {
     public void setProtectDetailRecords(Set<HibernateProtectDetailRecord> protectDetailRecords) {
         this.protectDetailRecords = protectDetailRecords;
     }
+
+    // endregion
 
     @Override
     public String toString() {

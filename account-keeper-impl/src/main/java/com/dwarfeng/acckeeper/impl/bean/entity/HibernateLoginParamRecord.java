@@ -14,7 +14,8 @@ public class HibernateLoginParamRecord implements Bean {
 
     private static final long serialVersionUID = 3797101400367142892L;
 
-    // -----------------------------------------------------------主键-----------------------------------------------------------
+    // region 主键
+
     @Id
     @Column(name = "login_history_id", nullable = false)
     private Long loginHistoryId;
@@ -23,11 +24,17 @@ public class HibernateLoginParamRecord implements Bean {
     @Column(name = "record_id", length = Constraints.LENGTH_ID_COMMON, nullable = false)
     private String recordId;
 
-    // -----------------------------------------------------------主属性字段-----------------------------------------------------------
+    // endregion
+
+    // region 主属性字段
+
     @Column(name = "value", columnDefinition = "TEXT")
     private String value;
 
-    // -----------------------------------------------------------多对一-----------------------------------------------------------
+    // endregion
+
+    // region 多对一
+
     @ManyToOne(targetEntity = HibernateLoginHistory.class)
     @JoinColumns({ //
             @JoinColumn(name = "login_history_id", referencedColumnName = "id", insertable = false, updatable = false), //
@@ -37,7 +44,10 @@ public class HibernateLoginParamRecord implements Bean {
     public HibernateLoginParamRecord() {
     }
 
-    // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
+    // endregion
+
+    // region 映射用属性区
+
     public HibernateRecordKey getKey() {
         return new HibernateRecordKey(loginHistoryId, recordId);
     }
@@ -52,7 +62,10 @@ public class HibernateLoginParamRecord implements Bean {
         }
     }
 
-    // -----------------------------------------------------------常规属性区-----------------------------------------------------------
+    // endregion
+
+    // region 常规属性区
+
     public Long getLoginHistoryId() {
         return loginHistoryId;
     }
@@ -84,6 +97,8 @@ public class HibernateLoginParamRecord implements Bean {
     public void setLoginHistory(HibernateLoginHistory loginHistory) {
         this.loginHistory = loginHistory;
     }
+
+    // endregion
 
     @Override
     public String toString() {

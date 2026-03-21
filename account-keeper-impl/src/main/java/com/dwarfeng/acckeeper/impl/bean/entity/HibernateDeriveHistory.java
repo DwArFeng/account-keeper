@@ -15,12 +15,16 @@ public class HibernateDeriveHistory implements Bean {
 
     private static final long serialVersionUID = 7640899260621665392L;
 
-    // -----------------------------------------------------------主键-----------------------------------------------------------
+    // region 主键
+
     @Id
     @Column(name = "id", nullable = false, unique = true)
     private Long longId;
 
-    // -----------------------------------------------------------主属性字段-----------------------------------------------------------
+    // endregion
+
+    // region 主属性字段
+
     @Column(name = "account_id", length = Constraints.LENGTH_ID_COMMON)
     private String accountId;
 
@@ -37,7 +41,10 @@ public class HibernateDeriveHistory implements Bean {
     public HibernateDeriveHistory() {
     }
 
-    // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
+    // endregion
+
+    // region 映射用属性区
+
     public HibernateLongIdKey getKey() {
         return Optional.ofNullable(longId).map(HibernateLongIdKey::new).orElse(null);
     }
@@ -46,7 +53,10 @@ public class HibernateDeriveHistory implements Bean {
         this.longId = Optional.ofNullable(key).map(HibernateLongIdKey::getLongId).orElse(null);
     }
 
-    // -----------------------------------------------------------常规属性区-----------------------------------------------------------
+    // endregion
+
+    // region 常规属性区
+
     public Long getLongId() {
         return longId;
     }
@@ -86,6 +96,8 @@ public class HibernateDeriveHistory implements Bean {
     public void setDeriveRemark(String deriveRemark) {
         this.deriveRemark = deriveRemark;
     }
+
+    // endregion
 
     @Override
     public String toString() {

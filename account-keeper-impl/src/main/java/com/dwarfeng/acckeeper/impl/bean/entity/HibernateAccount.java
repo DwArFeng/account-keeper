@@ -20,12 +20,16 @@ public class HibernateAccount implements Bean {
 
     private static final long serialVersionUID = 5043089596885380086L;
 
-    // -----------------------------------------------------------主键-----------------------------------------------------------
+    // region 主键
+
     @Id
     @Column(name = "id", length = Constraints.LENGTH_ID_COMMON, nullable = false, unique = true)
     private String stringId;
 
-    // -----------------------------------------------------------主属性字段-----------------------------------------------------------
+    // endregion
+
+    // region 主属性字段
+
     @Column(name = "password", columnDefinition = "CHAR(" + Constraints.LENGTH_PASSWORD + ")", nullable = false)
     private String password;
 
@@ -54,15 +58,24 @@ public class HibernateAccount implements Bean {
     @Column(name = "derive_count", nullable = false)
     private int deriveCount;
 
-    // -----------------------------------------------------------一对一-----------------------------------------------------------
+    // endregion
+
+    // region 一对一
+
     @OneToOne(cascade = CascadeType.MERGE, targetEntity = HibernateProtectorInfo.class, mappedBy = "account")
     private HibernateProtectorInfo protectorInfo;
 
-    // -----------------------------------------------------------一对多-----------------------------------------------------------
+    // endregion
+
+    // region 一对多
+
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateLoginState.class, mappedBy = "account")
     private Set<HibernateLoginState> loginStates = new HashSet<>();
 
-    // -----------------------------------------------------------审计-----------------------------------------------------------
+    // endregion
+
+    // region 审计
+
     @DatamarkField(handlerName = "accountDatamarkHandler")
     @Column(
             name = "created_datamark",
@@ -81,7 +94,10 @@ public class HibernateAccount implements Bean {
     public HibernateAccount() {
     }
 
-    // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
+    // endregion
+
+    // region 映射用属性区
+
     public HibernateStringIdKey getKey() {
         return Optional.ofNullable(stringId).map(HibernateStringIdKey::new).orElse(null);
     }
@@ -90,7 +106,10 @@ public class HibernateAccount implements Bean {
         this.stringId = Optional.ofNullable(uuidKey).map(HibernateStringIdKey::getStringId).orElse(null);
     }
 
-    // -----------------------------------------------------------常规属性区-----------------------------------------------------------
+    // endregion
+
+    // region 常规属性区
+
     public String getStringId() {
         return stringId;
     }
@@ -202,6 +221,8 @@ public class HibernateAccount implements Bean {
     public void setModifiedDatamark(String modifiedDatamark) {
         this.modifiedDatamark = modifiedDatamark;
     }
+
+    // endregion
 
     @Override
     public String toString() {
