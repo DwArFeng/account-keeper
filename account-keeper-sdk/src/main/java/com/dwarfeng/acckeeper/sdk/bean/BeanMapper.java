@@ -5,6 +5,7 @@ import com.dwarfeng.acckeeper.sdk.bean.entity.*;
 import com.dwarfeng.acckeeper.sdk.bean.key.FastJsonProtectorVariableKey;
 import com.dwarfeng.acckeeper.sdk.bean.key.FastJsonRecordKey;
 import com.dwarfeng.acckeeper.sdk.bean.key.JSFixedFastJsonRecordKey;
+import com.dwarfeng.acckeeper.sdk.bean.key.WebInputProtectorVariableKey;
 import com.dwarfeng.acckeeper.stack.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.bean.entity.*;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
@@ -72,6 +73,11 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     RecordKey recordKeyFromJSFixedFastJson(JSFixedFastJsonRecordKey jSFixedFastJsonRecordKey);
+
+    WebInputProtectorVariableKey protectorVariableKeyToWebInput(ProtectorVariableKey protectorVariableKey);
+
+    @InheritInverseConfiguration
+    ProtectorVariableKey protectorVariableKeyFromWebInput(WebInputProtectorVariableKey webInputProtectorVariableKey);
 
     // endregion
 
@@ -155,6 +161,11 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     ProtectorInfo protectorInfoFromWebInput(WebInputProtectorInfo webInputProtectorInfo);
+
+    WebInputProtectorVariable protectorVariableToWebInput(ProtectorVariable protectorVariable);
+
+    @InheritInverseConfiguration
+    ProtectorVariable protectorVariableFromWebInput(WebInputProtectorVariable webInputProtectorVariable);
 
     // endregion
 

@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- 新增 WebInput Key 以及 WebInput DTO 实体。
+  - com.dwarfeng.acckeeper.sdk.bean.key.WebInputProtectorVariableKey。
+  - com.dwarfeng.acckeeper.sdk.bean.entity.WebInputProtectorVariable。
+
 - `account-keeper-impl` 子模块类优化注释、文档注释格式、代码换行格式。
   - com.dwarfeng.acckeeper.impl.bean.BeanMapper。
   - com.dwarfeng.acckeeper.impl.bean.entity.HibernateAccount。
