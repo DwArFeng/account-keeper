@@ -37,6 +37,7 @@ public class WebInputDynamicLoginInfo implements Dto {
     }
 
     @JSONField(name = "account_key")
+    @NotNull
     @Valid
     private WebInputStringIdKey accountKey;
 

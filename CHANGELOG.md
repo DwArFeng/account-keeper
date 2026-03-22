@@ -28,6 +28,9 @@
 
 ### Bug 修复
 
+- 修复部分 WebInput DTO 中缺失或错误的校验注解。
+  - com.dwarfeng.acckeeper.sdk.bean.dto.WebInputDynamicLoginInfo。
+
 - 修复部分类中 javadoc 注释的 typo 问题。
   - com.dwarfeng.acckeeper.stack.handler.AccessHandler。
   - com.dwarfeng.acckeeper.stack.service.AccessQosService。
