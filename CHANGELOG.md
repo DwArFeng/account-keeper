@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh-CN/CompileBySource.md。
+
 - 新增 WebInput Key 以及 WebInput DTO 实体。
   - com.dwarfeng.acckeeper.sdk.bean.key.WebInputProtectorVariableKey。
   - com.dwarfeng.acckeeper.sdk.bean.entity.WebInputProtectorVariable。

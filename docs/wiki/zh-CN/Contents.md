@@ -17,6 +17,7 @@
 ### 安装
 
 - [System Requirements](./SystemRequirements.md) - 系统需求，详细说明本项目推荐的系统要求，以及其它版本的测试报告。
+- [Compile By Source](./CompileBySource.md) - 从源码编译，说明如何通过其它 Maven 仓库或依赖源码完成构建，以及打包产物的位置。
 
 ### 配置
 
