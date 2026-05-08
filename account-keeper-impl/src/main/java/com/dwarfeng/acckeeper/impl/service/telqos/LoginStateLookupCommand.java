@@ -6,10 +6,11 @@ import com.dwarfeng.acckeeper.stack.bean.dto.LoginStateLookupInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginStateLookupResult;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.acckeeper.stack.service.LoginStateLookupQosService;
-import com.dwarfeng.springtelqos.node.config.TelqosCommand;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
-import com.dwarfeng.springtelqos.stack.command.Context;
-import com.dwarfeng.springtelqos.stack.exception.TelqosException;
+import com.dwarfeng.springtelqos.sdk.configuration.TelqosCommand;
+import com.dwarfeng.springtelqos.sdk.util.CliCommandUtil;
+import com.dwarfeng.springtelqos.stack.command.CommandDescriptor;
+import com.dwarfeng.springtelqos.stack.command.CommandExecutor;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.lang3.tuple.Pair;
@@ -23,6 +24,11 @@ import java.util.Objects;
 @TelqosCommand
 public class LoginStateLookupCommand extends CliCommand {
 
+    @SuppressWarnings({"SpellCheckingInspection", "GrazieInspectionRunner", "RedundantSuppression"})
+    private static final String IDENTITY = "nsl";
+
+    // region 指令选项
+
     private static final String COMMAND_OPTION_LOOKUP = "lookup";
 
     private static final String[] COMMAND_OPTION_ARRAY = new String[]{
@@ -33,30 +39,37 @@ public class LoginStateLookupCommand extends CliCommand {
     private static final String COMMAND_OPTION_JSON_FILE = "jf";
     private static final String COMMAND_OPTION_JSON_FILE_LONG_OPT = "json-file";
 
-    @SuppressWarnings({"SpellCheckingInspection", "RedundantSuppression"})
-    private static final String IDENTITY = "nsl";
-    private static final String DESCRIPTION = "登录状态查询服务";
-
-    private static final String CMD_LINE_SYNTAX_LOOKUP = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_LOOKUP) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-
-    private static final String[] CMD_LINE_ARRAY = new String[]{
-            CMD_LINE_SYNTAX_LOOKUP
-    };
-
-    private static final String CMD_LINE_SYNTAX = CommandUtil.syntax(CMD_LINE_ARRAY);
+    // endregion
 
     private final LoginStateLookupQosService loginStateLookupQosService;
 
     public LoginStateLookupCommand(LoginStateLookupQosService loginStateLookupQosService) {
-        super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
+        super(IDENTITY);
         this.loginStateLookupQosService = loginStateLookupQosService;
     }
 
     @Override
-    protected List<Option> buildOptions() {
+    protected DescriptionProvider provideDescriptionProvider() {
+        return context -> "登录状态查询服务";
+    }
+
+    @Override
+    protected CliSyntaxProvider provideCliSyntaxProvider() {
+        return this::cliSyntaxProvider;
+    }
+
+    private String cliSyntaxProvider(CommandDescriptor.Context context) throws Exception {
+        String identity = context.getRuntimeIdentity();
+        String[] patterns = new String[]{
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_LOOKUP) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]"
+        };
+        return CliCommandUtil.cliSyntax(patterns);
+    }
+
+    @Override
+    protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
         list.add(Option.builder(COMMAND_OPTION_LOOKUP).desc("登录状态查询").build());
         list.add(
@@ -71,25 +84,23 @@ public class LoginStateLookupCommand extends CliCommand {
 
     @SuppressWarnings("SwitchStatementWithTooFewBranches")
     @Override
-    protected void executeWithCmd(Context context, CommandLine cmd) throws TelqosException {
-        try {
-            Pair<String, Integer> pair = CommandUtil.analyseCommand(cmd, COMMAND_OPTION_ARRAY);
-            if (pair.getRight() != 1) {
-                context.sendMessage(CommandUtil.optionMismatchMessage(COMMAND_OPTION_ARRAY));
-                context.sendMessage(super.cmdLineSyntax);
-                return;
-            }
-            switch (pair.getLeft()) {
-                case COMMAND_OPTION_LOOKUP:
-                    handleLookup(context, cmd);
-                    break;
-            }
-        } catch (Exception e) {
-            throw new TelqosException(e);
+    protected void executeWithCmd(CommandExecutor.Context context, CommandLine cmd) throws Exception {
+        Pair<String, Integer> pair = CliCommandUtil.analyseCommand(cmd, COMMAND_OPTION_ARRAY);
+        if (pair.getRight() != 1) {
+            context.sendMessage(CliCommandUtil.optionMismatchMessage(COMMAND_OPTION_ARRAY));
+            context.sendMessage(context.getCommandManual(context.getRuntimeIdentity()));
+            return;
+        }
+        switch (pair.getLeft()) {
+            case COMMAND_OPTION_LOOKUP:
+                handleLookup(context, cmd);
+                break;
+            default:
+                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
         }
     }
 
-    private void handleLookup(Context context, CommandLine cmd) throws Exception {
+    private void handleLookup(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         LoginStateLookupInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 LoginStateLookupInfo。
@@ -129,10 +140,11 @@ public class LoginStateLookupCommand extends CliCommand {
         }
     }
 
-    private void processLoginStateList(Context context, List<LoginState> loginStates) throws Exception {
+    private void processLoginStateList(CommandExecutor.Context context, List<LoginState> loginStates)
+            throws Exception {
         while (true) {
-            CommandUtil.CropResult cropResult = CommandUtil.cropData(
-                    context, loginStates, "数据总数: " + loginStates.size(), "输入 q 退出"
+            CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
+                    context, loginStates, "数据总数: " + loginStates.size()
             );
             if (cropResult.isExitFlag()) {
                 break;
@@ -145,7 +157,8 @@ public class LoginStateLookupCommand extends CliCommand {
         }
     }
 
-    private void printLoginState(Context context, int i, int endIndex, LoginState loginState) throws Exception {
+    private void printLoginState(CommandExecutor.Context context, int i, int endIndex, LoginState loginState)
+            throws Exception {
         context.sendMessage(String.format("索引: %d/%d", i, endIndex));
         if (Objects.isNull(loginState)) {
             context.sendMessage("null");

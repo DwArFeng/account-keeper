@@ -8,10 +8,11 @@ import com.dwarfeng.acckeeper.stack.bean.dto.DynamicDeriveResult;
 import com.dwarfeng.acckeeper.stack.bean.dto.StaticDeriveInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.StaticDeriveResult;
 import com.dwarfeng.acckeeper.stack.service.DeriveQosService;
-import com.dwarfeng.springtelqos.node.config.TelqosCommand;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
-import com.dwarfeng.springtelqos.stack.command.Context;
-import com.dwarfeng.springtelqos.stack.exception.TelqosException;
+import com.dwarfeng.springtelqos.sdk.configuration.TelqosCommand;
+import com.dwarfeng.springtelqos.sdk.util.CliCommandUtil;
+import com.dwarfeng.springtelqos.stack.command.CommandDescriptor;
+import com.dwarfeng.springtelqos.stack.command.CommandExecutor;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.lang3.tuple.Pair;
@@ -23,6 +24,11 @@ import java.util.List;
 
 @TelqosCommand
 public class DeriveCommand extends CliCommand {
+
+    @SuppressWarnings({"SpellCheckingInspection", "GrazieInspectionRunner", "RedundantSuppression"})
+    private static final String IDENTITY = "derive";
+
+    // region 指令选项
 
     private static final String COMMAND_OPTION_DYNAMIC_DERIVE = "dd";
     private static final String COMMAND_OPTION_DYNAMIC_DERIVE_LONG_OPT = "dynamic-derive";
@@ -38,34 +44,40 @@ public class DeriveCommand extends CliCommand {
     private static final String COMMAND_OPTION_JSON_FILE = "jf";
     private static final String COMMAND_OPTION_JSON_FILE_LONG_OPT = "json-file";
 
-    private static final String IDENTITY = "derive";
-    private static final String DESCRIPTION = "派生服务";
-
-    private static final String CMD_LINE_SYNTAX_DYNAMIC_DERIVE = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_DYNAMIC_DERIVE) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_STATIC_DERIVE = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_STATIC_DERIVE) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-
-    private static final String[] CMD_LINE_ARRAY = new String[]{
-            CMD_LINE_SYNTAX_DYNAMIC_DERIVE,
-            CMD_LINE_SYNTAX_STATIC_DERIVE
-    };
-
-    private static final String CMD_LINE_SYNTAX = CommandUtil.syntax(CMD_LINE_ARRAY);
+    // endregion
 
     private final DeriveQosService deriveQosService;
 
     public DeriveCommand(DeriveQosService deriveQosService) {
-        super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
+        super(IDENTITY);
         this.deriveQosService = deriveQosService;
     }
 
     @Override
-    protected List<Option> buildOptions() {
+    protected DescriptionProvider provideDescriptionProvider() {
+        return context -> "派生服务";
+    }
+
+    @Override
+    protected CliSyntaxProvider provideCliSyntaxProvider() {
+        return this::cliSyntaxProvider;
+    }
+
+    private String cliSyntaxProvider(CommandDescriptor.Context context) throws Exception {
+        String identity = context.getRuntimeIdentity();
+        String[] patterns = new String[]{
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_DYNAMIC_DERIVE) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_STATIC_DERIVE) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]"
+        };
+        return CliCommandUtil.cliSyntax(patterns);
+    }
+
+    @Override
+    protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
         list.add(
                 Option.builder(COMMAND_OPTION_DYNAMIC_DERIVE).longOpt(COMMAND_OPTION_DYNAMIC_DERIVE_LONG_OPT)
@@ -86,29 +98,27 @@ public class DeriveCommand extends CliCommand {
     }
 
     @Override
-    protected void executeWithCmd(Context context, CommandLine cmd) throws TelqosException {
-        try {
-            Pair<String, Integer> pair = CommandUtil.analyseCommand(cmd, COMMAND_OPTION_ARRAY);
-            if (pair.getRight() != 1) {
-                context.sendMessage(CommandUtil.optionMismatchMessage(COMMAND_OPTION_ARRAY));
-                context.sendMessage(super.cmdLineSyntax);
-                return;
-            }
-            switch (pair.getLeft()) {
-                case COMMAND_OPTION_DYNAMIC_DERIVE:
-                    handleDynamicDerive(context, cmd);
-                    break;
-                case COMMAND_OPTION_STATIC_DERIVE:
-                    handleStaticDerive(context, cmd);
-                    break;
-            }
-        } catch (Exception e) {
-            throw new TelqosException(e);
+    protected void executeWithCmd(CommandExecutor.Context context, CommandLine cmd) throws Exception {
+        Pair<String, Integer> pair = CliCommandUtil.analyseCommand(cmd, COMMAND_OPTION_ARRAY);
+        if (pair.getRight() != 1) {
+            context.sendMessage(CliCommandUtil.optionMismatchMessage(COMMAND_OPTION_ARRAY));
+            context.sendMessage(context.getCommandManual(context.getRuntimeIdentity()));
+            return;
+        }
+        switch (pair.getLeft()) {
+            case COMMAND_OPTION_DYNAMIC_DERIVE:
+                handleDynamicDerive(context, cmd);
+                break;
+            case COMMAND_OPTION_STATIC_DERIVE:
+                handleStaticDerive(context, cmd);
+                break;
+            default:
+                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
         }
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void handleDynamicDerive(Context context, CommandLine cmd) throws Exception {
+    private void handleDynamicDerive(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         DynamicDeriveInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 DynamicDeriveInfo。
@@ -145,7 +155,7 @@ public class DeriveCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void handleStaticDerive(Context context, CommandLine cmd) throws Exception {
+    private void handleStaticDerive(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         StaticDeriveInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 StaticDeriveInfo。

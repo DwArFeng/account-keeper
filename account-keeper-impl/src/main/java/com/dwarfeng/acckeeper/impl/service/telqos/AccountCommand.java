@@ -4,10 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.dwarfeng.acckeeper.sdk.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.service.AccountQosService;
-import com.dwarfeng.springtelqos.node.config.TelqosCommand;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
-import com.dwarfeng.springtelqos.stack.command.Context;
-import com.dwarfeng.springtelqos.stack.exception.TelqosException;
+import com.dwarfeng.springtelqos.sdk.configuration.TelqosCommand;
+import com.dwarfeng.springtelqos.sdk.util.CliCommandUtil;
+import com.dwarfeng.springtelqos.stack.command.CommandDescriptor;
+import com.dwarfeng.springtelqos.stack.command.CommandExecutor;
 import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.apache.commons.cli.CommandLine;
@@ -21,6 +22,11 @@ import java.util.List;
 
 @TelqosCommand
 public class AccountCommand extends CliCommand {
+
+    @SuppressWarnings({"SpellCheckingInspection", "GrazieInspectionRunner", "RedundantSuppression"})
+    private static final String IDENTITY = "account";
+
+    // region 指令选项
 
     private static final String COMMAND_OPTION_REGISTER = "register";
     private static final String COMMAND_OPTION_UPDATE = "update";
@@ -47,59 +53,55 @@ public class AccountCommand extends CliCommand {
     private static final String COMMAND_OPTION_JSON_FILE = "jf";
     private static final String COMMAND_OPTION_JSON_FILE_LONG_OPT = "json-file";
 
-    private static final String IDENTITY = "account";
-    private static final String DESCRIPTION = "账户操作";
-
-    private static final String CMD_LINE_SYNTAX_REGISTER = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_REGISTER) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_UPDATE = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_UPDATE) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_DELETE = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_DELETE) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_CHECK_PASSWORD = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_CHECK_PASSWORD) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_UPDATE_PASSWORD = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_UPDATE_PASSWORD) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_RESET_PASSWORD = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_RESET_PASSWORD) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_INVALID = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_INVALID) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-
-    private static final String[] CMD_LINE_ARRAY = new String[]{
-            CMD_LINE_SYNTAX_REGISTER,
-            CMD_LINE_SYNTAX_UPDATE,
-            CMD_LINE_SYNTAX_DELETE,
-            CMD_LINE_SYNTAX_CHECK_PASSWORD,
-            CMD_LINE_SYNTAX_UPDATE_PASSWORD,
-            CMD_LINE_SYNTAX_RESET_PASSWORD,
-            CMD_LINE_SYNTAX_INVALID
-    };
-
-    private static final String CMD_LINE_SYNTAX = CommandUtil.syntax(CMD_LINE_ARRAY);
+    // endregion
 
     private final AccountQosService accountQosService;
 
     public AccountCommand(AccountQosService accountQosService) {
-        super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
+        super(IDENTITY);
         this.accountQosService = accountQosService;
     }
 
     @Override
-    protected List<Option> buildOptions() {
+    protected DescriptionProvider provideDescriptionProvider() {
+        return context -> "账户操作";
+    }
+
+    @Override
+    protected CliSyntaxProvider provideCliSyntaxProvider() {
+        return this::cliSyntaxProvider;
+    }
+
+    private String cliSyntaxProvider(CommandDescriptor.Context context) throws Exception {
+        String identity = context.getRuntimeIdentity();
+        String[] patterns = new String[]{
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_REGISTER) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_UPDATE) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_DELETE) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_CHECK_PASSWORD) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_UPDATE_PASSWORD) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_RESET_PASSWORD) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_INVALID) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]"
+        };
+        return CliCommandUtil.cliSyntax(patterns);
+    }
+
+    @Override
+    protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
         list.add(Option.builder(COMMAND_OPTION_REGISTER).desc("注册账户").build());
         list.add(Option.builder(COMMAND_OPTION_UPDATE).desc("更新账户").build());
@@ -128,43 +130,41 @@ public class AccountCommand extends CliCommand {
     }
 
     @Override
-    protected void executeWithCmd(Context context, CommandLine cmd) throws TelqosException {
-        try {
-            Pair<String, Integer> pair = CommandUtil.analyseCommand(cmd, COMMAND_OPTION_ARRAY);
-            if (pair.getRight() != 1) {
-                context.sendMessage(CommandUtil.optionMismatchMessage(COMMAND_OPTION_ARRAY));
-                context.sendMessage(super.cmdLineSyntax);
-                return;
-            }
-            switch (pair.getLeft()) {
-                case COMMAND_OPTION_REGISTER:
-                    handleRegister(context, cmd);
-                    break;
-                case COMMAND_OPTION_UPDATE:
-                    handleUpdate(context, cmd);
-                    break;
-                case COMMAND_OPTION_DELETE:
-                    handleDelete(context, cmd);
-                    break;
-                case COMMAND_OPTION_CHECK_PASSWORD:
-                    handleCheckPassword(context, cmd);
-                    break;
-                case COMMAND_OPTION_UPDATE_PASSWORD:
-                    handleUpdatePassword(context, cmd);
-                    break;
-                case COMMAND_OPTION_RESET_PASSWORD:
-                    handleResetPassword(context, cmd);
-                    break;
-                case COMMAND_OPTION_INVALID:
-                    handleInvalid(context, cmd);
-                    break;
-            }
-        } catch (Exception e) {
-            throw new TelqosException(e);
+    protected void executeWithCmd(CommandExecutor.Context context, CommandLine cmd) throws Exception {
+        Pair<String, Integer> pair = CliCommandUtil.analyseCommand(cmd, COMMAND_OPTION_ARRAY);
+        if (pair.getRight() != 1) {
+            context.sendMessage(CliCommandUtil.optionMismatchMessage(COMMAND_OPTION_ARRAY));
+            context.sendMessage(context.getCommandManual(context.getRuntimeIdentity()));
+            return;
+        }
+        switch (pair.getLeft()) {
+            case COMMAND_OPTION_REGISTER:
+                handleRegister(context, cmd);
+                break;
+            case COMMAND_OPTION_UPDATE:
+                handleUpdate(context, cmd);
+                break;
+            case COMMAND_OPTION_DELETE:
+                handleDelete(context, cmd);
+                break;
+            case COMMAND_OPTION_CHECK_PASSWORD:
+                handleCheckPassword(context, cmd);
+                break;
+            case COMMAND_OPTION_UPDATE_PASSWORD:
+                handleUpdatePassword(context, cmd);
+                break;
+            case COMMAND_OPTION_RESET_PASSWORD:
+                handleResetPassword(context, cmd);
+                break;
+            case COMMAND_OPTION_INVALID:
+                handleInvalid(context, cmd);
+                break;
+            default:
+                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
         }
     }
 
-    private void handleRegister(Context context, CommandLine cmd) throws Exception {
+    private void handleRegister(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         AccountRegisterInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 AccountRegisterInfo。
@@ -194,7 +194,7 @@ public class AccountCommand extends CliCommand {
         context.sendMessage("账户注册成功");
     }
 
-    private void handleUpdate(Context context, CommandLine cmd) throws Exception {
+    private void handleUpdate(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         AccountUpdateInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 AccountUpdateInfo。
@@ -225,7 +225,7 @@ public class AccountCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void handleDelete(Context context, CommandLine cmd) throws Exception {
+    private void handleDelete(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         StringIdKey key;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 StringIdKey。
@@ -255,7 +255,7 @@ public class AccountCommand extends CliCommand {
         context.sendMessage("账户删除成功");
     }
 
-    private void handleCheckPassword(Context context, CommandLine cmd) throws Exception {
+    private void handleCheckPassword(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         PasswordCheckInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 PasswordCheckInfo。
@@ -285,7 +285,7 @@ public class AccountCommand extends CliCommand {
         context.sendMessage("账户密码检查结果：" + (result ? "正确" : "错误"));
     }
 
-    private void handleUpdatePassword(Context context, CommandLine cmd) throws Exception {
+    private void handleUpdatePassword(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         PasswordUpdateInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 PasswordUpdateInfo。
@@ -315,7 +315,7 @@ public class AccountCommand extends CliCommand {
         context.sendMessage("账户密码更新成功");
     }
 
-    private void handleResetPassword(Context context, CommandLine cmd) throws Exception {
+    private void handleResetPassword(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         PasswordResetInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 PasswordResetInfo。
@@ -346,7 +346,7 @@ public class AccountCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void handleInvalid(Context context, CommandLine cmd) throws Exception {
+    private void handleInvalid(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         StringIdKey key;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 StringIdKey。

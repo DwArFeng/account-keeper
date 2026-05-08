@@ -5,10 +5,11 @@ import com.dwarfeng.acckeeper.sdk.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.acckeeper.stack.service.AccessQosService;
-import com.dwarfeng.springtelqos.node.config.TelqosCommand;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
-import com.dwarfeng.springtelqos.stack.command.Context;
-import com.dwarfeng.springtelqos.stack.exception.TelqosException;
+import com.dwarfeng.springtelqos.sdk.configuration.TelqosCommand;
+import com.dwarfeng.springtelqos.sdk.util.CliCommandUtil;
+import com.dwarfeng.springtelqos.stack.command.CommandDescriptor;
+import com.dwarfeng.springtelqos.stack.command.CommandExecutor;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.lang3.tuple.Pair;
@@ -21,6 +22,11 @@ import java.util.Objects;
 
 @TelqosCommand
 public class AccessCommand extends CliCommand {
+
+    @SuppressWarnings({"SpellCheckingInspection", "GrazieInspectionRunner", "RedundantSuppression"})
+    private static final String IDENTITY = "access";
+
+    // region 指令选项
 
     private static final String COMMAND_OPTION_AUTH_INSPECT = "ai";
     private static final String COMMAND_OPTION_AUTH_INSPECT_LONG_OPT = "auth-inspect";
@@ -51,64 +57,58 @@ public class AccessCommand extends CliCommand {
     private static final String COMMAND_OPTION_JSON_FILE = "jf";
     private static final String COMMAND_OPTION_JSON_FILE_LONG_OPT = "json-file";
 
-    private static final String IDENTITY = "access";
-    private static final String DESCRIPTION = "访问服务";
-
-    private static final String CMD_LINE_SYNTAX_AUTH = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_AUTH_INSPECT) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_DYNAMIC_LOGIN = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_DYNAMIC_LOGIN) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_STATIC_LOGIN = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_STATIC_LOGIN) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_TRUSTED_DYNAMIC_LOGIN = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_TRUSTED_DYNAMIC_LOGIN) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_TRUSTED_STATIC_LOGIN = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_TRUSTED_STATIC_LOGIN) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_LOGOUT = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_LOGOUT) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_POSTPONE = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_POSTPONE) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_KICK = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_KICK) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-
-    private static final String[] CMD_LINE_ARRAY = new String[]{
-            CMD_LINE_SYNTAX_AUTH,
-            CMD_LINE_SYNTAX_DYNAMIC_LOGIN,
-            CMD_LINE_SYNTAX_STATIC_LOGIN,
-            CMD_LINE_SYNTAX_TRUSTED_DYNAMIC_LOGIN,
-            CMD_LINE_SYNTAX_TRUSTED_STATIC_LOGIN,
-            CMD_LINE_SYNTAX_LOGOUT,
-            CMD_LINE_SYNTAX_POSTPONE,
-            CMD_LINE_SYNTAX_KICK
-    };
-
-    private static final String CMD_LINE_SYNTAX = CommandUtil.syntax(CMD_LINE_ARRAY);
+    // endregion
 
     private final AccessQosService accessQosService;
 
     public AccessCommand(AccessQosService accessQosService) {
-        super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
+        super(IDENTITY);
         this.accessQosService = accessQosService;
     }
 
     @Override
-    protected List<Option> buildOptions() {
+    protected DescriptionProvider provideDescriptionProvider() {
+        return context -> "访问服务";
+    }
+
+    @Override
+    protected CliSyntaxProvider provideCliSyntaxProvider() {
+        return this::cliSyntaxProvider;
+    }
+
+    private String cliSyntaxProvider(CommandDescriptor.Context context) throws Exception {
+        String identity = context.getRuntimeIdentity();
+        String[] patterns = new String[]{
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_AUTH_INSPECT) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_DYNAMIC_LOGIN) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_STATIC_LOGIN) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_TRUSTED_DYNAMIC_LOGIN) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_TRUSTED_STATIC_LOGIN) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_LOGOUT) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_POSTPONE) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_KICK) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]"
+        };
+        return CliCommandUtil.cliSyntax(patterns);
+    }
+
+    @Override
+    protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
         list.add(
                 Option.builder(COMMAND_OPTION_AUTH_INSPECT).longOpt(COMMAND_OPTION_AUTH_INSPECT_LONG_OPT)
@@ -146,46 +146,44 @@ public class AccessCommand extends CliCommand {
     }
 
     @Override
-    protected void executeWithCmd(Context context, CommandLine cmd) throws TelqosException {
-        try {
-            Pair<String, Integer> pair = CommandUtil.analyseCommand(cmd, COMMAND_OPTION_ARRAY);
-            if (pair.getRight() != 1) {
-                context.sendMessage(CommandUtil.optionMismatchMessage(COMMAND_OPTION_ARRAY));
-                context.sendMessage(super.cmdLineSyntax);
-                return;
-            }
-            switch (pair.getLeft()) {
-                case COMMAND_OPTION_AUTH_INSPECT:
-                    handleAuthInspect(context, cmd);
-                    break;
-                case COMMAND_OPTION_DYNAMIC_LOGIN:
-                    handleDynamicLogin(context, cmd);
-                    break;
-                case COMMAND_OPTION_STATIC_LOGIN:
-                    handleStaticLogin(context, cmd);
-                    break;
-                case COMMAND_OPTION_TRUSTED_DYNAMIC_LOGIN:
-                    handleTrustedDynamicLogin(context, cmd);
-                    break;
-                case COMMAND_OPTION_TRUSTED_STATIC_LOGIN:
-                    handleTrustedStaticLogin(context, cmd);
-                    break;
-                case COMMAND_OPTION_LOGOUT:
-                    handleLogout(context, cmd);
-                    break;
-                case COMMAND_OPTION_POSTPONE:
-                    handlePostpone(context, cmd);
-                    break;
-                case COMMAND_OPTION_KICK:
-                    handleKick(context, cmd);
-                    break;
-            }
-        } catch (Exception e) {
-            throw new TelqosException(e);
+    protected void executeWithCmd(CommandExecutor.Context context, CommandLine cmd) throws Exception {
+        Pair<String, Integer> pair = CliCommandUtil.analyseCommand(cmd, COMMAND_OPTION_ARRAY);
+        if (pair.getRight() != 1) {
+            context.sendMessage(CliCommandUtil.optionMismatchMessage(COMMAND_OPTION_ARRAY));
+            context.sendMessage(context.getCommandManual(context.getRuntimeIdentity()));
+            return;
+        }
+        switch (pair.getLeft()) {
+            case COMMAND_OPTION_AUTH_INSPECT:
+                handleAuthInspect(context, cmd);
+                break;
+            case COMMAND_OPTION_DYNAMIC_LOGIN:
+                handleDynamicLogin(context, cmd);
+                break;
+            case COMMAND_OPTION_STATIC_LOGIN:
+                handleStaticLogin(context, cmd);
+                break;
+            case COMMAND_OPTION_TRUSTED_DYNAMIC_LOGIN:
+                handleTrustedDynamicLogin(context, cmd);
+                break;
+            case COMMAND_OPTION_TRUSTED_STATIC_LOGIN:
+                handleTrustedStaticLogin(context, cmd);
+                break;
+            case COMMAND_OPTION_LOGOUT:
+                handleLogout(context, cmd);
+                break;
+            case COMMAND_OPTION_POSTPONE:
+                handlePostpone(context, cmd);
+                break;
+            case COMMAND_OPTION_KICK:
+                handleKick(context, cmd);
+                break;
+            default:
+                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
         }
     }
 
-    private void handleAuthInspect(Context context, CommandLine cmd) throws Exception {
+    private void handleAuthInspect(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         AuthInspectInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 AuthInspectInfo。
@@ -230,7 +228,7 @@ public class AccessCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void handleDynamicLogin(Context context, CommandLine cmd) throws Exception {
+    private void handleDynamicLogin(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         DynamicLoginInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 DynamicLoginInfo。
@@ -267,7 +265,7 @@ public class AccessCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void handleStaticLogin(Context context, CommandLine cmd) throws Exception {
+    private void handleStaticLogin(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         StaticLoginInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 StaticLoginInfo。
@@ -304,7 +302,7 @@ public class AccessCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void handleTrustedDynamicLogin(Context context, CommandLine cmd) throws Exception {
+    private void handleTrustedDynamicLogin(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         TrustedDynamicLoginInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 TrustedDynamicLoginInfo。
@@ -341,7 +339,7 @@ public class AccessCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void handleTrustedStaticLogin(Context context, CommandLine cmd) throws Exception {
+    private void handleTrustedStaticLogin(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         TrustedStaticLoginInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 TrustedStaticLoginInfo。
@@ -377,7 +375,7 @@ public class AccessCommand extends CliCommand {
         context.sendMessage("  remark: " + result.getRemark());
     }
 
-    private void handleLogout(Context context, CommandLine cmd) throws Exception {
+    private void handleLogout(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         LogoutInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 LogoutInfo。
@@ -408,7 +406,7 @@ public class AccessCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void handlePostpone(Context context, CommandLine cmd) throws Exception {
+    private void handlePostpone(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         PostponeInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 PostponeInfo。
@@ -444,7 +442,7 @@ public class AccessCommand extends CliCommand {
         context.sendMessage("  remark: " + result.getRemark());
     }
 
-    private void handleKick(Context context, CommandLine cmd) throws Exception {
+    private void handleKick(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         KickInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 KickInfo。
