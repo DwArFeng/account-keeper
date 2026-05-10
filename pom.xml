@@ -446,6 +446,16 @@
                 <artifactId>account-keeper-node</artifactId>
                 <version>3.0.0.a-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>com.dwarfeng</groupId>
+                <artifactId>account-keeper-node-all-he</artifactId>
+                <version>3.0.0.a-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dwarfeng</groupId>
+                <artifactId>account-keeper-distribute</artifactId>
+                <version>3.0.0.a-SNAPSHOT</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -492,5 +502,6 @@
         <module>account-keeper-impl</module>
         <module>account-keeper-node</module>
         <module>account-keeper-api</module>
+        <module>account-keeper-distribute</module>
     </modules>
 </project>

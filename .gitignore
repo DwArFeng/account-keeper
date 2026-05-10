@@ -71,33 +71,33 @@ buildNumber.properties
 #################
 ## Logger Files
 #################
-/account-keeper-node/logs/
 /account-keeper-impl/logs/
+/account-keeper-node/account-keeper-node-all-he/logs/
 /account-keeper-api/logs/
 
 #################
 ## Configuration Files
 #################
-/account-keeper-node/conf/
 /account-keeper-impl/conf/
+/account-keeper-node/account-keeper-node-all-he/conf/
 /account-keeper-api/conf/
 
 #################
 ## Libext Files
 #################
-/account-keeper-node/libext/
+/account-keeper-node/account-keeper-node-all-he/libext/
 
 #################
 ## Opt Files
 #################
-/account-keeper-node/opt/
+/account-keeper-node/account-keeper-node-all-he/opt/
 
 #################
 ## Optext Files
 #################
-/account-keeper-node/optext/
+/account-keeper-node/account-keeper-node-all-he/optext/
 
 #################
 ## Confext Files
 #################
-/account-keeper-node/confext/
+/account-keeper-node/account-keeper-node-all-he/confext/

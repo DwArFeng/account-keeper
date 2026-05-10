@@ -1,4 +1,4 @@
-package com.dwarfeng.acckeeper.node.configuration;
+package com.dwarfeng.acckeeper.node.all.he.configuration;
 
 import com.dwarfeng.acckeeper.impl.bean.BeanMapper;
 import com.dwarfeng.acckeeper.impl.bean.entity.*;

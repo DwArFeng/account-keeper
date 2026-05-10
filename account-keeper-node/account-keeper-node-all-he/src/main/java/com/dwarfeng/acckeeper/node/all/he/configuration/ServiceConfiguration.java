@@ -1,4 +1,4 @@
-package com.dwarfeng.acckeeper.node.configuration;
+package com.dwarfeng.acckeeper.node.all.he.configuration;
 
 import com.dwarfeng.acckeeper.impl.service.operation.AccountCrudOperation;
 import com.dwarfeng.acckeeper.impl.service.operation.LoginHistoryCrudOperation;
