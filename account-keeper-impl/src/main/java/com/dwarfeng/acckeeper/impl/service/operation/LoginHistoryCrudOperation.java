@@ -34,7 +34,7 @@ public class LoginHistoryCrudOperation implements BatchCrudOperation<LongIdKey, 
     private final ProtectDetailRecordDao protectDetailRecordDao;
     private final ProtectDetailRecordCache protectDetailRecordCache;
 
-    @Value("${cache.timeout.entity.login_history}")
+    @Value("${com.dwarfeng.acckeeper.cache.timeout.entity.login_history}")
     private long loginHistoryTimeout;
 
     public LoginHistoryCrudOperation(

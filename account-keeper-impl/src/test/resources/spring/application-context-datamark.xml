@@ -12,16 +12,16 @@
     <!-- Account 数据标识。 -->
     <datamark:handler
             handler-name="accountDatamarkHandler"
-            resource-url="${datamark.account.resource_url}"
-            resource-charset="${datamark.account.resource_charset}"
-            update-allowed="${datamark.account.update_allowed}"
+            resource-url="${com.dwarfeng.acckeeper.datamark.account.resource_url}"
+            resource-charset="${com.dwarfeng.acckeeper.datamark.account.resource_charset}"
+            update-allowed="${com.dwarfeng.acckeeper.datamark.account.update_allowed}"
     />
 
     <!-- Protector 数据标识。 -->
     <datamark:handler
             handler-name="protectorDatamarkHandler"
-            resource-url="${datamark.protector.resource_url}"
-            resource-charset="${datamark.protector.resource_charset}"
-            update-allowed="${datamark.protector.update_allowed}"
+            resource-url="${com.dwarfeng.acckeeper.datamark.protector.resource_url}"
+            resource-charset="${com.dwarfeng.acckeeper.datamark.protector.resource_charset}"
+            update-allowed="${com.dwarfeng.acckeeper.datamark.protector.update_allowed}"
     />
 </beans>

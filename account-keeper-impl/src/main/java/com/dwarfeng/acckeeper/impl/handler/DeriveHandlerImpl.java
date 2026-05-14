@@ -36,7 +36,7 @@ public class DeriveHandlerImpl implements DeriveHandler {
 
     private final DeriveProcessor deriveProcessor;
 
-    @Value("${acckeeper.derive.dynamic.expire_duration}")
+    @Value("${com.dwarfeng.acckeeper.acckeeper.derive.dynamic.expire_duration}")
     private long dynamicDeriveExpireDuration;
 
     public DeriveHandlerImpl(

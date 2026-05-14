@@ -45,17 +45,17 @@ public class ServiceConfiguration {
     private final DeriveHistoryDao deriveHistoryDao;
     private final DeriveHistoryCache deriveHistoryCache;
 
-    @Value("${cache.timeout.entity.login_state}")
+    @Value("${com.dwarfeng.acckeeper.cache.timeout.entity.login_state}")
     private long loginStateTimeout;
-    @Value("${cache.timeout.entity.protector_support}")
+    @Value("${com.dwarfeng.acckeeper.cache.timeout.entity.protector_support}")
     private long protectorSupportTimeout;
-    @Value("${cache.timeout.entity.protector_variable}")
+    @Value("${com.dwarfeng.acckeeper.cache.timeout.entity.protector_variable}")
     private long protectorVariableTimeout;
-    @Value("${cache.timeout.entity.login_param_record}")
+    @Value("${com.dwarfeng.acckeeper.cache.timeout.entity.login_param_record}")
     private long loginParamRecordTimeout;
-    @Value("${cache.timeout.entity.protect_detail_record}")
+    @Value("${com.dwarfeng.acckeeper.cache.timeout.entity.protect_detail_record}")
     private long protectDetailRecordTimeout;
-    @Value("${cache.timeout.entity.derive_history}")
+    @Value("${com.dwarfeng.acckeeper.cache.timeout.entity.derive_history}")
     private long deriveHistoryTimeout;
 
     public ServiceConfiguration(

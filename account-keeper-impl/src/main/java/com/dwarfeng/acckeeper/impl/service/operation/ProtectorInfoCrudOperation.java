@@ -27,7 +27,7 @@ public class ProtectorInfoCrudOperation implements BatchCrudOperation<StringIdKe
     private final ProtectorVariableDao protectorVariableDao;
     private final ProtectorVariableCache protectorVariableCache;
 
-    @Value("${cache.timeout.entity.protector_info}")
+    @Value("${com.dwarfeng.acckeeper.cache.timeout.entity.protector_info}")
     private long protectorInfoTimeout;
 
     public ProtectorInfoCrudOperation(

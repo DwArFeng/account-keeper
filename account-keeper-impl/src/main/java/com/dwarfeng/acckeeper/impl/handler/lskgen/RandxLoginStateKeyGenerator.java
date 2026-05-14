@@ -25,7 +25,7 @@ public class RandxLoginStateKeyGenerator extends AbstractLoginStateKeyGenerator 
 
     public static final String SUPPORT_TYPE = "randx";
 
-    @Value("${lskgen.randx.length}")
+    @Value("${com.dwarfeng.acckeeper.lskgen.randx.length}")
     private int length;
 
     private final SecureRandom random = new SecureRandom();

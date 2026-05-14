@@ -47,7 +47,7 @@ public class AccessProcessor {
 
     private final TransactionWrapper transactionWrapper;
 
-    @Value("${acckeeper.login.dynamic.expire_duration}")
+    @Value("${com.dwarfeng.acckeeper.acckeeper.login.dynamic.expire_duration}")
     private long dynamicLoginExpireDuration;
 
     public AccessProcessor(

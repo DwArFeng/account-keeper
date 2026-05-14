@@ -17,7 +17,7 @@ public class LoginStateKeyGenerateHandlerImpl implements LoginStateKeyGenerateHa
 
     private final List<LoginStateKeyGenerator> loginStateKeyGenerators;
 
-    @Value("${lskgen.type}")
+    @Value("${com.dwarfeng.acckeeper.lskgen.type}")
     private String loginStateKeyGeneratorType;
 
     private LoginStateKeyGenerator loginStateKeyGenerator;

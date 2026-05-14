@@ -30,7 +30,7 @@ public class CleanHandlerImpl implements CleanHandler {
 
     public CleanHandlerImpl(
             CuratorFramework curatorFramework,
-            @Value("${curator.latch_path.clean.leader_latch}") String leaderLatchPath,
+            @Value("${com.dwarfeng.acckeeper.curator.latch_path.clean.leader_latch}") String leaderLatchPath,
             CleanWorker worker
     ) {
         handler = new CuratorDistributedLockHandler(curatorFramework, leaderLatchPath, worker);
@@ -91,7 +91,7 @@ public class CleanHandlerImpl implements CleanHandler {
 
         private final ThreadPoolTaskScheduler scheduler;
 
-        @Value("${clean.expired_login_state.cron}")
+        @Value("${com.dwarfeng.acckeeper.clean.expired_login_state.cron}")
         private String expiredLoginStateCron;
 
         private Future<?> expiredLoginStateFuture;

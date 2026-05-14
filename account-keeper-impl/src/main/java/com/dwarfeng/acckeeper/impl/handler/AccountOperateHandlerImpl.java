@@ -29,11 +29,11 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
 
     private final HandlerValidator handlerValidator;
 
-    @Value("${register.password.salt_log_rounds}")
+    @Value("${com.dwarfeng.acckeeper.register.password.salt_log_rounds}")
     private int logRounds;
-    @Value("${register.default_protector.type}")
+    @Value("${com.dwarfeng.acckeeper.register.default_protector.type}")
     private String defaultProtectorType;
-    @Value("${register.default_protector.param}")
+    @Value("${com.dwarfeng.acckeeper.register.default_protector.param}")
     private String defaultProtectorParam;
 
     public AccountOperateHandlerImpl(

@@ -30,7 +30,7 @@ public class AccountCrudOperation implements BatchCrudOperation<StringIdKey, Acc
     private final ProtectorInfoCrudOperation protectInfoCrudOperation;
     private final ProtectorInfoDao protectorInfoDao;
 
-    @Value("${cache.timeout.entity.account}")
+    @Value("${com.dwarfeng.acckeeper.cache.timeout.entity.account}")
     private long accountTimeout;
 
     public AccountCrudOperation(

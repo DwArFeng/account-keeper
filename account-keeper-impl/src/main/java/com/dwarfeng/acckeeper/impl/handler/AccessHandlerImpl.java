@@ -38,7 +38,7 @@ public class AccessHandlerImpl implements AccessHandler {
 
     private final HandlerValidator handlerValidator;
 
-    @Value("${acckeeper.login.dynamic.expire_duration}")
+    @Value("${com.dwarfeng.acckeeper.acckeeper.login.dynamic.expire_duration}")
     private long dynamicLoginExpireDuration;
 
     public AccessHandlerImpl(

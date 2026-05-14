@@ -23,23 +23,23 @@ public class CacheConfiguration {
 
     private final RedisTemplate<String, ?> template;
 
-    @Value("${cache.prefix.entity.account}")
+    @Value("${com.dwarfeng.acckeeper.cache.prefix.entity.account}")
     private String accountPrefix;
-    @Value("${cache.prefix.entity.login_state}")
+    @Value("${com.dwarfeng.acckeeper.cache.prefix.entity.login_state}")
     private String loginStatePrefix;
-    @Value("${cache.prefix.entity.login_history}")
+    @Value("${com.dwarfeng.acckeeper.cache.prefix.entity.login_history}")
     private String loginHistoryPrefix;
-    @Value("${cache.prefix.entity.protector_info}")
+    @Value("${com.dwarfeng.acckeeper.cache.prefix.entity.protector_info}")
     private String protectorInfoPrefix;
-    @Value("${cache.prefix.entity.protector_support}")
+    @Value("${com.dwarfeng.acckeeper.cache.prefix.entity.protector_support}")
     private String protectorSupportPrefix;
-    @Value("${cache.prefix.entity.protector_variable}")
+    @Value("${com.dwarfeng.acckeeper.cache.prefix.entity.protector_variable}")
     private String protectorVariablePrefix;
-    @Value("${cache.prefix.entity.login_param_record}")
+    @Value("${com.dwarfeng.acckeeper.cache.prefix.entity.login_param_record}")
     private String loginParamRecordPrefix;
-    @Value("${cache.prefix.entity.protect_detail_record}")
+    @Value("${com.dwarfeng.acckeeper.cache.prefix.entity.protect_detail_record}")
     private String protectDetailRecordPrefix;
-    @Value("${cache.prefix.entity.derive_history}")
+    @Value("${com.dwarfeng.acckeeper.cache.prefix.entity.derive_history}")
     private String deriveHistoryPrefix;
 
     public CacheConfiguration(RedisTemplate<String, ?> template) {

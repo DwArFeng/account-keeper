@@ -16,12 +16,19 @@
     </dubbo:application>
 
     <!-- Zookeeper 注册中心。 -->
-    <dubbo:registry address="${dubbo.registry.zookeeper.address}" timeout="${dubbo.registry.zookeeper.timeout}"/>
+    <dubbo:registry
+            address="${com.dwarfeng.acckeeper.dubbo.registry.zookeeper.address}"
+            timeout="${com.dwarfeng.acckeeper.dubbo.registry.zookeeper.timeout}"
+    />
 
     <!-- Dubbo 协议。 -->
     <dubbo:protocol
-            name="dubbo" port="${dubbo.protocol.dubbo.port}" host="${dubbo.protocol.dubbo.host}"
-            dispatcher="message" threadpool="fixed" threads="100"
+            name="dubbo"
+            port="${com.dwarfeng.acckeeper.dubbo.protocol.dubbo.port}"
+            host="${com.dwarfeng.acckeeper.dubbo.protocol.dubbo.host}"
+            dispatcher="message"
+            threadpool="fixed"
+            threads="100"
     />
 
     <!-- endregion -->
@@ -33,62 +40,62 @@
     <dubbo:service
             interface="com.dwarfeng.acckeeper.stack.service.AccountMaintainService"
             ref="accountMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.acckeeper.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.acckeeper.stack.service.AccountOperateService"
             ref="accountOperateServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.acckeeper.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.acckeeper.stack.service.LoginHistoryMaintainService"
             ref="loginHistoryMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.acckeeper.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.acckeeper.stack.service.ProtectorInfoMaintainService"
             ref="protectorInfoMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.acckeeper.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.acckeeper.stack.service.ProtectorSupportMaintainService"
             ref="protectorSupportMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.acckeeper.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.acckeeper.stack.service.ProtectorVariableMaintainService"
             ref="protectorVariableMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.acckeeper.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.acckeeper.stack.service.LoginParamRecordMaintainService"
             ref="loginParamRecordMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.acckeeper.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.acckeeper.stack.service.ProtectDetailRecordMaintainService"
             ref="protectDetailRecordMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.acckeeper.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.acckeeper.stack.service.DeriveHistoryMaintainService"
             ref="deriveHistoryMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.acckeeper.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService"
             ref="loginStateMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.acckeeper.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.acckeeper.stack.service.AccessService"
             ref="accessServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.acckeeper.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.acckeeper.stack.service.DeriveService"
             ref="deriveServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.acckeeper.dubbo.provider.group}"
     />
 
     <!-- endregion -->
@@ -103,7 +110,7 @@
             id="snowflakeGenerateService"
             interface="com.dwarfeng.sfds.stack.service.GenerateService"
             check="false"
-            group="${dubbo.consumer.snowflake.group}"
+            group="${com.dwarfeng.acckeeper.dubbo.consumer.snowflake.group}"
     />
 
     <!-- endregion -->
