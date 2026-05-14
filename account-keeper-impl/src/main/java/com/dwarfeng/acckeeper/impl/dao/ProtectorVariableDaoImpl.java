@@ -1,16 +1,14 @@
 package com.dwarfeng.acckeeper.impl.dao;
 
-import com.dwarfeng.acckeeper.impl.bean.entity.HibernateProtectorVariable;
-import com.dwarfeng.acckeeper.impl.bean.key.HibernateProtectorVariableKey;
 import com.dwarfeng.acckeeper.stack.bean.entity.ProtectorVariable;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
 import com.dwarfeng.acckeeper.stack.dao.ProtectorVariableDao;
-import com.dwarfeng.subgrade.impl.dao.HibernateBatchBaseDao;
-import com.dwarfeng.subgrade.impl.dao.HibernateEntireLookupDao;
-import com.dwarfeng.subgrade.impl.dao.HibernatePresetLookupDao;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
+import com.dwarfeng.subgrade.stack.dao.BatchBaseDao;
+import com.dwarfeng.subgrade.stack.dao.EntireLookupDao;
+import com.dwarfeng.subgrade.stack.dao.PresetLookupDao;
 import com.dwarfeng.subgrade.stack.exception.DaoException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,16 +18,14 @@ import java.util.List;
 @Repository
 public class ProtectorVariableDaoImpl implements ProtectorVariableDao {
 
-    private final HibernateBatchBaseDao<ProtectorVariableKey, HibernateProtectorVariableKey, ProtectorVariable,
-            HibernateProtectorVariable> batchBaseDao;
-    private final HibernateEntireLookupDao<ProtectorVariable, HibernateProtectorVariable> entireLookupDao;
-    private final HibernatePresetLookupDao<ProtectorVariable, HibernateProtectorVariable> presetLookupDao;
+    private final BatchBaseDao<ProtectorVariableKey, ProtectorVariable> batchBaseDao;
+    private final EntireLookupDao<ProtectorVariable> entireLookupDao;
+    private final PresetLookupDao<ProtectorVariable> presetLookupDao;
 
     public ProtectorVariableDaoImpl(
-            HibernateBatchBaseDao<ProtectorVariableKey, HibernateProtectorVariableKey, ProtectorVariable,
-                    HibernateProtectorVariable> batchBaseDao,
-            HibernateEntireLookupDao<ProtectorVariable, HibernateProtectorVariable> entireLookupDao,
-            HibernatePresetLookupDao<ProtectorVariable, HibernateProtectorVariable> presetLookupDao
+            BatchBaseDao<ProtectorVariableKey, ProtectorVariable> batchBaseDao,
+            EntireLookupDao<ProtectorVariable> entireLookupDao,
+            PresetLookupDao<ProtectorVariable> presetLookupDao
     ) {
         this.batchBaseDao = batchBaseDao;
         this.entireLookupDao = entireLookupDao;

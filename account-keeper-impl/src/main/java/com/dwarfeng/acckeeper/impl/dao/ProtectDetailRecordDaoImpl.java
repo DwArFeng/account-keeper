@@ -1,16 +1,14 @@
 package com.dwarfeng.acckeeper.impl.dao;
 
-import com.dwarfeng.acckeeper.impl.bean.entity.HibernateProtectDetailRecord;
-import com.dwarfeng.acckeeper.impl.bean.key.HibernateRecordKey;
 import com.dwarfeng.acckeeper.stack.bean.entity.ProtectDetailRecord;
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
 import com.dwarfeng.acckeeper.stack.dao.ProtectDetailRecordDao;
-import com.dwarfeng.subgrade.impl.dao.HibernateBatchBaseDao;
-import com.dwarfeng.subgrade.impl.dao.HibernateEntireLookupDao;
-import com.dwarfeng.subgrade.impl.dao.HibernatePresetLookupDao;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
+import com.dwarfeng.subgrade.stack.dao.BatchBaseDao;
+import com.dwarfeng.subgrade.stack.dao.EntireLookupDao;
+import com.dwarfeng.subgrade.stack.dao.PresetLookupDao;
 import com.dwarfeng.subgrade.stack.exception.DaoException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,16 +18,14 @@ import java.util.List;
 @Repository
 public class ProtectDetailRecordDaoImpl implements ProtectDetailRecordDao {
 
-    private final HibernateBatchBaseDao<RecordKey, HibernateRecordKey, ProtectDetailRecord,
-            HibernateProtectDetailRecord> batchBaseDao;
-    private final HibernateEntireLookupDao<ProtectDetailRecord, HibernateProtectDetailRecord> entireLookupDao;
-    private final HibernatePresetLookupDao<ProtectDetailRecord, HibernateProtectDetailRecord> presetLookupDao;
+    private final BatchBaseDao<RecordKey, ProtectDetailRecord> batchBaseDao;
+    private final EntireLookupDao<ProtectDetailRecord> entireLookupDao;
+    private final PresetLookupDao<ProtectDetailRecord> presetLookupDao;
 
     public ProtectDetailRecordDaoImpl(
-            HibernateBatchBaseDao<RecordKey, HibernateRecordKey, ProtectDetailRecord, HibernateProtectDetailRecord>
-                    batchBaseDao,
-            HibernateEntireLookupDao<ProtectDetailRecord, HibernateProtectDetailRecord> entireLookupDao,
-            HibernatePresetLookupDao<ProtectDetailRecord, HibernateProtectDetailRecord> presetLookupDao
+            BatchBaseDao<RecordKey, ProtectDetailRecord> batchBaseDao,
+            EntireLookupDao<ProtectDetailRecord> entireLookupDao,
+            PresetLookupDao<ProtectDetailRecord> presetLookupDao
     ) {
         this.batchBaseDao = batchBaseDao;
         this.entireLookupDao = entireLookupDao;

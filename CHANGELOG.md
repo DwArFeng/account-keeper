@@ -4,6 +4,35 @@
 
 ### 功能构建
 
+- 部分代理类实现中的字段类型提升为对应的接口，与具体实现解耦。
+  - com.dwarfeng.acckeeper.impl.cache.AccountCacheImpl。
+  - com.dwarfeng.acckeeper.impl.cache.DeriveHistoryCacheImpl。
+  - com.dwarfeng.acckeeper.impl.cache.LoginHistoryCacheImpl。
+  - com.dwarfeng.acckeeper.impl.cache.LoginParamRecordCacheImpl。
+  - com.dwarfeng.acckeeper.impl.cache.LoginStateCacheImpl。
+  - com.dwarfeng.acckeeper.impl.cache.ProtectDetailRecordCacheImpl。
+  - com.dwarfeng.acckeeper.impl.cache.ProtectorInfoCacheImpl。
+  - com.dwarfeng.acckeeper.impl.cache.ProtectorVariableCacheImpl。
+  - com.dwarfeng.acckeeper.impl.dao.AccountDaoImpl。
+  - com.dwarfeng.acckeeper.impl.dao.DeriveHistoryDaoImpl。
+  - com.dwarfeng.acckeeper.impl.dao.LoginHistoryDaoImpl。
+  - com.dwarfeng.acckeeper.impl.dao.LoginParamRecordDaoImpl。
+  - com.dwarfeng.acckeeper.impl.dao.LoginStateDaoImpl。
+  - com.dwarfeng.acckeeper.impl.dao.ProtectDetailRecordDaoImpl。
+  - com.dwarfeng.acckeeper.impl.dao.ProtectorInfoDaoImpl。
+  - com.dwarfeng.acckeeper.impl.dao.ProtectorSupportCacheImpl。
+  - com.dwarfeng.acckeeper.impl.dao.ProtectorSupportDaoImpl。
+  - com.dwarfeng.acckeeper.impl.dao.ProtectorVariableDaoImpl。
+  - com.dwarfeng.acckeeper.impl.service.AccountMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.DeriveHistoryMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.LoginHistoryMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.LoginParamRecordMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.LoginStateMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.ProtectDetailRecordMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.ProtectorInfoMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.ProtectorSupportMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.ProtectorVariableMaintainServiceImpl。
+
 - 优化项目的异常处理机制。
   - `account-keeper-sdk` 子模块新增 `ServiceExceptionHelper` 工具类，统一维护项目自身的异常映射关系。
   - `account-keeper-impl` 子模块 `ServiceExceptionMapperConfiguration` 配置类的异常映射处理逻辑优化。

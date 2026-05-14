@@ -1,12 +1,11 @@
 package com.dwarfeng.acckeeper.impl.cache;
 
-import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonLoginParamRecord;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginParamRecord;
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
 import com.dwarfeng.acckeeper.stack.cache.LoginParamRecordCache;
-import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
+import com.dwarfeng.subgrade.stack.cache.BatchBaseCache;
 import com.dwarfeng.subgrade.stack.exception.CacheException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +15,9 @@ import java.util.List;
 @Repository
 public class LoginParamRecordCacheImpl implements LoginParamRecordCache {
 
-    private final RedisBatchBaseCache<RecordKey, LoginParamRecord, FastJsonLoginParamRecord> batchBaseCache;
+    private final BatchBaseCache<RecordKey, LoginParamRecord> batchBaseCache;
 
-    public LoginParamRecordCacheImpl(
-            RedisBatchBaseCache<RecordKey, LoginParamRecord, FastJsonLoginParamRecord> batchBaseCache
-    ) {
+    public LoginParamRecordCacheImpl(BatchBaseCache<RecordKey, LoginParamRecord> batchBaseCache) {
         this.batchBaseCache = batchBaseCache;
     }
 

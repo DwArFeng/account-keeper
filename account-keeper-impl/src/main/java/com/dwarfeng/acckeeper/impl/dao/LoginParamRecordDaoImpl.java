@@ -1,16 +1,14 @@
 package com.dwarfeng.acckeeper.impl.dao;
 
-import com.dwarfeng.acckeeper.impl.bean.entity.HibernateLoginParamRecord;
-import com.dwarfeng.acckeeper.impl.bean.key.HibernateRecordKey;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginParamRecord;
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
 import com.dwarfeng.acckeeper.stack.dao.LoginParamRecordDao;
-import com.dwarfeng.subgrade.impl.dao.HibernateBatchBaseDao;
-import com.dwarfeng.subgrade.impl.dao.HibernateEntireLookupDao;
-import com.dwarfeng.subgrade.impl.dao.HibernatePresetLookupDao;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
+import com.dwarfeng.subgrade.stack.dao.BatchBaseDao;
+import com.dwarfeng.subgrade.stack.dao.EntireLookupDao;
+import com.dwarfeng.subgrade.stack.dao.PresetLookupDao;
 import com.dwarfeng.subgrade.stack.exception.DaoException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,16 +18,14 @@ import java.util.List;
 @Repository
 public class LoginParamRecordDaoImpl implements LoginParamRecordDao {
 
-    private final HibernateBatchBaseDao<RecordKey, HibernateRecordKey, LoginParamRecord, HibernateLoginParamRecord>
-            batchBaseDao;
-    private final HibernateEntireLookupDao<LoginParamRecord, HibernateLoginParamRecord> entireLookupDao;
-    private final HibernatePresetLookupDao<LoginParamRecord, HibernateLoginParamRecord> presetLookupDao;
+    private final BatchBaseDao<RecordKey, LoginParamRecord> batchBaseDao;
+    private final EntireLookupDao<LoginParamRecord> entireLookupDao;
+    private final PresetLookupDao<LoginParamRecord> presetLookupDao;
 
     public LoginParamRecordDaoImpl(
-            HibernateBatchBaseDao<RecordKey, HibernateRecordKey, LoginParamRecord, HibernateLoginParamRecord>
-                    batchBaseDao,
-            HibernateEntireLookupDao<LoginParamRecord, HibernateLoginParamRecord> entireLookupDao,
-            HibernatePresetLookupDao<LoginParamRecord, HibernateLoginParamRecord> presetLookupDao
+            BatchBaseDao<RecordKey, LoginParamRecord> batchBaseDao,
+            EntireLookupDao<LoginParamRecord> entireLookupDao,
+            PresetLookupDao<LoginParamRecord> presetLookupDao
     ) {
         this.batchBaseDao = batchBaseDao;
         this.entireLookupDao = entireLookupDao;

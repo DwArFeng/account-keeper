@@ -2,15 +2,15 @@ package com.dwarfeng.acckeeper.impl.service;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginHistory;
 import com.dwarfeng.acckeeper.stack.service.LoginHistoryMaintainService;
-import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.stack.service.BatchCrudService;
+import com.dwarfeng.subgrade.stack.service.EntireLookupService;
+import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +19,14 @@ import java.util.List;
 @Service
 public class LoginHistoryMaintainServiceImpl implements LoginHistoryMaintainService {
 
-    private final CustomBatchCrudService<LongIdKey, LoginHistory> batchCrudService;
-    private final DaoOnlyEntireLookupService<LoginHistory> entireLookupService;
-    private final DaoOnlyPresetLookupService<LoginHistory> presetLookupService;
+    private final BatchCrudService<LongIdKey, LoginHistory> batchCrudService;
+    private final EntireLookupService<LoginHistory> entireLookupService;
+    private final PresetLookupService<LoginHistory> presetLookupService;
 
     public LoginHistoryMaintainServiceImpl(
-            CustomBatchCrudService<LongIdKey, LoginHistory> batchCrudService,
-            DaoOnlyEntireLookupService<LoginHistory> entireLookupService,
-            DaoOnlyPresetLookupService<LoginHistory> presetLookupService
+            BatchCrudService<LongIdKey, LoginHistory> batchCrudService,
+            EntireLookupService<LoginHistory> entireLookupService,
+            PresetLookupService<LoginHistory> presetLookupService
     ) {
         this.batchCrudService = batchCrudService;
         this.entireLookupService = entireLookupService;

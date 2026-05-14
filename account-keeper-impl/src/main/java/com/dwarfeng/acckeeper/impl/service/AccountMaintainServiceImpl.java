@@ -2,15 +2,15 @@ package com.dwarfeng.acckeeper.impl.service;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
-import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.stack.service.BatchCrudService;
+import com.dwarfeng.subgrade.stack.service.EntireLookupService;
+import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +19,14 @@ import java.util.List;
 @Service
 public class AccountMaintainServiceImpl implements AccountMaintainService {
 
-    private final CustomBatchCrudService<StringIdKey, Account> batchCrudService;
-    private final DaoOnlyEntireLookupService<Account> entireLookupService;
-    private final DaoOnlyPresetLookupService<Account> presetLookupService;
+    private final BatchCrudService<StringIdKey, Account> batchCrudService;
+    private final EntireLookupService<Account> entireLookupService;
+    private final PresetLookupService<Account> presetLookupService;
 
     public AccountMaintainServiceImpl(
-            CustomBatchCrudService<StringIdKey, Account> batchCrudService,
-            DaoOnlyEntireLookupService<Account> entireLookupService,
-            DaoOnlyPresetLookupService<Account> presetLookupService
+            BatchCrudService<StringIdKey, Account> batchCrudService,
+            EntireLookupService<Account> entireLookupService,
+            PresetLookupService<Account> presetLookupService
     ) {
         this.batchCrudService = batchCrudService;
         this.entireLookupService = entireLookupService;

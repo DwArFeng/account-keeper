@@ -1,12 +1,11 @@
 package com.dwarfeng.acckeeper.impl.cache;
 
-import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonProtectDetailRecord;
 import com.dwarfeng.acckeeper.stack.bean.entity.ProtectDetailRecord;
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
 import com.dwarfeng.acckeeper.stack.cache.ProtectDetailRecordCache;
-import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
+import com.dwarfeng.subgrade.stack.cache.BatchBaseCache;
 import com.dwarfeng.subgrade.stack.exception.CacheException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +15,9 @@ import java.util.List;
 @Repository
 public class ProtectDetailRecordCacheImpl implements ProtectDetailRecordCache {
 
-    private final RedisBatchBaseCache<RecordKey, ProtectDetailRecord, FastJsonProtectDetailRecord> batchBaseCache;
+    private final BatchBaseCache<RecordKey, ProtectDetailRecord> batchBaseCache;
 
-    public ProtectDetailRecordCacheImpl(
-            RedisBatchBaseCache<RecordKey, ProtectDetailRecord, FastJsonProtectDetailRecord> batchBaseCache
-    ) {
+    public ProtectDetailRecordCacheImpl(BatchBaseCache<RecordKey, ProtectDetailRecord> batchBaseCache) {
         this.batchBaseCache = batchBaseCache;
     }
 

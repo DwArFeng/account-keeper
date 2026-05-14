@@ -2,15 +2,15 @@ package com.dwarfeng.acckeeper.impl.service;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.DeriveHistory;
 import com.dwarfeng.acckeeper.stack.service.DeriveHistoryMaintainService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
-import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.stack.service.BatchCrudService;
+import com.dwarfeng.subgrade.stack.service.EntireLookupService;
+import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +19,14 @@ import java.util.List;
 @Service
 public class DeriveHistoryMaintainServiceImpl implements DeriveHistoryMaintainService {
 
-    private final GeneralBatchCrudService<LongIdKey, DeriveHistory> batchCrudService;
-    private final DaoOnlyEntireLookupService<DeriveHistory> entireLookupService;
-    private final DaoOnlyPresetLookupService<DeriveHistory> presetLookupService;
+    private final BatchCrudService<LongIdKey, DeriveHistory> batchCrudService;
+    private final EntireLookupService<DeriveHistory> entireLookupService;
+    private final PresetLookupService<DeriveHistory> presetLookupService;
 
     public DeriveHistoryMaintainServiceImpl(
-            GeneralBatchCrudService<LongIdKey, DeriveHistory> batchCrudService,
-            DaoOnlyEntireLookupService<DeriveHistory> entireLookupService,
-            DaoOnlyPresetLookupService<DeriveHistory> presetLookupService
+            BatchCrudService<LongIdKey, DeriveHistory> batchCrudService,
+            EntireLookupService<DeriveHistory> entireLookupService,
+            PresetLookupService<DeriveHistory> presetLookupService
     ) {
         this.batchCrudService = batchCrudService;
         this.entireLookupService = entireLookupService;

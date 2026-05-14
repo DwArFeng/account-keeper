@@ -3,14 +3,14 @@ package com.dwarfeng.acckeeper.impl.service;
 import com.dwarfeng.acckeeper.stack.bean.entity.ProtectorVariable;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
 import com.dwarfeng.acckeeper.stack.service.ProtectorVariableMaintainService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
-import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.stack.service.BatchCrudService;
+import com.dwarfeng.subgrade.stack.service.EntireLookupService;
+import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +19,14 @@ import java.util.List;
 @Service
 public class ProtectorVariableMaintainServiceImpl implements ProtectorVariableMaintainService {
 
-    private final GeneralBatchCrudService<ProtectorVariableKey, ProtectorVariable> crudService;
-    private final DaoOnlyEntireLookupService<ProtectorVariable> entireLookupService;
-    private final DaoOnlyPresetLookupService<ProtectorVariable> presetLookupService;
+    private final BatchCrudService<ProtectorVariableKey, ProtectorVariable> crudService;
+    private final EntireLookupService<ProtectorVariable> entireLookupService;
+    private final PresetLookupService<ProtectorVariable> presetLookupService;
 
     public ProtectorVariableMaintainServiceImpl(
-            GeneralBatchCrudService<ProtectorVariableKey, ProtectorVariable> crudService,
-            DaoOnlyEntireLookupService<ProtectorVariable> entireLookupService,
-            DaoOnlyPresetLookupService<ProtectorVariable> presetLookupService
+            BatchCrudService<ProtectorVariableKey, ProtectorVariable> crudService,
+            EntireLookupService<ProtectorVariable> entireLookupService,
+            PresetLookupService<ProtectorVariable> presetLookupService
     ) {
         this.crudService = crudService;
         this.entireLookupService = entireLookupService;

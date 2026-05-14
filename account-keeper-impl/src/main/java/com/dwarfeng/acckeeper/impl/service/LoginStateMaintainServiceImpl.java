@@ -2,15 +2,15 @@ package com.dwarfeng.acckeeper.impl.service;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
-import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.stack.service.BatchCrudService;
+import com.dwarfeng.subgrade.stack.service.EntireLookupService;
+import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +19,14 @@ import java.util.List;
 @Service
 public class LoginStateMaintainServiceImpl implements LoginStateMaintainService {
 
-    private final GeneralBatchCrudService<StringIdKey, LoginState> crudService;
-    private final DaoOnlyEntireLookupService<LoginState> entireLookupService;
-    private final DaoOnlyPresetLookupService<LoginState> presetLookupService;
+    private final BatchCrudService<StringIdKey, LoginState> crudService;
+    private final EntireLookupService<LoginState> entireLookupService;
+    private final PresetLookupService<LoginState> presetLookupService;
 
     public LoginStateMaintainServiceImpl(
-            GeneralBatchCrudService<StringIdKey, LoginState> crudService,
-            DaoOnlyEntireLookupService<LoginState> entireLookupService,
-            DaoOnlyPresetLookupService<LoginState> presetLookupService
+            BatchCrudService<StringIdKey, LoginState> crudService,
+            EntireLookupService<LoginState> entireLookupService,
+            PresetLookupService<LoginState> presetLookupService
     ) {
         this.crudService = crudService;
         this.entireLookupService = entireLookupService;

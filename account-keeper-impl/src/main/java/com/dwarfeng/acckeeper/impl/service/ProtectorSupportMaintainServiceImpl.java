@@ -2,15 +2,15 @@ package com.dwarfeng.acckeeper.impl.service;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.ProtectorSupport;
 import com.dwarfeng.acckeeper.stack.service.ProtectorSupportMaintainService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
-import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.stack.service.BatchCrudService;
+import com.dwarfeng.subgrade.stack.service.EntireLookupService;
+import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +19,14 @@ import java.util.List;
 @Service
 public class ProtectorSupportMaintainServiceImpl implements ProtectorSupportMaintainService {
 
-    private final GeneralBatchCrudService<StringIdKey, ProtectorSupport> crudService;
-    private final DaoOnlyEntireLookupService<ProtectorSupport> entireLookupService;
-    private final DaoOnlyPresetLookupService<ProtectorSupport> presetLookupService;
+    private final BatchCrudService<StringIdKey, ProtectorSupport> crudService;
+    private final EntireLookupService<ProtectorSupport> entireLookupService;
+    private final PresetLookupService<ProtectorSupport> presetLookupService;
 
     public ProtectorSupportMaintainServiceImpl(
-            GeneralBatchCrudService<StringIdKey, ProtectorSupport> crudService,
-            DaoOnlyEntireLookupService<ProtectorSupport> entireLookupService,
-            DaoOnlyPresetLookupService<ProtectorSupport> presetLookupService
+            BatchCrudService<StringIdKey, ProtectorSupport> crudService,
+            EntireLookupService<ProtectorSupport> entireLookupService,
+            PresetLookupService<ProtectorSupport> presetLookupService
     ) {
         this.crudService = crudService;
         this.entireLookupService = entireLookupService;
