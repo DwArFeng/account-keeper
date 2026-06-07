@@ -12,6 +12,6 @@ import com.dwarfeng.subgrade.stack.dao.PresetLookupDao;
  * @author DwArFeng
  * @since 1.6.0
  */
-public interface LoginParamRecordDao extends BatchBaseDao<RecordKey, LoginParamRecord>, EntireLookupDao<LoginParamRecord>,
-        PresetLookupDao<LoginParamRecord> {
+public interface LoginParamRecordDao extends BatchBaseDao<RecordKey, LoginParamRecord>,
+        EntireLookupDao<LoginParamRecord>, PresetLookupDao<LoginParamRecord> {
 }

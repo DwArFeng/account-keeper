@@ -12,8 +12,8 @@ import com.dwarfeng.subgrade.stack.service.PresetLookupService;
  * @author DwArFeng
  * @since 1.6.0
  */
-public interface ProtectorInfoMaintainService extends BatchCrudService<StringIdKey, ProtectorInfo>, EntireLookupService<ProtectorInfo>,
-        PresetLookupService<ProtectorInfo> {
+public interface ProtectorInfoMaintainService extends BatchCrudService<StringIdKey, ProtectorInfo>,
+        EntireLookupService<ProtectorInfo>, PresetLookupService<ProtectorInfo> {
 
     String TYPE_EQUALS = "type_equals";
     String TYPE_LIKE = "type_like";

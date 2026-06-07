@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- `account-keeper-stack` 子模块类优化注释、文档注释格式、代码换行格式。
+  - com.dwarfeng.acckeeper.stack.dao.LoginParamRecordDao。
+  - com.dwarfeng.acckeeper.stack.service.ProtectorInfoMaintainService。
+
 - 依赖升级。
   - 升级 `subgrade` 依赖版本为 `1.8.3.a` 以规避漏洞。
   - 升级 `spring-telqos` 依赖版本为 `2.0.2.a` 以规避漏洞。
