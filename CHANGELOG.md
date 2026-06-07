@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- `account-keeper-sdk` 子模块类优化注释、文档注释格式、代码换行格式。
+  - com.dwarfeng.acckeeper.sdk.bean.BeanMapper。
+
 - `account-keeper-stack` 子模块类优化注释、文档注释格式、代码换行格式。
   - com.dwarfeng.acckeeper.stack.dao.LoginParamRecordDao。
   - com.dwarfeng.acckeeper.stack.service.ProtectorInfoMaintainService。

@@ -306,7 +306,9 @@ public interface BeanMapper {
     FastJsonLoginStateLookupResult loginStateLookupResultToFastJson(LoginStateLookupResult loginStateLookupResult);
 
     @InheritInverseConfiguration
-    LoginStateLookupResult loginStateLookupResultFromFastJson(FastJsonLoginStateLookupResult fastJsonLoginStateLookupResult);
+    LoginStateLookupResult loginStateLookupResultFromFastJson(
+            FastJsonLoginStateLookupResult fastJsonLoginStateLookupResult
+    );
 
     WebInputLoginStateLookupInfo loginStateLookupInfoToWebInput(LoginStateLookupInfo loginStateLookupInfo);
 
