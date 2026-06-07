@@ -168,7 +168,8 @@ public class ProtectDetailRecordMaintainServiceImpl implements ProtectDetailReco
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<RecordKey> batchInsertIfNotExists(@SkipRecord List<ProtectDetailRecord> entities) throws ServiceException {
+    public List<RecordKey> batchInsertIfNotExists(@SkipRecord List<ProtectDetailRecord> entities)
+            throws ServiceException {
         return crudService.batchInsertIfNotExists(entities);
     }
 
@@ -238,7 +239,8 @@ public class ProtectDetailRecordMaintainServiceImpl implements ProtectDetailReco
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public PagedData<ProtectDetailRecord> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+    public PagedData<ProtectDetailRecord> lookup(String preset, Object[] objs, PagingInfo pagingInfo)
+            throws ServiceException {
         return presetLookupService.lookup(preset, objs, pagingInfo);
     }
 
@@ -254,7 +256,8 @@ public class ProtectDetailRecordMaintainServiceImpl implements ProtectDetailReco
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<ProtectDetailRecord> lookupAsList(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+    public List<ProtectDetailRecord> lookupAsList(String preset, Object[] objs, PagingInfo pagingInfo)
+            throws ServiceException {
         return presetLookupService.lookupAsList(preset, objs, pagingInfo);
     }
 

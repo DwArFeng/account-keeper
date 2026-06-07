@@ -38,7 +38,9 @@ public class AccountOperateServiceImplTest {
 
     @Before
     public void setUp() {
-        zhangSanRegisterInfo = new AccountRegisterInfo(new StringIdKey("zhang_san"), "张三", true, "测试用账号", "ninja123456");
+        zhangSanRegisterInfo = new AccountRegisterInfo(
+                new StringIdKey("zhang_san"), "张三", true, "测试用账号", "ninja123456"
+        );
         liSiRegisterInfo = new AccountRegisterInfo(new StringIdKey("li_si"), "李四", false, "测试用账号", "ninja123456");
         wangWuRegisterInfo = new AccountRegisterInfo(new StringIdKey("wang_wu"), "王五", true, "测试用账号", "ninja123456");
 
@@ -151,15 +153,27 @@ public class AccountOperateServiceImplTest {
             accountOperateService.register(liSiRegisterInfo);
             accountOperateService.register(wangWuRegisterInfo);
 
-            assertTrue(accountOperateService.checkPassword(new PasswordCheckInfo(zhangSanRegisterInfo.getAccountKey(), "ninja123456")));
-            assertFalse(accountOperateService.checkPassword(new PasswordCheckInfo(zhangSanRegisterInfo.getAccountKey(), "123456")));
+            assertTrue(accountOperateService.checkPassword(
+                    new PasswordCheckInfo(zhangSanRegisterInfo.getAccountKey(), "ninja123456"))
+            );
+            assertFalse(accountOperateService.checkPassword(
+                    new PasswordCheckInfo(zhangSanRegisterInfo.getAccountKey(), "123456"))
+            );
 
-            accountOperateService.updatePassword(new PasswordUpdateInfo(liSiRegisterInfo.getAccountKey(), "ninja123456", "123456"));
-            assertFalse(accountOperateService.checkPassword(new PasswordCheckInfo(liSiRegisterInfo.getAccountKey(), "ninja123456")));
-            assertTrue(accountOperateService.checkPassword(new PasswordCheckInfo(liSiRegisterInfo.getAccountKey(), "123456")));
+            accountOperateService.updatePassword(
+                    new PasswordUpdateInfo(liSiRegisterInfo.getAccountKey(), "ninja123456", "123456")
+            );
+            assertFalse(accountOperateService.checkPassword(
+                    new PasswordCheckInfo(liSiRegisterInfo.getAccountKey(), "ninja123456"))
+            );
+            assertTrue(accountOperateService.checkPassword(
+                    new PasswordCheckInfo(liSiRegisterInfo.getAccountKey(), "123456"))
+            );
 
             try {
-                accountOperateService.updatePassword(new PasswordUpdateInfo(liSiRegisterInfo.getAccountKey(), "ninja123456", "123456"));
+                accountOperateService.updatePassword(
+                        new PasswordUpdateInfo(liSiRegisterInfo.getAccountKey(), "ninja123456", "123456")
+                );
             } catch (ServiceException e) {
                 assertEquals(ServiceExceptionCodes.PASSWORD_INCORRECT.getCode(), e.getCode().getCode());
             }

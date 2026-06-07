@@ -4,6 +4,16 @@
 
 ### 功能构建
 
+- `account-keeper-impl` 子模块类优化注释、文档注释格式、代码换行格式。
+  - com.dwarfeng.acckeeper.impl.service.ProtectorVariableMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.ProtectDetailRecordMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.handler.ProtectLocalCacheHandlerImpl。
+  - com.dwarfeng.acckeeper.impl.service.LoginHistoryMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.ProtectorSupportMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.LoginParamRecordMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.DeriveHistoryMaintainServiceImpl。
+  - com.dwarfeng.acckeeper.impl.service.AccountOperateServiceImplTest。
+
 - `account-keeper-sdk` 子模块类优化注释、文档注释格式、代码换行格式。
   - com.dwarfeng.acckeeper.sdk.bean.BeanMapper。
 

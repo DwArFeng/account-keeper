@@ -53,7 +53,9 @@ public class ProtectLocalCacheHandlerImpl implements ProtectLocalCacheHandler {
 
         private final ProtectorHandler protectorHandler;
 
-        public ProtectorFetcher(ProtectorInfoMaintainService protectorInfoMaintainService, ProtectorHandler protectorHandler) {
+        public ProtectorFetcher(
+                ProtectorInfoMaintainService protectorInfoMaintainService, ProtectorHandler protectorHandler
+        ) {
             this.protectorInfoMaintainService = protectorInfoMaintainService;
             this.protectorHandler = protectorHandler;
         }
