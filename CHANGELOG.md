@@ -5,6 +5,7 @@
 ### 功能构建
 
 - Wiki 更新。
+  - docs/wiki/zh-CN/UpgradeGuide2.0.0.md。
   - docs/wiki/zh-CN/CompileBySource.md。
 
 - `account-keeper-distribute` 模块新增。
