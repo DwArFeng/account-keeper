@@ -9,8 +9,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>account-keeper</artifactId>
         <groupId>com.dwarfeng</groupId>
+        <artifactId>account-keeper</artifactId>
         <version>3.0.1.a-SNAPSHOT</version>
     </parent>
 
