@@ -10,7 +10,7 @@
 
     <groupId>com.dwarfeng</groupId>
     <artifactId>account-keeper</artifactId>
-    <version>3.0.0.a</version>
+    <version>3.0.1.a-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -429,32 +429,32 @@
             <dependency>
                 <groupId>com.dwarfeng</groupId>
                 <artifactId>account-keeper-stack</artifactId>
-                <version>3.0.0.a</version>
+                <version>3.0.1.a-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.dwarfeng</groupId>
                 <artifactId>account-keeper-sdk</artifactId>
-                <version>3.0.0.a</version>
+                <version>3.0.1.a-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.dwarfeng</groupId>
                 <artifactId>account-keeper-impl</artifactId>
-                <version>3.0.0.a</version>
+                <version>3.0.1.a-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.dwarfeng</groupId>
                 <artifactId>account-keeper-node</artifactId>
-                <version>3.0.0.a</version>
+                <version>3.0.1.a-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.dwarfeng</groupId>
                 <artifactId>account-keeper-node-all-he</artifactId>
-                <version>3.0.0.a</version>
+                <version>3.0.1.a-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.dwarfeng</groupId>
                 <artifactId>account-keeper-distribute</artifactId>
-                <version>3.0.0.a</version>
+                <version>3.0.1.a-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
