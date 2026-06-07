@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- Wiki 更新。
+  - docs/wiki/zh-CN/CompileBySource.md。
+
 - `account-keeper-impl` 子模块类优化注释、文档注释格式、代码换行格式。
   - com.dwarfeng.acckeeper.impl.service.ProtectorVariableMaintainServiceImpl。
   - com.dwarfeng.acckeeper.impl.service.ProtectDetailRecordMaintainServiceImpl。
