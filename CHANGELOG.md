@@ -4,6 +4,11 @@
 
 ### 功能构建
 
+- Wiki 更新。
+  - docs/wiki/zh-CN/ConfDirectory.md。
+  - docs/wiki/zh-CN/SystemRequirements.md。
+  - docs/wiki/zh-CN/VersionBlacklist.md。
+
 - 依赖升级。
   - 升级 `fastjson` 依赖版本为 `1.2.84` 以规避漏洞。
   - 升级 `subgrade` 依赖版本为 `1.8.4.a` 以规避漏洞。
