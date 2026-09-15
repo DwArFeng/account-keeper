@@ -1,5 +1,7 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.sdk.util.AccountUtil;
 import com.dwarfeng.acckeeper.stack.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
@@ -7,9 +9,9 @@ import com.dwarfeng.acckeeper.stack.bean.entity.ProtectorInfo;
 import com.dwarfeng.acckeeper.stack.handler.AccountOperateHandler;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
 import com.dwarfeng.acckeeper.stack.service.ProtectorInfoMaintainService;
-import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.sdk.exception.HandlerExceptionHelper;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +54,9 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
         try {
             // 获取主键，记录信息。
             StringIdKey accountKey = accountRegisterInfo.getAccountKey();
-            LOGGER.info("注册新账户 {} ...", accountKey);
+            LOGGER.info(
+                    ImplMessages.message(ImplMessageKey.LOG_ACCOUNT_REGISTERING, accountKey)
+            );
 
             // 确定主键对应的账户不存在。
             handlerValidator.makeSureAccountNotExists(accountKey);
@@ -88,7 +92,9 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
         try {
             // 获取主键，记录信息。
             StringIdKey accountKey = accountUpdateInfo.getAccountKey();
-            LOGGER.info("注册新账户 {} ...", accountKey);
+            LOGGER.info(
+                    ImplMessages.message(ImplMessageKey.LOG_ACCOUNT_REGISTERING, accountKey)
+            );
 
             // 确定主键对应的账户存在。
             handlerValidator.makeSureAccountExists(accountKey);
@@ -111,7 +117,9 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
     public void delete(StringIdKey accountKey) throws HandlerException {
         try {
             // 记录信息。
-            LOGGER.info("删除账户 {} ...", accountKey);
+            LOGGER.info(
+                    ImplMessages.message(ImplMessageKey.LOG_ACCOUNT_DELETING, accountKey)
+            );
 
             // 确定主键对应的账户存在。
             handlerValidator.makeSureAccountExists(accountKey);
@@ -141,7 +149,11 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
             if (BCrypt.checkpw(password, account.getPassword())) {
                 return true;
             } else {
-                LOGGER.warn("账户 ID={} 密码验证失败...", account.getKey().getStringId());
+                LOGGER.warn(
+                        ImplMessages.message(
+                                ImplMessageKey.LOG_ACCOUNT_PASSWORD_CHECK_FAILED, account.getKey().getStringId()
+                        )
+                );
                 return false;
             }
         } catch (Exception e) {
@@ -155,7 +167,9 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
         try {
             // 获取主键，记录信息。
             StringIdKey accountKey = passwordUpdateInfo.getAccountKey();
-            LOGGER.info("账户 {} 请求更改密码...", accountKey);
+            LOGGER.info(
+                    ImplMessages.message(ImplMessageKey.LOG_ACCOUNT_PASSWORD_UPDATE_REQUESTED, accountKey)
+            );
 
             // 确定主键对应的账户存在。
             handlerValidator.makeSureAccountExists(accountKey);
@@ -181,7 +195,9 @@ public class AccountOperateHandlerImpl implements AccountOperateHandler {
         try {
             // 获取主键，记录信息。
             StringIdKey accountKey = passwordResetInfo.getAccountKey();
-            LOGGER.info("接收到密码重置请求, 目标账户: {}", accountKey);
+            LOGGER.info(
+                    ImplMessages.message(ImplMessageKey.LOG_ACCOUNT_PASSWORD_RESET_REQUESTED, accountKey)
+            );
 
             // 确定主键对应的账户存在。
             handlerValidator.makeSureAccountExists(accountKey);

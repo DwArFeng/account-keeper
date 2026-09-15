@@ -1,7 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.dto;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+
+import java.io.Serial;
 
 /**
  * 授权查看结果。
@@ -11,7 +13,8 @@ import com.dwarfeng.subgrade.stack.bean.dto.Dto;
  */
 public class AuthInspectResult implements Dto {
 
-    private static final long serialVersionUID = 2800076471754481299L;
+    @Serial
+    private static final long serialVersionUID = 4071892254386232687L;
 
     /**
      * 是否登录。

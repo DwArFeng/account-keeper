@@ -1,5 +1,7 @@
 package com.dwarfeng.acckeeper.impl.service.telqos;
 
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.stack.service.CleanQosService;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
 import com.dwarfeng.springtelqos.sdk.configuration.TelqosCommand;
@@ -46,7 +48,7 @@ public class CleanCommand extends CliCommand {
 
     @Override
     protected DescriptionProvider provideDescriptionProvider() {
-        return context -> "清理处理器操作/查看";
+        return _ -> ImplMessages.message(ImplMessageKey.TELQOS_CLEAN_DESCRIPTION);
     }
 
     @Override
@@ -70,11 +72,26 @@ public class CleanCommand extends CliCommand {
     @Override
     protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
-        list.add(Option.builder(COMMAND_OPTION_ONLINE).desc("上线清理处理器").build());
-        list.add(Option.builder(COMMAND_OPTION_OFFLINE).desc("下线清理处理器").build());
-        list.add(Option.builder(COMMAND_OPTION_START).desc("启动清理处理器").build());
-        list.add(Option.builder(COMMAND_OPTION_STOP).desc("停止清理处理器").build());
-        list.add(Option.builder(COMMAND_OPTION_STATUS).desc("查看清理处理器状态").build());
+        list.add(
+                Option.builder(COMMAND_OPTION_ONLINE)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_CLEAN_OPTION_ONLINE)).get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_OFFLINE)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_CLEAN_OPTION_OFFLINE)).get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_START)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_CLEAN_OPTION_START)).get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_STOP)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_CLEAN_OPTION_STOP)).get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_STATUS)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_CLEAN_OPTION_STATUS)).get()
+        );
         return list;
     }
 
@@ -89,25 +106,27 @@ public class CleanCommand extends CliCommand {
         switch (pair.getLeft()) {
             case COMMAND_OPTION_ONLINE:
                 cleanQosService.online();
-                context.sendMessage("清理处理器已上线!");
+                context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_CLEAN_RESULT_ONLINE));
                 break;
             case COMMAND_OPTION_OFFLINE:
                 cleanQosService.offline();
-                context.sendMessage("清理处理器已下线!");
+                context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_CLEAN_RESULT_OFFLINE));
                 break;
             case COMMAND_OPTION_START:
                 cleanQosService.start();
-                context.sendMessage("清理处理器已启动!");
+                context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_CLEAN_RESULT_STARTED));
                 break;
             case COMMAND_OPTION_STOP:
                 cleanQosService.stop();
-                context.sendMessage("清理处理器已停止!");
+                context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_CLEAN_RESULT_STOPPED));
                 break;
             case COMMAND_OPTION_STATUS:
                 printStatus(context);
                 break;
             default:
-                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
+                throw new IllegalStateException(
+                        ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_INTERNAL_UNREACHABLE)
+                );
         }
     }
 
@@ -118,7 +137,7 @@ public class CleanCommand extends CliCommand {
         boolean workingFlag = cleanQosService.isWorking();
 
         context.sendMessage(String.format(
-                "online: %b, latch holding: %b, started: %b, working: %b.",
+                ImplMessages.message(ImplMessageKey.TELQOS_CLEAN_FIELD_STATUS),
                 onlineFlag, latchHoldingFlag, startedFlag, workingFlag
         ));
     }

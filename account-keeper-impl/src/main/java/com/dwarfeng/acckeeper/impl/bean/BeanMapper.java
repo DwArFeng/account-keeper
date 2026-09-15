@@ -6,13 +6,16 @@ import com.dwarfeng.acckeeper.impl.bean.key.HibernateRecordKey;
 import com.dwarfeng.acckeeper.stack.bean.entity.*;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.data.sdk.bean.key.hibernate.HibernateLongIdKey;
+import com.dwarfeng.subgrade.data.sdk.bean.key.hibernate.HibernateStringIdKey;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
+import java.time.Instant;
+import java.util.Date;
 
 /**
  * Bean 映射器。
@@ -25,6 +28,18 @@ import org.mapstruct.Mapping;
  */
 @Mapper
 public interface BeanMapper {
+
+    // region Java Date
+
+    default Instant dateToInstant(Date date) {
+        return date == null ? null : date.toInstant();
+    }
+
+    default Date instantToDate(Instant instant) {
+        return instant == null ? null : Date.from(instant);
+    }
+
+    // endregion
 
     // region Subgrade Key
 

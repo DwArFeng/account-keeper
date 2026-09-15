@@ -3,11 +3,12 @@ package com.dwarfeng.acckeeper.impl.bean.entity;
 import com.dwarfeng.acckeeper.sdk.util.Constraints;
 import com.dwarfeng.datamark.sdk.jpa.DatamarkEntityListener;
 import com.dwarfeng.datamark.sdk.jpa.DatamarkField;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.data.sdk.bean.key.hibernate.HibernateStringIdKey;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
-import java.util.Date;
+import java.io.Serial;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -18,7 +19,8 @@ import java.util.Set;
 @EntityListeners(DatamarkEntityListener.class)
 public class HibernateAccount implements Bean {
 
-    private static final long serialVersionUID = 5043089596885380086L;
+    @Serial
+    private static final long serialVersionUID = 2668947835345578957L;
 
     // region 主键
 
@@ -46,8 +48,7 @@ public class HibernateAccount implements Bean {
     private String displayName;
 
     @Column(name = "registered_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date registeredDate;
+    private Instant registeredDate;
 
     @Column(name = "login_count", nullable = false)
     private int loginCount;
@@ -158,11 +159,11 @@ public class HibernateAccount implements Bean {
         this.displayName = displayName;
     }
 
-    public Date getRegisteredDate() {
+    public Instant getRegisteredDate() {
         return registeredDate;
     }
 
-    public void setRegisteredDate(Date registeredDate) {
+    public void setRegisteredDate(Instant registeredDate) {
         this.registeredDate = registeredDate;
     }
 

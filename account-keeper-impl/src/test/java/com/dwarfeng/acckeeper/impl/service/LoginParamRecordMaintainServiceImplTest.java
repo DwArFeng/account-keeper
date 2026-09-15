@@ -6,21 +6,22 @@ import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
 import com.dwarfeng.acckeeper.stack.service.LoginHistoryMaintainService;
 import com.dwarfeng.acckeeper.stack.service.LoginParamRecordMaintainService;
 import org.apache.commons.beanutils.BeanUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Date;
 import java.util.Objects;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring/application-context*.xml")
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(locations = "classpath:com/dwarfeng/acckeeper/impl/spring/application-context*.xml")
 public class LoginParamRecordMaintainServiceImplTest {
 
     @Autowired
@@ -31,13 +32,13 @@ public class LoginParamRecordMaintainServiceImplTest {
     private LoginHistory loginHistory;
     private LoginParamRecord loginParamRecord;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         loginHistory = new LoginHistory(null, "accountId", new Date(), 12450, "message", 12450, "loginRemark");
         loginParamRecord = new LoginParamRecord(null, "value");
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         loginHistory = null;
         loginParamRecord = null;

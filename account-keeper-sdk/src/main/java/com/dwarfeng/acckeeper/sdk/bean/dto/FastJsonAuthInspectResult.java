@@ -1,10 +1,11 @@
 package com.dwarfeng.acckeeper.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonLoginState;
 import com.dwarfeng.acckeeper.stack.bean.dto.AuthInspectResult;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -15,7 +16,8 @@ import java.util.Objects;
  */
 public class FastJsonAuthInspectResult implements Bean {
 
-    private static final long serialVersionUID = -1573461904898363810L;
+    @Serial
+    private static final long serialVersionUID = -6451767252432714713L;
 
     public static FastJsonAuthInspectResult of(AuthInspectResult authInspectResult) {
         if (Objects.isNull(authInspectResult)) {

@@ -1,15 +1,16 @@
 package com.dwarfeng.acckeeper.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.sdk.util.Constraints;
 import com.dwarfeng.acckeeper.stack.bean.dto.TrustedStaticLoginInfo;
-import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.web.sdk.bean.key.WebInputStringIdKey;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
@@ -22,7 +23,8 @@ import java.util.Objects;
  */
 public class WebInputTrustedStaticLoginInfo implements Dto {
 
-    private static final long serialVersionUID = 4776890451111285678L;
+    @Serial
+    private static final long serialVersionUID = -8615521848665602942L;
 
     public static TrustedStaticLoginInfo toStackBean(WebInputTrustedStaticLoginInfo webInput) {
         if (Objects.isNull(webInput)) {

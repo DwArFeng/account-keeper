@@ -1,6 +1,8 @@
 package com.dwarfeng.acckeeper.impl.service.telqos;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.sdk.bean.dto.WebInputLoginStateLookupInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginStateLookupInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginStateLookupResult;
@@ -50,7 +52,7 @@ public class LoginStateLookupCommand extends CliCommand {
 
     @Override
     protected DescriptionProvider provideDescriptionProvider() {
-        return context -> "登录状态查询服务";
+        return _ -> ImplMessages.message(ImplMessageKey.TELQOS_LOGIN_STATE_LOOKUP_DESCRIPTION);
     }
 
     @Override
@@ -71,13 +73,19 @@ public class LoginStateLookupCommand extends CliCommand {
     @Override
     protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
-        list.add(Option.builder(COMMAND_OPTION_LOOKUP).desc("登录状态查询").build());
         list.add(
-                Option.builder(COMMAND_OPTION_JSON).desc("JSON 字符串").hasArg().type(String.class).build()
+                Option.builder(COMMAND_OPTION_LOOKUP)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_LOGIN_STATE_LOOKUP_OPTION_LOOKUP)).get()
         );
         list.add(
-                Option.builder(COMMAND_OPTION_JSON_FILE).longOpt(COMMAND_OPTION_JSON_FILE_LONG_OPT).desc("JSON 文件")
-                        .hasArg().type(File.class).build()
+                Option.builder(COMMAND_OPTION_JSON)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_OPTION_JSON_STRING))
+                        .hasArg().type(String.class).get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_JSON_FILE).longOpt(COMMAND_OPTION_JSON_FILE_LONG_OPT)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_OPTION_JSON_FILE))
+                        .hasArg().type(File.class).get()
         );
         return list;
     }
@@ -96,7 +104,9 @@ public class LoginStateLookupCommand extends CliCommand {
                 handleLookup(context, cmd);
                 break;
             default:
-                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
+                throw new IllegalStateException(
+                        ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_INTERNAL_UNREACHABLE)
+                );
         }
     }
 
@@ -105,14 +115,14 @@ public class LoginStateLookupCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 LoginStateLookupInfo。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             info = WebInputLoginStateLookupInfo.toStackBean(
                     JSON.parseObject(json, WebInputLoginStateLookupInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 LoginStateLookupInfo。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputLoginStateLookupInfo.toStackBean(
                         JSON.parseObject(in, WebInputLoginStateLookupInfo.class)
@@ -120,7 +130,9 @@ public class LoginStateLookupCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 登录状态查询。
@@ -128,12 +140,18 @@ public class LoginStateLookupCommand extends CliCommand {
 
         // 输出结果。
         if (Objects.isNull(result)) {
-            context.sendMessage("查询结果: null");
+            context.sendMessage(
+                    ImplMessages.message(ImplMessageKey.TELQOS_LOGIN_STATE_LOOKUP_RESULT_QUERY_RESULT_NULL)
+            );
         } else {
             List<LoginState> loginStates = result.getLoginStates();
             if (Objects.isNull(loginStates)) {
-                context.sendMessage("查询结果: ");
-                context.sendMessage("  loginStates: null");
+                context.sendMessage(
+                        ImplMessages.message(ImplMessageKey.TELQOS_LOGIN_STATE_LOOKUP_RESULT_QUERY_RESULT_HEADER)
+                );
+                context.sendMessage(
+                        ImplMessages.message(ImplMessageKey.TELQOS_LOGIN_STATE_LOOKUP_RESULT_LOGIN_STATES_NULL)
+                );
             } else {
                 processLoginStateList(context, loginStates);
             }
@@ -144,32 +162,50 @@ public class LoginStateLookupCommand extends CliCommand {
             throws Exception {
         while (true) {
             CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
-                    context, loginStates, "数据总数: " + loginStates.size()
+                    context, loginStates, ImplMessages.message(
+                            ImplMessageKey.TELQOS_LOGIN_STATE_LOOKUP_RESULT_DATA_TOTAL, loginStates.size()
+                    )
             );
-            if (cropResult.isExitFlag()) {
+            if (cropResult.exitFlag()) {
                 break;
             }
             context.sendMessage("");
-            for (int i = cropResult.getBeginIndex(); i < cropResult.getEndIndex(); i++) {
+            for (int i = cropResult.beginIndex(); i < cropResult.endIndex(); i++) {
                 LoginState loginState = loginStates.get(i);
-                printLoginState(context, i, cropResult.getEndIndex(), loginState);
+                printLoginState(context, i, cropResult.endIndex(), loginState);
             }
         }
     }
 
     private void printLoginState(CommandExecutor.Context context, int i, int endIndex, LoginState loginState)
             throws Exception {
-        context.sendMessage(String.format("索引: %d/%d", i, endIndex));
+        context.sendMessage(String.format(
+                ImplMessages.message(ImplMessageKey.TELQOS_LOGIN_STATE_LOOKUP_RESULT_INDEX), i, endIndex
+        ));
         if (Objects.isNull(loginState)) {
             context.sendMessage("null");
         } else {
-            context.sendMessage("  loginStateKey: " + loginState.getKey());
-            context.sendMessage("  accountKey: " + loginState.getAccountKey());
-            context.sendMessage("  expireDate: " + loginState.getExpireDate());
-            context.sendMessage("  serialVersion: " + loginState.getSerialVersion());
-            context.sendMessage("  generatedDate: " + loginState.getGeneratedDate());
-            context.sendMessage("  type: " + loginState.getType());
-            context.sendMessage("  remark: " + loginState.getRemark());
+            context.sendMessage(ImplMessages.message(
+                    ImplMessageKey.TELQOS_COMMON_FIELD_LOGIN_STATE_KEY, loginState.getKey()
+            ));
+            context.sendMessage(ImplMessages.message(
+                    ImplMessageKey.TELQOS_COMMON_FIELD_ACCOUNT_KEY, loginState.getAccountKey()
+            ));
+            context.sendMessage(ImplMessages.message(
+                    ImplMessageKey.TELQOS_COMMON_FIELD_EXPIRE_DATE, loginState.getExpireDate()
+            ));
+            context.sendMessage(ImplMessages.message(
+                    ImplMessageKey.TELQOS_COMMON_FIELD_SERIAL_VERSION, loginState.getSerialVersion()
+            ));
+            context.sendMessage(ImplMessages.message(
+                    ImplMessageKey.TELQOS_COMMON_FIELD_GENERATED_DATE, loginState.getGeneratedDate()
+            ));
+            context.sendMessage(ImplMessages.message(
+                    ImplMessageKey.TELQOS_COMMON_FIELD_TYPE, loginState.getType()
+            ));
+            context.sendMessage(ImplMessages.message(
+                    ImplMessageKey.TELQOS_COMMON_FIELD_REMARK, loginState.getRemark()
+            ));
         }
         context.sendMessage("");
     }

@@ -1,5 +1,7 @@
 package com.dwarfeng.acckeeper.impl.service.telqos;
 
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.stack.handler.Protector;
 import com.dwarfeng.acckeeper.stack.service.ProtectQosService;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
@@ -7,7 +9,7 @@ import com.dwarfeng.springtelqos.sdk.configuration.TelqosCommand;
 import com.dwarfeng.springtelqos.sdk.util.CliCommandUtil;
 import com.dwarfeng.springtelqos.stack.command.CommandDescriptor;
 import com.dwarfeng.springtelqos.stack.command.CommandExecutor;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.ParseException;
@@ -48,7 +50,7 @@ public class ProtectLocalCacheCommand extends CliCommand {
 
     @Override
     protected DescriptionProvider provideDescriptionProvider() {
-        return context -> "数据记录本地缓存操作";
+        return _ -> ImplMessages.message(ImplMessageKey.TELQOS_PROTECT_LOCAL_CACHE_DESCRIPTION);
     }
 
     @Override
@@ -68,9 +70,15 @@ public class ProtectLocalCacheCommand extends CliCommand {
     @Override
     protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
-        list.add(Option.builder(COMMAND_OPTION_LOOKUP).optionalArg(true).hasArg(true).type(String.class)
-                .argName("account-id").desc("查看指定数据点的详细信息，如果本地缓存中不存在，则尝试抓取").build());
-        list.add(Option.builder(COMMAND_OPTION_CLEAR).optionalArg(true).hasArg(false).desc("清除缓存").build());
+        list.add(
+                Option.builder(COMMAND_OPTION_LOOKUP).optionalArg(true).hasArg(true).type(String.class)
+                        .argName("account-id")
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_PROTECT_LOCAL_CACHE_OPTION_LOOKUP)).get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_CLEAR).optionalArg(true).hasArg(false)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_PROTECT_LOCAL_CACHE_OPTION_CLEAR)).get()
+        );
         return list;
     }
 
@@ -90,24 +98,31 @@ public class ProtectLocalCacheCommand extends CliCommand {
                 handleClear(context);
                 break;
             default:
-                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
+                throw new IllegalStateException(
+                        ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_INTERNAL_UNREACHABLE)
+                );
         }
     }
 
     private void handleLookup(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         String accountId;
         try {
-            accountId = ((String) cmd.getParsedOptionValue(COMMAND_OPTION_LOOKUP));
+            accountId = cmd.getParsedOptionValue(COMMAND_OPTION_LOOKUP);
         } catch (ParseException e) {
-            LOGGER.warn("解析命令选项时发生异常，异常信息如下", e);
-            context.sendMessage("命令行格式错误，正确的格式为: " + context.getRuntimeIdentity() + " " +
-                    CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_LOOKUP) + " account-id");
-            context.sendMessage("请留意选项 p 后接参数的类型应该是数字 ");
+            LOGGER.warn(ImplMessages.message(ImplMessageKey.LOG_COMMAND_OPTION_PARSE_FAILED), e);
+            context.sendMessage(ImplMessages.message(
+                    ImplMessageKey.TELQOS_PROTECT_LOCAL_CACHE_RESULT_COMMAND_FORMAT_ERROR,
+                    context.getRuntimeIdentity() + " " +
+                            CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_LOOKUP) + " account-id"
+            ));
+            context.sendMessage(
+                    ImplMessages.message(ImplMessageKey.TELQOS_PROTECT_LOCAL_CACHE_RESULT_ARGUMENT_TYPE_HINT)
+            );
             return;
         }
         Protector protector = protectQosService.getProtector(new StringIdKey(accountId));
         if (Objects.isNull(protector)) {
-            context.sendMessage("not exists!");
+            context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_NOT_EXISTS));
             return;
         }
         context.sendMessage(Objects.toString(protector));
@@ -115,6 +130,8 @@ public class ProtectLocalCacheCommand extends CliCommand {
 
     private void handleClear(CommandExecutor.Context context) throws Exception {
         protectQosService.clearLocalCache();
-        context.sendMessage("缓存已清空");
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_PROTECT_LOCAL_CACHE_RESULT_CLEARED)
+        );
     }
 }

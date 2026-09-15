@@ -1,12 +1,14 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.stack.handler.ResetHandler;
 import com.dwarfeng.acckeeper.stack.handler.Resetter;
 import com.dwarfeng.acckeeper.stack.handler.ResetterHandler;
-import com.dwarfeng.subgrade.impl.handler.GeneralStartableHandler;
-import com.dwarfeng.subgrade.impl.handler.Worker;
-import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.aop.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.lifecycle.impl.handler.GeneralStartableHandler;
+import com.dwarfeng.subgrade.lifecycle.stack.handler.Worker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -88,12 +90,12 @@ public class ResetHandlerImpl implements ResetHandler {
         @Override
         public void work() throws Exception {
             List<Resetter> resetters = resetterHandler.all();
-            LOGGER.info("启动重置器, 共 {} 个", resetters.size());
+            LOGGER.info(ImplMessages.message(ImplMessageKey.LOG_RESETTERS_STARTING, resetters.size()));
             for (Resetter resetter : resetters) {
                 try {
                     resetter.start();
                 } catch (Exception e) {
-                    LOGGER.warn("重置器 {} 启动时发生异常, 将不会启动, 异常信息如下: ", resetter, e);
+                    LOGGER.warn(ImplMessages.message(ImplMessageKey.LOG_RESETTER_START_FAILED, resetter), e);
                 }
             }
         }
@@ -101,12 +103,12 @@ public class ResetHandlerImpl implements ResetHandler {
         @Override
         public void rest() throws Exception {
             List<Resetter> resetters = resetterHandler.all();
-            LOGGER.info("停止重置器, 共 {} 个", resetters.size());
+            LOGGER.info(ImplMessages.message(ImplMessageKey.LOG_RESETTERS_STOPPING, resetters.size()));
             for (Resetter resetter : resetters) {
                 try {
                     resetter.stop();
                 } catch (Exception e) {
-                    LOGGER.warn("重置器 {} 停止时发生异常, 将不会停止, 异常信息如下: ", resetter, e);
+                    LOGGER.warn(ImplMessages.message(ImplMessageKey.LOG_RESETTER_STOP_FAILED, resetter), e);
                 }
             }
         }

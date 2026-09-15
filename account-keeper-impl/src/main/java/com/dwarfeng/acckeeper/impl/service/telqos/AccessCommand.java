@@ -1,6 +1,8 @@
 package com.dwarfeng.acckeeper.impl.service.telqos;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.sdk.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
@@ -68,7 +70,7 @@ public class AccessCommand extends CliCommand {
 
     @Override
     protected DescriptionProvider provideDescriptionProvider() {
-        return context -> "访问服务";
+        return _ -> ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_DESCRIPTION);
     }
 
     @Override
@@ -112,35 +114,47 @@ public class AccessCommand extends CliCommand {
         List<Option> list = new ArrayList<>();
         list.add(
                 Option.builder(COMMAND_OPTION_AUTH_INSPECT).longOpt(COMMAND_OPTION_AUTH_INSPECT_LONG_OPT)
-                        .desc("授权查看").build()
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_OPTION_AUTH_INSPECT)).get()
         );
         list.add(
                 Option.builder(COMMAND_OPTION_DYNAMIC_LOGIN).longOpt(COMMAND_OPTION_DYNAMIC_LOGIN_LONG_OPT)
-                        .desc("动态登录").build()
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_OPTION_DYNAMIC_LOGIN)).get()
         );
         list.add(
                 Option.builder(COMMAND_OPTION_STATIC_LOGIN).longOpt(COMMAND_OPTION_STATIC_LOGIN_LONG_OPT)
-                        .desc("静态登录").build()
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_OPTION_STATIC_LOGIN)).get()
         );
         list.add(
                 Option.builder(COMMAND_OPTION_TRUSTED_DYNAMIC_LOGIN)
                         .longOpt(COMMAND_OPTION_TRUSTED_DYNAMIC_LOGIN_LONG_OPT)
-                        .desc("可信动态登录").build()
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_OPTION_TRUSTED_DYNAMIC_LOGIN)).get()
         );
         list.add(
                 Option.builder(COMMAND_OPTION_TRUSTED_STATIC_LOGIN)
                         .longOpt(COMMAND_OPTION_TRUSTED_STATIC_LOGIN_LONG_OPT)
-                        .desc("可信静态登录").build()
-        );
-        list.add(Option.builder(COMMAND_OPTION_LOGOUT).desc("登出").build());
-        list.add(Option.builder(COMMAND_OPTION_POSTPONE).desc("延期").build());
-        list.add(Option.builder(COMMAND_OPTION_KICK).desc("踢出").build());
-        list.add(
-                Option.builder(COMMAND_OPTION_JSON).desc("JSON 字符串").hasArg().type(String.class).build()
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_OPTION_TRUSTED_STATIC_LOGIN)).get()
         );
         list.add(
-                Option.builder(COMMAND_OPTION_JSON_FILE).longOpt(COMMAND_OPTION_JSON_FILE_LONG_OPT).desc("JSON 文件")
-                        .hasArg().type(File.class).build()
+                Option.builder(COMMAND_OPTION_LOGOUT)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_OPTION_LOGOUT)).get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_POSTPONE)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_OPTION_POSTPONE)).get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_KICK)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_OPTION_KICK)).get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_JSON)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_OPTION_JSON_STRING))
+                        .hasArg().type(String.class).get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_JSON_FILE).longOpt(COMMAND_OPTION_JSON_FILE_LONG_OPT)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_OPTION_JSON_FILE))
+                        .hasArg().type(File.class).get()
         );
         return list;
     }
@@ -179,7 +193,9 @@ public class AccessCommand extends CliCommand {
                 handleKick(context, cmd);
                 break;
             default:
-                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
+                throw new IllegalStateException(
+                        ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_INTERNAL_UNREACHABLE)
+                );
         }
     }
 
@@ -188,14 +204,14 @@ public class AccessCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 AuthInspectInfo。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             info = WebInputAuthInspectInfo.toStackBean(
                     JSON.parseObject(json, WebInputAuthInspectInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 AuthInspectInfo。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputAuthInspectInfo.toStackBean(
                         JSON.parseObject(in, WebInputAuthInspectInfo.class)
@@ -203,27 +219,43 @@ public class AccessCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 授权查看。
         AuthInspectResult result = accessQosService.authInspect(info);
 
         // 输出结果。
-        context.sendMessage("授权查看结果: ");
-        context.sendMessage("  isLogin: " + result.isLogin());
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_RESULT_AUTH_INSPECT_RESULT_HEADER));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_FIELD_IS_LOGIN, result.isLogin()));
         if (Objects.isNull(result.getLoginState())) {
-            context.sendMessage("  loginState: null");
+            context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_RESULT_LOGIN_STATE_NULL));
         } else {
             LoginState loginState = result.getLoginState();
-            context.sendMessage("  loginState: ");
-            context.sendMessage("    loginStateKey: " + loginState.getKey());
-            context.sendMessage("    accountKey: " + loginState.getAccountKey());
-            context.sendMessage("    expireDate: " + loginState.getExpireDate());
-            context.sendMessage("    serialVersion: " + loginState.getSerialVersion());
-            context.sendMessage("    generatedDate: " + loginState.getGeneratedDate());
-            context.sendMessage("    type: " + loginState.getType());
-            context.sendMessage("    remark: " + loginState.getRemark());
+            context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_FIELD_LOGIN_STATE));
+            context.sendMessage(ImplMessages.message(
+                    ImplMessageKey.TELQOS_ACCESS_FIELD_ITEM_LOGIN_STATE_KEY, loginState.getKey()
+            ));
+            context.sendMessage(ImplMessages.message(
+                    ImplMessageKey.TELQOS_ACCESS_FIELD_ITEM_ACCOUNT_KEY, loginState.getAccountKey()
+            ));
+            context.sendMessage(ImplMessages.message(
+                    ImplMessageKey.TELQOS_ACCESS_FIELD_ITEM_EXPIRE_DATE, loginState.getExpireDate()
+            ));
+            context.sendMessage(ImplMessages.message(
+                    ImplMessageKey.TELQOS_ACCESS_FIELD_ITEM_SERIAL_VERSION, loginState.getSerialVersion()
+            ));
+            context.sendMessage(ImplMessages.message(
+                    ImplMessageKey.TELQOS_ACCESS_FIELD_ITEM_GENERATED_DATE, loginState.getGeneratedDate()
+            ));
+            context.sendMessage(ImplMessages.message(
+                    ImplMessageKey.TELQOS_ACCESS_FIELD_ITEM_TYPE, loginState.getType()
+            ));
+            context.sendMessage(ImplMessages.message(
+                    ImplMessageKey.TELQOS_ACCESS_FIELD_ITEM_REMARK, loginState.getRemark()
+            ));
         }
     }
 
@@ -233,14 +265,14 @@ public class AccessCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 DynamicLoginInfo。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             info = WebInputDynamicLoginInfo.toStackBean(
                     JSON.parseObject(json, WebInputDynamicLoginInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 DynamicLoginInfo。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputDynamicLoginInfo.toStackBean(
                         JSON.parseObject(in, WebInputDynamicLoginInfo.class)
@@ -248,20 +280,30 @@ public class AccessCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 调用动态登录服务。
         DynamicLoginResult result = accessQosService.dynamicLogin(info);
 
         // 输出结果。
-        context.sendMessage("动态登录结果: ");
-        context.sendMessage("  loginStateKey: " + result.getLoginStateKey());
-        context.sendMessage("  accountKey: " + result.getAccountKey());
-        context.sendMessage("  expireDate: " + result.getExpireDate());
-        context.sendMessage("  generatedDate: " + result.getGeneratedDate());
-        context.sendMessage("  type: " + result.getType());
-        context.sendMessage("  remark: " + result.getRemark());
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_RESULT_DYNAMIC_LOGIN_RESULT_HEADER));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_LOGIN_STATE_KEY, result.getLoginStateKey()
+        ));
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_ACCOUNT_KEY, result.getAccountKey())
+        );
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_EXPIRE_DATE, result.getExpireDate())
+        );
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_GENERATED_DATE, result.getGeneratedDate()
+        ));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_TYPE, result.getType()));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_REMARK, result.getRemark()));
     }
 
     @SuppressWarnings("DuplicatedCode")
@@ -270,14 +312,14 @@ public class AccessCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 StaticLoginInfo。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             info = WebInputStaticLoginInfo.toStackBean(
                     JSON.parseObject(json, WebInputStaticLoginInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 StaticLoginInfo。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputStaticLoginInfo.toStackBean(
                         JSON.parseObject(in, WebInputStaticLoginInfo.class)
@@ -285,20 +327,30 @@ public class AccessCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 调用静态登录服务。
         StaticLoginResult result = accessQosService.staticLogin(info);
 
         // 输出结果。
-        context.sendMessage("静态登录结果: ");
-        context.sendMessage("  loginStateKey: " + result.getLoginStateKey());
-        context.sendMessage("  accountKey: " + result.getAccountKey());
-        context.sendMessage("  expireDate: " + result.getExpireDate());
-        context.sendMessage("  generatedDate: " + result.getGeneratedDate());
-        context.sendMessage("  type: " + result.getType());
-        context.sendMessage("  remark: " + result.getRemark());
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_RESULT_STATIC_LOGIN_RESULT_HEADER));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_LOGIN_STATE_KEY, result.getLoginStateKey()
+        ));
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_ACCOUNT_KEY, result.getAccountKey())
+        );
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_EXPIRE_DATE, result.getExpireDate())
+        );
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_GENERATED_DATE, result.getGeneratedDate()
+        ));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_TYPE, result.getType()));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_REMARK, result.getRemark()));
     }
 
     @SuppressWarnings("DuplicatedCode")
@@ -307,14 +359,14 @@ public class AccessCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 TrustedDynamicLoginInfo。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             info = WebInputTrustedDynamicLoginInfo.toStackBean(
                     JSON.parseObject(json, WebInputTrustedDynamicLoginInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 TrustedDynamicLoginInfo。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputTrustedDynamicLoginInfo.toStackBean(
                         JSON.parseObject(in, WebInputTrustedDynamicLoginInfo.class)
@@ -322,20 +374,32 @@ public class AccessCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 调用可信动态登录服务。
         DynamicLoginResult result = accessQosService.trustedDynamicLogin(info);
 
         // 输出结果。
-        context.sendMessage("可信动态登录结果: ");
-        context.sendMessage("  loginStateKey: " + result.getLoginStateKey());
-        context.sendMessage("  accountKey: " + result.getAccountKey());
-        context.sendMessage("  expireDate: " + result.getExpireDate());
-        context.sendMessage("  generatedDate: " + result.getGeneratedDate());
-        context.sendMessage("  type: " + result.getType());
-        context.sendMessage("  remark: " + result.getRemark());
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_RESULT_TRUSTED_DYNAMIC_LOGIN_RESULT_HEADER)
+        );
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_LOGIN_STATE_KEY, result.getLoginStateKey()
+        ));
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_ACCOUNT_KEY, result.getAccountKey())
+        );
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_EXPIRE_DATE, result.getExpireDate())
+        );
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_GENERATED_DATE, result.getGeneratedDate()
+        ));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_TYPE, result.getType()));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_REMARK, result.getRemark()));
     }
 
     @SuppressWarnings("DuplicatedCode")
@@ -344,14 +408,14 @@ public class AccessCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 TrustedStaticLoginInfo。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             info = WebInputTrustedStaticLoginInfo.toStackBean(
                     JSON.parseObject(json, WebInputTrustedStaticLoginInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 TrustedStaticLoginInfo。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputTrustedStaticLoginInfo.toStackBean(
                         JSON.parseObject(in, WebInputTrustedStaticLoginInfo.class)
@@ -359,20 +423,32 @@ public class AccessCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 调用可信静态登录服务。
         StaticLoginResult result = accessQosService.trustedStaticLogin(info);
 
         // 输出结果。
-        context.sendMessage("可信静态登录结果: ");
-        context.sendMessage("  loginStateKey: " + result.getLoginStateKey());
-        context.sendMessage("  accountKey: " + result.getAccountKey());
-        context.sendMessage("  expireDate: " + result.getExpireDate());
-        context.sendMessage("  generatedDate: " + result.getGeneratedDate());
-        context.sendMessage("  type: " + result.getType());
-        context.sendMessage("  remark: " + result.getRemark());
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_RESULT_TRUSTED_STATIC_LOGIN_RESULT_HEADER)
+        );
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_LOGIN_STATE_KEY, result.getLoginStateKey()
+        ));
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_ACCOUNT_KEY, result.getAccountKey())
+        );
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_EXPIRE_DATE, result.getExpireDate())
+        );
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_GENERATED_DATE, result.getGeneratedDate()
+        ));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_TYPE, result.getType()));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_REMARK, result.getRemark()));
     }
 
     private void handleLogout(CommandExecutor.Context context, CommandLine cmd) throws Exception {
@@ -380,14 +456,14 @@ public class AccessCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 LogoutInfo。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             info = WebInputLogoutInfo.toStackBean(
                     JSON.parseObject(json, WebInputLogoutInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 LogoutInfo。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputLogoutInfo.toStackBean(
                         JSON.parseObject(in, WebInputLogoutInfo.class)
@@ -395,14 +471,18 @@ public class AccessCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 登出。
         accessQosService.logout(info);
 
         // 输出结果。
-        context.sendMessage("登出成功");
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_RESULT_LOGOUT_SUCCEEDED)
+        );
     }
 
     @SuppressWarnings("DuplicatedCode")
@@ -411,14 +491,14 @@ public class AccessCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 PostponeInfo。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             info = WebInputPostponeInfo.toStackBean(
                     JSON.parseObject(json, WebInputPostponeInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 PostponeInfo。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputPostponeInfo.toStackBean(
                         JSON.parseObject(in, WebInputPostponeInfo.class)
@@ -426,20 +506,36 @@ public class AccessCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 延期。
         PostponeResult result = accessQosService.postpone(info);
 
         // 输出结果。
-        context.sendMessage("延期结果: ");
-        context.sendMessage("  loginStateKey: " + result.getLoginStateKey());
-        context.sendMessage("  accountKey: " + result.getAccountKey());
-        context.sendMessage("  expireDate: " + result.getExpireDate());
-        context.sendMessage("  generatedDate: " + result.getGeneratedDate());
-        context.sendMessage("  type: " + result.getType());
-        context.sendMessage("  remark: " + result.getRemark());
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_RESULT_POSTPONE_RESULT_HEADER)
+        );
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_LOGIN_STATE_KEY, result.getLoginStateKey()
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_ACCOUNT_KEY, result.getAccountKey()
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_EXPIRE_DATE, result.getExpireDate()
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_GENERATED_DATE, result.getGeneratedDate()
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_TYPE, result.getType()
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_REMARK, result.getRemark()
+        ));
     }
 
     private void handleKick(CommandExecutor.Context context, CommandLine cmd) throws Exception {
@@ -447,14 +543,14 @@ public class AccessCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 KickInfo。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             info = WebInputKickInfo.toStackBean(
                     JSON.parseObject(json, WebInputKickInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 KickInfo。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputKickInfo.toStackBean(
                         JSON.parseObject(in, WebInputKickInfo.class)
@@ -462,13 +558,17 @@ public class AccessCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 踢出。
         accessQosService.kick(info);
 
         // 输出结果。
-        context.sendMessage("踢出成功");
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_ACCESS_RESULT_KICK_SUCCEEDED)
+        );
     }
 }

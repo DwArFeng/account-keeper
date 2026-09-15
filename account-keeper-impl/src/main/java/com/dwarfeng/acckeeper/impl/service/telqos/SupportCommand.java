@@ -1,5 +1,7 @@
 package com.dwarfeng.acckeeper.impl.service.telqos;
 
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.stack.service.SupportQosService;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
 import com.dwarfeng.springtelqos.sdk.configuration.TelqosCommand;
@@ -38,7 +40,7 @@ public class SupportCommand extends CliCommand {
 
     @Override
     protected DescriptionProvider provideDescriptionProvider() {
-        return context -> "支持操作";
+        return _ -> ImplMessages.message(ImplMessageKey.TELQOS_SUPPORT_DESCRIPTION);
     }
 
     @Override
@@ -57,7 +59,10 @@ public class SupportCommand extends CliCommand {
     @Override
     protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
-        list.add(Option.builder().longOpt(COMMAND_OPTION_RESET_PROTECTOR).desc("重置保护器").build());
+        list.add(
+                Option.builder().longOpt(COMMAND_OPTION_RESET_PROTECTOR)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_SUPPORT_OPTION_RESET_PROTECTOR)).get()
+        );
         return list;
     }
 
@@ -73,10 +78,14 @@ public class SupportCommand extends CliCommand {
         switch (pair.getLeft()) {
             case COMMAND_OPTION_RESET_PROTECTOR:
                 supportQosService.resetProtector();
-                context.sendMessage("重置保护器成功。");
+                context.sendMessage(
+                        ImplMessages.message(ImplMessageKey.TELQOS_SUPPORT_RESULT_RESET_PROTECTOR_SUCCEEDED)
+                );
                 break;
             default:
-                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
+                throw new IllegalStateException(
+                        ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_INTERNAL_UNREACHABLE)
+                );
         }
     }
 }

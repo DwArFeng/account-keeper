@@ -1,7 +1,7 @@
 package com.dwarfeng.acckeeper.stack.handler;
 
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
 
 /**
  * 登录状态主键生成器。

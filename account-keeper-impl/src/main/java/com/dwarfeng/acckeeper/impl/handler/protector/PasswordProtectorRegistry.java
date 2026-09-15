@@ -1,20 +1,23 @@
 package com.dwarfeng.acckeeper.impl.handler.protector;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.annotation.JSONField;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.sdk.handler.protector.AbstractProtectorRegistry;
 import com.dwarfeng.acckeeper.sdk.util.Constants;
 import com.dwarfeng.acckeeper.stack.exception.ProtectorException;
 import com.dwarfeng.acckeeper.stack.exception.ProtectorExecutionException;
 import com.dwarfeng.acckeeper.stack.exception.ProtectorMakeException;
 import com.dwarfeng.acckeeper.stack.handler.Protector;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.io.Serial;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -37,7 +40,7 @@ public class PasswordProtectorRegistry extends AbstractProtectorRegistry {
      * @return 指配置转换成的参数。
      */
     public static String toParam(Config config) {
-        return JSON.toJSONString(config, false);
+        return JSON.toJSONString(config);
     }
 
     /**
@@ -59,18 +62,18 @@ public class PasswordProtectorRegistry extends AbstractProtectorRegistry {
 
     @Override
     public String provideLabel() {
-        return "密码保护器";
+        return ImplMessages.message(ImplMessageKey.SPI_PROTECTOR_PASSWORD_INCORRECT_PROTECTOR_LABEL);
     }
 
     @Override
     public String provideDescription() {
-        return "如果用户在一段时间内连续输入错误密码超过一定的次数，则禁止用户登录一段时间";
+        return ImplMessages.message(ImplMessageKey.SPI_PROTECTOR_PASSWORD_INCORRECT_PROTECTOR_DESCRIPTION);
     }
 
     @Override
     public String provideExampleParam() {
         Config config = new Config(86400000L, 3, 6, 6);
-        return JSON.toJSONString(config, false);
+        return JSON.toJSONString(config);
     }
 
     @Override
@@ -120,7 +123,7 @@ public class PasswordProtectorRegistry extends AbstractProtectorRegistry {
 
                 // 判断当前时间下账号是否处于禁止状态。
                 long prohibitUntilTimestamp = Long.parseLong(
-                        context.getVariable(VARIABLE_KEY_PROHIBIT_UNTIL_TIMESTAMP).getValue()
+                        context.getVariable(VARIABLE_KEY_PROHIBIT_UNTIL_TIMESTAMP).value()
                 );
                 if (currentTimestamp <= prohibitUntilTimestamp) {
                     String prohibitDateString = formatTimestamp(prohibitUntilTimestamp);
@@ -145,7 +148,7 @@ public class PasswordProtectorRegistry extends AbstractProtectorRegistry {
                 }
 
                 // 获取连续输入错误密码次数，加一后回写。
-                int incorrectCount = Integer.parseInt(context.getVariable(VARIABLE_KEY_INCORRECT_COUNT).getValue());
+                int incorrectCount = Integer.parseInt(context.getVariable(VARIABLE_KEY_INCORRECT_COUNT).value());
                 incorrectCount++;
                 context.setVariable(
                         VARIABLE_KEY_INCORRECT_COUNT, new Variable(incorrectCount + "", "连续输入错误密码计数")
@@ -232,7 +235,8 @@ public class PasswordProtectorRegistry extends AbstractProtectorRegistry {
 
     public static class Config implements Bean {
 
-        private static final long serialVersionUID = 1623975931260956258L;
+        @Serial
+        private static final long serialVersionUID = -5066535527301253337L;
 
         @JSONField(name = "prohibit_period", ordinal = 2)
         private long prohibitPeriod;

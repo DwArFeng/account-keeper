@@ -1,26 +1,27 @@
 package com.dwarfeng.acckeeper.impl.service;
 
-import com.dwarfeng.acckeeper.sdk.util.ServiceExceptionCodes;
+import com.dwarfeng.acckeeper.sdk.exception.ServiceExceptionCodeSuppliers;
 import com.dwarfeng.acckeeper.stack.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
 import com.dwarfeng.acckeeper.stack.service.AccountOperateService;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.ServiceException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.ServiceException;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Objects;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring/application-context*.xml")
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(locations = "classpath:com/dwarfeng/acckeeper/impl/spring/application-context*.xml")
 public class AccountOperateServiceImplTest {
 
     @Autowired
@@ -36,7 +37,7 @@ public class AccountOperateServiceImplTest {
     private AccountUpdateInfo liSiUpdateInfo;
     private AccountUpdateInfo wangWuUpdateInfo;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         zhangSanRegisterInfo = new AccountRegisterInfo(
                 new StringIdKey("zhang_san"), "张三", true, "测试用账号", "ninja123456"
@@ -49,7 +50,7 @@ public class AccountOperateServiceImplTest {
         wangWuUpdateInfo = new AccountUpdateInfo(new StringIdKey("wang_wu"), "王五", true, "测试用账号");
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         zhangSanRegisterInfo = null;
         liSiRegisterInfo = null;
@@ -175,7 +176,7 @@ public class AccountOperateServiceImplTest {
                         new PasswordUpdateInfo(liSiRegisterInfo.getAccountKey(), "ninja123456", "123456")
                 );
             } catch (ServiceException e) {
-                assertEquals(ServiceExceptionCodes.PASSWORD_INCORRECT.getCode(), e.getCode().getCode());
+                assertEquals(ServiceExceptionCodeSuppliers.PASSWORD_INCORRECT.get().getCode(), e.getCode().getCode());
             }
 
             accountOperateService.resetPassword(new PasswordResetInfo(wangWuRegisterInfo.getAccountKey(), "123456"));

@@ -6,10 +6,10 @@ import com.dwarfeng.acckeeper.sdk.bean.key.FastJsonRecordKey;
 import com.dwarfeng.acckeeper.stack.bean.entity.*;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonLongIdKey;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.web.sdk.bean.key.FastJsonLongIdKey;
+import com.dwarfeng.subgrade.web.sdk.bean.key.FastJsonStringIdKey;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 
@@ -25,7 +25,6 @@ import org.mapstruct.Mapper;
  * @deprecated 使用 {@link BeanMapper} 代替。
  */
 // 基于 MapStruct Processor 生成的实现类还在使用该接口，故忽略相关警告。
-@SuppressWarnings("DeprecatedIsStillUsed")
 @Deprecated
 @Mapper
 public interface FastJsonMapper {

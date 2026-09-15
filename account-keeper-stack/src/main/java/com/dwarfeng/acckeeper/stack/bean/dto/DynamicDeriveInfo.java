@@ -1,7 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.dto;
 
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+
+import java.io.Serial;
 
 /**
  * 动态派生信息。
@@ -11,7 +13,8 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
  */
 public class DynamicDeriveInfo implements Dto {
 
-    private static final long serialVersionUID = 8723618224234116047L;
+    @Serial
+    private static final long serialVersionUID = 7240593616411988960L;
 
     private StringIdKey loginStateKey;
     private String remark;

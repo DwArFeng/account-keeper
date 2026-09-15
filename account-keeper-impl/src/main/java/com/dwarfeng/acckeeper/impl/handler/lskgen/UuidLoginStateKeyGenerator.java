@@ -1,7 +1,7 @@
 package com.dwarfeng.acckeeper.impl.handler.lskgen;
 
 import com.dwarfeng.acckeeper.sdk.handler.lskgen.AbstractLoginStateKeyGenerator;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
 import org.springframework.stereotype.Component;
 
 /**

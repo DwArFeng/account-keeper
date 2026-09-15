@@ -1,8 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.entity;
 
-import com.dwarfeng.subgrade.stack.bean.entity.Entity;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.entity.Entity;
+import com.dwarfeng.subgrade.basic.stack.bean.key.LongIdKey;
 
+import java.io.Serial;
 import java.util.Date;
 
 /**
@@ -13,7 +14,8 @@ import java.util.Date;
  */
 public class DeriveHistory implements Entity<LongIdKey> {
 
-    private static final long serialVersionUID = -2792443703164136046L;
+    @Serial
+    private static final long serialVersionUID = -2773618271884307546L;
 
     private LongIdKey key;
     private String accountId;

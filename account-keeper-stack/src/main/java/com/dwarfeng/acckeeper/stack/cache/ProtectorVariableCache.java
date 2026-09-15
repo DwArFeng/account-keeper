@@ -2,7 +2,7 @@ package com.dwarfeng.acckeeper.stack.cache;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.ProtectorVariable;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
-import com.dwarfeng.subgrade.stack.cache.BatchBaseCache;
+import com.dwarfeng.subgrade.data.stack.cache.BatchBaseCache;
 
 /**
  * 保护器变量信息缓存。

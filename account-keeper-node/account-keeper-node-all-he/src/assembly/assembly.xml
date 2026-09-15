@@ -40,7 +40,7 @@
         </fileSet>
         <fileSet>
             <outputDirectory>bin</outputDirectory>
-            <directory>src/main/resources/binres</directory>
+            <directory>src/main/resources/com/dwarfeng/acckeeper/node/all/he/binres</directory>
             <includes>
                 <include>*.sh</include>
             </includes>
@@ -50,7 +50,7 @@
         </fileSet>
         <fileSet>
             <outputDirectory>bin</outputDirectory>
-            <directory>src/main/resources/binres</directory>
+            <directory>src/main/resources/com/dwarfeng/acckeeper/node/all/he/binres</directory>
             <includes>
                 <include>*.bat</include>
             </includes>
@@ -60,7 +60,7 @@
         </fileSet>
         <fileSet>
             <outputDirectory>conf/dubbo</outputDirectory>
-            <directory>src/main/resources/dubbo</directory>
+            <directory>src/main/resources/com/dwarfeng/acckeeper/node/all/he/dubbo</directory>
             <includes>
                 <include>*.properties</include>
             </includes>
@@ -68,7 +68,7 @@
         </fileSet>
         <fileSet>
             <outputDirectory>conf/database</outputDirectory>
-            <directory>src/main/resources/database</directory>
+            <directory>src/main/resources/com/dwarfeng/acckeeper/node/all/he/database</directory>
             <includes>
                 <include>*.properties</include>
             </includes>
@@ -76,7 +76,7 @@
         </fileSet>
         <fileSet>
             <outputDirectory>conf/redis</outputDirectory>
-            <directory>src/main/resources/redis</directory>
+            <directory>src/main/resources/com/dwarfeng/acckeeper/node/all/he/redis</directory>
             <includes>
                 <include>*.properties</include>
             </includes>
@@ -84,7 +84,7 @@
         </fileSet>
         <fileSet>
             <outputDirectory>conf/acckeeper</outputDirectory>
-            <directory>src/main/resources/acckeeper</directory>
+            <directory>src/main/resources/com/dwarfeng/acckeeper/node/all/he/acckeeper</directory>
             <includes>
                 <include>*.properties</include>
             </includes>
@@ -92,7 +92,7 @@
         </fileSet>
         <fileSet>
             <outputDirectory>conf/curator</outputDirectory>
-            <directory>src/main/resources/curator</directory>
+            <directory>src/main/resources/com/dwarfeng/acckeeper/node/all/he/curator</directory>
             <includes>
                 <include>*.properties</include>
             </includes>
@@ -100,7 +100,7 @@
         </fileSet>
         <fileSet>
             <outputDirectory>conf/datamark</outputDirectory>
-            <directory>src/main/resources/datamark</directory>
+            <directory>src/main/resources/com/dwarfeng/acckeeper/node/all/he/datamark</directory>
             <includes>
                 <include>*.properties</include>
             </includes>
@@ -111,7 +111,7 @@
         </fileSet>
         <fileSet>
             <outputDirectory>conf/telqos</outputDirectory>
-            <directory>src/main/resources/telqos</directory>
+            <directory>src/main/resources/com/dwarfeng/acckeeper/node/all/he/telqos</directory>
             <includes>
                 <include>*.properties</include>
             </includes>
@@ -122,7 +122,7 @@
         </fileSet>
         <fileSet>
             <outputDirectory>conf/logging</outputDirectory>
-            <directory>src/main/resources/logging</directory>
+            <directory>src/main/resources/com/dwarfeng/acckeeper/node/all/he/logging</directory>
             <includes>
                 <include>README.md</include>
                 <include>*.xml</include>
@@ -131,7 +131,7 @@
         </fileSet>
         <fileSet>
             <outputDirectory>opt</outputDirectory>
-            <directory>src/main/resources/opt</directory>
+            <directory>src/main/resources/com/dwarfeng/acckeeper/node/all/he/opt</directory>
             <includes>
                 <include>*.xml</include>
             </includes>
@@ -139,7 +139,7 @@
         </fileSet>
         <fileSet>
             <outputDirectory>libext</outputDirectory>
-            <directory>src/main/resources/libext</directory>
+            <directory>src/main/resources/com/dwarfeng/acckeeper/node/all/he/libext</directory>
             <includes>
                 <include>README.md</include>
                 <include>*.xml</include>
@@ -148,7 +148,7 @@
         </fileSet>
         <fileSet>
             <outputDirectory>optext</outputDirectory>
-            <directory>src/main/resources/optext</directory>
+            <directory>src/main/resources/com/dwarfeng/acckeeper/node/all/he/optext</directory>
             <includes>
                 <include>README.md</include>
                 <include>*.xml</include>
@@ -157,7 +157,7 @@
         </fileSet>
         <fileSet>
             <outputDirectory>confext</outputDirectory>
-            <directory>src/main/resources/confext</directory>
+            <directory>src/main/resources/com/dwarfeng/acckeeper/node/all/he/confext</directory>
             <includes>
                 <include>README.md</include>
                 <include>*.properties</include>

@@ -1,7 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.dto;
 
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+
+import java.io.Serial;
 
 /**
  * 踢出信息。
@@ -19,7 +21,8 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
  */
 public class KickInfo implements Dto {
 
-    private static final long serialVersionUID = -6564983261303399699L;
+    @Serial
+    private static final long serialVersionUID = 5339765439615228329L;
 
     /**
      * 登录状态主键。

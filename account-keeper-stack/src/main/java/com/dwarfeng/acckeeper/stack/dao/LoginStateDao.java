@@ -1,10 +1,10 @@
 package com.dwarfeng.acckeeper.stack.dao;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.dao.BatchBaseDao;
-import com.dwarfeng.subgrade.stack.dao.EntireLookupDao;
-import com.dwarfeng.subgrade.stack.dao.PresetLookupDao;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.data.stack.dao.BatchBaseDao;
+import com.dwarfeng.subgrade.data.stack.dao.EntireLookupDao;
+import com.dwarfeng.subgrade.data.stack.dao.PresetLookupDao;
 
 /**
  * 登录状态据访问层。

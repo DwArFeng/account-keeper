@@ -1,10 +1,11 @@
 package com.dwarfeng.acckeeper.sdk.bean.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.sdk.bean.key.FastJsonRecordKey;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginParamRecord;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -15,7 +16,8 @@ import java.util.Objects;
  */
 public class FastJsonLoginParamRecord implements Bean {
 
-    private static final long serialVersionUID = -6318424608515140712L;
+    @Serial
+    private static final long serialVersionUID = 8840616923308759948L;
 
     public static FastJsonLoginParamRecord of(LoginParamRecord loginParamRecord) {
         if (Objects.isNull(loginParamRecord)) {

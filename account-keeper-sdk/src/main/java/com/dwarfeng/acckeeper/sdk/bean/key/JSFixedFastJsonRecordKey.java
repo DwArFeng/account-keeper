@@ -1,10 +1,11 @@
 package com.dwarfeng.acckeeper.sdk.bean.key;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.serializer.ToStringSerializer;
+import com.alibaba.fastjson2.annotation.JSONField;
+import com.alibaba.fastjson2.writer.ObjectWriterImplToString;
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
-import com.dwarfeng.subgrade.stack.bean.key.Key;
+import com.dwarfeng.subgrade.basic.stack.bean.key.Key;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -15,7 +16,8 @@ import java.util.Objects;
  */
 public class JSFixedFastJsonRecordKey implements Key {
 
-    private static final long serialVersionUID = 3605828720963173360L;
+    @Serial
+    private static final long serialVersionUID = -3741984990441232120L;
 
     public static JSFixedFastJsonRecordKey of(RecordKey recordKey) {
         if (Objects.isNull(recordKey)) {
@@ -27,7 +29,7 @@ public class JSFixedFastJsonRecordKey implements Key {
         }
     }
 
-    @JSONField(name = "login_history_id", ordinal = 1, serializeUsing = ToStringSerializer.class)
+    @JSONField(name = "login_history_id", ordinal = 1, serializeUsing = ObjectWriterImplToString.class)
     private Long loginHistoryId;
 
     @JSONField(name = "record_id", ordinal = 2)

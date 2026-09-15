@@ -1,7 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.entity;
 
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
-import com.dwarfeng.subgrade.stack.bean.entity.Entity;
+import com.dwarfeng.subgrade.basic.stack.bean.entity.Entity;
+
+import java.io.Serial;
 
 /**
  * 保护详细信息记录。
@@ -11,7 +13,8 @@ import com.dwarfeng.subgrade.stack.bean.entity.Entity;
  */
 public class ProtectDetailRecord implements Entity<RecordKey> {
 
-    private static final long serialVersionUID = -5473193524956094009L;
+    @Serial
+    private static final long serialVersionUID = -9171679095697141453L;
 
     private RecordKey key;
     private String value;

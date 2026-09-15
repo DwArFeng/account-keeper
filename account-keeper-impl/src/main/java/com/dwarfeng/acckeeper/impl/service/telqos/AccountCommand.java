@@ -1,6 +1,8 @@
 package com.dwarfeng.acckeeper.impl.service.telqos;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.sdk.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.service.AccountQosService;
@@ -9,8 +11,8 @@ import com.dwarfeng.springtelqos.sdk.configuration.TelqosCommand;
 import com.dwarfeng.springtelqos.sdk.util.CliCommandUtil;
 import com.dwarfeng.springtelqos.stack.command.CommandDescriptor;
 import com.dwarfeng.springtelqos.stack.command.CommandExecutor;
-import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.web.sdk.bean.key.WebInputStringIdKey;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.lang3.tuple.Pair;
@@ -64,7 +66,7 @@ public class AccountCommand extends CliCommand {
 
     @Override
     protected DescriptionProvider provideDescriptionProvider() {
-        return context -> "账户操作";
+        return _ -> ImplMessages.message(ImplMessageKey.TELQOS_ACCOUNT_DESCRIPTION);
     }
 
     @Override
@@ -103,28 +105,43 @@ public class AccountCommand extends CliCommand {
     @Override
     protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
-        list.add(Option.builder(COMMAND_OPTION_REGISTER).desc("注册账户").build());
-        list.add(Option.builder(COMMAND_OPTION_UPDATE).desc("更新账户").build());
-        list.add(Option.builder(COMMAND_OPTION_DELETE).desc("删除账户").build());
+        list.add(
+                Option.builder(COMMAND_OPTION_REGISTER)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_ACCOUNT_OPTION_REGISTER)).get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_UPDATE)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_ACCOUNT_OPTION_UPDATE)).get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_DELETE)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_ACCOUNT_OPTION_DELETE)).get()
+        );
         list.add(
                 Option.builder(COMMAND_OPTION_CHECK_PASSWORD).longOpt(COMMAND_OPTION_CHECK_PASSWORD_LONG_OPT)
-                        .desc("检查密码").build()
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_ACCOUNT_OPTION_CHECK_PASSWORD)).get()
         );
         list.add(
                 Option.builder(COMMAND_OPTION_UPDATE_PASSWORD).longOpt(COMMAND_OPTION_UPDATE_PASSWORD_LONG_OPT)
-                        .desc("更新密码").build()
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_ACCOUNT_OPTION_UPDATE_PASSWORD)).get()
         );
         list.add(
                 Option.builder(COMMAND_OPTION_RESET_PASSWORD).longOpt(COMMAND_OPTION_RESET_PASSWORD_LONG_OPT)
-                        .desc("重置密码").build()
-        );
-        list.add(Option.builder(COMMAND_OPTION_INVALID).desc("使账户之前的登录信息无效").build());
-        list.add(
-                Option.builder(COMMAND_OPTION_JSON).desc("JSON 字符串").hasArg().type(String.class).build()
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_ACCOUNT_OPTION_RESET_PASSWORD)).get()
         );
         list.add(
-                Option.builder(COMMAND_OPTION_JSON_FILE).longOpt(COMMAND_OPTION_JSON_FILE_LONG_OPT).desc("JSON 文件")
-                        .hasArg().type(File.class).build()
+                Option.builder(COMMAND_OPTION_INVALID)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_ACCOUNT_OPTION_INVALID)).get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_JSON)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_OPTION_JSON_STRING))
+                        .hasArg().type(String.class).get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_JSON_FILE).longOpt(COMMAND_OPTION_JSON_FILE_LONG_OPT)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_OPTION_JSON_FILE))
+                        .hasArg().type(File.class).get()
         );
         return list;
     }
@@ -160,7 +177,9 @@ public class AccountCommand extends CliCommand {
                 handleInvalid(context, cmd);
                 break;
             default:
-                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
+                throw new IllegalStateException(
+                        ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_INTERNAL_UNREACHABLE)
+                );
         }
     }
 
@@ -169,14 +188,14 @@ public class AccountCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 AccountRegisterInfo。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             info = WebInputAccountRegisterInfo.toStackBean(
                     JSON.parseObject(json, WebInputAccountRegisterInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 AccountRegisterInfo。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputAccountRegisterInfo.toStackBean(
                         JSON.parseObject(in, WebInputAccountRegisterInfo.class)
@@ -184,14 +203,18 @@ public class AccountCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 调用服务。
         accountQosService.register(info);
 
         // 输出结果。
-        context.sendMessage("账户注册成功");
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_ACCOUNT_RESULT_REGISTER_SUCCEEDED)
+        );
     }
 
     private void handleUpdate(CommandExecutor.Context context, CommandLine cmd) throws Exception {
@@ -199,14 +222,14 @@ public class AccountCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 AccountUpdateInfo。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             info = WebInputAccountUpdateInfo.toStackBean(
                     JSON.parseObject(json, WebInputAccountUpdateInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 AccountUpdateInfo。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputAccountUpdateInfo.toStackBean(
                         JSON.parseObject(in, WebInputAccountUpdateInfo.class)
@@ -214,14 +237,18 @@ public class AccountCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 调用服务。
         accountQosService.update(info);
 
         // 输出结果。
-        context.sendMessage("账户更新成功");
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_ACCOUNT_RESULT_UPDATE_SUCCEEDED)
+        );
     }
 
     @SuppressWarnings("DuplicatedCode")
@@ -230,14 +257,14 @@ public class AccountCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 StringIdKey。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             key = WebInputStringIdKey.toStackBean(
                     JSON.parseObject(json, WebInputStringIdKey.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 StringIdKey。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 key = WebInputStringIdKey.toStackBean(
                         JSON.parseObject(in, WebInputStringIdKey.class)
@@ -245,14 +272,18 @@ public class AccountCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 调用服务。
         accountQosService.delete(key);
 
         // 输出结果。
-        context.sendMessage("账户删除成功");
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_ACCOUNT_RESULT_DELETE_SUCCEEDED)
+        );
     }
 
     private void handleCheckPassword(CommandExecutor.Context context, CommandLine cmd) throws Exception {
@@ -260,14 +291,14 @@ public class AccountCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 PasswordCheckInfo。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             info = WebInputPasswordCheckInfo.toStackBean(
                     JSON.parseObject(json, WebInputPasswordCheckInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 PasswordCheckInfo。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputPasswordCheckInfo.toStackBean(
                         JSON.parseObject(in, WebInputPasswordCheckInfo.class)
@@ -275,14 +306,22 @@ public class AccountCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 调用服务。
         boolean result = accountQosService.checkPassword(info);
 
         // 输出结果。
-        context.sendMessage("账户密码检查结果：" + (result ? "正确" : "错误"));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_ACCOUNT_RESULT_PASSWORD_CHECK_RESULT,
+                ImplMessages.message(
+                        result ? ImplMessageKey.TELQOS_ACCOUNT_RESULT_PASSWORD_CHECK_PASSED :
+                                ImplMessageKey.TELQOS_ACCOUNT_RESULT_PASSWORD_CHECK_FAILED
+                )
+        ));
     }
 
     private void handleUpdatePassword(CommandExecutor.Context context, CommandLine cmd) throws Exception {
@@ -290,14 +329,14 @@ public class AccountCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 PasswordUpdateInfo。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             info = WebInputPasswordUpdateInfo.toStackBean(
                     JSON.parseObject(json, WebInputPasswordUpdateInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 PasswordUpdateInfo。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputPasswordUpdateInfo.toStackBean(
                         JSON.parseObject(in, WebInputPasswordUpdateInfo.class)
@@ -305,14 +344,18 @@ public class AccountCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 调用服务。
         accountQosService.updatePassword(info);
 
         // 输出结果。
-        context.sendMessage("账户密码更新成功");
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_ACCOUNT_RESULT_PASSWORD_UPDATE_SUCCEEDED)
+        );
     }
 
     private void handleResetPassword(CommandExecutor.Context context, CommandLine cmd) throws Exception {
@@ -320,14 +363,14 @@ public class AccountCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 PasswordResetInfo。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             info = WebInputPasswordResetInfo.toStackBean(
                     JSON.parseObject(json, WebInputPasswordResetInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 PasswordResetInfo。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputPasswordResetInfo.toStackBean(
                         JSON.parseObject(in, WebInputPasswordResetInfo.class)
@@ -335,14 +378,18 @@ public class AccountCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 调用服务。
         accountQosService.resetPassword(info);
 
         // 输出结果。
-        context.sendMessage("账户密码重置成功");
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_ACCOUNT_RESULT_PASSWORD_RESET_SUCCEEDED)
+        );
     }
 
     @SuppressWarnings("DuplicatedCode")
@@ -351,14 +398,14 @@ public class AccountCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 StringIdKey。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             key = WebInputStringIdKey.toStackBean(
                     JSON.parseObject(json, WebInputStringIdKey.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 StringIdKey。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 key = WebInputStringIdKey.toStackBean(
                         JSON.parseObject(in, WebInputStringIdKey.class)
@@ -366,13 +413,17 @@ public class AccountCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 调用服务。
         accountQosService.invalid(key);
 
         // 输出结果。
-        context.sendMessage("账户登录信息无效化成功");
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_ACCOUNT_RESULT_INVALID_SUCCEEDED)
+        );
     }
 }

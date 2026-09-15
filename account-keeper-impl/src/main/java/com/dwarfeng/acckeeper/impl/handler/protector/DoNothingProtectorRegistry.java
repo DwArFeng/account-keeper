@@ -1,5 +1,7 @@
 package com.dwarfeng.acckeeper.impl.handler.protector;
 
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.sdk.handler.protector.AbstractProtectorRegistry;
 import com.dwarfeng.acckeeper.sdk.util.Constants;
 import com.dwarfeng.acckeeper.stack.exception.ProtectorException;
@@ -33,12 +35,12 @@ public class DoNothingProtectorRegistry extends AbstractProtectorRegistry {
 
     @Override
     public String provideLabel() {
-        return "不做任何事情的保护器";
+        return ImplMessages.message(ImplMessageKey.SPI_PROTECTOR_DO_NOTHING_PROTECTOR_LABEL);
     }
 
     @Override
     public String provideDescription() {
-        return "不做任何事情的保护器";
+        return ImplMessages.message(ImplMessageKey.SPI_PROTECTOR_DO_NOTHING_PROTECTOR_DESCRIPTION);
     }
 
     @Override

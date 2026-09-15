@@ -1,10 +1,11 @@
 package com.dwarfeng.acckeeper.sdk.bean.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.web.sdk.bean.key.FastJsonStringIdKey;
 
+import java.io.Serial;
 import java.util.Date;
 import java.util.Objects;
 
@@ -16,7 +17,8 @@ import java.util.Objects;
  */
 public class FastJsonLoginState implements Bean {
 
-    private static final long serialVersionUID = -7235929765382620281L;
+    @Serial
+    private static final long serialVersionUID = -8742975219223688006L;
 
     public static FastJsonLoginState of(LoginState loginState) {
         if (Objects.isNull(loginState)) {

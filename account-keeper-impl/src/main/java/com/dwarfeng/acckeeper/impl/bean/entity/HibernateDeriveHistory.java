@@ -1,11 +1,12 @@
 package com.dwarfeng.acckeeper.impl.bean.entity;
 
 import com.dwarfeng.acckeeper.sdk.util.Constraints;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.data.sdk.bean.key.hibernate.HibernateLongIdKey;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
-import java.util.Date;
+import java.io.Serial;
+import java.time.Instant;
 import java.util.Optional;
 
 @Entity
@@ -13,7 +14,8 @@ import java.util.Optional;
 @Table(name = "tbl_derive_history")
 public class HibernateDeriveHistory implements Bean {
 
-    private static final long serialVersionUID = 7640899260621665392L;
+    @Serial
+    private static final long serialVersionUID = 477524972029669232L;
 
     // region 主键
 
@@ -29,8 +31,7 @@ public class HibernateDeriveHistory implements Bean {
     private String accountId;
 
     @Column(name = "happened_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date happenedDate;
+    private Instant happenedDate;
 
     @Column(name = "response_code")
     private int responseCode;
@@ -73,11 +74,11 @@ public class HibernateDeriveHistory implements Bean {
         this.accountId = accountId;
     }
 
-    public Date getHappenedDate() {
+    public Instant getHappenedDate() {
         return happenedDate;
     }
 
-    public void setHappenedDate(Date happenedDate) {
+    public void setHappenedDate(Instant happenedDate) {
         this.happenedDate = happenedDate;
     }
 

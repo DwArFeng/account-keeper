@@ -1,44 +1,48 @@
 package com.dwarfeng.acckeeper.impl.dao.preset;
 
+import com.dwarfeng.acckeeper.impl.bean.entity.HibernateLoginHistory;
 import com.dwarfeng.acckeeper.stack.service.LoginHistoryMaintainService;
-import com.dwarfeng.subgrade.sdk.hibernate.criteria.PresetCriteriaMaker;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import com.dwarfeng.subgrade.data.sdk.hibernate.criteria.PresetCriteriaMaker;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 @Component
-public class LoginHistoryPresetCriteriaMaker implements PresetCriteriaMaker {
+public class LoginHistoryPresetCriteriaMaker implements PresetCriteriaMaker<HibernateLoginHistory> {
 
     @Override
-    public void makeCriteria(DetachedCriteria criteria, String preset, Object[] objs) {
+    public void makeCriteria(
+            CriteriaBuilder criteriaBuilder, CriteriaQuery<?> criteriaQuery, Root<HibernateLoginHistory> root,
+            String preset, Object[] objs
+    ) {
         switch (preset) {
             case LoginHistoryMaintainService.ACCOUNT_ID_EQUALS:
-                accountIdEquals(criteria, objs);
+                accountIdEquals(criteriaBuilder, criteriaQuery, root, objs);
                 break;
             case LoginHistoryMaintainService.ACCOUNT_ID_LIKE:
-                accountIdLike(criteria, objs);
+                accountIdLike(criteriaBuilder, criteriaQuery, root, objs);
                 break;
             case LoginHistoryMaintainService.HAPPENED_DATE_DESC:
-                happenedDateDesc(criteria, objs);
+                happenedDateDesc(criteriaBuilder, criteriaQuery, root, objs);
                 break;
             case LoginHistoryMaintainService.ACCOUNT_ID_EQUALS_HAPPENED_DATE_DESC:
-                accountIdEqualsHappenedDateDesc(criteria, objs);
+                accountIdEqualsHappenedDateDesc(criteriaBuilder, criteriaQuery, root, objs);
                 break;
             case LoginHistoryMaintainService.ACCOUNT_ID_LIKE_HAPPENED_DATE_DESC:
-                accountIdLikeHappenedDateDesc(criteria, objs);
+                accountIdLikeHappenedDateDesc(criteriaBuilder, criteriaQuery, root, objs);
                 break;
             case LoginHistoryMaintainService.PROTECTOR_INSPECT:
-                protectorInspect(criteria, objs);
+                protectorInspect(criteriaBuilder, criteriaQuery, root, objs);
                 break;
             case LoginHistoryMaintainService.TO_PURGED:
-                toPurged(criteria, objs);
+                toPurged(criteriaBuilder, criteriaQuery, root, objs);
                 break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + preset);
@@ -46,13 +50,24 @@ public class LoginHistoryPresetCriteriaMaker implements PresetCriteriaMaker {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void accountIdEquals(DetachedCriteria criteria, Object[] objs) {
+    private void accountIdEquals(
+            CriteriaBuilder criteriaBuilder, CriteriaQuery<?> criteriaQuery, Root<HibernateLoginHistory> root,
+            Object[] objs
+    ) {
         try {
             if (Objects.isNull(objs[0])) {
-                criteria.add(Restrictions.isNull("accountId"));
+                CriteriaQueryHelper.addRestriction(
+                        criteriaBuilder, criteriaQuery, criteriaBuilder.isNull(root.get("accountId"))
+                );
             } else {
                 String pattern = (String) objs[0];
-                criteria.add(Restrictions.eqOrIsNull("accountId", pattern));
+                CriteriaQueryHelper.addRestriction(
+
+                        criteriaBuilder, criteriaQuery,
+
+                        CriteriaQueryHelper.equalOrIsNull(criteriaBuilder, root.get("accountId"), pattern)
+
+                );
             }
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
@@ -60,65 +75,112 @@ public class LoginHistoryPresetCriteriaMaker implements PresetCriteriaMaker {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void accountIdLike(DetachedCriteria criteria, Object[] objs) {
+    private void accountIdLike(
+            CriteriaBuilder criteriaBuilder, CriteriaQuery<?> criteriaQuery, Root<HibernateLoginHistory> root,
+            Object[] objs
+    ) {
         try {
             if (Objects.isNull(objs[0])) {
-                criteria.add(Restrictions.isNull("accountId"));
+                CriteriaQueryHelper.addRestriction(
+                        criteriaBuilder, criteriaQuery, criteriaBuilder.isNull(root.get("accountId"))
+                );
             } else {
                 String pattern = (String) objs[0];
-                criteria.add(Restrictions.like("accountId", pattern, MatchMode.ANYWHERE));
+                CriteriaQueryHelper.addRestriction(
+
+                        criteriaBuilder, criteriaQuery,
+
+                        CriteriaQueryHelper.likeAnywhere(criteriaBuilder, root.get("accountId"), pattern)
+
+                );
             }
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
         }
     }
 
-    private void happenedDateDesc(DetachedCriteria criteria, Object[] objs) {
+    private void happenedDateDesc(
+            CriteriaBuilder criteriaBuilder, CriteriaQuery<?> criteriaQuery, Root<HibernateLoginHistory> root,
+            Object[] objs
+    ) {
         try {
-            criteria.addOrder(Order.desc("happenedDate"));
+            CriteriaQueryHelper.addOrder(criteriaQuery, criteriaBuilder.desc(root.get("happenedDate")));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
         }
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void accountIdEqualsHappenedDateDesc(DetachedCriteria criteria, Object[] objs) {
+    private void accountIdEqualsHappenedDateDesc(
+            CriteriaBuilder criteriaBuilder, CriteriaQuery<?> criteriaQuery, Root<HibernateLoginHistory> root,
+            Object[] objs
+    ) {
         try {
             if (Objects.isNull(objs[0])) {
-                criteria.add(Restrictions.isNull("accountId"));
+                CriteriaQueryHelper.addRestriction(
+                        criteriaBuilder, criteriaQuery, criteriaBuilder.isNull(root.get("accountId"))
+                );
             } else {
                 String pattern = (String) objs[0];
-                criteria.add(Restrictions.eqOrIsNull("accountId", pattern));
+                CriteriaQueryHelper.addRestriction(
+
+                        criteriaBuilder, criteriaQuery,
+
+                        CriteriaQueryHelper.equalOrIsNull(criteriaBuilder, root.get("accountId"), pattern)
+
+                );
             }
-            criteria.addOrder(Order.desc("happenedDate"));
+            CriteriaQueryHelper.addOrder(criteriaQuery, criteriaBuilder.desc(root.get("happenedDate")));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
         }
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void accountIdLikeHappenedDateDesc(DetachedCriteria criteria, Object[] objs) {
+    private void accountIdLikeHappenedDateDesc(
+            CriteriaBuilder criteriaBuilder, CriteriaQuery<?> criteriaQuery, Root<HibernateLoginHistory> root,
+            Object[] objs
+    ) {
         try {
             if (Objects.isNull(objs[0])) {
-                criteria.add(Restrictions.isNull("accountId"));
+                CriteriaQueryHelper.addRestriction(
+                        criteriaBuilder, criteriaQuery, criteriaBuilder.isNull(root.get("accountId"))
+                );
             } else {
                 String pattern = (String) objs[0];
-                criteria.add(Restrictions.like("accountId", pattern, MatchMode.ANYWHERE));
+                CriteriaQueryHelper.addRestriction(
+
+                        criteriaBuilder, criteriaQuery,
+
+                        CriteriaQueryHelper.likeAnywhere(criteriaBuilder, root.get("accountId"), pattern)
+
+                );
             }
-            criteria.addOrder(Order.desc("happenedDate"));
+            CriteriaQueryHelper.addOrder(criteriaQuery, criteriaBuilder.desc(root.get("happenedDate")));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
         }
     }
 
-    private void protectorInspect(DetachedCriteria criteria, Object[] objs) {
+    private void protectorInspect(
+            CriteriaBuilder criteriaBuilder, CriteriaQuery<?> criteriaQuery, Root<HibernateLoginHistory> root,
+            Object[] objs
+    ) {
         try {
             // 账户 ID。
             String accountId = (String) objs[0];
             if (Objects.isNull(accountId)) {
-                criteria.add(Restrictions.isNull("accountId"));
+                CriteriaQueryHelper.addRestriction(
+                        criteriaBuilder, criteriaQuery, criteriaBuilder.isNull(root.get("accountId"))
+                );
             } else {
-                criteria.add(Restrictions.eqOrIsNull("accountId", accountId));
+                CriteriaQueryHelper.addRestriction(
+
+                        criteriaBuilder, criteriaQuery,
+
+                        CriteriaQueryHelper.equalOrIsNull(criteriaBuilder, root.get("accountId"), accountId)
+
+                );
             }
 
             // 发生时间。
@@ -130,26 +192,41 @@ public class LoginHistoryPresetCriteriaMaker implements PresetCriteriaMaker {
             if (Objects.isNull(endDate)) {
                 endDate = new Date();
             }
-            criteria.add(Restrictions.between("happenedDate", beginDate, endDate));
+            CriteriaQueryHelper.addRestriction(
+
+                    criteriaBuilder, criteriaQuery,
+                    criteriaBuilder.between(root.get("happenedDate"), beginDate.toInstant(), endDate.toInstant())
+
+            );
 
             // 响应代码。
             @SuppressWarnings("unchecked")
             List<Integer> responseCodes = (List<Integer>) objs[3];
             if (Objects.nonNull(responseCodes)) {
-                criteria.add(Restrictions.in("responseCode", responseCodes));
+                CriteriaQueryHelper.addRestriction(
+                        criteriaBuilder, criteriaQuery, root.get("responseCode").in(responseCodes)
+                );
             }
 
-            criteria.addOrder(Order.desc("happenedDate"));
+            CriteriaQueryHelper.addOrder(criteriaQuery, criteriaBuilder.desc(root.get("happenedDate")));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
         }
     }
 
-    private void toPurged(DetachedCriteria criteria, Object[] objs) {
+    @SuppressWarnings("DuplicatedCode")
+    private void toPurged(
+            CriteriaBuilder criteriaBuilder, CriteriaQuery<?> criteriaQuery, Root<HibernateLoginHistory> root,
+            Object[] objs
+    ) {
         try {
-            Date date = (Date) objs[0];
-            criteria.add(Restrictions.lt("happenedDate", date));
-            criteria.addOrder(Order.asc("happenedDate"));
+            Instant date = ((Date) objs[0]).toInstant();
+            CriteriaQueryHelper.addRestriction(
+
+                    criteriaBuilder, criteriaQuery, criteriaBuilder.lessThan(root.get("happenedDate"), date)
+
+            );
+            CriteriaQueryHelper.addOrder(criteriaQuery, criteriaBuilder.asc(root.get("happenedDate")));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
         }

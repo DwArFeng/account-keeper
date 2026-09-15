@@ -1,12 +1,13 @@
 package com.dwarfeng.acckeeper.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.stack.bean.dto.PostponeInfo;
-import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.web.sdk.bean.key.WebInputStringIdKey;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -17,7 +18,8 @@ import java.util.Objects;
  */
 public class WebInputPostponeInfo implements Bean {
 
-    private static final long serialVersionUID = 986813286550684431L;
+    @Serial
+    private static final long serialVersionUID = 1638086171642526096L;
 
     public static PostponeInfo toStackBean(WebInputPostponeInfo webInput) {
         if (Objects.isNull(webInput)) {

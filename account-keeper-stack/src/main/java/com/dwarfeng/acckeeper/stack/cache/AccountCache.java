@@ -1,8 +1,8 @@
 package com.dwarfeng.acckeeper.stack.cache;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.cache.BatchBaseCache;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.data.stack.cache.BatchBaseCache;
 
 /**
  * 账户缓存。

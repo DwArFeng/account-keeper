@@ -71,13 +71,11 @@
 
   gitee: [https://gitee.com/dwarfeng/dutil](https://gitee.com/dwarfeng/dutil)
 
-
 - com.dwarfeng:subgrade
 
   github: [https://github.com/DwArFeng/subgrade](https://github.com/DwArFeng/subgrade)
 
   gitee: [https://gitee.com/dwarfeng/subgrade](https://gitee.com/dwarfeng/subgrade)
-
 
 - com.dwarfeng:spring-telqos
 
@@ -85,20 +83,17 @@
 
   gitee: [https://gitee.com/dwarfeng/spring-telqos](https://gitee.com/dwarfeng/spring-telqos)
 
-
 - com.dwarfeng:spring-terminator
 
   github: [https://github.com/DwArFeng/spring-terminator](https://github.com/DwArFeng/spring-terminator)
 
   gitee: [https://gitee.com/dwarfeng/spring-terminator](https://gitee.com/dwarfeng/spring-terminator)
 
-
 - com.dwarfeng:dwarfeng-datamark
 
   github: [https://github.com/DwArFeng/dwarfeng-datamark](https://github.com/DwArFeng/dwarfeng-datamark)
 
   gitee: [https://gitee.com/dwarfeng/dwarfeng-datamark](https://gitee.com/dwarfeng/dwarfeng-datamark)
-
 
 - com.dwarfeng:snowflake-distributed-service
 

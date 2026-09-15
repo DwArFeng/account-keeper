@@ -1,13 +1,15 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
 import com.dwarfeng.acckeeper.stack.handler.CleanHandler;
 import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
-import com.dwarfeng.subgrade.impl.handler.CuratorDistributedLockHandler;
-import com.dwarfeng.subgrade.impl.handler.Worker;
-import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.aop.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.lifecycle.stack.handler.Worker;
+import com.dwarfeng.subgrade.lock.impl.handler.curator.CuratorDistributedLockHandler;
 import org.apache.curator.framework.CuratorFramework;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,7 +131,7 @@ public class CleanHandlerImpl implements CleanHandler {
         public void run() {
             try {
                 // 记录日志。
-                LOGGER.info("清理登录状态...");
+                LOGGER.info(ImplMessages.message(ImplMessageKey.LOG_CLEAN_STARTING));
 
                 // 定义变量。
                 int cleanedCount = 0;
@@ -140,7 +142,9 @@ public class CleanHandlerImpl implements CleanHandler {
                         LoginStateMaintainService.WITHOUT_ACCOUNT, new Object[0]
                 ).stream().map(LoginState::getKey).collect(Collectors.toList());
                 loginStateMaintainService.batchDelete(expiredLoginStateKeysToDelete);
-                LOGGER.debug("清理没有关联账户的登录状态, 共 {} 个", expiredLoginStateKeysToDelete.size());
+                LOGGER.debug(ImplMessages.message(
+                        ImplMessageKey.LOG_CLEAN_LOGIN_STATE_WITHOUT_ACCOUNT, expiredLoginStateKeysToDelete.size()
+                ));
                 cleanedCount += expiredLoginStateKeysToDelete.size();
 
                 // 清理过期的登录状态。
@@ -148,7 +152,9 @@ public class CleanHandlerImpl implements CleanHandler {
                         LoginStateMaintainService.EXPIRE_DATE_BEFORE_NOW, new Object[0]
                 ).stream().map(LoginState::getKey).collect(Collectors.toList());
                 loginStateMaintainService.batchDelete(expiredLoginStateKeysToDelete);
-                LOGGER.debug("清理过时的登录状态, 共 {} 个", expiredLoginStateKeysToDelete.size());
+                LOGGER.debug(ImplMessages.message(
+                        ImplMessageKey.LOG_CLEAN_EXPIRED_LOGIN_STATE, expiredLoginStateKeysToDelete.size()
+                ));
                 cleanedCount += expiredLoginStateKeysToDelete.size();
 
                 // 清理序列版本小于对应账户序列版本的登录状态。
@@ -156,13 +162,15 @@ public class CleanHandlerImpl implements CleanHandler {
                         LoginStateMaintainService.SERIAL_VERSION_LOWER_THAN_ACCOUNT, new Object[0]
                 ).stream().map(LoginState::getKey).collect(Collectors.toList());
                 loginStateMaintainService.batchDelete(expiredLoginStateKeysToDelete);
-                LOGGER.debug("清理序列版本小于对应账户序列版本的登录状态, 共 {} 个", expiredLoginStateKeysToDelete.size());
+                LOGGER.debug(ImplMessages.message(
+                        ImplMessageKey.LOG_CLEAN_STALE_LOGIN_STATE, expiredLoginStateKeysToDelete.size()
+                ));
                 cleanedCount += expiredLoginStateKeysToDelete.size();
 
                 // 记录日志。
-                LOGGER.info("清理登录状态完成, 共清理 {} 个登录状态", cleanedCount);
+                LOGGER.info(ImplMessages.message(ImplMessageKey.LOG_CLEAN_FINISHED, cleanedCount));
             } catch (Exception e) {
-                LOGGER.warn("清理过期登录状态时发送异常, 清理未完成, 异常信息如下: ", e);
+                LOGGER.warn(ImplMessages.message(ImplMessageKey.LOG_CLEAN_FAILED), e);
             }
         }
     }

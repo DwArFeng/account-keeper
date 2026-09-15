@@ -2,7 +2,7 @@ package com.dwarfeng.acckeeper.stack.cache;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.ProtectDetailRecord;
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
-import com.dwarfeng.subgrade.stack.cache.BatchBaseCache;
+import com.dwarfeng.subgrade.data.stack.cache.BatchBaseCache;
 
 /**
  * 保护详细信息记录缓存。

@@ -1,7 +1,11 @@
 package com.dwarfeng.acckeeper.stack.exception;
 
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessageKey;
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessages;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+
+import java.io.Serial;
 
 /**
  * 账户不存在异常。
@@ -11,7 +15,8 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class AccountNotExistsException extends HandlerException {
 
-    private static final long serialVersionUID = -3484693229747023645L;
+    @Serial
+    private static final long serialVersionUID = -2617630388423642740L;
 
     private final StringIdKey accountKey;
 
@@ -26,6 +31,6 @@ public class AccountNotExistsException extends HandlerException {
 
     @Override
     public String getMessage() {
-        return "账户 " + accountKey + " 不存在";
+        return StackMessages.message(StackMessageKey.EXCEPTION_ACCOUNT_NOT_EXISTS, accountKey);
     }
 }

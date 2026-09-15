@@ -4,8 +4,8 @@ import com.dwarfeng.acckeeper.stack.bean.dto.DynamicDeriveInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.DynamicDeriveResult;
 import com.dwarfeng.acckeeper.stack.bean.dto.StaticDeriveInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.StaticDeriveResult;
-import com.dwarfeng.subgrade.stack.exception.ServiceException;
-import com.dwarfeng.subgrade.stack.service.Service;
+import com.dwarfeng.subgrade.basic.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.basic.stack.service.Service;
 
 /**
  * 派生 QOS 服务。

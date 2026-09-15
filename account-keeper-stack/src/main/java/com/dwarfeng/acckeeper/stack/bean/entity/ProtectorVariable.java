@@ -1,7 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.entity;
 
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
-import com.dwarfeng.subgrade.stack.bean.entity.Entity;
+import com.dwarfeng.subgrade.basic.stack.bean.entity.Entity;
+
+import java.io.Serial;
 
 /**
  * 保护器变量。
@@ -11,7 +13,8 @@ import com.dwarfeng.subgrade.stack.bean.entity.Entity;
  */
 public class ProtectorVariable implements Entity<ProtectorVariableKey> {
 
-    private static final long serialVersionUID = 2911513087694913296L;
+    @Serial
+    private static final long serialVersionUID = 8150224315044447164L;
 
     private ProtectorVariableKey key;
     private String value;

@@ -1,10 +1,11 @@
 package com.dwarfeng.acckeeper.sdk.bean.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.stack.bean.entity.DeriveHistory;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonLongIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.web.sdk.bean.key.FastJsonLongIdKey;
 
+import java.io.Serial;
 import java.util.Date;
 import java.util.Objects;
 
@@ -16,7 +17,8 @@ import java.util.Objects;
  */
 public class FastJsonDeriveHistory implements Bean {
 
-    private static final long serialVersionUID = -326089543382584126L;
+    @Serial
+    private static final long serialVersionUID = -4130187330242349851L;
 
     public static FastJsonDeriveHistory of(DeriveHistory deriveHistory) {
         if (Objects.isNull(deriveHistory)) {

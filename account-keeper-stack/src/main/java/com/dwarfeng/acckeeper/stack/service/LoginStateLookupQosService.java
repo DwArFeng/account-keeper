@@ -2,8 +2,8 @@ package com.dwarfeng.acckeeper.stack.service;
 
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginStateLookupInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginStateLookupResult;
-import com.dwarfeng.subgrade.stack.exception.ServiceException;
-import com.dwarfeng.subgrade.stack.service.Service;
+import com.dwarfeng.subgrade.basic.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.basic.stack.service.Service;
 
 /**
  * 登录状态查询 QOS 服务。

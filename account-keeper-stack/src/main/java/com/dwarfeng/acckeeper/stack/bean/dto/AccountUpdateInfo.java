@@ -1,7 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.dto;
 
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+
+import java.io.Serial;
 
 /**
  * 账户更新信息。
@@ -11,7 +13,8 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
  */
 public class AccountUpdateInfo implements Dto {
 
-    private static final long serialVersionUID = 8831282909634793643L;
+    @Serial
+    private static final long serialVersionUID = -4597375653478140593L;
 
     private StringIdKey accountKey;
     private String displayName;

@@ -1,10 +1,11 @@
 package com.dwarfeng.acckeeper.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginHistoryRecordInfo;
-import com.dwarfeng.subgrade.sdk.bean.key.JSFixedFastJsonLongIdKey;
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.web.sdk.bean.key.JSFixedFastJsonLongIdKey;
 
+import java.io.Serial;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
@@ -17,7 +18,8 @@ import java.util.Objects;
  */
 public class JSFixedFastJsonLoginHistoryRecordInfo implements Dto {
 
-    private static final long serialVersionUID = 603020065411645070L;
+    @Serial
+    private static final long serialVersionUID = 5393396697836687202L;
 
     public static JSFixedFastJsonLoginHistoryRecordInfo of(LoginHistoryRecordInfo loginHistoryRecordInfo) {
         if (Objects.isNull(loginHistoryRecordInfo)) {
@@ -61,8 +63,8 @@ public class JSFixedFastJsonLoginHistoryRecordInfo implements Dto {
     }
 
     public JSFixedFastJsonLoginHistoryRecordInfo(
-            JSFixedFastJsonLongIdKey loginHistoryKey, String accountId, Date happenedDate, int responseCode, String message,
-            Integer alarmLevel, Map<String, String> extraParamMap, Map<String, String> protectDetailMap
+            JSFixedFastJsonLongIdKey loginHistoryKey, String accountId, Date happenedDate, int responseCode,
+            String message, Integer alarmLevel, Map<String, String> extraParamMap, Map<String, String> protectDetailMap
     ) {
         this.loginHistoryKey = loginHistoryKey;
         this.accountId = accountId;

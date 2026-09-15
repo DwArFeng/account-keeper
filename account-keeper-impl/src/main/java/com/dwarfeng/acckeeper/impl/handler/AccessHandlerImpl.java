@@ -1,5 +1,7 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.sdk.util.Constants;
 import com.dwarfeng.acckeeper.stack.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
@@ -9,10 +11,10 @@ import com.dwarfeng.acckeeper.stack.handler.AccessHandler;
 import com.dwarfeng.acckeeper.stack.handler.LoginStateKeyGenerateHandler;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
 import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
-import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
-import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.aop.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.basic.sdk.exception.HandlerExceptionHelper;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -181,25 +183,25 @@ public class AccessHandlerImpl implements AccessHandler {
         accessProcessor.processRecord(loginComplex);
 
         // 如果响应中的异常字段不为 null，则抛出对应的异常。
-        if (Objects.nonNull(loginComplex.getException())) {
-            throw loginComplex.getException();
+        if (Objects.nonNull(loginComplex.exception())) {
+            throw loginComplex.exception();
         }
 
         // 代码执行至此处，说明登录正常，可以为本次登录请求创建登录状态。
         // 根据账户实体构造登录状态实体。
         StringIdKey key = generateUniqueLoginStateKey();
-        StringIdKey accountKey = loginComplex.getAccountKey();
-        Date happenedDate = loginComplex.getHappenedDate();
-        Date expireDate = loginComplex.getExpireDate();
+        StringIdKey accountKey = loginComplex.accountKey();
+        Date happenedDate = loginComplex.happenedDate();
+        Date expireDate = loginComplex.expireDate();
         String remark = parseRemark(loginType, dynamicLoginInfo, staticLoginInfo);
-        long serialVersion = loginComplex.getSerialVersion();
+        long serialVersion = loginComplex.serialVersion();
         int type = parseLoginStateType(loginType);
         LoginState loginState = new LoginState(key, accountKey, expireDate, serialVersion, happenedDate, type, remark);
         // 插入登录状态实体。
         loginStateMaintainService.insertOrUpdate(loginState);
 
         // 自增账户的登录次数。
-        Account account = loginComplex.getAccount();
+        Account account = loginComplex.account();
         account.setLoginCount(account.getLoginCount() + 1);
         accountMaintainService.update(account);
 
@@ -221,23 +223,23 @@ public class AccessHandlerImpl implements AccessHandler {
         accessProcessor.processRecord(loginComplex);
 
         // 如果响应中的异常字段不为 null，则抛出对应的异常。
-        if (Objects.nonNull(loginComplex.getException())) {
-            throw loginComplex.getException();
+        if (Objects.nonNull(loginComplex.exception())) {
+            throw loginComplex.exception();
         }
 
         // 代码执行至此处，说明登录正常，可以为本次登录请求创建登录状态。
         StringIdKey key = generateUniqueLoginStateKey();
-        StringIdKey accountKey = loginComplex.getAccountKey();
-        Date happenedDate = loginComplex.getHappenedDate();
-        Date expireDate = loginComplex.getExpireDate();
+        StringIdKey accountKey = loginComplex.accountKey();
+        Date happenedDate = loginComplex.happenedDate();
+        Date expireDate = loginComplex.expireDate();
         String remark = parseTrustedRemark(loginType, trustedDynamicLoginInfo, trustedStaticLoginInfo);
-        long serialVersion = loginComplex.getSerialVersion();
+        long serialVersion = loginComplex.serialVersion();
         int type = parseLoginStateType(loginType);
         LoginState loginState = new LoginState(key, accountKey, expireDate, serialVersion, happenedDate, type, remark);
         loginStateMaintainService.insertOrUpdate(loginState);
 
         // 自增账户的登录次数。
-        Account account = loginComplex.getAccount();
+        Account account = loginComplex.account();
         account.setLoginCount(account.getLoginCount() + 1);
         accountMaintainService.update(account);
 
@@ -248,14 +250,10 @@ public class AccessHandlerImpl implements AccessHandler {
             LoginType loginType, TrustedDynamicLoginInfo trustedDynamicLoginInfo,
             TrustedStaticLoginInfo trustedStaticLoginInfo
     ) {
-        switch (loginType) {
-            case DYNAMIC:
-                return trustedDynamicLoginInfo.getRemark();
-            case STATIC:
-                return trustedStaticLoginInfo.getRemark();
-            default:
-                throw new AssertionError("未知的登录类型: " + loginType);
-        }
+        return switch (loginType) {
+            case DYNAMIC -> trustedDynamicLoginInfo.getRemark();
+            case STATIC -> trustedStaticLoginInfo.getRemark();
+        };
     }
 
     @SuppressWarnings("DuplicatedCode")
@@ -270,18 +268,24 @@ public class AccessHandlerImpl implements AccessHandler {
             if (!exists) {
                 if (attempt > 1) {
                     // 超过 1 次尝试，视为异常情况，记录警告。
-                    LOGGER.warn("生成登录状态主键共尝试了 {} 次, 生成的登录状态主键为 {}", attempt, loginStateKey);
+                    LOGGER.warn(ImplMessages.message(
+                            ImplMessageKey.LOG_LOGIN_STATE_KEY_GENERATE_RETRIED, attempt, loginStateKey
+                    ));
                 }
                 return loginStateKey;
             } else {
                 // 发生冲突，记录警告以便告警监控。
-                LOGGER.warn("生成登录状态主键冲突, 第 {} 次尝试, 登录状态主键: {}", attempt, loginStateKey);
+                LOGGER.warn(ImplMessages.message(
+                        ImplMessageKey.LOG_LOGIN_STATE_KEY_GENERATE_COLLISION, attempt, loginStateKey
+                ));
             }
 
             if (attempt >= Constants.LOGIN_STATE_KEY_GENERATE_MAX_ATTEMPTS) {
                 // 超过最大尝试次数，记录警告并抛出异常。
-                String message = "生成登录状态主键超过最大尝试次数 {}, 最后生成登录状态主键: {}, 仍然冲突";
-                LOGGER.warn(message, Constants.LOGIN_STATE_KEY_GENERATE_MAX_ATTEMPTS, loginStateKey);
+                LOGGER.warn(ImplMessages.message(
+                        ImplMessageKey.LOG_LOGIN_STATE_KEY_GENERATE_EXHAUSTED,
+                        Constants.LOGIN_STATE_KEY_GENERATE_MAX_ATTEMPTS, loginStateKey
+                ));
                 throw new LoginStateKeyConflictException();
             }
         }
@@ -290,25 +294,17 @@ public class AccessHandlerImpl implements AccessHandler {
     private String parseRemark(
             LoginType loginType, DynamicLoginInfo dynamicLoginInfo, StaticLoginInfo staticLoginInfo
     ) {
-        switch (loginType) {
-            case DYNAMIC:
-                return dynamicLoginInfo.getRemark();
-            case STATIC:
-                return staticLoginInfo.getRemark();
-            default:
-                throw new AssertionError("未知的登录类型: " + loginType);
-        }
+        return switch (loginType) {
+            case DYNAMIC -> dynamicLoginInfo.getRemark();
+            case STATIC -> staticLoginInfo.getRemark();
+        };
     }
 
     private int parseLoginStateType(LoginType loginType) {
-        switch (loginType) {
-            case DYNAMIC:
-                return Constants.LOGIN_STATE_TYPE_DYNAMIC;
-            case STATIC:
-                return Constants.LOGIN_STATE_TYPE_STATIC;
-            default:
-                throw new AssertionError("未知的登录类型: " + loginType);
-        }
+        return switch (loginType) {
+            case DYNAMIC -> Constants.LOGIN_STATE_TYPE_DYNAMIC;
+            case STATIC -> Constants.LOGIN_STATE_TYPE_STATIC;
+        };
     }
 
     @Override
@@ -358,7 +354,9 @@ public class AccessHandlerImpl implements AccessHandler {
 
             // 如果登录状态类型是静态类型，则不做任何动作。
             if (Objects.equals(Constants.LOGIN_STATE_TYPE_STATIC, loginState.getType())) {
-                LOGGER.debug("登录状态 {} 为静态类型, 不做任何动作", loginStateKey);
+                LOGGER.debug(ImplMessages.message(
+                        ImplMessageKey.LOG_LOGIN_STATE_STATIC_TYPE_SKIPPED, loginStateKey
+                ));
                 return loginStateToPostponeResult(loginState);
             }
 

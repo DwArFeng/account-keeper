@@ -1,5 +1,10 @@
 package com.dwarfeng.acckeeper.stack.exception;
 
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessageKey;
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessages;
+
+import java.io.Serial;
+
 /**
  * 不支持的保护器类型异常。
  *
@@ -8,6 +13,7 @@ package com.dwarfeng.acckeeper.stack.exception;
  */
 public class UnsupportedProtectorTypeException extends ProtectorException {
 
+    @Serial
     private static final long serialVersionUID = 5153478811788730779L;
 
     private final String type;
@@ -23,6 +29,6 @@ public class UnsupportedProtectorTypeException extends ProtectorException {
 
     @Override
     public String getMessage() {
-        return "不支持的保护器类型: " + type;
+        return StackMessages.message(StackMessageKey.EXCEPTION_UNSUPPORTED_PROTECTOR_TYPE, type);
     }
 }

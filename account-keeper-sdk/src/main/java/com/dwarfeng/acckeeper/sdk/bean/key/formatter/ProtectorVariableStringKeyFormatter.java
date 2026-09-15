@@ -1,8 +1,7 @@
 package com.dwarfeng.acckeeper.sdk.bean.key.formatter;
 
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
-import com.dwarfeng.subgrade.sdk.common.Constants;
-import com.dwarfeng.subgrade.sdk.redis.formatter.StringKeyFormatter;
+import com.dwarfeng.subgrade.data.sdk.redis.formatter.StringKeyFormatter;
 
 import java.util.Objects;
 
@@ -28,7 +27,7 @@ public class ProtectorVariableStringKeyFormatter implements StringKeyFormatter<P
 
     @Override
     public String generalFormat() {
-        return prefix + Constants.REDIS_KEY_WILDCARD_CHARACTER;
+        return prefix + StringKeyFormatter.REDIS_KEY_WILDCARD_CHARACTER;
     }
 
     public String getPrefix() {

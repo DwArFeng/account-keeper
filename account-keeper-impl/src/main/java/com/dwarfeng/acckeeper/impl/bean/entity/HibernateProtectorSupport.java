@@ -1,10 +1,11 @@
 package com.dwarfeng.acckeeper.impl.bean.entity;
 
 import com.dwarfeng.acckeeper.sdk.util.Constraints;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.data.sdk.bean.key.hibernate.HibernateStringIdKey;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
+import java.io.Serial;
 import java.util.Optional;
 
 @Entity
@@ -12,7 +13,8 @@ import java.util.Optional;
 @Table(name = "tbl_protector_support")
 public class HibernateProtectorSupport implements Bean {
 
-    private static final long serialVersionUID = 2595191499056279893L;
+    @Serial
+    private static final long serialVersionUID = -7781401529989979796L;
 
     // region 主键
 

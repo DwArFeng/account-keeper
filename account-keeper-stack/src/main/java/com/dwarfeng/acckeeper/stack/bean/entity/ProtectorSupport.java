@@ -1,7 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.entity;
 
-import com.dwarfeng.subgrade.stack.bean.entity.Entity;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.entity.Entity;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+
+import java.io.Serial;
 
 /**
  * 保护器支持。
@@ -11,7 +13,8 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
  */
 public class ProtectorSupport implements Entity<StringIdKey> {
 
-    private static final long serialVersionUID = -4093905112868157774L;
+    @Serial
+    private static final long serialVersionUID = 3633987097805130542L;
 
     private StringIdKey key;
     private String label;

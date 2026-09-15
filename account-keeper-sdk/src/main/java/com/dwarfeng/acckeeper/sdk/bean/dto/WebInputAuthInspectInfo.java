@@ -1,12 +1,13 @@
 package com.dwarfeng.acckeeper.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.stack.bean.dto.AuthInspectInfo;
-import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.web.sdk.bean.key.WebInputStringIdKey;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -17,7 +18,8 @@ import java.util.Objects;
  */
 public class WebInputAuthInspectInfo implements Bean {
 
-    private static final long serialVersionUID = -7280494252030231840L;
+    @Serial
+    private static final long serialVersionUID = 2381008371204614138L;
 
     public static AuthInspectInfo toStackBean(WebInputAuthInspectInfo webInput) {
         if (Objects.isNull(webInput)) {

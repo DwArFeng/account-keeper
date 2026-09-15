@@ -1,7 +1,11 @@
 package com.dwarfeng.acckeeper.stack.exception;
 
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessageKey;
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessages;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+
+import java.io.Serial;
 
 /**
  * 序列版本不一致异常。
@@ -11,7 +15,8 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class SerialVersionInconsistentException extends HandlerException {
 
-    private static final long serialVersionUID = -3768844745033206646L;
+    @Serial
+    private static final long serialVersionUID = 2977626486967645233L;
 
     private final StringIdKey loginStateKey;
 
@@ -26,6 +31,6 @@ public class SerialVersionInconsistentException extends HandlerException {
 
     @Override
     public String getMessage() {
-        return "登录状态 " + loginStateKey + " 的序列版本与账户中的序列版本不一致";
+        return StackMessages.message(StackMessageKey.EXCEPTION_SERIAL_VERSION_INCONSISTENT, loginStateKey);
     }
 }

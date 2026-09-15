@@ -1,7 +1,11 @@
 package com.dwarfeng.acckeeper.stack.exception;
 
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessageKey;
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessages;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+
+import java.io.Serial;
 
 /**
  * 保护器禁止登录异常。
@@ -11,7 +15,8 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class ProtectorProhibitedException extends HandlerException {
 
-    private static final long serialVersionUID = 3096458178415018573L;
+    @Serial
+    private static final long serialVersionUID = 7906939195014433732L;
 
     private final StringIdKey protectorInfoKey;
 
@@ -26,6 +31,6 @@ public class ProtectorProhibitedException extends HandlerException {
 
     @Override
     public String getMessage() {
-        return "保护器禁止 " + protectorInfoKey + " 本次登录";
+        return StackMessages.message(StackMessageKey.EXCEPTION_PROTECTOR_PROHIBITED, protectorInfoKey);
     }
 }

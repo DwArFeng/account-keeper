@@ -1,8 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.dto;
 
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.key.LongIdKey;
 
+import java.io.Serial;
 import java.util.Date;
 
 /**
@@ -13,7 +14,8 @@ import java.util.Date;
  */
 public class DeriveHistoryRecordInfo implements Dto {
 
-    private static final long serialVersionUID = 1622619705897592432L;
+    @Serial
+    private static final long serialVersionUID = 6839133956791793109L;
 
     private LongIdKey key;
     private String accountId;

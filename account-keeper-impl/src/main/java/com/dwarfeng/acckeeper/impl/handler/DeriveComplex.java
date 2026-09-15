@@ -1,89 +1,20 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
-public final class DeriveComplex {
-
-    private final StringIdKey loginStateKey;
-    private final String loginStateId;
-    private final Date happenedDate;
-    private final int responseCode;
-    private final StringIdKey accountKey;
-    private final String accountId;
-    private final Date expireDate;
-    private final Long serialVersion;
-    private final String deriveRemark;
-    private final HandlerException exception;
-    private final Account account;
-
-    public DeriveComplex(
-            StringIdKey loginStateKey, String loginStateId, Date happenedDate, int responseCode, StringIdKey accountKey,
-            String accountId, Date expireDate, Long serialVersion, String deriveRemark, HandlerException exception,
-            Account account
-    ) {
-        this.loginStateKey = loginStateKey;
-        this.loginStateId = loginStateId;
-        this.happenedDate = happenedDate;
-        this.responseCode = responseCode;
-        this.accountKey = accountKey;
-        this.accountId = accountId;
-        this.expireDate = expireDate;
-        this.serialVersion = serialVersion;
-        this.deriveRemark = deriveRemark;
-        this.exception = exception;
-        this.account = account;
-    }
-
-    public StringIdKey getLoginStateKey() {
-        return loginStateKey;
-    }
-
-    public String getLoginStateId() {
-        return loginStateId;
-    }
-
-    public Date getHappenedDate() {
-        return happenedDate;
-    }
-
-    public int getResponseCode() {
-        return responseCode;
-    }
-
-    public StringIdKey getAccountKey() {
-        return accountKey;
-    }
-
-    public String getAccountId() {
-        return accountId;
-    }
-
-    public Date getExpireDate() {
-        return expireDate;
-    }
-
-    public Long getSerialVersion() {
-        return serialVersion;
-    }
-
-    public String getDeriveRemark() {
-        return deriveRemark;
-    }
-
-    public HandlerException getException() {
-        return exception;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
+public record DeriveComplex(
+        StringIdKey loginStateKey, String loginStateId, Date happenedDate, int responseCode, StringIdKey accountKey,
+        String accountId, Date expireDate, Long serialVersion, String deriveRemark, HandlerException exception,
+        Account account
+) {
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "DeriveComplex{" +
                 "loginStateKey=" + loginStateKey +
                 ", loginStateId=" + loginStateId +

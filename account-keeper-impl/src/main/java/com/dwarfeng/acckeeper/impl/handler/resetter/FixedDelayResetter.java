@@ -1,5 +1,7 @@
 package com.dwarfeng.acckeeper.impl.handler.resetter;
 
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.sdk.handler.resetter.AbstractResetter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.util.concurrent.ScheduledFuture;
 
 /**
@@ -35,7 +38,7 @@ public class FixedDelayResetter extends AbstractResetter {
 
     @Override
     protected void doStart() {
-        resetTaskFuture = scheduler.scheduleWithFixedDelay(resetTask, delay);
+        resetTaskFuture = scheduler.scheduleWithFixedDelay(resetTask, Duration.ofMillis(delay));
     }
 
     @Override
@@ -55,12 +58,12 @@ public class FixedDelayResetter extends AbstractResetter {
         @Override
         public void run() {
             try {
-                LOGGER.info("计划时间已到, 重置保护...");
+                LOGGER.info(ImplMessages.message(ImplMessageKey.LOG_RESET_SCHEDULE_TRIGGERED));
                 context.resetProtect();
             } catch (Exception e) {
-                String message = "重置器 " + FixedDelayResetter.this +
-                        " 执行重置保护时发生异常, 保护将不会重置, 异常信息如下: ";
-                LOGGER.warn(message, e);
+                LOGGER.warn(ImplMessages.message(
+                        ImplMessageKey.LOG_RESETTER_EXECUTE_FAILED, FixedDelayResetter.this
+                ), e);
             }
         }
     }

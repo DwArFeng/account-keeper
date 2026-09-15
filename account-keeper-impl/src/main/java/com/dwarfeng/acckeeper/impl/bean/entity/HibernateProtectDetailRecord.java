@@ -2,9 +2,11 @@ package com.dwarfeng.acckeeper.impl.bean.entity;
 
 import com.dwarfeng.acckeeper.impl.bean.key.HibernateRecordKey;
 import com.dwarfeng.acckeeper.sdk.util.Constraints;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
+import java.io.Serial;
 import java.util.Objects;
 
 @Entity
@@ -12,7 +14,8 @@ import java.util.Objects;
 @Table(name = "tbl_protect_detail_record")
 public class HibernateProtectDetailRecord implements Bean {
 
-    private static final long serialVersionUID = -6627261733708340858L;
+    @Serial
+    private static final long serialVersionUID = -918779988823872375L;
 
     // region 主键
 

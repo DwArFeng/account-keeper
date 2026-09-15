@@ -3,7 +3,7 @@ package com.dwarfeng.acckeeper.sdk.handler.pusher;
 import com.dwarfeng.acckeeper.stack.bean.dto.DeriveHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.PurgeFinishedResult;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
 
 /**
  * 推送器适配器。

@@ -1,12 +1,14 @@
 package com.dwarfeng.acckeeper.impl.service.telqos;
 
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.stack.service.LoginStateKeyGenerateQosService;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
 import com.dwarfeng.springtelqos.sdk.configuration.TelqosCommand;
 import com.dwarfeng.springtelqos.sdk.util.CliCommandUtil;
 import com.dwarfeng.springtelqos.stack.command.CommandDescriptor;
 import com.dwarfeng.springtelqos.stack.command.CommandExecutor;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.lang3.tuple.Pair;
@@ -47,7 +49,7 @@ public class LoginStateKeyGenerateCommand extends CliCommand {
 
     @Override
     protected DescriptionProvider provideDescriptionProvider() {
-        return context -> "登录状态主键生成";
+        return _ -> ImplMessages.message(ImplMessageKey.TELQOS_LOGIN_STATE_KEY_GENERATE_DESCRIPTION);
     }
 
     @Override
@@ -67,8 +69,15 @@ public class LoginStateKeyGenerateCommand extends CliCommand {
     @Override
     protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
-        list.add(Option.builder(COMMAND_OPTION_TEST).desc("测试生成").build());
-        list.add(Option.builder(COMMAND_OPTION_SIZE).desc("生成数量").hasArg().type(Number.class).build());
+        list.add(
+                Option.builder(COMMAND_OPTION_TEST)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_LOGIN_STATE_KEY_GENERATE_OPTION_TEST)).get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_SIZE)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_LOGIN_STATE_KEY_GENERATE_OPTION_SIZE))
+                        .hasArg().type(Number.class).get()
+        );
         return list;
     }
 
@@ -86,7 +95,9 @@ public class LoginStateKeyGenerateCommand extends CliCommand {
                 handleTest(context, cmd);
                 break;
             default:
-                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
+                throw new IllegalStateException(
+                        ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_INTERNAL_UNREACHABLE)
+                );
         }
     }
 
@@ -112,16 +123,22 @@ public class LoginStateKeyGenerateCommand extends CliCommand {
 
     private int interactiveParseSize(CommandExecutor.Context context) throws Exception {
         int size;
-        context.sendMessage("请输入需要生成的登录状态主键的数量: ");
+        context.sendMessage(
+                ImplMessages.message(ImplMessageKey.TELQOS_LOGIN_STATE_KEY_GENERATE_RESULT_SIZE_PROMPT)
+        );
         while (true) {
             try {
                 size = Integer.parseInt(context.receiveMessage());
             } catch (NumberFormatException e) {
-                context.sendMessage("输入的数量格式不正确，请输入一个整数: ");
+                context.sendMessage(
+                        ImplMessages.message(ImplMessageKey.TELQOS_LOGIN_STATE_KEY_GENERATE_RESULT_SIZE_FORMAT_ERROR)
+                );
                 continue;
             }
             if (size <= 0) {
-                context.sendMessage("输入的数量必须是正数，请重新输入: ");
+                context.sendMessage(
+                        ImplMessages.message(ImplMessageKey.TELQOS_LOGIN_STATE_KEY_GENERATE_RESULT_SIZE_NOT_POSITIVE)
+                );
                 continue;
             }
             break;

@@ -1,8 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.dto;
 
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
 
+import java.io.Serial;
 import java.util.Date;
 
 /**
@@ -13,7 +14,8 @@ import java.util.Date;
  */
 public class DynamicDeriveResult implements Dto {
 
-    private static final long serialVersionUID = -7937255696713599666L;
+    @Serial
+    private static final long serialVersionUID = 2726178962953980368L;
 
     private StringIdKey loginStateKey;
     private StringIdKey accountKey;

@@ -8,7 +8,7 @@ import com.dwarfeng.acckeeper.stack.service.LoginHistoryMaintainService;
 import com.dwarfeng.acckeeper.stack.service.LoginParamRecordMaintainService;
 import com.dwarfeng.acckeeper.stack.service.ProtectDetailRecordMaintainService;
 import com.dwarfeng.acckeeper.stack.service.ProtectorVariableMaintainService;
-import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.PagingInfo;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -88,12 +88,12 @@ class ProtectorContextImpl implements Protector.Context {
             String accountId = account.getKey().getStringId();
 
             // 获取查询参数。
-            Date startDate = Optional.ofNullable(param.getStartDate()).orElse(new Date(0));
-            Date endDate = Optional.of(param.getEndDate()).orElse(new Date());
-            List<Integer> responseCodes = param.getResponseCodes();
+            Date startDate = Optional.ofNullable(param.startDate()).orElse(new Date(0));
+            Date endDate = Optional.of(param.endDate()).orElse(new Date());
+            List<Integer> responseCodes = param.responseCodes();
 
             // 根据 maxResult 确定分页查询参数。
-            Integer maxResult = param.getMaxResult();
+            Integer maxResult = param.maxResult();
             List<LoginHistory> loginHistories;
             if (Objects.isNull(maxResult)) {
                 loginHistories = loginHistoryMaintainService.lookupAsList(
@@ -182,7 +182,7 @@ class ProtectorContextImpl implements Protector.Context {
             String accountId = account.getKey().getStringId();
 
             ProtectorVariable protectorVariable = new ProtectorVariable(
-                    new ProtectorVariableKey(accountId, variableId), variable.getValue(), variable.getRemark()
+                    new ProtectorVariableKey(accountId, variableId), variable.value(), variable.remark()
             );
             protectorVariableMaintainService.insertOrUpdate(protectorVariable);
         } catch (Exception e) {

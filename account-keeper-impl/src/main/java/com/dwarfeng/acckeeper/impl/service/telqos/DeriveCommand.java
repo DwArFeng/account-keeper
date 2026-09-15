@@ -1,6 +1,8 @@
 package com.dwarfeng.acckeeper.impl.service.telqos;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.sdk.bean.dto.WebInputDynamicDeriveInfo;
 import com.dwarfeng.acckeeper.sdk.bean.dto.WebInputStaticDeriveInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.DynamicDeriveInfo;
@@ -55,7 +57,7 @@ public class DeriveCommand extends CliCommand {
 
     @Override
     protected DescriptionProvider provideDescriptionProvider() {
-        return context -> "派生服务";
+        return _ -> ImplMessages.message(ImplMessageKey.TELQOS_DERIVE_DESCRIPTION);
     }
 
     @Override
@@ -81,18 +83,21 @@ public class DeriveCommand extends CliCommand {
         List<Option> list = new ArrayList<>();
         list.add(
                 Option.builder(COMMAND_OPTION_DYNAMIC_DERIVE).longOpt(COMMAND_OPTION_DYNAMIC_DERIVE_LONG_OPT)
-                        .desc("动态派生").build()
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_DERIVE_OPTION_DYNAMIC_DERIVE)).get()
         );
         list.add(
                 Option.builder(COMMAND_OPTION_STATIC_DERIVE).longOpt(COMMAND_OPTION_STATIC_DERIVE_LONG_OPT)
-                        .desc("静态派生").build()
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_DERIVE_OPTION_STATIC_DERIVE)).get()
         );
         list.add(
-                Option.builder(COMMAND_OPTION_JSON).desc("JSON 字符串").hasArg().type(String.class).build()
+                Option.builder(COMMAND_OPTION_JSON)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_OPTION_JSON_STRING))
+                        .hasArg().type(String.class).get()
         );
         list.add(
-                Option.builder(COMMAND_OPTION_JSON_FILE).longOpt(COMMAND_OPTION_JSON_FILE_LONG_OPT).desc("JSON 文件")
-                        .hasArg().type(File.class).build()
+                Option.builder(COMMAND_OPTION_JSON_FILE).longOpt(COMMAND_OPTION_JSON_FILE_LONG_OPT)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_OPTION_JSON_FILE))
+                        .hasArg().type(File.class).get()
         );
         return list;
     }
@@ -113,7 +118,9 @@ public class DeriveCommand extends CliCommand {
                 handleStaticDerive(context, cmd);
                 break;
             default:
-                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
+                throw new IllegalStateException(
+                        ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_INTERNAL_UNREACHABLE)
+                );
         }
     }
 
@@ -123,14 +130,14 @@ public class DeriveCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 DynamicDeriveInfo。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             info = WebInputDynamicDeriveInfo.toStackBean(
                     JSON.parseObject(json, WebInputDynamicDeriveInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 DynamicDeriveInfo。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputDynamicDeriveInfo.toStackBean(
                         JSON.parseObject(in, WebInputDynamicDeriveInfo.class)
@@ -138,20 +145,36 @@ public class DeriveCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 调用动态派生服务。
         DynamicDeriveResult result = deriveQosService.dynamicDerive(info);
 
         // 输出结果。
-        context.sendMessage("动态派生结果: ");
-        context.sendMessage("  loginStateKey: " + result.getLoginStateKey());
-        context.sendMessage("  accountKey: " + result.getAccountKey().getStringId());
-        context.sendMessage("  expireDate: " + result.getExpireDate());
-        context.sendMessage("  generatedDate: " + result.getGeneratedDate());
-        context.sendMessage("  type: " + result.getType());
-        context.sendMessage("  remark: " + result.getRemark());
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_DERIVE_RESULT_DYNAMIC_DERIVE_RESULT_HEADER
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_LOGIN_STATE_KEY, result.getLoginStateKey()
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_ACCOUNT_KEY, result.getAccountKey().getStringId()
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_EXPIRE_DATE, result.getExpireDate()
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_GENERATED_DATE, result.getGeneratedDate()
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_TYPE, result.getType()
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_REMARK, result.getRemark()
+        ));
     }
 
     @SuppressWarnings("DuplicatedCode")
@@ -160,14 +183,14 @@ public class DeriveCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 StaticDeriveInfo。
         if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
             info = WebInputStaticDeriveInfo.toStackBean(
                     JSON.parseObject(json, WebInputStaticDeriveInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 StaticDeriveInfo。
         else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputStaticDeriveInfo.toStackBean(
                         JSON.parseObject(in, WebInputStaticDeriveInfo.class)
@@ -175,19 +198,35 @@ public class DeriveCommand extends CliCommand {
             }
         } else {
             // 暂时未实现。
-            throw new UnsupportedOperationException("not supported yet");
+            throw new UnsupportedOperationException(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UNSUPPORTED)
+            );
         }
 
         // 调用静态派生服务。
         StaticDeriveResult result = deriveQosService.staticDerive(info);
 
         // 输出结果。
-        context.sendMessage("静态派生结果: ");
-        context.sendMessage("  loginStateKey: " + result.getLoginStateKey());
-        context.sendMessage("  accountKey: " + result.getAccountKey().getStringId());
-        context.sendMessage("  expireDate: " + result.getExpireDate());
-        context.sendMessage("  generatedDate: " + result.getGeneratedDate());
-        context.sendMessage("  type: " + result.getType());
-        context.sendMessage("  remark: " + result.getRemark());
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_DERIVE_RESULT_STATIC_DERIVE_RESULT_HEADER
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_LOGIN_STATE_KEY, result.getLoginStateKey()
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_ACCOUNT_KEY, result.getAccountKey().getStringId()
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_EXPIRE_DATE, result.getExpireDate()
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_GENERATED_DATE, result.getGeneratedDate()
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_TYPE, result.getType()
+        ));
+        context.sendMessage(ImplMessages.message(
+                ImplMessageKey.TELQOS_COMMON_FIELD_REMARK, result.getRemark()
+        ));
     }
 }

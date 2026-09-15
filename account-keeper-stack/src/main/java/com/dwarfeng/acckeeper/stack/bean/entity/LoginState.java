@@ -1,8 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.entity;
 
-import com.dwarfeng.subgrade.stack.bean.entity.Entity;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.entity.Entity;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
 
+import java.io.Serial;
 import java.util.Date;
 
 /**
@@ -13,7 +14,8 @@ import java.util.Date;
  */
 public class LoginState implements Entity<StringIdKey> {
 
-    private static final long serialVersionUID = -2025395568105481495L;
+    @Serial
+    private static final long serialVersionUID = 785010976326428829L;
 
     private StringIdKey key;
     private StringIdKey accountKey;

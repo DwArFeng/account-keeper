@@ -1,17 +1,19 @@
 package com.dwarfeng.acckeeper.sdk.bean.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.serializer.ToStringSerializer;
+import com.alibaba.fastjson2.annotation.JSONField;
+import com.alibaba.fastjson2.writer.ObjectWriterImplToString;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.web.sdk.bean.key.FastJsonStringIdKey;
 
+import java.io.Serial;
 import java.util.Date;
 import java.util.Objects;
 
 public class JSFixedFastJsonAccount implements Bean {
 
-    private static final long serialVersionUID = 5518463725309951889L;
+    @Serial
+    private static final long serialVersionUID = -3939436944156552292L;
 
     public static JSFixedFastJsonAccount of(Account account) {
         if (Objects.isNull(account)) {
@@ -44,7 +46,7 @@ public class JSFixedFastJsonAccount implements Bean {
     @JSONField(name = "remark", ordinal = 4)
     private String remark;
 
-    @JSONField(name = "serial_version", ordinal = 5, serializeUsing = ToStringSerializer.class)
+    @JSONField(name = "serial_version", ordinal = 5, serializeUsing = ObjectWriterImplToString.class)
     private long serialVersion;
 
     @JSONField(name = "display_name", ordinal = 6)

@@ -1,0 +1,64 @@
+module com.dwarfeng.acckeeper.impl {
+
+    requires com.dwarfeng.acckeeper.base;
+    requires com.dwarfeng.acckeeper.stack;
+    requires com.dwarfeng.acckeeper.sdk;
+    requires com.dwarfeng.dutil.basic;
+    requires com.dwarfeng.springtelqos.core;
+    requires com.dwarfeng.subgrade.aop;
+    requires com.dwarfeng.subgrade.basic;
+    requires com.dwarfeng.subgrade.cache;
+    requires com.dwarfeng.subgrade.data;
+    requires com.dwarfeng.subgrade.lifecycle;
+    requires com.dwarfeng.subgrade.lock;
+    requires com.dwarfeng.subgrade.web;
+    requires com.alibaba.fastjson2;
+    requires com.dwarfeng.datamark.core;
+    requires com.dwarfeng.sfds.stack;
+    requires dubbo;
+    requires jakarta.annotation;
+    requires jakarta.persistence;
+    requires jakarta.validation;
+    requires org.apache.commons.lang3;
+    requires org.hibernate.orm.core;
+    requires jbcrypt;
+    requires org.mapstruct;
+    requires org.slf4j;
+    requires spring.aop;
+    requires spring.beans;
+    requires spring.context;
+    requires spring.core;
+    requires spring.data.redis;
+    requires spring.tx;
+    requires org.jetbrains.annotations;
+
+    exports com.dwarfeng.acckeeper.impl.bean;
+    exports com.dwarfeng.acckeeper.impl.bean.entity;
+    exports com.dwarfeng.acckeeper.impl.bean.key;
+    exports com.dwarfeng.acckeeper.impl.cache;
+    exports com.dwarfeng.acckeeper.impl.dao;
+    exports com.dwarfeng.acckeeper.impl.dao.preset;
+    exports com.dwarfeng.acckeeper.impl.handler;
+    exports com.dwarfeng.acckeeper.impl.handler.lskgen;
+    exports com.dwarfeng.acckeeper.impl.handler.protector;
+    exports com.dwarfeng.acckeeper.impl.handler.pusher;
+    exports com.dwarfeng.acckeeper.impl.handler.resetter;
+    exports com.dwarfeng.acckeeper.impl.service;
+    exports com.dwarfeng.acckeeper.impl.service.operation;
+    exports com.dwarfeng.acckeeper.impl.service.telqos;
+
+    opens com.dwarfeng.acckeeper.impl.bean.entity to org.hibernate.orm.core;
+    opens com.dwarfeng.acckeeper.impl.bean.key to org.hibernate.orm.core;
+    opens com.dwarfeng.acckeeper.impl.cache to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.acckeeper.impl.dao to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.acckeeper.impl.dao.preset to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.acckeeper.impl.handler to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.acckeeper.impl.handler.lskgen to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.acckeeper.impl.handler.protector to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.acckeeper.impl.handler.pusher to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.acckeeper.impl.handler.resetter to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.acckeeper.impl.service to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.acckeeper.impl.service.operation to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.acckeeper.impl.service.telqos to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.acckeeper.impl.i18n to com.dwarfeng.acckeeper.base;
+}

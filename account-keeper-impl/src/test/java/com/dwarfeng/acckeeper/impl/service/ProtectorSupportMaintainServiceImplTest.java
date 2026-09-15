@@ -2,24 +2,25 @@ package com.dwarfeng.acckeeper.impl.service;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.ProtectorSupport;
 import com.dwarfeng.acckeeper.stack.service.ProtectorSupportMaintainService;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
 import org.apache.commons.beanutils.BeanUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring/application-context*.xml")
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(locations = "classpath:com/dwarfeng/acckeeper/impl/spring/application-context*.xml")
 public class ProtectorSupportMaintainServiceImplTest {
 
     @Autowired
@@ -27,7 +28,7 @@ public class ProtectorSupportMaintainServiceImplTest {
 
     private final List<ProtectorSupport> protectorSupports = new ArrayList<>();
 
-    @Before
+    @BeforeEach
     public void setUp() {
         for (int i = 0; i < 5; i++) {
             ProtectorSupport protectorSupport = new ProtectorSupport(
@@ -37,7 +38,7 @@ public class ProtectorSupportMaintainServiceImplTest {
         }
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         protectorSupports.clear();
     }

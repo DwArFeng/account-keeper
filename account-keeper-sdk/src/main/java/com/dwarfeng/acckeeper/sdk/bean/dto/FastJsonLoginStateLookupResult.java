@@ -1,10 +1,11 @@
 package com.dwarfeng.acckeeper.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.sdk.bean.entity.FastJsonLoginState;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginStateLookupResult;
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
 
+import java.io.Serial;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -18,7 +19,8 @@ import java.util.stream.Collectors;
  */
 public class FastJsonLoginStateLookupResult implements Dto {
 
-    private static final long serialVersionUID = 5956400637189757074L;
+    @Serial
+    private static final long serialVersionUID = -4577656802808495019L;
 
     public static FastJsonLoginStateLookupResult of(LoginStateLookupResult loginStateLookupResult) {
         if (Objects.isNull(loginStateLookupResult)) {

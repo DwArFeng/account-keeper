@@ -1,7 +1,8 @@
 package com.dwarfeng.acckeeper.stack.bean.key;
 
-import com.dwarfeng.subgrade.stack.bean.key.Key;
+import com.dwarfeng.subgrade.basic.stack.bean.key.Key;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,8 @@ import java.util.Objects;
  */
 public class RecordKey implements Key {
 
-    private static final long serialVersionUID = -6002675707014724775L;
+    @Serial
+    private static final long serialVersionUID = -6068624704983896872L;
 
     private Long loginHistoryId;
     private String recordId;

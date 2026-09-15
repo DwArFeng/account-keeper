@@ -1,27 +1,31 @@
 package com.dwarfeng.acckeeper.impl.dao.preset;
 
+import com.dwarfeng.acckeeper.impl.bean.entity.HibernateLoginParamRecord;
 import com.dwarfeng.acckeeper.stack.service.LoginParamRecordMaintainService;
-import com.dwarfeng.subgrade.sdk.hibernate.criteria.PresetCriteriaMaker;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import com.dwarfeng.subgrade.basic.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.data.sdk.hibernate.criteria.PresetCriteriaMaker;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 @Component
-public class LoginParamRecordPresetCriteriaMaker implements PresetCriteriaMaker {
+public class LoginParamRecordPresetCriteriaMaker implements PresetCriteriaMaker<HibernateLoginParamRecord> {
 
     @Override
-    public void makeCriteria(DetachedCriteria detachedCriteria, String s, Object[] objects) {
+    public void makeCriteria(
+            CriteriaBuilder criteriaBuilder, CriteriaQuery<?> criteriaQuery, Root<HibernateLoginParamRecord> root,
+            String s, Object[] objects
+    ) {
         switch (s) {
             case LoginParamRecordMaintainService.CHILD_FOR_LOGIN_HISTORY:
-                childForLoginHistory(detachedCriteria, objects);
+                childForLoginHistory(criteriaBuilder, criteriaQuery, root, objects);
                 break;
             case LoginParamRecordMaintainService.CHILD_FOR_LOGIN_HISTORY_RECORD_ID_ASC:
-                childForLoginHistoryRecordIdAsc(detachedCriteria, objects);
+                childForLoginHistoryRecordIdAsc(criteriaBuilder, criteriaQuery, root, objects);
                 break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + s);
@@ -29,13 +33,24 @@ public class LoginParamRecordPresetCriteriaMaker implements PresetCriteriaMaker 
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void childForLoginHistory(DetachedCriteria detachedCriteria, Object[] objects) {
+    private void childForLoginHistory(
+            CriteriaBuilder criteriaBuilder, CriteriaQuery<?> criteriaQuery, Root<HibernateLoginParamRecord> root,
+            Object[] objects
+    ) {
         try {
             if (Objects.isNull(objects[0])) {
-                detachedCriteria.add(Restrictions.isNull("loginHistoryId"));
+                CriteriaQueryHelper.addRestriction(
+                        criteriaBuilder, criteriaQuery, criteriaBuilder.isNull(root.get("loginHistoryId"))
+                );
             } else {
                 LongIdKey longIdKey = (LongIdKey) objects[0];
-                detachedCriteria.add(Restrictions.eqOrIsNull("loginHistoryId", longIdKey.getLongId()));
+                CriteriaQueryHelper.addRestriction(
+                        criteriaBuilder,
+                        criteriaQuery,
+                        CriteriaQueryHelper.equalOrIsNull(
+                                criteriaBuilder, root.get("loginHistoryId"), longIdKey.getLongId()
+                        )
+                );
             }
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
@@ -43,15 +58,26 @@ public class LoginParamRecordPresetCriteriaMaker implements PresetCriteriaMaker 
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void childForLoginHistoryRecordIdAsc(DetachedCriteria detachedCriteria, Object[] objects) {
+    private void childForLoginHistoryRecordIdAsc(
+            CriteriaBuilder criteriaBuilder, CriteriaQuery<?> criteriaQuery, Root<HibernateLoginParamRecord> root,
+            Object[] objects
+    ) {
         try {
             if (Objects.isNull(objects[0])) {
-                detachedCriteria.add(Restrictions.isNull("loginHistoryId"));
+                CriteriaQueryHelper.addRestriction(
+                        criteriaBuilder, criteriaQuery, criteriaBuilder.isNull(root.get("loginHistoryId"))
+                );
             } else {
                 LongIdKey longIdKey = (LongIdKey) objects[0];
-                detachedCriteria.add(Restrictions.eqOrIsNull("loginHistoryId", longIdKey.getLongId()));
+                CriteriaQueryHelper.addRestriction(
+                        criteriaBuilder,
+                        criteriaQuery,
+                        CriteriaQueryHelper.equalOrIsNull(
+                                criteriaBuilder, root.get("loginHistoryId"), longIdKey.getLongId()
+                        )
+                );
             }
-            detachedCriteria.addOrder(Order.asc("recordId"));
+            CriteriaQueryHelper.addOrder(criteriaQuery, criteriaBuilder.asc(root.get("recordId")));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
         }

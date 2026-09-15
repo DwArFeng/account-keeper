@@ -1,8 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.entity;
 
-import com.dwarfeng.subgrade.stack.bean.entity.Entity;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.entity.Entity;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
 
+import java.io.Serial;
 import java.util.Date;
 
 /**
@@ -13,7 +14,8 @@ import java.util.Date;
  */
 public class Account implements Entity<StringIdKey> {
 
-    private static final long serialVersionUID = 5515266500914356625L;
+    @Serial
+    private static final long serialVersionUID = 37130492520213615L;
 
     private StringIdKey key;
     private String password;

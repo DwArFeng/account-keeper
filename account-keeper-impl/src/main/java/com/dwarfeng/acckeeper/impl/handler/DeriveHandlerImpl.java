@@ -1,5 +1,7 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.sdk.util.Constants;
 import com.dwarfeng.acckeeper.stack.bean.dto.DynamicDeriveInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.DynamicDeriveResult;
@@ -12,10 +14,10 @@ import com.dwarfeng.acckeeper.stack.handler.DeriveHandler;
 import com.dwarfeng.acckeeper.stack.handler.LoginStateKeyGenerateHandler;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
 import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
-import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
-import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.aop.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.basic.sdk.exception.HandlerExceptionHelper;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -98,25 +100,25 @@ public class DeriveHandlerImpl implements DeriveHandler {
         deriveProcessor.processRecord(deriveComplex);
 
         // 如果响应中的异常字段不为 null，则抛出对应的异常。
-        if (Objects.nonNull(deriveComplex.getException())) {
-            throw deriveComplex.getException();
+        if (Objects.nonNull(deriveComplex.exception())) {
+            throw deriveComplex.exception();
         }
 
         // 代码执行至此处，说明派生正常，可以为本次派生请求创建派生状态。
         // 根据账户实体构造派生状态实体。
         StringIdKey key = generateUniqueLoginStateKey();
-        StringIdKey accountKey = deriveComplex.getAccountKey();
+        StringIdKey accountKey = deriveComplex.accountKey();
         Date currentDate = new Date();
         Date expireDate = parseExpireDate(deriveType, deriveComplex, staticDeriveInfo);
         String remark = parseRemark(deriveType, dynamicDeriveInfo, staticDeriveInfo);
-        long serialVersion = deriveComplex.getSerialVersion();
+        long serialVersion = deriveComplex.serialVersion();
         int type = parseLoginStateType(deriveType);
         LoginState loginState = new LoginState(key, accountKey, expireDate, serialVersion, currentDate, type, remark);
         // 插入派生实体。
         loginStateMaintainService.insertOrUpdate(loginState);
 
         // 自增账户的派生次数。
-        Account account = deriveComplex.getAccount();
+        Account account = deriveComplex.account();
         account.setDeriveCount(account.getDeriveCount() + 1);
         accountMaintainService.update(account);
 
@@ -136,18 +138,24 @@ public class DeriveHandlerImpl implements DeriveHandler {
             if (!exists) {
                 if (attempt > 1) {
                     // 超过 1 次尝试，视为异常情况，记录警告。
-                    LOGGER.warn("生成登录状态主键共尝试了 {} 次, 生成的登录状态主键为 {}", attempt, loginStateKey);
+                    LOGGER.warn(ImplMessages.message(
+                            ImplMessageKey.LOG_LOGIN_STATE_KEY_GENERATE_RETRIED, attempt, loginStateKey
+                    ));
                 }
                 return loginStateKey;
             } else {
                 // 发生冲突，记录警告以便告警监控。
-                LOGGER.warn("生成登录状态主键冲突, 第 {} 次尝试, 登录状态主键: {}", attempt, loginStateKey);
+                LOGGER.warn(ImplMessages.message(
+                        ImplMessageKey.LOG_LOGIN_STATE_KEY_GENERATE_COLLISION, attempt, loginStateKey
+                ));
             }
 
             if (attempt >= Constants.LOGIN_STATE_KEY_GENERATE_MAX_ATTEMPTS) {
                 // 超过最大尝试次数，记录警告并抛出异常。
-                String message = "生成登录状态主键超过最大尝试次数 {}, 最后生成登录状态主键: {}, 仍然冲突";
-                LOGGER.warn(message, Constants.LOGIN_STATE_KEY_GENERATE_MAX_ATTEMPTS, loginStateKey);
+                LOGGER.warn(ImplMessages.message(
+                        ImplMessageKey.LOG_LOGIN_STATE_KEY_GENERATE_EXHAUSTED,
+                        Constants.LOGIN_STATE_KEY_GENERATE_MAX_ATTEMPTS, loginStateKey
+                ));
                 throw new LoginStateKeyConflictException();
             }
         }
@@ -156,37 +164,25 @@ public class DeriveHandlerImpl implements DeriveHandler {
     private Date parseExpireDate(
             DeriveType deriveType, DeriveComplex deriveComplex, StaticDeriveInfo staticDeriveInfo
     ) {
-        switch (deriveType) {
-            case DYNAMIC:
-                return new Date(deriveComplex.getHappenedDate().getTime() + dynamicDeriveExpireDuration);
-            case STATIC:
-                return staticDeriveInfo.getExpireDate();
-            default:
-                throw new AssertionError("未知的派生类型: " + deriveType);
-        }
+        return switch (deriveType) {
+            case DYNAMIC -> new Date(deriveComplex.happenedDate().getTime() + dynamicDeriveExpireDuration);
+            case STATIC -> staticDeriveInfo.getExpireDate();
+        };
     }
 
     private String parseRemark(
             DeriveType deriveType, DynamicDeriveInfo dynamicDeriveInfo, StaticDeriveInfo staticDeriveInfo
     ) {
-        switch (deriveType) {
-            case DYNAMIC:
-                return dynamicDeriveInfo.getRemark();
-            case STATIC:
-                return staticDeriveInfo.getRemark();
-            default:
-                throw new AssertionError("未知的派生类型: " + deriveType);
-        }
+        return switch (deriveType) {
+            case DYNAMIC -> dynamicDeriveInfo.getRemark();
+            case STATIC -> staticDeriveInfo.getRemark();
+        };
     }
 
     private int parseLoginStateType(DeriveType deriveType) {
-        switch (deriveType) {
-            case DYNAMIC:
-                return Constants.LOGIN_STATE_TYPE_DYNAMIC;
-            case STATIC:
-                return Constants.LOGIN_STATE_TYPE_STATIC;
-            default:
-                throw new AssertionError("未知的派生类型: " + deriveType);
-        }
+        return switch (deriveType) {
+            case DYNAMIC -> Constants.LOGIN_STATE_TYPE_DYNAMIC;
+            case STATIC -> Constants.LOGIN_STATE_TYPE_STATIC;
+        };
     }
 }

@@ -1,13 +1,14 @@
 package com.dwarfeng.acckeeper.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.stack.bean.dto.PasswordResetInfo;
-import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.web.sdk.bean.key.WebInputStringIdKey;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -18,7 +19,8 @@ import java.util.Objects;
  */
 public class WebInputPasswordResetInfo implements Dto {
 
-    private static final long serialVersionUID = -5883447679487771489L;
+    @Serial
+    private static final long serialVersionUID = -6440884465502289139L;
 
     public static PasswordResetInfo toStackBean(WebInputPasswordResetInfo webInput) {
         if (Objects.isNull(webInput)) {

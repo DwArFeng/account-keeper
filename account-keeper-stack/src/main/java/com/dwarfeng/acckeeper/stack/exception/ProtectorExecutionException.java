@@ -1,5 +1,7 @@
 package com.dwarfeng.acckeeper.stack.exception;
 
+import java.io.Serial;
+
 /**
  * 保护器执行异常。
  *
@@ -8,6 +10,7 @@ package com.dwarfeng.acckeeper.stack.exception;
  */
 public class ProtectorExecutionException extends ProtectorException {
 
+    @Serial
     private static final long serialVersionUID = 4682998802208066235L;
 
     public ProtectorExecutionException() {

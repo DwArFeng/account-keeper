@@ -1,8 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.dto;
 
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
 
+import java.io.Serial;
 import java.util.Date;
 
 /**
@@ -13,7 +14,8 @@ import java.util.Date;
  */
 public class StaticDeriveInfo implements Dto {
 
-    private static final long serialVersionUID = 8392704538469567924L;
+    @Serial
+    private static final long serialVersionUID = -7621077356702428750L;
 
     private StringIdKey loginStateKey;
     private Date expireDate;

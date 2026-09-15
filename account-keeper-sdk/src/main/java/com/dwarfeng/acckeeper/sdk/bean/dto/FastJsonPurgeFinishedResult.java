@@ -1,9 +1,10 @@
 package com.dwarfeng.acckeeper.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.stack.bean.dto.PurgeFinishedResult;
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -14,7 +15,8 @@ import java.util.Objects;
  */
 public class FastJsonPurgeFinishedResult implements Dto {
 
-    private static final long serialVersionUID = -3554449345858890667L;
+    @Serial
+    private static final long serialVersionUID = -7895709141439735156L;
 
     public static FastJsonPurgeFinishedResult of(PurgeFinishedResult purgeFinishResult) {
         if (Objects.isNull(purgeFinishResult)) {

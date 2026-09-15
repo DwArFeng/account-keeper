@@ -1,7 +1,11 @@
 package com.dwarfeng.acckeeper.stack.exception;
 
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessageKey;
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessages;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+
+import java.io.Serial;
 
 /**
  * 登录状态不存在异常。
@@ -11,7 +15,8 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class LoginStateExpiredException extends HandlerException {
 
-    private static final long serialVersionUID = 8814507052610394143L;
+    @Serial
+    private static final long serialVersionUID = 4983604166075825281L;
 
     private final StringIdKey loginStateKey;
 
@@ -26,6 +31,6 @@ public class LoginStateExpiredException extends HandlerException {
 
     @Override
     public String getMessage() {
-        return "登录状态 " + loginStateKey + " 已过期";
+        return StackMessages.message(StackMessageKey.EXCEPTION_LOGIN_STATE_EXPIRED, loginStateKey);
     }
 }

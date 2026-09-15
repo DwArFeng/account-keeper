@@ -1,8 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.dto;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginState;
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
 
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -13,7 +14,8 @@ import java.util.List;
  */
 public class LoginStateLookupResult implements Dto {
 
-    private static final long serialVersionUID = -8993299727333961216L;
+    @Serial
+    private static final long serialVersionUID = -7683816569599538667L;
 
     private List<LoginState> loginStates;
 

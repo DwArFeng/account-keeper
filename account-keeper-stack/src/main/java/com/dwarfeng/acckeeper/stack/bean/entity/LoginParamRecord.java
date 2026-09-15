@@ -1,7 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.entity;
 
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
-import com.dwarfeng.subgrade.stack.bean.entity.Entity;
+import com.dwarfeng.subgrade.basic.stack.bean.entity.Entity;
+
+import java.io.Serial;
 
 /**
  * 登录参数记录。
@@ -11,7 +13,8 @@ import com.dwarfeng.subgrade.stack.bean.entity.Entity;
  */
 public class LoginParamRecord implements Entity<RecordKey> {
 
-    private static final long serialVersionUID = -1927813145622201172L;
+    @Serial
+    private static final long serialVersionUID = 6460233214422441785L;
 
     private RecordKey key;
     private String value;

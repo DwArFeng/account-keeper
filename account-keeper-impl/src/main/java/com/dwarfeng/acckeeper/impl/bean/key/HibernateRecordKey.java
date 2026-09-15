@@ -1,7 +1,8 @@
 package com.dwarfeng.acckeeper.impl.bean.key;
 
-import com.dwarfeng.subgrade.stack.bean.key.Key;
+import com.dwarfeng.subgrade.basic.stack.bean.key.Key;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,8 @@ import java.util.Objects;
  */
 public class HibernateRecordKey implements Key {
 
-    private static final long serialVersionUID = -7070699473425882193L;
+    @Serial
+    private static final long serialVersionUID = 1352626879242850763L;
 
     private Long loginHistoryId;
     private String recordId;

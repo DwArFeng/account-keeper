@@ -1,5 +1,10 @@
 package com.dwarfeng.acckeeper.stack.exception;
 
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessageKey;
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessages;
+
+import java.io.Serial;
+
 /**
  * 保护器构造异常。
  *
@@ -8,6 +13,7 @@ package com.dwarfeng.acckeeper.stack.exception;
  */
 public class ProtectorMakeException extends ProtectorException {
 
+    @Serial
     private static final long serialVersionUID = -7554425071831738683L;
 
     private final String protectorType;
@@ -26,6 +32,6 @@ public class ProtectorMakeException extends ProtectorException {
 
     @Override
     public String getMessage() {
-        return "保护器构造异常, 类型为: " + protectorType + ", 参数为: " + param;
+        return StackMessages.message(StackMessageKey.EXCEPTION_PROTECTOR_MAKE, protectorType, param);
     }
 }

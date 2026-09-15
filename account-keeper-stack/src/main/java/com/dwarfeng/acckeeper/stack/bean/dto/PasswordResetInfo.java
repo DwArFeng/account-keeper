@@ -1,7 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.dto;
 
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+
+import java.io.Serial;
 
 /**
  * 密码重置信息。
@@ -11,7 +13,8 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
  */
 public class PasswordResetInfo implements Dto {
 
-    private static final long serialVersionUID = -7397545741501745824L;
+    @Serial
+    private static final long serialVersionUID = 2926732615640292423L;
 
     private StringIdKey accountKey;
     private String newPassword;

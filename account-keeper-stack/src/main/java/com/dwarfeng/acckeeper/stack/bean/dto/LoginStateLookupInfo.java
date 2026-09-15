@@ -1,7 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.dto;
 
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+
+import java.io.Serial;
 
 /**
  * 登录状态查询信息。
@@ -19,7 +21,8 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
  */
 public class LoginStateLookupInfo implements Dto {
 
-    private static final long serialVersionUID = -1630122144672429679L;
+    @Serial
+    private static final long serialVersionUID = -358271215059165562L;
 
     /**
      * 登录状态主键。

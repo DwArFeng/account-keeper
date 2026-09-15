@@ -1,11 +1,12 @@
 package com.dwarfeng.acckeeper.impl.bean.entity;
 
 import com.dwarfeng.acckeeper.sdk.util.Constraints;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.data.sdk.bean.key.hibernate.HibernateStringIdKey;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
-import java.util.Date;
+import java.io.Serial;
+import java.time.Instant;
 import java.util.Optional;
 
 @Entity
@@ -13,7 +14,8 @@ import java.util.Optional;
 @Table(name = "tbl_login_state")
 public class HibernateLoginState implements Bean {
 
-    private static final long serialVersionUID = -187471331672578945L;
+    @Serial
+    private static final long serialVersionUID = 7673019794446955515L;
 
     // region 主键
 
@@ -33,15 +35,13 @@ public class HibernateLoginState implements Bean {
     // region 主属性字段
 
     @Column(name = "expire_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date expireDate;
+    private Instant expireDate;
 
     @Column(name = "serial_version")
     private long serialVersion;
 
     @Column(name = "generated_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date generatedDate;
+    private Instant generatedDate;
 
     @Column(name = "type")
     private int type;
@@ -102,11 +102,11 @@ public class HibernateLoginState implements Bean {
         this.accountStringId = accountStringId;
     }
 
-    public Date getExpireDate() {
+    public Instant getExpireDate() {
         return expireDate;
     }
 
-    public void setExpireDate(Date expireDate) {
+    public void setExpireDate(Instant expireDate) {
         this.expireDate = expireDate;
     }
 
@@ -118,11 +118,11 @@ public class HibernateLoginState implements Bean {
         this.serialVersion = serialVersion;
     }
 
-    public Date getGeneratedDate() {
+    public Instant getGeneratedDate() {
         return generatedDate;
     }
 
-    public void setGeneratedDate(Date generatedDate) {
+    public void setGeneratedDate(Instant generatedDate) {
         this.generatedDate = generatedDate;
     }
 

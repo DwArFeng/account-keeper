@@ -8,22 +8,22 @@ import com.dwarfeng.acckeeper.impl.dao.preset.*;
 import com.dwarfeng.acckeeper.stack.bean.entity.*;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
-import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
-import com.dwarfeng.subgrade.impl.dao.HibernateBatchBaseDao;
-import com.dwarfeng.subgrade.impl.dao.HibernateEntireLookupDao;
-import com.dwarfeng.subgrade.impl.dao.HibernatePresetLookupDao;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.impl.bean.MapStructBeanTransformer;
+import com.dwarfeng.subgrade.basic.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.data.impl.dao.hibernate.HibernateBatchBaseDao;
+import com.dwarfeng.subgrade.data.impl.dao.hibernate.HibernateEntireLookupDao;
+import com.dwarfeng.subgrade.data.impl.dao.hibernate.HibernatePresetLookupDao;
+import com.dwarfeng.subgrade.data.sdk.bean.key.hibernate.HibernateLongIdKey;
+import com.dwarfeng.subgrade.data.sdk.bean.key.hibernate.HibernateStringIdKey;
+import com.dwarfeng.subgrade.data.sdk.hibernate.operation.HibernateOperations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.orm.hibernate5.HibernateTemplate;
 
 @Configuration
 public class DaoConfiguration {
 
-    private final HibernateTemplate hibernateTemplate;
+    private final HibernateOperations hibernateTemplate;
 
     private final AccountPresetCriteriaMaker accountPresetCriteriaMaker;
     private final LoginStatePresetCriteriaMaker loginStatePresetCriteriaMaker;
@@ -36,7 +36,7 @@ public class DaoConfiguration {
     private final DeriveHistoryPresetCriteriaMaker deriveHistoryPresetCriteriaMaker;
 
     public DaoConfiguration(
-            HibernateTemplate hibernateTemplate,
+            HibernateOperations hibernateTemplate,
             AccountPresetCriteriaMaker accountPresetCriteriaMaker,
             LoginStatePresetCriteriaMaker loginStatePresetCriteriaMaker,
             LoginHistoryPresetCriteriaMaker loginHistoryPresetCriteriaMaker,

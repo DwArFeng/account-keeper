@@ -1,8 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.entity;
 
-import com.dwarfeng.subgrade.stack.bean.entity.Entity;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.entity.Entity;
+import com.dwarfeng.subgrade.basic.stack.bean.key.LongIdKey;
 
+import java.io.Serial;
 import java.util.Date;
 
 /**
@@ -13,7 +14,8 @@ import java.util.Date;
  */
 public class LoginHistory implements Entity<LongIdKey> {
 
-    private static final long serialVersionUID = 6675486972375267544L;
+    @Serial
+    private static final long serialVersionUID = 3900711022907417782L;
 
     private LongIdKey key;
     private String accountId;

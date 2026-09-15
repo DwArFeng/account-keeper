@@ -1,12 +1,14 @@
 package com.dwarfeng.acckeeper.impl.bean.key;
 
-import com.dwarfeng.subgrade.stack.bean.key.Key;
+import com.dwarfeng.subgrade.basic.stack.bean.key.Key;
 
+import java.io.Serial;
 import java.util.Objects;
 
 public class HibernateProtectorVariableKey implements Key {
 
-    private static final long serialVersionUID = 5192976103699990164L;
+    @Serial
+    private static final long serialVersionUID = -6127193833603369220L;
 
     private String protectorInfoId;
     private String variableId;

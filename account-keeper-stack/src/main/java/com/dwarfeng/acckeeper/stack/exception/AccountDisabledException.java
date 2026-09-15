@@ -1,7 +1,11 @@
 package com.dwarfeng.acckeeper.stack.exception;
 
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessageKey;
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessages;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+
+import java.io.Serial;
 
 /**
  * 账户被禁用异常。
@@ -11,7 +15,8 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class AccountDisabledException extends HandlerException {
 
-    private static final long serialVersionUID = -2564079630363901960L;
+    @Serial
+    private static final long serialVersionUID = 8568031644419410165L;
 
     private final StringIdKey accountKey;
 
@@ -26,6 +31,6 @@ public class AccountDisabledException extends HandlerException {
 
     @Override
     public String getMessage() {
-        return "账户 " + accountKey + " 被禁用";
+        return StackMessages.message(StackMessageKey.EXCEPTION_ACCOUNT_DISABLED, accountKey);
     }
 }

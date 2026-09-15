@@ -4,7 +4,7 @@ import com.dwarfeng.acckeeper.sdk.handler.pusher.AbstractPusher;
 import com.dwarfeng.acckeeper.stack.bean.dto.DeriveHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.PurgeFinishedResult;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

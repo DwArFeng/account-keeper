@@ -1,9 +1,10 @@
 package com.dwarfeng.acckeeper.sdk.bean.key;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
-import com.dwarfeng.subgrade.stack.bean.key.Key;
+import com.dwarfeng.subgrade.basic.stack.bean.key.Key;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -14,7 +15,8 @@ import java.util.Objects;
  */
 public class FastJsonRecordKey implements Key {
 
-    private static final long serialVersionUID = 8835876368108563359L;
+    @Serial
+    private static final long serialVersionUID = -6692556053320431798L;
 
     public static FastJsonRecordKey of(RecordKey recordKey) {
         if (Objects.isNull(recordKey)) {

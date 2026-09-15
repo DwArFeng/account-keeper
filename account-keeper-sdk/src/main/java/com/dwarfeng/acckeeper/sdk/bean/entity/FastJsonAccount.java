@@ -1,16 +1,18 @@
 package com.dwarfeng.acckeeper.sdk.bean.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.stack.bean.entity.Account;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.web.sdk.bean.key.FastJsonStringIdKey;
 
+import java.io.Serial;
 import java.util.Date;
 import java.util.Objects;
 
 public class FastJsonAccount implements Bean {
 
-    private static final long serialVersionUID = -3620890230475250515L;
+    @Serial
+    private static final long serialVersionUID = -1638644354629961111L;
 
     public static FastJsonAccount of(Account account) {
         if (Objects.isNull(account)) {

@@ -1,29 +1,30 @@
 package com.dwarfeng.acckeeper.impl.service;
 
-import com.dwarfeng.acckeeper.sdk.util.ServiceExceptionCodes;
+import com.dwarfeng.acckeeper.sdk.exception.ServiceExceptionCodeSuppliers;
 import com.dwarfeng.acckeeper.stack.bean.dto.*;
 import com.dwarfeng.acckeeper.stack.service.AccessService;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
 import com.dwarfeng.acckeeper.stack.service.AccountOperateService;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.ServiceException;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring/application-context*.xml")
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(locations = "classpath:com/dwarfeng/acckeeper/impl/spring/application-context*.xml")
 public class AccessServiceImplTest {
 
     @Autowired
@@ -36,7 +37,7 @@ public class AccessServiceImplTest {
     private AccountRegisterInfo zhangSanRegisterInfo;
     private AccountRegisterInfo liSiRegisterInfo;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         zhangSanRegisterInfo = new AccountRegisterInfo(
                 new StringIdKey("zhang_san"), "张三", true, "测试用账号", "ninja123456"
@@ -46,7 +47,7 @@ public class AccessServiceImplTest {
         );
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         zhangSanRegisterInfo = null;
         liSiRegisterInfo = null;
@@ -74,7 +75,7 @@ public class AccessServiceImplTest {
                         zhangSanRegisterInfo.getAccountKey(), "123456", "remark", Collections.emptyMap()
                 ));
             } catch (ServiceException e) {
-                assertEquals(ServiceExceptionCodes.PASSWORD_INCORRECT.getCode(), e.getCode().getCode());
+                assertEquals(ServiceExceptionCodeSuppliers.PASSWORD_INCORRECT.get().getCode(), e.getCode().getCode());
             }
             assertTrue(accessService.authInspect(new AuthInspectInfo(loginStateKey)).isLogin());
             assertFalse(accessService.authInspect(new AuthInspectInfo(new StringIdKey(StringUtils.EMPTY))).isLogin());
@@ -85,7 +86,7 @@ public class AccessServiceImplTest {
                         liSiRegisterInfo.getAccountKey(), "ninja123456", "remark", Collections.emptyMap()
                 ));
             } catch (ServiceException e) {
-                assertEquals(ServiceExceptionCodes.ACCOUNT_DISABLED.getCode(), e.getCode().getCode());
+                assertEquals(ServiceExceptionCodeSuppliers.ACCOUNT_DISABLED.get().getCode(), e.getCode().getCode());
             }
         } finally {
             if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
@@ -122,7 +123,7 @@ public class AccessServiceImplTest {
                         zhangSanRegisterInfo.getAccountKey(), "123456", expireDate, "remark", Collections.emptyMap()
                 ));
             } catch (ServiceException e) {
-                assertEquals(ServiceExceptionCodes.PASSWORD_INCORRECT.getCode(), e.getCode().getCode());
+                assertEquals(ServiceExceptionCodeSuppliers.PASSWORD_INCORRECT.get().getCode(), e.getCode().getCode());
             }
             assertTrue(accessService.authInspect(new AuthInspectInfo(loginStateKey)).isLogin());
             assertFalse(accessService.authInspect(new AuthInspectInfo(new StringIdKey(StringUtils.EMPTY))).isLogin());
@@ -133,7 +134,7 @@ public class AccessServiceImplTest {
                         liSiRegisterInfo.getAccountKey(), "ninja123456", expireDate, "remark", Collections.emptyMap()
                 ));
             } catch (ServiceException e) {
-                assertEquals(ServiceExceptionCodes.ACCOUNT_DISABLED.getCode(), e.getCode().getCode());
+                assertEquals(ServiceExceptionCodeSuppliers.ACCOUNT_DISABLED.get().getCode(), e.getCode().getCode());
             }
         } finally {
             if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
@@ -170,7 +171,7 @@ public class AccessServiceImplTest {
                         new StringIdKey("non_existent"), "remark", Collections.emptyMap()
                 ));
             } catch (ServiceException e) {
-                assertEquals(ServiceExceptionCodes.ACCOUNT_NOT_EXISTS.getCode(), e.getCode().getCode());
+                assertEquals(ServiceExceptionCodeSuppliers.ACCOUNT_NOT_EXISTS.get().getCode(), e.getCode().getCode());
             }
 
             try {
@@ -178,7 +179,7 @@ public class AccessServiceImplTest {
                         liSiRegisterInfo.getAccountKey(), "remark", Collections.emptyMap()
                 ));
             } catch (ServiceException e) {
-                assertEquals(ServiceExceptionCodes.ACCOUNT_DISABLED.getCode(), e.getCode().getCode());
+                assertEquals(ServiceExceptionCodeSuppliers.ACCOUNT_DISABLED.get().getCode(), e.getCode().getCode());
             }
         } finally {
             if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {
@@ -215,7 +216,7 @@ public class AccessServiceImplTest {
                         new StringIdKey("non_existent"), expireDate, "remark", Collections.emptyMap()
                 ));
             } catch (ServiceException e) {
-                assertEquals(ServiceExceptionCodes.ACCOUNT_NOT_EXISTS.getCode(), e.getCode().getCode());
+                assertEquals(ServiceExceptionCodeSuppliers.ACCOUNT_NOT_EXISTS.get().getCode(), e.getCode().getCode());
             }
 
             try {
@@ -223,7 +224,7 @@ public class AccessServiceImplTest {
                         liSiRegisterInfo.getAccountKey(), expireDate, "remark", Collections.emptyMap()
                 ));
             } catch (ServiceException e) {
-                assertEquals(ServiceExceptionCodes.ACCOUNT_DISABLED.getCode(), e.getCode().getCode());
+                assertEquals(ServiceExceptionCodeSuppliers.ACCOUNT_DISABLED.get().getCode(), e.getCode().getCode());
             }
         } finally {
             if (Objects.nonNull(zhangSanRegisterInfo.getAccountKey())) {

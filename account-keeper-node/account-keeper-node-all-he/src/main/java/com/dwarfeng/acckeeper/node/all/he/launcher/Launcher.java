@@ -1,18 +1,20 @@
 package com.dwarfeng.acckeeper.node.all.he.launcher;
 
 import com.dwarfeng.acckeeper.node.all.he.handler.LauncherSettingHandler;
+import com.dwarfeng.acckeeper.node.all.he.internal.i18n.NodeMessageKey;
+import com.dwarfeng.acckeeper.node.all.he.internal.i18n.NodeMessages;
 import com.dwarfeng.acckeeper.stack.service.CleanQosService;
 import com.dwarfeng.acckeeper.stack.service.PurgeQosService;
 import com.dwarfeng.acckeeper.stack.service.ResetQosService;
 import com.dwarfeng.acckeeper.stack.service.SupportQosService;
 import com.dwarfeng.springterminator.sdk.util.ApplicationUtil;
-import com.dwarfeng.subgrade.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.basic.stack.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
-import java.util.Date;
+import java.time.Instant;
 
 /**
  * 程序启动器。
@@ -24,9 +26,9 @@ public class Launcher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Launcher.class);
 
-    public static void main(String[] args) {
+    static void main() {
         ApplicationUtil.launch(new String[]{
-                "classpath:spring/application-context*.xml",
+                "classpath:com/dwarfeng/acckeeper/node/all/he/spring/application-context*.xml",
                 "file:opt/opt*.xml",
                 "file:optext/opt*.xml"
         }, ctx -> {
@@ -58,12 +60,12 @@ public class Launcher {
         }
 
         // 重置保护器支持。
-        LOGGER.info("重置保护器支持...");
+        LOGGER.info(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_RESETTING_PROTECTOR_SUPPORT));
         SupportQosService supportQosService = ctx.getBean(SupportQosService.class);
         try {
             supportQosService.resetProtector();
         } catch (ServiceException e) {
-            LOGGER.warn("保护器支持重置失败，异常信息如下", e);
+            LOGGER.warn(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_RESET_PROTECTOR_SUPPORT_FAILED), e);
         }
     }
 
@@ -80,24 +82,26 @@ public class Launcher {
         // 清理处理器是否上线清理服务。
         long onlineCleanDelay = launcherSettingHandler.getOnlineCleanDelay();
         if (onlineCleanDelay == 0) {
-            LOGGER.info("立即上线清理服务...");
+            LOGGER.info(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_ONLINING_CLEAN_IMMEDIATELY));
             try {
                 cleanQosService.online();
             } catch (ServiceException e) {
-                LOGGER.error("无法上线清理服务，异常原因如下", e);
+                LOGGER.error(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_ONLINE_CLEAN_FAILED), e);
             }
         } else if (onlineCleanDelay > 0) {
-            LOGGER.info("{} 毫秒后上线清理服务...", onlineCleanDelay);
+            LOGGER.info(
+                    NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_ONLINING_CLEAN_DELAYED, onlineCleanDelay)
+            );
             scheduler.schedule(
                     () -> {
-                        LOGGER.info("上线清理服务...");
+                        LOGGER.info(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_ONLINING_CLEAN));
                         try {
                             cleanQosService.online();
                         } catch (ServiceException e) {
-                            LOGGER.error("无法上线清理服务，异常原因如下", e);
+                            LOGGER.error(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_ONLINE_CLEAN_FAILED), e);
                         }
                     },
-                    new Date(System.currentTimeMillis() + onlineCleanDelay)
+                    Instant.now().plusMillis(onlineCleanDelay)
             );
         }
     }
@@ -115,24 +119,26 @@ public class Launcher {
         // 清理处理器是否启动清理服务。
         long enableCleanDelay = launcherSettingHandler.getEnableCleanDelay();
         if (enableCleanDelay == 0) {
-            LOGGER.info("立即启动清理服务...");
+            LOGGER.info(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_STARTING_CLEAN_IMMEDIATELY));
             try {
                 cleanQosService.start();
             } catch (ServiceException e) {
-                LOGGER.error("无法启动清理服务，异常原因如下", e);
+                LOGGER.error(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_START_CLEAN_FAILED), e);
             }
         } else if (enableCleanDelay > 0) {
-            LOGGER.info("{} 毫秒后启动清理服务...", enableCleanDelay);
+            LOGGER.info(
+                    NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_STARTING_CLEAN_DELAYED, enableCleanDelay)
+            );
             scheduler.schedule(
                     () -> {
-                        LOGGER.info("启动清理服务...");
+                        LOGGER.info(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_STARTING_CLEAN));
                         try {
                             cleanQosService.start();
                         } catch (ServiceException e) {
-                            LOGGER.error("无法启动清理服务，异常原因如下", e);
+                            LOGGER.error(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_START_CLEAN_FAILED), e);
                         }
                     },
-                    new Date(System.currentTimeMillis() + enableCleanDelay)
+                    Instant.now().plusMillis(enableCleanDelay)
             );
         }
     }
@@ -150,24 +156,26 @@ public class Launcher {
         // 重置处理器是否启动重置服务。
         long startResetDelay = launcherSettingHandler.getStartResetDelay();
         if (startResetDelay == 0) {
-            LOGGER.info("立即启动重置服务...");
+            LOGGER.info(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_STARTING_RESET_IMMEDIATELY));
             try {
                 resetQosService.start();
             } catch (ServiceException e) {
-                LOGGER.error("无法启动重置服务，异常原因如下", e);
+                LOGGER.error(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_START_RESET_FAILED), e);
             }
         } else if (startResetDelay > 0) {
-            LOGGER.info("{} 毫秒后启动重置服务...", startResetDelay);
+            LOGGER.info(
+                    NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_STARTING_RESET_DELAYED, startResetDelay)
+            );
             scheduler.schedule(
                     () -> {
-                        LOGGER.info("启动重置服务...");
+                        LOGGER.info(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_STARTING_RESET));
                         try {
                             resetQosService.start();
                         } catch (ServiceException e) {
-                            LOGGER.error("无法启动重置服务，异常原因如下", e);
+                            LOGGER.error(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_START_RESET_FAILED), e);
                         }
                     },
-                    new Date(System.currentTimeMillis() + startResetDelay)
+                    Instant.now().plusMillis(startResetDelay)
             );
         }
     }
@@ -185,24 +193,26 @@ public class Launcher {
         // 清除处理器是否上线清除服务。
         long onlinePurgeDelay = launcherSettingHandler.getOnlinePurgeDelay();
         if (onlinePurgeDelay == 0) {
-            LOGGER.info("立即上线清除服务...");
+            LOGGER.info(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_ONLINING_PURGE_IMMEDIATELY));
             try {
                 purgeQosService.online();
             } catch (ServiceException e) {
-                LOGGER.error("无法上线清除服务，异常原因如下", e);
+                LOGGER.error(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_ONLINE_PURGE_FAILED), e);
             }
         } else if (onlinePurgeDelay > 0) {
-            LOGGER.info("{} 毫秒后上线清除服务...", onlinePurgeDelay);
+            LOGGER.info(
+                    NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_ONLINING_PURGE_DELAYED, onlinePurgeDelay)
+            );
             scheduler.schedule(
                     () -> {
-                        LOGGER.info("上线清除服务...");
+                        LOGGER.info(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_ONLINING_PURGE));
                         try {
                             purgeQosService.online();
                         } catch (ServiceException e) {
-                            LOGGER.error("无法上线清除服务，异常原因如下", e);
+                            LOGGER.error(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_ONLINE_PURGE_FAILED), e);
                         }
                     },
-                    new Date(System.currentTimeMillis() + onlinePurgeDelay)
+                    Instant.now().plusMillis(onlinePurgeDelay)
             );
         }
     }
@@ -220,24 +230,26 @@ public class Launcher {
         // 清除处理器是否启动清除服务。
         long enablePurgeDelay = launcherSettingHandler.getEnablePurgeDelay();
         if (enablePurgeDelay == 0) {
-            LOGGER.info("立即启动清除服务...");
+            LOGGER.info(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_STARTING_PURGE_IMMEDIATELY));
             try {
                 purgeQosService.start();
             } catch (ServiceException e) {
-                LOGGER.error("无法启动清除服务，异常原因如下", e);
+                LOGGER.error(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_START_PURGE_FAILED), e);
             }
         } else if (enablePurgeDelay > 0) {
-            LOGGER.info("{} 毫秒后启动清除服务...", enablePurgeDelay);
+            LOGGER.info(
+                    NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_STARTING_PURGE_DELAYED, enablePurgeDelay)
+            );
             scheduler.schedule(
                     () -> {
-                        LOGGER.info("启动清除服务...");
+                        LOGGER.info(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_STARTING_PURGE));
                         try {
                             purgeQosService.start();
                         } catch (ServiceException e) {
-                            LOGGER.error("无法启动清除服务，异常原因如下", e);
+                            LOGGER.error(NodeMessages.message(NodeMessageKey.LOG_LAUNCHER_START_PURGE_FAILED), e);
                         }
                     },
-                    new Date(System.currentTimeMillis() + enablePurgeDelay)
+                    Instant.now().plusMillis(enablePurgeDelay)
             );
         }
     }

@@ -2,7 +2,7 @@ package com.dwarfeng.acckeeper.stack.cache;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.LoginParamRecord;
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
-import com.dwarfeng.subgrade.stack.cache.BatchBaseCache;
+import com.dwarfeng.subgrade.data.stack.cache.BatchBaseCache;
 
 /**
  * 登录参数记录缓存。

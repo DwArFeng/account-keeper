@@ -1,6 +1,8 @@
 package com.dwarfeng.acckeeper.stack.exception;
 
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+
+import java.io.Serial;
 
 /**
  * 保护器异常。
@@ -10,6 +12,7 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class ProtectorException extends HandlerException {
 
+    @Serial
     private static final long serialVersionUID = -2139225837251534021L;
 
     public ProtectorException() {

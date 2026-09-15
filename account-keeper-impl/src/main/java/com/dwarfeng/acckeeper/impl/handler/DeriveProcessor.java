@@ -1,5 +1,7 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.sdk.util.Constants;
 import com.dwarfeng.acckeeper.stack.bean.dto.DeriveHistoryRecordInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.DynamicDeriveInfo;
@@ -12,10 +14,10 @@ import com.dwarfeng.acckeeper.stack.handler.PushHandler;
 import com.dwarfeng.acckeeper.stack.service.AccountMaintainService;
 import com.dwarfeng.acckeeper.stack.service.DeriveHistoryMaintainService;
 import com.dwarfeng.acckeeper.stack.service.LoginStateMaintainService;
-import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.generation.KeyGenerator;
+import com.dwarfeng.subgrade.aop.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.basic.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.generation.KeyGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -145,27 +147,19 @@ public class DeriveProcessor {
     private StringIdKey parseLoginStateKey(
             DeriveType deriveType, DynamicDeriveInfo dynamicDeriveInfo, StaticDeriveInfo staticDeriveInfo
     ) {
-        switch (deriveType) {
-            case DYNAMIC:
-                return dynamicDeriveInfo.getLoginStateKey();
-            case STATIC:
-                return staticDeriveInfo.getLoginStateKey();
-            default:
-                throw new IllegalArgumentException("非法的派生类型: " + deriveType);
-        }
+        return switch (deriveType) {
+            case DYNAMIC -> dynamicDeriveInfo.getLoginStateKey();
+            case STATIC -> staticDeriveInfo.getLoginStateKey();
+        };
     }
 
     private String parseDeriveRemark(
             DeriveType deriveType, DynamicDeriveInfo dynamicDeriveInfo, StaticDeriveInfo staticDeriveInfo
     ) {
-        switch (deriveType) {
-            case DYNAMIC:
-                return dynamicDeriveInfo.getRemark();
-            case STATIC:
-                return staticDeriveInfo.getRemark();
-            default:
-                throw new IllegalArgumentException("非法的派生类型: " + deriveType);
-        }
+        return switch (deriveType) {
+            case DYNAMIC -> dynamicDeriveInfo.getRemark();
+            case STATIC -> staticDeriveInfo.getRemark();
+        };
     }
 
     @BehaviorAnalyse
@@ -174,8 +168,8 @@ public class DeriveProcessor {
         // 构建实体。
         LongIdKey deriveHistoryKey = keyGenerator.generate();
         DeriveHistory deriveHistory = new DeriveHistory(
-                deriveHistoryKey, deriveComplex.getAccountId(), deriveComplex.getHappenedDate(),
-                deriveComplex.getResponseCode(), deriveComplex.getDeriveRemark()
+                deriveHistoryKey, deriveComplex.accountId(), deriveComplex.happenedDate(),
+                deriveComplex.responseCode(), deriveComplex.deriveRemark()
         );
 
         // 插入数据。
@@ -186,7 +180,9 @@ public class DeriveProcessor {
         try {
             pushHandler.deriveHistoryRecorded(deriveHistoryRecordInfo);
         } catch (Exception e) {
-            LOGGER.warn("推送登录历史被记录事件时发生异常, 事件将不会被推送, 异常信息如下: ", e);
+            LOGGER.warn(
+                    ImplMessages.message(ImplMessageKey.LOG_DERIVE_HISTORY_RECORDED_PUSH_FAILED), e
+            );
         }
     }
 

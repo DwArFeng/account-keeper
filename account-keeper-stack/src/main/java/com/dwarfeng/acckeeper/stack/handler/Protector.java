@@ -1,7 +1,8 @@
 package com.dwarfeng.acckeeper.stack.handler;
 
 import com.dwarfeng.acckeeper.stack.exception.ProtectorException;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 import java.util.List;
@@ -152,32 +153,10 @@ public interface Protector {
      * @author DwArFeng
      * @since 2.1.0
      */
-    final class DynamicLoginInfo {
-
-        private final StringIdKey accountKey;
-        private final String remark;
-        private final Map<String, String> extraParamMap;
-
-        public DynamicLoginInfo(StringIdKey accountKey, String remark, Map<String, String> extraParamMap) {
-            this.accountKey = accountKey;
-            this.remark = remark;
-            this.extraParamMap = extraParamMap;
-        }
-
-        public StringIdKey getAccountKey() {
-            return accountKey;
-        }
-
-        public String getRemark() {
-            return remark;
-        }
-
-        public Map<String, String> getExtraParamMap() {
-            return extraParamMap;
-        }
+    record DynamicLoginInfo(StringIdKey accountKey, String remark, Map<String, String> extraParamMap) {
 
         @Override
-        public String toString() {
+        public @NotNull String toString() {
             return "DynamicLoginInfo{" +
                     "accountKey=" + accountKey +
                     ", remark='" + remark + '\'' +
@@ -192,40 +171,12 @@ public interface Protector {
      * @author DwArFeng
      * @since 2.1.0
      */
-    final class StaticLoginInfo {
-
-        private final StringIdKey accountKey;
-        private final Date expireDate;
-        private final String remark;
-        private final Map<String, String> extraParamMap;
-
-        public StaticLoginInfo(
-                StringIdKey accountKey, Date expireDate, String remark, Map<String, String> extraParamMap
-        ) {
-            this.accountKey = accountKey;
-            this.expireDate = expireDate;
-            this.remark = remark;
-            this.extraParamMap = extraParamMap;
-        }
-
-        public StringIdKey getAccountKey() {
-            return accountKey;
-        }
-
-        public Date getExpireDate() {
-            return expireDate;
-        }
-
-        public String getRemark() {
-            return remark;
-        }
-
-        public Map<String, String> getExtraParamMap() {
-            return extraParamMap;
-        }
+    record StaticLoginInfo(
+            StringIdKey accountKey, Date expireDate, String remark, Map<String, String> extraParamMap
+    ) {
 
         @Override
-        public String toString() {
+        public @NotNull String toString() {
             return "StaticLoginInfo{" +
                     "accountKey=" + accountKey +
                     ", expireDate=" + expireDate +
@@ -238,53 +189,16 @@ public interface Protector {
     /**
      * 账户元数据结构体。
      *
+     * @param deriveCount
      * @author DwArFeng
      * @since 1.6.0
      */
-    final class AccountMeta {
-
-        private final long serialVersion;
-        private final Date registeredDate;
-        private final int loginCount;
-        private final int passwordUpdateCount;
-
-        /**
-         * @since 1.7.1
-         */
-        private final int deriveCount;
-
-        public AccountMeta(
-                long serialVersion, Date registeredDate, int loginCount, int passwordUpdateCount, int deriveCount
-        ) {
-            this.serialVersion = serialVersion;
-            this.registeredDate = registeredDate;
-            this.loginCount = loginCount;
-            this.passwordUpdateCount = passwordUpdateCount;
-            this.deriveCount = deriveCount;
-        }
-
-        public long getSerialVersion() {
-            return serialVersion;
-        }
-
-        public Date getRegisteredDate() {
-            return registeredDate;
-        }
-
-        public int getLoginCount() {
-            return loginCount;
-        }
-
-        public int getPasswordUpdateCount() {
-            return passwordUpdateCount;
-        }
-
-        public int getDeriveCount() {
-            return deriveCount;
-        }
+    record AccountMeta(
+            long serialVersion, Date registeredDate, int loginCount, int passwordUpdateCount, int deriveCount
+    ) {
 
         @Override
-        public String toString() {
+        public @NotNull String toString() {
             return "AccountMeta{" +
                     "serialVersion=" + serialVersion +
                     ", registeredDate=" + registeredDate +
@@ -298,64 +212,25 @@ public interface Protector {
     /**
      * 查询参数结构体。
      *
+     * @param startDate     查询的起始时间，为 null 代表没有起始时间（将时间戳 0 对应的时间传入查询接口）。
+     * @param endDate       查询的中止时间，为 null 代表没有结束时间（将当前时间传入查询接口）。
+     * @param responseCodes 响应代码的值空间。
+     *
+     *                      <p>
+     *                      该参数为 null 时，查询时忽略响应空间。<br>
+     *                      该参数不为 null 时，只查询响应代码在该空间内的登录响应。<br>
+     *                      特殊地，当该值为一个空列表时，整个查询将不会返回任何结果。
+     * @param maxResult     最大结果。
+     *
+     *                      <p>
+     *                      查询时按照发生时间倒序进行查询，数量到达最大结果时中断查询，返回结果。
      * @author DwArFeng
      * @since 1.6.0
      */
-    final class RecordInspectParam {
-
-        /**
-         * 查询的起始时间，为 null 代表没有起始时间（将时间戳 0 对应的时间传入查询接口）。
-         */
-        private final Date startDate;
-
-        /**
-         * 查询的中止时间，为 null 代表没有结束时间（将当前时间传入查询接口）。
-         */
-        private final Date endDate;
-
-        /**
-         * 响应代码的值空间。
-         *
-         * <p>
-         * 该参数为 null 时，查询时忽略响应空间。<br>
-         * 该参数不为 null 时，只查询响应代码在该空间内的登录响应。<br>
-         * 特殊地，当该值为一个空列表时，整个查询将不会返回任何结果。
-         */
-        private final List<Integer> responseCodes;
-
-        /**
-         * 最大结果。
-         *
-         * <p>
-         * 查询时按照发生时间倒序进行查询，数量到达最大结果时中断查询，返回结果。
-         */
-        private final Integer maxResult;
-
-        public RecordInspectParam(Date startDate, Date endDate, List<Integer> responseCodes, Integer maxResult) {
-            this.startDate = startDate;
-            this.endDate = endDate;
-            this.responseCodes = responseCodes;
-            this.maxResult = maxResult;
-        }
-
-        public Date getStartDate() {
-            return startDate;
-        }
-
-        public Date getEndDate() {
-            return endDate;
-        }
-
-        public List<Integer> getResponseCodes() {
-            return responseCodes;
-        }
-
-        public Integer getMaxResult() {
-            return maxResult;
-        }
+    record RecordInspectParam(Date startDate, Date endDate, List<Integer> responseCodes, Integer maxResult) {
 
         @Override
-        public String toString() {
+        public @NotNull String toString() {
             return "RecordInspectParam{" +
                     "startDate=" + startDate +
                     ", endDate=" + endDate +
@@ -371,59 +246,13 @@ public interface Protector {
      * @author DwArFeng
      * @since 1.6.0
      */
-    final class LoginRecord {
-
-        private final String accountId;
-        private final Date happenedDate;
-        private final int responseCode;
-        private final String message;
-        private final Integer alarmLevel;
-        private final Map<String, String> extraParamMap;
-        private final Map<String, String> protectDetailMap;
-
-        public LoginRecord(
-                String accountId, Date happenedDate, int responseCode, String message, Integer alarmLevel,
-                Map<String, String> extraParamMap, Map<String, String> protectDetailMap
-        ) {
-            this.accountId = accountId;
-            this.happenedDate = happenedDate;
-            this.responseCode = responseCode;
-            this.message = message;
-            this.alarmLevel = alarmLevel;
-            this.extraParamMap = extraParamMap;
-            this.protectDetailMap = protectDetailMap;
-        }
-
-        public String getAccountId() {
-            return accountId;
-        }
-
-        public Date getHappenedDate() {
-            return happenedDate;
-        }
-
-        public int getResponseCode() {
-            return responseCode;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public Integer getAlarmLevel() {
-            return alarmLevel;
-        }
-
-        public Map<String, String> getExtraParamMap() {
-            return extraParamMap;
-        }
-
-        public Map<String, String> getProtectDetailMap() {
-            return protectDetailMap;
-        }
+    record LoginRecord(
+            String accountId, Date happenedDate, int responseCode, String message, Integer alarmLevel,
+            Map<String, String> extraParamMap, Map<String, String> protectDetailMap
+    ) {
 
         @Override
-        public String toString() {
+        public @NotNull String toString() {
             return "LoginRecord{" +
                     "accountId='" + accountId + '\'' +
                     ", happenedDate=" + happenedDate +
@@ -436,26 +265,10 @@ public interface Protector {
         }
     }
 
-    final class Variable {
-
-        private final String value;
-        private final String remark;
-
-        public Variable(String value, String remark) {
-            this.value = value;
-            this.remark = remark;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public String getRemark() {
-            return remark;
-        }
+    record Variable(String value, String remark) {
 
         @Override
-        public String toString() {
+        public @NotNull String toString() {
             return "Variable{" +
                     "value='" + value + '\'' +
                     ", remark='" + remark + '\'' +
@@ -469,38 +282,10 @@ public interface Protector {
      * @author DwArFeng
      * @since 1.6.0
      */
-    final class Response {
-
-        private final boolean passed;
-        private final String message;
-        private final int alarmLevel;
-        private final Map<String, String> protectDetail;
-
-        public Response(boolean passed, String message, int alarmLevel, Map<String, String> protectDetail) {
-            this.passed = passed;
-            this.message = message;
-            this.alarmLevel = alarmLevel;
-            this.protectDetail = protectDetail;
-        }
-
-        public boolean isPassed() {
-            return passed;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public int getAlarmLevel() {
-            return alarmLevel;
-        }
-
-        public Map<String, String> getProtectDetail() {
-            return protectDetail;
-        }
+    record Response(boolean passed, String message, int alarmLevel, Map<String, String> protectDetail) {
 
         @Override
-        public String toString() {
+        public @NotNull String toString() {
             return "Response{" +
                     "passed=" + passed +
                     ", message='" + message + '\'' +

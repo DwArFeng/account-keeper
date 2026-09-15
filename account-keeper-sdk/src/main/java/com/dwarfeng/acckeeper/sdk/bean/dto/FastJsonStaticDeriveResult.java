@@ -1,10 +1,11 @@
 package com.dwarfeng.acckeeper.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.stack.bean.dto.StaticDeriveResult;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.web.sdk.bean.key.FastJsonStringIdKey;
 
+import java.io.Serial;
 import java.util.Date;
 import java.util.Objects;
 
@@ -16,7 +17,8 @@ import java.util.Objects;
  */
 public class FastJsonStaticDeriveResult implements Bean {
 
-    private static final long serialVersionUID = 7962083352980944294L;
+    @Serial
+    private static final long serialVersionUID = 8159465002799678964L;
 
     public static FastJsonStaticDeriveResult of(StaticDeriveResult staticDeriveResult) {
         if (Objects.isNull(staticDeriveResult)) {

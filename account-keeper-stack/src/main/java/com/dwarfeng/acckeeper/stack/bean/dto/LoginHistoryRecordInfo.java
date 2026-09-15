@@ -1,8 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.dto;
 
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.key.LongIdKey;
 
+import java.io.Serial;
 import java.util.Date;
 import java.util.Map;
 
@@ -14,7 +15,8 @@ import java.util.Map;
  */
 public class LoginHistoryRecordInfo implements Dto {
 
-    private static final long serialVersionUID = -1456406253019267890L;
+    @Serial
+    private static final long serialVersionUID = 2263691862780828816L;
 
     private LongIdKey loginHistoryKey;
     private String accountId;

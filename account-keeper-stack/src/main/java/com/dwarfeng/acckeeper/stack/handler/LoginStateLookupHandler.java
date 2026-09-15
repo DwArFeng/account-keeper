@@ -2,8 +2,8 @@ package com.dwarfeng.acckeeper.stack.handler;
 
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginStateLookupInfo;
 import com.dwarfeng.acckeeper.stack.bean.dto.LoginStateLookupResult;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
-import com.dwarfeng.subgrade.stack.handler.Handler;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.handler.Handler;
 
 /**
  * 登录状态查询处理器。

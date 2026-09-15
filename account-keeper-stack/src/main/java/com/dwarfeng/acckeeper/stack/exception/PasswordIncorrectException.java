@@ -1,7 +1,11 @@
 package com.dwarfeng.acckeeper.stack.exception;
 
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessageKey;
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessages;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+
+import java.io.Serial;
 
 /**
  * 密码错误异常。
@@ -11,7 +15,8 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class PasswordIncorrectException extends HandlerException {
 
-    private static final long serialVersionUID = 4213452404348843126L;
+    @Serial
+    private static final long serialVersionUID = -5140998384208665354L;
 
     private final StringIdKey accountKey;
 
@@ -26,6 +31,6 @@ public class PasswordIncorrectException extends HandlerException {
 
     @Override
     public String getMessage() {
-        return "账户 " + accountKey + " 提供了错误的密码";
+        return StackMessages.message(StackMessageKey.EXCEPTION_PASSWORD_INCORRECT, accountKey);
     }
 }

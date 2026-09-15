@@ -1,9 +1,10 @@
 package com.dwarfeng.acckeeper.sdk.bean.key;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.stack.bean.key.ProtectorVariableKey;
-import com.dwarfeng.subgrade.stack.bean.key.Key;
+import com.dwarfeng.subgrade.basic.stack.bean.key.Key;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,8 @@ import java.util.Objects;
  */
 public class FastJsonProtectorVariableKey implements Key {
 
-    private static final long serialVersionUID = 1327673449106290420L;
+    @Serial
+    private static final long serialVersionUID = 4589397264275128939L;
 
     public static FastJsonProtectorVariableKey of(ProtectorVariableKey protectorVariableKey) {
         if (Objects.isNull(protectorVariableKey)) {

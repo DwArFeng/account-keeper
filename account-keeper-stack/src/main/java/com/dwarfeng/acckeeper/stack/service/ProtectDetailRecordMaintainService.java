@@ -2,9 +2,9 @@ package com.dwarfeng.acckeeper.stack.service;
 
 import com.dwarfeng.acckeeper.stack.bean.entity.ProtectDetailRecord;
 import com.dwarfeng.acckeeper.stack.bean.key.RecordKey;
-import com.dwarfeng.subgrade.stack.service.BatchCrudService;
-import com.dwarfeng.subgrade.stack.service.EntireLookupService;
-import com.dwarfeng.subgrade.stack.service.PresetLookupService;
+import com.dwarfeng.subgrade.data.stack.service.BatchCrudService;
+import com.dwarfeng.subgrade.data.stack.service.EntireLookupService;
+import com.dwarfeng.subgrade.data.stack.service.PresetLookupService;
 
 /**
  * 保护详细信息记录维护服务。

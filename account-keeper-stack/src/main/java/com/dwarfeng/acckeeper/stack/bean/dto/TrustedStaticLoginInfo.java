@@ -1,8 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.dto;
 
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
 
+import java.io.Serial;
 import java.util.Date;
 import java.util.Map;
 
@@ -20,7 +21,8 @@ import java.util.Map;
  */
 public class TrustedStaticLoginInfo implements Dto {
 
-    private static final long serialVersionUID = -8653710402839637695L;
+    @Serial
+    private static final long serialVersionUID = 148244994805291784L;
 
     private StringIdKey accountKey;
     private Date expireDate;

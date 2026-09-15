@@ -2,9 +2,11 @@ package com.dwarfeng.acckeeper.impl.bean.entity;
 
 import com.dwarfeng.acckeeper.impl.bean.key.HibernateRecordKey;
 import com.dwarfeng.acckeeper.sdk.util.Constraints;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
+import java.io.Serial;
 import java.util.Objects;
 
 @Entity
@@ -12,7 +14,8 @@ import java.util.Objects;
 @Table(name = "tbl_login_param_record")
 public class HibernateLoginParamRecord implements Bean {
 
-    private static final long serialVersionUID = 3797101400367142892L;
+    @Serial
+    private static final long serialVersionUID = 5918800762150433484L;
 
     // region 主键
 

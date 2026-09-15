@@ -1,8 +1,9 @@
 package com.dwarfeng.acckeeper.stack.bean.dto;
 
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
 
+import java.io.Serial;
 import java.util.Map;
 
 /**
@@ -19,7 +20,8 @@ import java.util.Map;
  */
 public class TrustedDynamicLoginInfo implements Dto {
 
-    private static final long serialVersionUID = -6112100337914192426L;
+    @Serial
+    private static final long serialVersionUID = -4911538949107886519L;
 
     private StringIdKey accountKey;
     private String remark;

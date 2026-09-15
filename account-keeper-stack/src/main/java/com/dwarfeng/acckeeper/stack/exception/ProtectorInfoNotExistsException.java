@@ -1,7 +1,11 @@
 package com.dwarfeng.acckeeper.stack.exception;
 
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessageKey;
+import com.dwarfeng.acckeeper.stack.internal.i18n.StackMessages;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+
+import java.io.Serial;
 
 /**
  * 保护器信息不存在异常。
@@ -11,7 +15,8 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class ProtectorInfoNotExistsException extends HandlerException {
 
-    private static final long serialVersionUID = 9158313250080832368L;
+    @Serial
+    private static final long serialVersionUID = -5809409267859120191L;
 
     private final StringIdKey protectorInfoKey;
 
@@ -26,6 +31,6 @@ public class ProtectorInfoNotExistsException extends HandlerException {
 
     @Override
     public String getMessage() {
-        return "保护器信息 " + protectorInfoKey + " 不存在";
+        return StackMessages.message(StackMessageKey.EXCEPTION_PROTECTOR_INFO_NOT_EXISTS, protectorInfoKey);
     }
 }

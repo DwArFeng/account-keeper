@@ -1,15 +1,16 @@
 package com.dwarfeng.acckeeper.sdk.bean.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.sdk.util.Constraints;
 import com.dwarfeng.acckeeper.stack.bean.entity.ProtectorInfo;
-import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.web.sdk.bean.key.WebInputStringIdKey;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -20,7 +21,8 @@ import java.util.Objects;
  */
 public class WebInputProtectorInfo implements Bean {
 
-    private static final long serialVersionUID = -4628937137802676207L;
+    @Serial
+    private static final long serialVersionUID = 6968439712148870650L;
 
     public static ProtectorInfo toStackBean(WebInputProtectorInfo webInputProtectorInfo) {
         if (Objects.isNull(webInputProtectorInfo)) {

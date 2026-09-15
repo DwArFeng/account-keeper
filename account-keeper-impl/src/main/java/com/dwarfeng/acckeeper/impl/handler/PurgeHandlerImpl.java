@@ -1,10 +1,12 @@
 package com.dwarfeng.acckeeper.impl.handler;
 
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.acckeeper.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.acckeeper.stack.handler.PurgeHandler;
-import com.dwarfeng.subgrade.impl.handler.CuratorDistributedLockHandler;
-import com.dwarfeng.subgrade.impl.handler.Worker;
-import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.aop.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.lifecycle.stack.handler.Worker;
+import com.dwarfeng.subgrade.lock.impl.handler.curator.CuratorDistributedLockHandler;
 import org.apache.curator.framework.CuratorFramework;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,13 +87,13 @@ public class PurgeHandlerImpl implements PurgeHandler {
 
         @Override
         public void work() {
-            LOGGER.info("清除处理器开始工作...");
+            LOGGER.info(ImplMessages.message(ImplMessageKey.LOG_PURGE_WORKER_WORKING));
             purgeProcessor.work();
         }
 
         @Override
         public void rest() {
-            LOGGER.info("清除处理器停止工作...");
+            LOGGER.info(ImplMessages.message(ImplMessageKey.LOG_PURGE_WORKER_RESTING));
             purgeProcessor.rest();
         }
     }

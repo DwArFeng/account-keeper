@@ -1,11 +1,12 @@
 package com.dwarfeng.acckeeper.impl.bean.entity;
 
 import com.dwarfeng.acckeeper.sdk.util.Constraints;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.data.sdk.bean.key.hibernate.HibernateLongIdKey;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
-import java.util.Date;
+import java.io.Serial;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -15,7 +16,8 @@ import java.util.Set;
 @Table(name = "tbl_login_history")
 public class HibernateLoginHistory implements Bean {
 
-    private static final long serialVersionUID = 5676364144013010866L;
+    @Serial
+    private static final long serialVersionUID = -16354326985727398L;
 
     // region 主键
 
@@ -31,8 +33,7 @@ public class HibernateLoginHistory implements Bean {
     private String accountId;
 
     @Column(name = "happened_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date happenedDate;
+    private Instant happenedDate;
 
     @Column(name = "response_code")
     private int responseCode;
@@ -91,11 +92,11 @@ public class HibernateLoginHistory implements Bean {
         this.accountId = accountId;
     }
 
-    public Date getHappenedDate() {
+    public Instant getHappenedDate() {
         return happenedDate;
     }
 
-    public void setHappenedDate(Date happenedDate) {
+    public void setHappenedDate(Instant happenedDate) {
         this.happenedDate = happenedDate;
     }
 

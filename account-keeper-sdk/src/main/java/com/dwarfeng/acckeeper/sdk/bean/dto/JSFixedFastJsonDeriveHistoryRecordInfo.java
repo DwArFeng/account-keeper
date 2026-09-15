@@ -1,10 +1,11 @@
 package com.dwarfeng.acckeeper.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.stack.bean.dto.DeriveHistoryRecordInfo;
-import com.dwarfeng.subgrade.sdk.bean.key.JSFixedFastJsonLongIdKey;
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.web.sdk.bean.key.JSFixedFastJsonLongIdKey;
 
+import java.io.Serial;
 import java.util.Date;
 import java.util.Objects;
 
@@ -16,7 +17,8 @@ import java.util.Objects;
  */
 public class JSFixedFastJsonDeriveHistoryRecordInfo implements Dto {
 
-    private static final long serialVersionUID = 8974993802329991572L;
+    @Serial
+    private static final long serialVersionUID = 7861813061206154261L;
 
     public static JSFixedFastJsonDeriveHistoryRecordInfo of(DeriveHistoryRecordInfo deriveHistoryRecordInfo) {
         if (Objects.isNull(deriveHistoryRecordInfo)) {

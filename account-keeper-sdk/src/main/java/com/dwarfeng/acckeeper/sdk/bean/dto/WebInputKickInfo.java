@@ -1,11 +1,12 @@
 package com.dwarfeng.acckeeper.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.acckeeper.stack.bean.dto.KickInfo;
-import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.web.sdk.bean.key.WebInputStringIdKey;
+import jakarta.validation.Valid;
 
-import javax.validation.Valid;
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -16,7 +17,8 @@ import java.util.Objects;
  */
 public class WebInputKickInfo implements Bean {
 
-    private static final long serialVersionUID = 3304900673222023129L;
+    @Serial
+    private static final long serialVersionUID = 8303042071204738019L;
 
     public static KickInfo toStackBean(WebInputKickInfo webInputKickInfo) {
         if (Objects.isNull(webInputKickInfo)) {
