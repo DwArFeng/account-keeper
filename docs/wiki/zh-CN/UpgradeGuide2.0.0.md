@@ -217,7 +217,7 @@ TRUNCATE TABLE tbl_login_state;
 
 -- 2. 修改主键字段类型
 ALTER TABLE tbl_login_state
-    MODIFY COLUMN id VARCHAR(128) NOT NULL;
+   MODIFY COLUMN id VARCHAR(128) NOT NULL;
 ```
 
 #### 方案二：保留数据迁移（适用于需要保留现有登录状态的场景）
@@ -228,7 +228,7 @@ ALTER TABLE tbl_login_state
 -- 1. 创建临时表
 CREATE TABLE tbl_login_state_temp LIKE tbl_login_state;
 ALTER TABLE tbl_login_state_temp
-    MODIFY COLUMN id VARCHAR(128) NOT NULL;
+   MODIFY COLUMN id VARCHAR(128) NOT NULL;
 
 -- 2. 迁移数据（将 Long 类型的主键转换为 String 类型）
 INSERT INTO tbl_login_state_temp (id, account_id, expire_date, serial_version, generated_date, type, remark)
@@ -242,12 +242,10 @@ SELECT CAST(id AS CHAR) AS id,
 FROM tbl_login_state;
 
 -- 3. 备份原表（可选，但强烈推荐）
-RENAME
-    TABLE tbl_login_state TO tbl_login_state_backup;
+RENAME TABLE tbl_login_state TO tbl_login_state_backup;
 
 -- 4. 重命名临时表
-RENAME
-    TABLE tbl_login_state_temp TO tbl_login_state;
+RENAME TABLE tbl_login_state_temp TO tbl_login_state;
 
 -- 5. 重建索引和约束（如果需要）
 -- 注意：根据您的数据库实际情况，可能需要重建外键约束
@@ -262,7 +260,7 @@ RENAME
 ```sql
 -- 1. 添加新的 VARCHAR 类型字段
 ALTER TABLE tbl_login_state
-    ADD COLUMN id_new VARCHAR(128) NULL;
+   ADD COLUMN id_new VARCHAR(128) NULL;
 
 -- 2. 迁移数据到新字段
 UPDATE tbl_login_state
@@ -270,19 +268,19 @@ SET id_new = CAST(id AS CHAR);
 
 -- 3. 删除旧的主键约束
 ALTER TABLE tbl_login_state
-    DROP PRIMARY KEY;
+   DROP PRIMARY KEY;
 
 -- 4. 删除旧字段
 ALTER TABLE tbl_login_state
-    DROP COLUMN id;
+   DROP COLUMN id;
 
 -- 5. 重命名新字段
 ALTER TABLE tbl_login_state
-    CHANGE COLUMN id_new id VARCHAR(128) NOT NULL;
+   CHANGE COLUMN id_new id VARCHAR(128) NOT NULL;
 
 -- 6. 重建主键
 ALTER TABLE tbl_login_state
-    ADD PRIMARY KEY (id);
+   ADD PRIMARY KEY (id);
 ```
 
 ### 迁移后验证
@@ -904,7 +902,7 @@ A: 如果 `tbl_login_state` 表有外键约束，需要按以下步骤操作：
 1. 删除外键约束：
 
    ```sql
-   ALTER TABLE [引用表名] DROP FOREIGN KEY [外键约束名];
+   ALTER TABLE `[引用表名]` DROP FOREIGN KEY `[外键约束名]`;
    ```
 
 2. 执行主键类型修改（参考本文档的"数据库迁移方案"部分）。
@@ -912,8 +910,8 @@ A: 如果 `tbl_login_state` 表有外键约束，需要按以下步骤操作：
 3. 重新创建外键约束：
 
    ```sql
-   ALTER TABLE [引用表名] ADD CONSTRAINT [外键约束名] 
-   FOREIGN KEY ([外键字段名]) REFERENCES tbl_login_state(id);
+   ALTER TABLE `[引用表名]` ADD CONSTRAINT `[外键约束名]` 
+   FOREIGN KEY (`[外键字段名]`) REFERENCES `tbl_login_state`(`id`);
    ```
 
 **注意**：外键字段的类型也需要相应修改为 `VARCHAR(128)`。

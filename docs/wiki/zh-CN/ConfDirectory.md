@@ -74,13 +74,13 @@ conf
 
 ```properties
 # 任务执行器的线程池数量范围。
-executor.pool_size=20-40
+com.dwarfeng.acckeeper.executor.pool_size=20-40
 # 任务执行器的队列容量。
-executor.queue_capacity=100
+com.dwarfeng.acckeeper.executor.queue_capacity=100
 # 任务执行器的保活时间（秒）。
-executor.keep_alive=120
+com.dwarfeng.acckeeper.executor.keep_alive=120
 # 计划执行器的线程池数量范围。
-scheduler.pool_size=10
+com.dwarfeng.acckeeper.scheduler.pool_size=10
 ```
 
 ### clean.properties
@@ -89,12 +89,12 @@ scheduler.pool_size=10
 
 ```properties
 # 过期登录状态清理的 CRON 表达式
-clean.expired_login_state.cron=0 15 0/1 * * *
+com.dwarfeng.acckeeper.clean.expired_login_state.cron=0 15 0/1 * * *
 ```
 
 本服务将会在后台定时清理过期的登录状态，即按照一定的逻辑清理被认定为过期的 `LoginState` 实体。
 
-本服务定时清理任务的执行周期（Cron 表达式）由 `clean.expired_login_state.cron` 参数决定。
+本服务定时清理任务的执行周期（Cron 表达式）由 `com.dwarfeng.acckeeper.clean.expired_login_state.cron` 参数决定。
 
 ### derive.properties
 
@@ -102,12 +102,12 @@ clean.expired_login_state.cron=0 15 0/1 * * *
 
 ```properties
 # 动态派生的过期时长。
-acckeeper.derive.dynamic.expire_duration=600000
+com.dwarfeng.acckeeper.acckeeper.derive.dynamic.expire_duration=600000
 ```
 
 动态派生是指派生请求成功后，返回一个过期时间较短的登录状态。
 
-动态派生的过期时间由 `acckeeper.derive.dynamic.expire_duration` 参数决定。
+动态派生的过期时间由 `com.dwarfeng.acckeeper.acckeeper.derive.dynamic.expire_duration` 参数决定。
 
 ### exception.properties
 
@@ -115,13 +115,15 @@ ServiceException 的异常代码的偏移量配置。
 
 ```properties
 # acckeeper 自身的异常代号偏移量。
-acckeeper.exception_code_offset=1000
+com.dwarfeng.acckeeper.acckeeper.exception_code_offset=1000
 # acckeeper 工程中 subgrade 的异常代号偏移量。
-acckeeper.exception_code_offset.subgrade=0
-# acckeeper 工程中 snowflake 的异常代号偏移量。
-acckeeper.exception_code_offset.snowflake=1500
+com.dwarfeng.acckeeper.acckeeper.exception_code_offset.subgrade=0
+# acckeeper 工程中 spring-telqos 的异常代号偏移量。
+com.dwarfeng.acckeeper.acckeeper.exception_code_offset.spring_telqos=2000
+# acckeeper 工程中 spring-terminator 的异常代号偏移量。
+com.dwarfeng.acckeeper.acckeeper.exception_code_offset.spring_terminator=3000
 # acckeeper 工程中 dwarfeng-datamark 的异常代号偏移量。
-acckeeper.exception_code_offset.dwarfeng_datamark=2000
+com.dwarfeng.acckeeper.acckeeper.exception_code_offset.dwarfeng_datamark=4000
 ```
 
 Subgrade 框架中，会将微服务抛出的异常映射为 `ServiceException`，每个 `ServiceException` 都有一个异常代码，
@@ -136,35 +138,35 @@ Subgrade 框架中，会将微服务抛出的异常映射为 `ServiceException`�
 
 ```properties
 # 程序启动完成后，是否重置保护器支持。
-launcher.reset_protector_support=true
+com.dwarfeng.acckeeper.launcher.reset_protector_support=true
 #
 # 程序启动完成后，上线清理的延时时间。
 # 有些数据仓库以及清理器在启动后可能会需要一些时间进行自身的初始化，调整该参数以妥善的处理这些数据源和推送器。
 # 该参数等于 0，意味着启动后立即上线清理服务。
 # 该参数小于 0，意味着程序不主动上线清理服务，需要手动上线。
-launcher.online_clean_delay=3000
+com.dwarfeng.acckeeper.launcher.online_clean_delay=3000
 # 程序启动完成后，启动清理的延时时间。
 # 有些数据仓库以及清理器在启动后可能会需要一些时间进行自身的初始化，调整该参数以妥善的处理这些数据源和推送器。
 # 该参数等于 0，意味着启动后立即启动清理服务。
 # 该参数小于 0，意味着程序不主动启动清理服务，需要手动启动。
-launcher.enable_clean_delay=3500
+com.dwarfeng.acckeeper.launcher.enable_clean_delay=3500
 #
 # 程序启动完成后，启动重置的延时时间。
 # 有些数据仓库以及重置器在启动后可能会需要一些时间进行自身的初始化，调整该参数以妥善的处理这些数据源和推送器。
 # 该参数等于 0，意味着启动后立即启动重置服务。
 # 该参数小于 0，意味着程序不主动启动重置服务，需要手动启动。
-launcher.start_reset_delay=30000
+com.dwarfeng.acckeeper.launcher.start_reset_delay=30000
 #
 # 程序启动完成后，上线清除的延时时间。
 # 有些数据仓库以及清除器在启动后可能会需要一些时间进行自身的初始化，调整该参数以妥善的处理这些数据源和推送器。
 # 该参数等于 0，意味着启动后立即上线清除服务。
 # 该参数小于 0，意味着程序不主动上线清除服务，需要手动上线。
-launcher.online_purge_delay=4000
+com.dwarfeng.acckeeper.launcher.online_purge_delay=4000
 # 程序启动完成后，启动清除的延时时间。
 # 有些数据仓库以及清除器在启动后可能会需要一些时间进行自身的初始化，调整该参数以妥善的处理这些数据源和推送器。
 # 该参数等于 0，意味着启动后立即启动清除服务。
 # 该参数小于 0，意味着程序不主动启动清除服务，需要手动启动。
-launcher.enable_purge_delay=4500
+com.dwarfeng.acckeeper.launcher.enable_purge_delay=4500
 ```
 
 该配置文件决定了服务被运行后，哪些功能将会自动被执行。
@@ -180,12 +182,12 @@ launcher.enable_purge_delay=4500
 
 ```properties
 # 动态登录的过期时长。
-acckeeper.login.dynamic.expire_duration=600000
+com.dwarfeng.acckeeper.acckeeper.login.dynamic.expire_duration=600000
 ```
 
 动态登录是指登录请求成功后，返回一个过期时间较短的登录状态。
 
-动态登录的过期时间由 `acckeeper.login.dynamic.expire_duration` 参数决定。
+动态登录的过期时间由 `com.dwarfeng.acckeeper.acckeeper.login.dynamic.expire_duration` 参数决定。
 
 ### lskgen.properties
 
@@ -198,13 +200,13 @@ acckeeper.login.dynamic.expire_duration=600000
 #   randx: 随机字符串登录状态主键生成器。
 #   snowflake: Snowflake 登录状态主键生成器（已废弃，仅用于兼容旧格式）。
 #
-lskgen.type=uuid
+com.dwarfeng.acckeeper.lskgen.type=uuid
 #
 ###################################################
 #                      randx                      #
 ###################################################
 # randx 登录状态主键生成器生成的登录状态主键的长度。
-lskgen.randx.length=128
+com.dwarfeng.acckeeper.lskgen.randx.length=128
 # etc...
 ```
 
@@ -219,15 +221,15 @@ snowflake 类型已废弃，建议使用 uuid 或 randx。
 # 清除任务的保留时长（毫秒）。
 # 发生日期距离当前系统日期超过该时长的数据将被清除。
 # 如果设置为 0 或负数，清除计划将不启动。
-purge.retention_duration=17280000000
+com.dwarfeng.acckeeper.purge.retention_duration=17280000000
 # 清除任务的执行周期（Cron 表达式）。
-purge.task_cron=0 0 2 * * ?
+com.dwarfeng.acckeeper.purge.task_cron=0 0 2 * * ?
 # 清除任务的最大分页大小。
 # 每次查询待清除数据时的最大数量。
-purge.max_page_size=1000
+com.dwarfeng.acckeeper.purge.max_page_size=1000
 # 清除任务的最大删除数量。
 # 单次清除任务最多删除的数据条数。
-purge.max_deletion_size=10000
+com.dwarfeng.acckeeper.purge.max_deletion_size=10000
 ```
 
 清除服务用于定时清除产生时间过久的历史数据，是保证服务数据量不持续增加的机制。
@@ -239,25 +241,25 @@ purge.max_deletion_size=10000
 1. 派生历史，即 `DeriveHistory`。
 2. 登录历史，即 `LoginHistory`。
 
-配置项 `purge.retention_duration` 用于指定清除任务的保留时长，是清除任务中最重要的配置项。关于此配置，有一些原则可以参考：
+配置项 `com.dwarfeng.acckeeper.purge.retention_duration` 用于指定清除任务的保留时长，是清除任务中最重要的配置项。关于此配置，有一些原则可以参考：
 
 - 总体而言，可以首先将此值配置为 `0` 或负数，使历史记录无限期保留，在后续的使用中，逐步探索保留的边界，
   例如经过一段时间的使用，观察到用户几乎只查询 3 个月内的历史数据，则可将此值调整为 `8640000000`，即 100 天。
 - 如果系统有等保需求，那么历史记录必须保留 6 个月以上，可以将此配置设置为 `17280000000`，即 200 天。
 - 如果对于特别重要的系统，那么历史记录必须无限期保留，必须将此值配置为 `0` 或负数。
 
-配置项 `purge.task_cron` 用于设置清除任务的执行周期（Cron 表达式），通常是一天执行一次，
+配置项 `com.dwarfeng.acckeeper.purge.task_cron` 用于设置清除任务的执行周期（Cron 表达式），通常是一天执行一次，
 选择服务压力较小的时刻执行清除任务即可。
 
 为了提升清除服务的性能，清除服务分批查数，并分批清除。
 
-配置项 `purge.max_page_size` 用于指定清除服务分批清除时，每批数据的数量，可根据数据库性能及服务器的性能综合决定此值。
+配置项 `com.dwarfeng.acckeeper.purge.max_page_size` 用于指定清除服务分批清除时，每批数据的数量，可根据数据库性能及服务器的性能综合决定此值。
 
-配置项 `purge.max_deletion_size` 用于指定单次任务最多删除的数据条数，此值可保证每次任务执行时，
+配置项 `com.dwarfeng.acckeeper.purge.max_deletion_size` 用于指定单次任务最多删除的数据条数，此值可保证每次任务执行时，
 都会在一定的时间内结束完成，不会因为某次需要删除的数据量过大而长时间执行，以至于影响正常业务。
 
 使用者可以统计一段时间内平均每天的历史数据的生成量（`DeriveHistory` 和 `LoginHistory` 生成数量取最大值），
-并乘以一个安全系数（如 `1.2`），以此决定 `purge.max_deletion_size` 配置项的值。
+并乘以一个安全系数（如 `1.2`），以此决定 `com.dwarfeng.acckeeper.purge.max_deletion_size` 配置项的值。
 
 ### push.properties
 
@@ -276,7 +278,7 @@ purge.max_deletion_size=10000
 # 对于一个具体的项目，很可能只用一个推送器。此时希望加载
 # 推送器时只加载需要的那个，其余的推送器不加载。这个需求
 # 可以通过编辑 opt/opt-pusher.xml 实现。
-pusher.type=drain
+com.dwarfeng.acckeeper.pusher.type=drain
 #
 ###################################################
 #                      drain                      #
@@ -287,13 +289,13 @@ pusher.type=drain
 #                      multi                      #
 ###################################################
 # 代理的推送器，推送器之间以逗号分隔。
-pusher.multi.delegate_types=drain
+com.dwarfeng.acckeeper.pusher.multi.delegate_types=drain
 #
 ###################################################
 #                       log                       #
 ###################################################
 # 记录日志的等级，由低到高依次是 TRACE, DEBUG, INFO, WARN, ERROR。
-pusher.log.log_level=INFO
+com.dwarfeng.acckeeper.pusher.log.log_level=INFO
 ```
 
 您不必对所有的配置项进行配置。
@@ -306,14 +308,14 @@ pusher.log.log_level=INFO
 
 ```properties
 # 用户注册时加密密码时盐生成的复杂度，值越高，安全性越强，但是速度越慢。最高为 30。
-register.password.salt_log_rounds=10
+com.dwarfeng.acckeeper.register.password.salt_log_rounds=10
 # 用户注册时使用的默认保护器类型。
-register.default_protector.type=do_nothing_protector
+com.dwarfeng.acckeeper.register.default_protector.type=do_nothing_protector
 # 用户注册时使用的默认保护器参数。
-register.default_protector.param=
+com.dwarfeng.acckeeper.register.default_protector.param=
 ```
 
-配置项 `register.password.salt_log_rounds` 用于指定用户名密码加密时盐生成的复杂度。
+配置项 `com.dwarfeng.acckeeper.register.password.salt_log_rounds` 用于指定用户名密码加密时盐生成的复杂度。
 
 新用户注册时，用户密码作为敏感数据，是需要进行加密存储的。
 
@@ -322,11 +324,12 @@ register.default_protector.param=
 > jBCrypt is an implementation the OpenBSD Blowfish password hashing algorithm, as described in "A Future-Adaptable
 > Password Scheme" by Niels Provos and David Mazieres.
 
-配置项 `register.password.salt_log_rounds` 是 `org.mindrot:jbcrypt` 加密的参数，有关该参数的描述如下：
+配置项 `com.dwarfeng.acckeeper.register.password.salt_log_rounds` 是 `org.mindrot:jbcrypt` 加密的参数，有关该参数的描述如下：
 
 > The log2 of the number of rounds of hashing to apply - the work factor therefore increases as 2**log_rounds.
 
-配置项 `register.default_protector.type` 和 `register.default_protector.param` 是用户默认保护器的相关配置，
+配置项 `com.dwarfeng.acckeeper.register.default_protector.type` 和
+`com.dwarfeng.acckeeper.register.default_protector.param` 是用户默认保护器的相关配置，
 需要根据业务需求，和具体保护器的参数配置决定。
 
 ### reset.properties
@@ -343,19 +346,19 @@ register.default_protector.param=
 #                   fixed_delay                   #
 ###################################################
 # 重置的间隔。
-resetter.fixed_delay.delay=43200000
+com.dwarfeng.acckeeper.resetter.fixed_delay.delay=43200000
 #
 ###################################################
 #                   fixed_rate                    #
 ###################################################
 # 重置的间隔。
-resetter.fixed_rate.rate=43200000
+com.dwarfeng.acckeeper.resetter.fixed_rate.rate=43200000
 #
 ###################################################
 #                      cron                       #
 ###################################################
 # 执行重置的 CRON 表达式。
-resetter.cron.cron=0 0 1 * * *
+com.dwarfeng.acckeeper.resetter.cron.cron=0 0 1 * * *
 #
 ###################################################
 #                      dubbo                      #
@@ -380,17 +383,17 @@ Curator 连接配置。
 
 ```properties
 # 连接字符，即 zookeeper 地址。
-curator.connect.connect_string=your-host-here:2181
+com.dwarfeng.acckeeper.curator.connect.connect_string=your-host-here:2181
 # 会话超时时间。
-curator.connect.session_timeout=60000
+com.dwarfeng.acckeeper.curator.connect.session_timeout=60000
 # 连接超时时间。
-curator.connect.connection_timeout=15000
+com.dwarfeng.acckeeper.curator.connect.connection_timeout=15000
 # 第一次重试时的间隔时间，每重试一次，间隔时间都会指数增加，直到最大的间隔时间。
-curator.retry_policy.base_sleep_time=1000
+com.dwarfeng.acckeeper.curator.retry_policy.base_sleep_time=1000
 # 最大重试次数。
-curator.retry_policy.max_retries=10
+com.dwarfeng.acckeeper.curator.retry_policy.max_retries=10
 # 单次重试最大的间隔时间。
-curator.retry_policy.max_sleep=60000
+com.dwarfeng.acckeeper.curator.retry_policy.max_sleep=60000
 ```
 
 Curator 连接配置文件，包括 Zookeeper 连接地址，超时时间，重试策略。
@@ -401,9 +404,9 @@ Curator 互斥锁路径。
 
 ```properties
 # 清理服务的领导者锁存的路径。
-curator.latch_path.clean.leader_latch=/acckeeper/clean/leader_latch
+com.dwarfeng.acckeeper.curator.latch_path.clean.leader_latch=/acckeeper/clean/leader_latch
 # 清除服务的领导者锁存的路径。
-curator.latch_path.purge.leader_latch=/acckeeper/purge/leader_latch
+com.dwarfeng.acckeeper.curator.latch_path.purge.leader_latch=/acckeeper/purge/leader_latch
 ```
 
 如果您在本机上部署了多个项目，每个项目中都使用本服务，那么需要为每个项目配置不同的互斥锁路径，以避免项目之间不必要的互斥。
@@ -420,11 +423,11 @@ curator.latch_path.purge.leader_latch=/acckeeper/purge/leader_latch
 数据库连接配置文件，除了标准的数据库配置四要素之外，还包括 Hibernate 的方言配置。
 
 ```properties
-jdbc.driver=com.mysql.cj.jdbc.Driver
-jdbc.url=jdbc:mysql://your-host-here:3306/acckeeper?serverTimezone=Asia/Shanghai&autoReconnect=true
-jdbc.username=root
-jdbc.password=your-password-here
-hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+com.dwarfeng.acckeeper.jdbc.driver=com.mysql.cj.jdbc.Driver
+com.dwarfeng.acckeeper.jdbc.url=jdbc:mysql://your-host-here:3306/acckeeper?serverTimezone=Asia/Shanghai&autoReconnect=true
+com.dwarfeng.acckeeper.jdbc.username=root
+com.dwarfeng.acckeeper.jdbc.password=your-password-here
+com.dwarfeng.acckeeper.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 ```
 
 ### performance.properties
@@ -433,13 +436,13 @@ hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
 
 ```properties
 # 数据库的批量写入量，设置激进的值以提高数据库的写入效率。
-hibernate.jdbc.batch_size=100
+com.dwarfeng.acckeeper.hibernate.jdbc.batch_size=100
 # 数据库的批量抓取量，设置激进的值以提高数据库的读取效率。
-hibernate.jdbc.fetch_size=50
+com.dwarfeng.acckeeper.hibernate.jdbc.fetch_size=50
 # 连接池最大活动连接数量
-data_source.max_active=20
+com.dwarfeng.acckeeper.data_source.max_active=20
 # 连接池最小空闲连接数量
-data_source.min_idle=0
+com.dwarfeng.acckeeper.data_source.min_idle=0
 ```
 
 ## datamark 目录
@@ -462,11 +465,11 @@ data_source.min_idle=0
 ```properties
 #---------------------------------配置说明----------------------------------------
 # 数据标记资源的 URL，格式参考 Spring 资源路径。
-# datamark.xxx.resource_url=classpath:datamark/default.storage
+# com.dwarfeng.acckeeper.datamark.xxx.resource_url=classpath:com/dwarfeng/acckeeper/node/all/he/datamark/default.storage
 # 数据标记资源的字符集。
-# datamark.xxx.resource_charset=UTF-8
+# com.dwarfeng.acckeeper.datamark.xxx.resource_charset=UTF-8
 # 数据标记服务是否允许更新。
-# datamark.xxx.update_allowed=true
+# com.dwarfeng.acckeeper.datamark.xxx.update_allowed=true
 #
 #---------------------------------Account----------------------------------------
 # etc...
@@ -486,20 +489,21 @@ data_source.min_idle=0
 Dubbo 连接配置文件。
 
 ```properties
-dubbo.registry.zookeeper.address=zookeeper://your-host-here:2181
-dubbo.registry.zookeeper.timeout=3000
-dubbo.protocol.dubbo.port=20000
-dubbo.protocol.dubbo.host=your-host-here
-dubbo.provider.group=
-dubbo.consumer.snowflake.group=
+com.dwarfeng.acckeeper.dubbo.registry.zookeeper.address=zookeeper://your-host-here:2181
+com.dwarfeng.acckeeper.dubbo.registry.zookeeper.timeout=3000
+com.dwarfeng.acckeeper.dubbo.protocol.dubbo.port=20000
+com.dwarfeng.acckeeper.dubbo.protocol.dubbo.host=your-host-here
+com.dwarfeng.acckeeper.dubbo.provider.group=
+com.dwarfeng.acckeeper.dubbo.consumer.snowflake.group=
 ```
 
-其中，`dubbo.registry.zookeeper.address` 需要配置为 ZooKeeper 的地址，
-`dubbo.protocol.dubbo.host` 需要配置为本机的 IP 地址。
+其中，`com.dwarfeng.acckeeper.dubbo.registry.zookeeper.address` 需要配置为 ZooKeeper 的地址，
+`com.dwarfeng.acckeeper.dubbo.protocol.dubbo.host` 需要配置为本机的 IP 地址。
 
-如果您需要在本机启动多个 Acckeeper 实例，那么需要为每个实例配置不同的 `dubbo.protocol.dubbo.port`。
+如果您需要在本机启动多个 Acckeeper 实例，那么需要为每个实例配置不同的 `com.dwarfeng.acckeeper.dubbo.protocol.dubbo.port`。
 
-如果您在本机上部署了多个项目，每个项目中都使用了 Acckeeper，那么需要为每个项目配置不同的 `dubbo.provider.group`，
+如果您在本机上部署了多个项目，每个项目中都使用了 Acckeeper，那么需要为每个项目配置不同的
+`com.dwarfeng.acckeeper.dubbo.provider.group`，
 以避免微服务错误的调用。
 
 ## logging 目录
@@ -571,11 +575,11 @@ Redis 连接配置文件。
 
 ```properties
 # ip 地址。
-redis.hostName=your-host-here
+com.dwarfeng.acckeeper.redis.hostName=your-host-here
 # 端口号。
-redis.port=6379
+com.dwarfeng.acckeeper.redis.port=6379
 # 如果有密码。
-redis.password=your-password-here
+com.dwarfeng.acckeeper.redis.password=your-password-here
 # etc...
 ```
 
@@ -588,7 +592,7 @@ Redis 前缀配置文件。
 #  缓存时实体的键的格式
 #------------------------------------------------------------------------------------
 # 用户对象的主键格式。
-cache.prefix.entity.account=entity.account.
+com.dwarfeng.acckeeper.cache.prefix.entity.account=com.dwarfeng.acckeeper.entity.account.
 # etc...
 ```
 
@@ -600,7 +604,7 @@ Redis 利用该配置文件，为缓存的主键添加前缀，以示区分。
 
 ```properties
 # 用户对象的主键格式。
-cache.prefix.entity.account=entity.acckeeper.account.
+com.dwarfeng.acckeeper.cache.prefix.entity.account=entity.acckeeper.account.
 # etc...
 ```
 
@@ -613,7 +617,7 @@ Redis 缓存的超时配置文件。
 #  实体缓存时的超时时间
 #------------------------------------------------------------------------------------
 # 用户对象缓存的超时时间。
-cache.timeout.entity.account=3600000
+com.dwarfeng.acckeeper.cache.timeout.entity.account=3600000
 # etc...
 ```
 
@@ -631,18 +635,19 @@ Telqos 连接配置文件。
 
 ```properties
 # Telnet 端口。
-telqos.port=23
+com.dwarfeng.acckeeper.telqos.port=23
 # 字符集。
-telqos.charset=UTF-8
+com.dwarfeng.acckeeper.telqos.charset=GBK
 # 白名单表达式。
-telqos.whitelist_regex=
+com.dwarfeng.acckeeper.telqos.whitelist_regex=
 # 黑名单表达式。
-telqos.blacklist_regex=
+com.dwarfeng.acckeeper.telqos.blacklist_regex=
 ```
 
-如果您的项目中有多个包含 Telqos 模块的服务，您应该修改 `telqos.port` 的值，以避免端口冲突。
+如果您的项目中有多个包含 Telqos 模块的服务，您应该修改 `com.dwarfeng.acckeeper.telqos.port` 的值，以避免端口冲突。
 
-请根据操作系统的默认字符集，修改 `telqos.charset` 的值，以避免乱码。一般情况下，Windows 系统的默认字符集为 `GBK`，
-Linux 系统的默认字符集为 `UTF-8`。
+请根据操作系统的默认字符集，修改 `com.dwarfeng.acckeeper.telqos.charset` 的值，以避免乱码。
+一般情况下，Windows 系统的默认字符集为 `GBK`，Linux 系统的默认字符集为 `UTF-8`。
 
-如果您希望限制 Telqos 的使用范围，您可以修改 `telqos.whitelist_regex` 和 `telqos.blacklist_regex` 的值。
+如果您希望限制 Telqos 的使用范围，
+您可以修改 `com.dwarfeng.acckeeper.telqos.whitelist_regex` 和 `com.dwarfeng.acckeeper.telqos.blacklist_regex` 的值。

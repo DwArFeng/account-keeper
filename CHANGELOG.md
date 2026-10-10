@@ -4,6 +4,17 @@
 
 ### 功能构建
 
+- 更新 README.md。
+
+- Wiki 更新。
+  - docs/wiki/zh-CN/ConfDirectory.md。
+  - docs/wiki/zh-CN/Introduction.md。
+  - docs/wiki/zh-CN/OptDirectory.md。
+  - docs/wiki/zh-CN/QuickStart.md。
+  - docs/wiki/zh-CN/SystemRequirements.md。
+  - docs/wiki/zh-CN/UpgradeGuide2.0.0.md。
+  - docs/wiki/zh-CN/UsingTelqos.md。
+
 - 升级 JDK 版本至 25。
 
 ### Bug 修复

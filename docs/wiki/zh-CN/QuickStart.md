@@ -6,11 +6,11 @@
 - 内存：4G 以上。
 - 硬盘：100G 以上。
 - CentOS 7。
-- JRE 1.8。
+- JDK 25。
 - 任意关系型数据库，如：MySQL、Oracle、SQL Server 等。
 - Redis 5.0.7。
-- Zookeeper 3.5.5。
-- snowflake-distributed-service 1.6.4.a。
+- Zookeeper 3.9.5。
+- snowflake-distributed-service 3.0.0.a。
 
 ## 获取软件包
 
@@ -51,7 +51,7 @@ com.dwarfeng.acckeeper.jdbc.username=root
 # 改为数据库连接的密码。
 com.dwarfeng.acckeeper.jdbc.password=your-password-here
 # 改为数据库连接的 Hibernate 方言。
-com.dwarfeng.acckeeper.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+com.dwarfeng.acckeeper.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 ```
 
 `conf/dubbo/connection.properties` 文件中配置 Dubbo 连接信息。

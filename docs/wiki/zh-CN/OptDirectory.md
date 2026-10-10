@@ -12,8 +12,7 @@ opt
 └─ opt-resetter.xml
 ```
 
-所有的可选配置都为每个单独的可选项提供了加载配置，默认是注释的，如果用户需要使用某个可选项，
-只需要将其对应的配置项取消注释即可。
+所有的可选配置都为每个单独的可选项提供了加载配置，如果用户需要使用某个默认未启用的可选项，只需要将其对应的配置项取消注释即可。
 
 此处展示默认的可选配置文件。
 
@@ -35,12 +34,10 @@ opt
     <!-- 扫描 handler 的实现包。 -->
     <context:component-scan base-package="com.dwarfeng.acckeeper.impl.handler.lskgen" use-default-filters="false">
         <!-- 加载 UuidLoginStateKeyGenerator -->
-        <!--
         <context:include-filter
                 type="assignable"
                 expression="com.dwarfeng.acckeeper.impl.handler.lskgen.UuidLoginStateKeyGenerator"
         />
-        -->
 
         <!-- 加载 RandxLoginStateKeyGenerator -->
         <!--
@@ -79,18 +76,14 @@ opt
     <!-- 扫描 handler 的实现包。 -->
     <context:component-scan base-package="com.dwarfeng.acckeeper.impl.handler.protector" use-default-filters="false">
         <!-- 加载 DoNothingProtector -->
-        <!--
         <context:include-filter
                 type="assignable" expression="com.dwarfeng.acckeeper.impl.handler.protector.DoNothingProtectorRegistry"
         />
-        -->
 
         <!-- 加载 PasswordProtector -->
-        <!--
         <context:include-filter
                 type="assignable" expression="com.dwarfeng.acckeeper.impl.handler.protector.PasswordProtectorRegistry"
         />
-        -->
     </context:component-scan>
 </beans>
 ```
@@ -113,11 +106,9 @@ opt
     <!-- 扫描 handler 的实现包。 -->
     <context:component-scan base-package="com.dwarfeng.acckeeper.impl.handler.pusher" use-default-filters="false">
         <!-- 加载 DrainPusher -->
-        <!--
         <context:include-filter
                 type="assignable" expression="com.dwarfeng.acckeeper.impl.handler.pusher.DrainPusher"
         />
-        -->
 
         <!-- 加载 LogPusher -->
         <!--
@@ -154,11 +145,9 @@ opt
     <!-- 扫描 handler 的实现包。 -->
     <context:component-scan base-package="com.dwarfeng.acckeeper.impl.handler.resetter" use-default-filters="false">
         <!-- 加载 NeverResetter -->
-        <!--
         <context:include-filter
                 type="assignable" expression="com.dwarfeng.acckeeper.impl.handler.resetter.NeverResetter"
         />
-        -->
 
         <!-- 加载 FixedDelayResetter -->
         <!--

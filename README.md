@@ -51,7 +51,7 @@ Telnet 运维平台指令合集：
 
 ```properties
 # 用户注册时加密密码时盐生成的复杂度，值越高，安全性越强，但是速度越慢。最高为  30。
-register.password.salt_log_rounds=10
+com.dwarfeng.acckeeper.register.password.salt_log_rounds=10
 ```
 
 ## 安装说明
@@ -83,7 +83,7 @@ register.password.salt_log_rounds=10
    找到打包后的目标文件：
 
    ```
-   account-keeper-node/target/acckeeper-[version]-release.tar.gz
+   account-keeper-distribute/target/distribute/acckeeper-all-he/acckeeper-all-he-${version}-release.tar.gz
    ```
 
    将其解压至 windows 系统或者 linux 系统。
